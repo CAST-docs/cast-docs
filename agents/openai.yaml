@@ -1,0 +1,5 @@
+interface:
+  display_name: "CAST Docs"
+  short_description: "Create styled single-file HTML docs"
+  brand_color: "#2563eb"
+  default_prompt: "Use $cast-docs to turn these notes into a self-contained engineering plan HTML document."

@@ -5,16 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{ DESCRIPTION }}">
 <title>{{ TITLE }}</title>
-<style>{{ STYLE }}</style>
 </head>
 <body>
-<aside class="sidebar">{{ SIDEBAR }}</aside>
-<header class="topbar"><span class="topbar-title">{{ TITLE }}</span>{{ TOPBAR_LINKS }}<span class="topbar-spacer"></span></header>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{{ DOC_JSON }}
+</script>
+
 <article class="doc">
 <header class="doc-header"><h1>{{ TITLE }}</h1>{{ DOC_META }}</header>
-<main>{{ SECTIONS }}</main>
+<main>
+{{ SECTIONS }}
+</main>
 <footer class="doc-footer">{{ FOOTER }}</footer>
 </article>
+
+<aside class="sidebar">{{ SIDEBAR }}</aside>
+<header class="topbar"><span class="topbar-title">{{ TITLE }}</span>{{ TOPBAR_LINKS }}<span class="topbar-spacer"></span></header>
+
+<style>{{ STYLE }}</style>
 {{ INTERACTION_HOOKS }}
 {{ INTERACTION_SCRIPTS }}
 </body>

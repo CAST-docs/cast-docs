@@ -19,7 +19,7 @@ TEMPLATE_DIR = ROOT / "assets" / "template-modules"
 SECTION_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RAW_SVG_RISK_RE = re.compile(r"<\s*(script|iframe|object|embed)\b|on[a-z]+\s*=", re.IGNORECASE)
-UNRESOLVED_RE = re.compile(r"\{\{\s*[^}]+\s*\}\}")
+UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
 
 
 class CastDocsError(Exception):
@@ -396,7 +396,7 @@ def render_summary_block(block: dict[str, Any]) -> str:
     for item in as_list(block.get("items")):
         if is_object(item):
             items.append(f"<li><strong>{esc(item.get('label'))}:</strong> {esc(item.get('body'))}</li>")
-    return f"<section class=\"doc-summary\" data-component=\"summary-block\"><ul>{''.join(items)}</ul></section>"
+    return f"<section class=\"doc-summary\"><ul>{''.join(items)}</ul></section>"
 
 
 def render_paragraph(block: dict[str, Any]) -> str:
@@ -420,37 +420,30 @@ def render_callout(block: dict[str, Any]) -> str:
     title = block.get("title")
     title_html = f"<strong>{esc(title)}</strong>" if title else ""
     return (
-        f"<aside class=\"{cls}\" data-component=\"callout\">"
+        f"<aside class=\"{cls}\">"
         f"{title_html}<p>{esc(block.get('body'))}</p>"
         "</aside>"
     )
 
 
 def render_table(block: dict[str, Any]) -> str:
-    table_type = block.get("tableType", "data")
-    cls = {
-        "risk": "risk-table",
-        "decision": "decision-table",
-        "data": "data-table",
-    }.get(table_type, "data-table")
-    headers = "".join(f"<th scope=\"col\">{esc(header)}</th>" for header in as_list(block.get("headers")))
-    rows = []
-    for row in as_list(block.get("rows")):
-        if isinstance(row, list):
-            rows.append("<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>")
-    return f"<table class=\"{cls}\" data-component=\"table\" data-table-type=\"{attr(table_type)}\"><thead><tr>{headers}</tr></thead><tbody>{''.join(rows)}</tbody></table>"
+    header_cells = "".join(f"<th>{esc(header)}</th>" for header in as_list(block.get("headers")))
+    rows = ["<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>"
+            for row in as_list(block.get("rows")) if isinstance(row, list)]
+    body = ("\n" + "\n".join(rows)) if rows else ""
+    return f"<table>\n<tr>{header_cells}</tr>{body}\n</table>"
 
 
 def render_details(block: dict[str, Any]) -> str:
     open_attr = " open" if block.get("open") else ""
     body = "".join(render_block(child) for child in as_list(block.get("blocks")) if is_object(child))
-    return f"<details class=\"details-block\" data-component=\"details-block\"{open_attr}><summary>{esc(block.get('summary'))}</summary>{body}</details>"
+    return f"<details class=\"details-block\"{open_attr}><summary>{esc(block.get('summary'))}</summary>{body}</details>"
 
 
 def render_code(block: dict[str, Any]) -> str:
     language = block.get("language", "")
     lang_attr = f" data-language=\"{attr(language)}\"" if language else ""
-    return f"<pre class=\"code-block\" data-component=\"code-block\"{lang_attr}><code{lang_attr}>{esc(block.get('code'))}</code></pre>"
+    return f"<pre class=\"code-block\"{lang_attr}><code{lang_attr}>{esc(block.get('code'))}</code></pre>"
 
 
 def svg_text(value: Any) -> str:
@@ -519,7 +512,7 @@ def render_diagram(block: dict[str, Any]) -> str:
     name = attr(block.get("downloadName") or "diagram")
     title = block.get("title")
     caption = f"<figcaption>{esc(title)}</figcaption>" if title else ""
-    return f"<figure class=\"diagram\" data-component=\"diagram\" data-download-name=\"{name}\">{caption}{svg}</figure>"
+    return f"<figure class=\"diagram\" data-download-name=\"{name}\">{caption}{svg}</figure>"
 
 
 def render_diff(block: dict[str, Any]) -> str:
@@ -534,7 +527,7 @@ def render_diff(block: dict[str, Any]) -> str:
     left = side_html(block.get("left", {}))
     right = side_html(block.get("right", {}))
     title = f"<h3>{esc(block.get('title'))}</h3>" if block.get("title") else ""
-    return f"<section class=\"diff-block\" data-component=\"diff-block\">{title}{left}{right}</section>"
+    return f"<section class=\"diff-block\">{title}{left}{right}</section>"
 
 
 def render_participants(block: dict[str, Any]) -> str:
@@ -544,7 +537,7 @@ def render_participants(block: dict[str, Any]) -> str:
             continue
         role = f"<p><em>{esc(item.get('role'))}</em></p>" if item.get("role") else ""
         cards.append(f"<div class=\"participant-card\"><h3>{esc(item.get('name'))}</h3>{role}<p>{esc(item.get('responsibility'))}</p></div>")
-    return f"<section class=\"participants\" data-component=\"participants\">{''.join(cards)}</section>"
+    return f"<section class=\"participants\">{''.join(cards)}</section>"
 
 
 def render_source_refs(block: dict[str, Any]) -> str:
@@ -557,7 +550,7 @@ def render_source_refs(block: dict[str, Any]) -> str:
         note = f" — {esc(item.get('text'))}" if item.get("text") else ""
         target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
         items.append(f"<li><a href=\"{href}\"{target}>{label}</a>{note}</li>")
-    return f"<ul class=\"source-refs\" data-component=\"source-refs\">{''.join(items)}</ul>"
+    return f"<ul class=\"source-refs\">{''.join(items)}</ul>"
 
 
 def render_files(block: dict[str, Any]) -> str:
@@ -572,12 +565,12 @@ def render_files(block: dict[str, Any]) -> str:
             items.append(f"<li><a href=\"{attr(item.get('url'))}\">{path}{line}</a>{note}</li>")
         else:
             items.append(f"<li><code>{path}{line}</code>{note}</li>")
-    return f"<ul class=\"files\" data-component=\"files\">{''.join(items)}</ul>"
+    return f"<ul class=\"files\">{''.join(items)}</ul>"
 
 
 def render_action(block: dict[str, Any]) -> str:
     prompt = f"<pre class=\"prompt-block\"><code>{esc(block.get('prompt'))}</code></pre>" if block.get("prompt") else ""
-    return f"<section class=\"action-card\" data-component=\"action-card\"><h3>{esc(block.get('title'))}</h3><p>{esc(block.get('description'))}</p>{prompt}</section>"
+    return f"<section class=\"action-card\"><h3>{esc(block.get('title'))}</h3><p>{esc(block.get('description'))}</p>{prompt}</section>"
 
 
 def render_values_grid(block: dict[str, Any]) -> str:
@@ -585,17 +578,17 @@ def render_values_grid(block: dict[str, Any]) -> str:
     for item in as_list(block.get("items")):
         if is_object(item):
             cards.append(f"<div class=\"value-card\"><h3>{esc(item.get('title'))}</h3><p>{esc(item.get('body'))}</p></div>")
-    return f"<section class=\"values-grid\" data-component=\"values-grid\">{''.join(cards)}</section>"
+    return f"<section class=\"values-grid\">{''.join(cards)}</section>"
 
 
 def render_acceptance_criteria(block: dict[str, Any]) -> str:
     items = "".join(f"<li>{esc(item)}</li>" for item in as_list(block.get("items")))
-    return f"<ol class=\"acceptance-criteria\" data-component=\"acceptance-criteria\">{items}</ol>"
+    return f"<ol class=\"acceptance-criteria\">{items}</ol>"
 
 
 def render_open_questions(block: dict[str, Any]) -> str:
     items = "".join(f"<li>{esc(item)}</li>" for item in as_list(block.get("questions")))
-    return f"<ul class=\"open-questions\" data-component=\"open-questions\">{items}</ul>"
+    return f"<ul class=\"open-questions\">{items}</ul>"
 
 
 RENDERER_REGISTRY: dict[str, Any] = {
@@ -745,14 +738,17 @@ def render_sections(sections: list[Any]) -> str:
     for section in sections:
         if not is_object(section):
             continue
-        blocks = "".join(render_block(block) for block in as_list(section.get("blocks")) if is_object(block))
-        if not blocks:
-            blocks = "<p class=\"section-empty\">No content.</p>"
+        blocks_list = [render_block(block) for block in as_list(section.get("blocks")) if is_object(block)]
+        if not blocks_list:
+            blocks_list = ["<p class=\"section-empty\">No content.</p>"]
+        blocks_text = "\n".join(blocks_list)
         rendered.append(
-            f"<section class=\"doc-section\" data-component=\"section\" id=\"{attr(section.get('id'))}\">"
-            f"<h2>{esc(section.get('title'))}</h2>{blocks}</section>"
+            f"<section class=\"doc-section\" id=\"{attr(section.get('id'))}\">\n"
+            f"<h2>{esc(section.get('title'))}</h2>\n"
+            f"{blocks_text}\n"
+            "</section>"
         )
-    return "".join(rendered)
+    return "\n\n".join(rendered)
 
 
 THEME_COLOR_TO_CSS_VAR: dict[str, str] = {
@@ -906,10 +902,12 @@ def render_html(
 
     shell_name = text(layout.get("shell")) or "single"
     shell = load_template_module(f"shell.{shell_name}.html", template_dir)
+    doc_json = json.dumps(doc, indent=2, ensure_ascii=False).replace("</", "<\\/")
     slots = {
         "LANG": attr(metadata.get("language", "en")),
         "DESCRIPTION": attr(description or title),
         "TITLE": esc(title),
+        "DOC_JSON": doc_json,
         "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),
         "TOPBAR_LINKS": topbar_links,
         "DOC_META": meta_html,

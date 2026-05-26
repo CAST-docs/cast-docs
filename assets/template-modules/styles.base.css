@@ -75,9 +75,10 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
 .lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
 @media (max-width: 760px) {
-  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
 }

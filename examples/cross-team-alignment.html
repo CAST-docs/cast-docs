@@ -5,6 +5,273 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Order status contract alignment">
 <title>Order status contract alignment</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{
+  "metadata": {
+    "title": "Order status contract alignment",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": [
+      "api consumers",
+      "api owners"
+    ],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "cross-team-alignment",
+    "sections": [
+      "background",
+      "participants-and-responsibilities",
+      "source-of-truth",
+      "differences-or-gaps",
+      "impact",
+      "decisions",
+      "action-items",
+      "open-questions"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "participants",
+        "source-refs",
+        "open-questions"
+      ],
+      "optional": [
+        "diff-block",
+        "files",
+        "action-card",
+        "callout"
+      ],
+      "omitted": [
+        "diagram",
+        "values-grid",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "background",
+      "title": "Background",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": "Topic",
+              "body": "Consumers and owners need one order status contract."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "participants-and-responsibilities",
+      "title": "Participants And Responsibilities",
+      "blocks": [
+        {
+          "type": "participants",
+          "items": [
+            {
+              "name": "Consumer Team",
+              "role": "consumer",
+              "responsibility": "Handle status display and fallback behavior."
+            },
+            {
+              "name": "Order Team",
+              "role": "owner",
+              "responsibility": "Own API implementation and compatibility."
+            },
+            {
+              "name": "Spec Team",
+              "role": "maintainer",
+              "responsibility": "Maintain source-of-truth schema."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-of-truth",
+      "title": "Source Of Truth",
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": "API spec",
+              "url": "https://example.com/spec/order-status",
+              "text": "order-status schema"
+            },
+            {
+              "label": "Implementation",
+              "url": "https://example.com/repo/order-service",
+              "text": "order-service"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "differences-or-gaps",
+      "title": "Differences Or Gaps",
+      "blocks": [
+        {
+          "type": "diff",
+          "title": "Status field difference",
+          "left": {
+            "label": "Spec",
+            "language": "json",
+            "lines": [
+              {
+                "kind": "context",
+                "text": "\"status\": \"paid\""
+              },
+              {
+                "kind": "add",
+                "text": "\"payment_status\": \"settled\""
+              }
+            ]
+          },
+          "right": {
+            "label": "Implementation",
+            "language": "json",
+            "lines": [
+              {
+                "kind": "context",
+                "text": "\"status\": \"paid\""
+              },
+              {
+                "kind": "remove",
+                "text": "\"payment_status\": missing"
+              }
+            ]
+          }
+        },
+        {
+          "type": "files",
+          "items": [
+            {
+              "path": "api/order/response.go",
+              "lineStart": 42,
+              "note": "Response assembly path"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impact",
+      "title": "Impact",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Impact",
+          "body": "Consumers cannot distinguish paid from fully settled orders."
+        }
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": "Decisions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The implementation will add the missing field and keep the existing status field unchanged."
+        }
+      ]
+    },
+    {
+      "id": "action-items",
+      "title": "Action Items",
+      "blocks": [
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": "Patch response field",
+          "description": "Add payment_status to the order response.",
+          "prompt": "Update order response serialization and add compatibility tests."
+        }
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open Questions",
+      "blocks": [
+        {
+          "type": "open-questions",
+          "questions": [
+            "Should older clients receive a default payment_status value?"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<article class="doc">
+<header class="doc-header"><h1>Order status contract alignment</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main>
+<section class="doc-section" id="background">
+<h2>Background</h2>
+<section class="doc-summary"><ul><li><strong>Topic:</strong> Consumers and owners need one order status contract.</li></ul></section>
+</section>
+
+<section class="doc-section" id="participants-and-responsibilities">
+<h2>Participants And Responsibilities</h2>
+<section class="participants"><div class="participant-card"><h3>Consumer Team</h3><p><em>consumer</em></p><p>Handle status display and fallback behavior.</p></div><div class="participant-card"><h3>Order Team</h3><p><em>owner</em></p><p>Own API implementation and compatibility.</p></div><div class="participant-card"><h3>Spec Team</h3><p><em>maintainer</em></p><p>Maintain source-of-truth schema.</p></div></section>
+</section>
+
+<section class="doc-section" id="source-of-truth">
+<h2>Source Of Truth</h2>
+<ul class="source-refs"><li><a href="https://example.com/spec/order-status" target="_blank" rel="noopener noreferrer">API spec</a> — order-status schema</li><li><a href="https://example.com/repo/order-service" target="_blank" rel="noopener noreferrer">Implementation</a> — order-service</li></ul>
+</section>
+
+<section class="doc-section" id="differences-or-gaps">
+<h2>Differences Or Gaps</h2>
+<section class="diff-block"><h3>Status field difference</h3><div class="diff-side"><h3>Spec</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<span class="line-add">&quot;payment_status&quot;: &quot;settled&quot;</span></code></pre></div><div class="diff-side"><h3>Implementation</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<span class="line-remove">&quot;payment_status&quot;: missing</span></code></pre></div></section>
+<ul class="files"><li><code>api/order/response.go:42</code> — Response assembly path</li></ul>
+</section>
+
+<section class="doc-section" id="impact">
+<h2>Impact</h2>
+<aside class="callout callout-warning"><strong>Impact</strong><p>Consumers cannot distinguish paid from fully settled orders.</p></aside>
+</section>
+
+<section class="doc-section" id="decisions">
+<h2>Decisions</h2>
+<p>The implementation will add the missing field and keep the existing status field unchanged.</p>
+</section>
+
+<section class="doc-section" id="action-items">
+<h2>Action Items</h2>
+<section class="action-card"><h3>Patch response field</h3><p>Add payment_status to the order response.</p><pre class="prompt-block"><code>Update order response serialization and add compatibility tests.</code></pre></section>
+</section>
+
+<section class="doc-section" id="open-questions">
+<h2>Open Questions</h2>
+<ul class="open-questions"><li>Should older clients receive a default payment_status value?</li></ul>
+</section>
+</main>
+<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#participants-and-responsibilities"><span>02</span>Participants And Responsibilities</a></li><li><a href="#source-of-truth"><span>03</span>Source Of Truth</a></li><li><a href="#differences-or-gaps"><span>04</span>Differences Or Gaps</a></li><li><a href="#impact"><span>05</span>Impact</a></li><li><a href="#decisions"><span>06</span>Decisions</a></li><li><a href="#action-items"><span>07</span>Action Items</a></li><li><a href="#open-questions"><span>08</span>Open Questions</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">Order status contract alignment</span><span class="topbar-spacer"></span></header>
+
 <style>
 :root {
   color-scheme: light dark;
@@ -130,9 +397,10 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
 .lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
 @media (max-width: 760px) {
-  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
 }
@@ -141,17 +409,6 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-</head>
-<body>
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#participants-and-responsibilities"><span>02</span>Participants And Responsibilities</a></li><li><a href="#source-of-truth"><span>03</span>Source Of Truth</a></li><li><a href="#differences-or-gaps"><span>04</span>Differences Or Gaps</a></li><li><a href="#impact"><span>05</span>Impact</a></li><li><a href="#decisions"><span>06</span>Decisions</a></li><li><a href="#action-items"><span>07</span>Action Items</a></li><li><a href="#open-questions"><span>08</span>Open Questions</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">Order status contract alignment</span><span class="topbar-spacer"></span></header>
-<article class="doc">
-<header class="doc-header"><h1>Order status contract alignment</h1><div class="doc-meta">Updated 2026-05-13</div></header>
-<main><section class="doc-section" data-component="section" id="background"><h2>Background</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Topic:</strong> Consumers and owners need one order status contract.</li></ul></section></section><section class="doc-section" data-component="section" id="participants-and-responsibilities"><h2>Participants And Responsibilities</h2><section class="participants" data-component="participants"><div class="participant-card"><h3>Consumer Team</h3><p><em>consumer</em></p><p>Handle status display and fallback behavior.</p></div><div class="participant-card"><h3>Order Team</h3><p><em>owner</em></p><p>Own API implementation and compatibility.</p></div><div class="participant-card"><h3>Spec Team</h3><p><em>maintainer</em></p><p>Maintain source-of-truth schema.</p></div></section></section><section class="doc-section" data-component="section" id="source-of-truth"><h2>Source Of Truth</h2><ul class="source-refs" data-component="source-refs"><li><a href="https://example.com/spec/order-status" target="_blank" rel="noopener noreferrer">API spec</a> — order-status schema</li><li><a href="https://example.com/repo/order-service" target="_blank" rel="noopener noreferrer">Implementation</a> — order-service</li></ul></section><section class="doc-section" data-component="section" id="differences-or-gaps"><h2>Differences Or Gaps</h2><section class="diff-block" data-component="diff-block"><h3>Status field difference</h3><div class="diff-side"><h3>Spec</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
-<span class="line-add">&quot;payment_status&quot;: &quot;settled&quot;</span></code></pre></div><div class="diff-side"><h3>Implementation</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
-<span class="line-remove">&quot;payment_status&quot;: missing</span></code></pre></div></section><ul class="files" data-component="files"><li><code>api/order/response.go:42</code> — Response assembly path</li></ul></section><section class="doc-section" data-component="section" id="impact"><h2>Impact</h2><aside class="callout callout-warning" data-component="callout"><strong>Impact</strong><p>Consumers cannot distinguish paid from fully settled orders.</p></aside></section><section class="doc-section" data-component="section" id="decisions"><h2>Decisions</h2><p>The implementation will add the missing field and keep the existing status field unchanged.</p></section><section class="doc-section" data-component="section" id="action-items"><h2>Action Items</h2><section class="action-card" data-component="action-card"><h3>Patch response field</h3><p>Add payment_status to the order response.</p><pre class="prompt-block"><code>Update order response serialization and add compatibility tests.</code></pre></section></section><section class="doc-section" data-component="section" id="open-questions"><h2>Open Questions</h2><ul class="open-questions" data-component="open-questions"><li>Should older clients receive a default payment_status value?</li></ul></section></main>
-<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
-</article>
 
 
 </body>

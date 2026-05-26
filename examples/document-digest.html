@@ -5,6 +5,228 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="API design notes digest">
 <title>API design notes digest</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{
+  "metadata": {
+    "title": "API design notes digest",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": [
+      "engineering"
+    ],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "research-note",
+    "scenario": "document-digest",
+    "sections": [
+      "summary",
+      "source-documents",
+      "key-findings",
+      "cross-document-relationships",
+      "limitations",
+      "next-steps"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "source-refs"
+      ],
+      "optional": [
+        "table",
+        "diagram",
+        "details-block"
+      ],
+      "omitted": [
+        "diff-block",
+        "action-card",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "title": "Summary",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": "Digest",
+              "body": "Two source documents converge on a typed API contract approach."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-documents",
+      "title": "Source Documents",
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": "Design note",
+              "url": "https://example.com/design-note"
+            },
+            {
+              "label": "Review notes",
+              "url": "https://example.com/review-notes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key-findings",
+      "title": "Key Findings",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Finding",
+            "Evidence"
+          ],
+          "rows": [
+            [
+              "Typed contracts reduce ambiguity",
+              "Both documents mention schema drift"
+            ],
+            [
+              "Examples are required",
+              "Review notes ask for fixtures"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cross-document-relationships",
+      "title": "Cross-document Relationships",
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": "Document relationship",
+          "downloadName": "document-relationship",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "design",
+                "label": "Design note"
+              },
+              {
+                "id": "review",
+                "label": "Review notes"
+              },
+              {
+                "id": "schema",
+                "label": "Schema contract"
+              }
+            ],
+            "edges": [
+              {
+                "from": "design",
+                "to": "schema",
+                "label": "defines"
+              },
+              {
+                "from": "review",
+                "to": "schema",
+                "label": "validates"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "limitations",
+      "title": "Limitations",
+      "blocks": [
+        {
+          "type": "details",
+          "summary": "Known gaps",
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "The digest does not evaluate implementation complexity."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Convert the findings into schema tests.",
+            "Review fixture coverage after renderer implementation."
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<article class="doc">
+<header class="doc-header"><h1>API design notes digest</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main>
+<section class="doc-section" id="summary">
+<h2>Summary</h2>
+<section class="doc-summary"><ul><li><strong>Digest:</strong> Two source documents converge on a typed API contract approach.</li></ul></section>
+</section>
+
+<section class="doc-section" id="source-documents">
+<h2>Source Documents</h2>
+<ul class="source-refs"><li><a href="https://example.com/design-note" target="_blank" rel="noopener noreferrer">Design note</a></li><li><a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">Review notes</a></li></ul>
+</section>
+
+<section class="doc-section" id="key-findings">
+<h2>Key Findings</h2>
+<table>
+<tr><th>Finding</th><th>Evidence</th></tr>
+<tr><td>Typed contracts reduce ambiguity</td><td>Both documents mention schema drift</td></tr>
+<tr><td>Examples are required</td><td>Review notes ask for fixtures</td></tr>
+</table>
+</section>
+
+<section class="doc-section" id="cross-document-relationships">
+<h2>Cross-document Relationships</h2>
+<figure class="diagram" data-download-name="document-relationship"><figcaption>Document relationship</figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document relationship"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="360" y="66" text-anchor="middle" font-size="12" fill="#68717b">defines</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b">validates</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Design note</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Review notes</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Schema contract</text></svg></figure>
+</section>
+
+<section class="doc-section" id="limitations">
+<h2>Limitations</h2>
+<details class="details-block"><summary>Known gaps</summary><p>The digest does not evaluate implementation complexity.</p></details>
+</section>
+
+<section class="doc-section" id="next-steps">
+<h2>Next Steps</h2>
+<ul><li>Convert the findings into schema tests.</li><li>Review fixture coverage after renderer implementation.</li></ul>
+</section>
+</main>
+<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span>Summary</a></li><li><a href="#source-documents"><span>02</span>Source Documents</a></li><li><a href="#key-findings"><span>03</span>Key Findings</a></li><li><a href="#cross-document-relationships"><span>04</span>Cross-document Relationships</a></li><li><a href="#limitations"><span>05</span>Limitations</a></li><li><a href="#next-steps"><span>06</span>Next Steps</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">API design notes digest</span><span class="topbar-spacer"></span></header>
+
 <style>
 :root {
   color-scheme: light dark;
@@ -130,9 +352,10 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
 .lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
 @media (max-width: 760px) {
-  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
 }
@@ -141,15 +364,6 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-</head>
-<body>
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span>Summary</a></li><li><a href="#source-documents"><span>02</span>Source Documents</a></li><li><a href="#key-findings"><span>03</span>Key Findings</a></li><li><a href="#cross-document-relationships"><span>04</span>Cross-document Relationships</a></li><li><a href="#limitations"><span>05</span>Limitations</a></li><li><a href="#next-steps"><span>06</span>Next Steps</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">API design notes digest</span><span class="topbar-spacer"></span></header>
-<article class="doc">
-<header class="doc-header"><h1>API design notes digest</h1><div class="doc-meta">Updated 2026-05-13</div></header>
-<main><section class="doc-section" data-component="section" id="summary"><h2>Summary</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Digest:</strong> Two source documents converge on a typed API contract approach.</li></ul></section></section><section class="doc-section" data-component="section" id="source-documents"><h2>Source Documents</h2><ul class="source-refs" data-component="source-refs"><li><a href="https://example.com/design-note" target="_blank" rel="noopener noreferrer">Design note</a></li><li><a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">Review notes</a></li></ul></section><section class="doc-section" data-component="section" id="key-findings"><h2>Key Findings</h2><table class="data-table" data-component="table" data-table-type="data"><thead><tr><th scope="col">Finding</th><th scope="col">Evidence</th></tr></thead><tbody><tr><td>Typed contracts reduce ambiguity</td><td>Both documents mention schema drift</td></tr><tr><td>Examples are required</td><td>Review notes ask for fixtures</td></tr></tbody></table></section><section class="doc-section" data-component="section" id="cross-document-relationships"><h2>Cross-document Relationships</h2><figure class="diagram" data-component="diagram" data-download-name="document-relationship"><figcaption>Document relationship</figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document relationship"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="360" y="66" text-anchor="middle" font-size="12" fill="#68717b">defines</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b">validates</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Design note</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Review notes</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Schema contract</text></svg></figure></section><section class="doc-section" data-component="section" id="limitations"><h2>Limitations</h2><details class="details-block" data-component="details-block"><summary>Known gaps</summary><p>The digest does not evaluate implementation complexity.</p></details></section><section class="doc-section" data-component="section" id="next-steps"><h2>Next Steps</h2><ul><li>Convert the findings into schema tests.</li><li>Review fixture coverage after renderer implementation.</li></ul></section></main>
-<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
-</article>
 <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
 <script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {

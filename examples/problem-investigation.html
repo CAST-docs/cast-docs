@@ -5,6 +5,315 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Checkout latency spike investigation">
 <title>Checkout latency spike investigation</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{
+  "metadata": {
+    "title": "Checkout latency spike investigation",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": [
+      "engineering"
+    ],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "problem-investigation",
+    "sections": [
+      "background",
+      "problem-symptoms",
+      "impact-scope",
+      "investigation-path",
+      "core-logs-and-evidence",
+      "root-cause",
+      "mitigation-and-fix",
+      "validation",
+      "prevention-measures",
+      "open-questions"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "callout",
+        "open-questions"
+      ],
+      "optional": [
+        "table",
+        "details-block",
+        "code-block",
+        "diagram",
+        "files",
+        "action-card"
+      ],
+      "omitted": [
+        "diff-block",
+        "values-grid",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "background",
+      "title": "Background",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": "Scope",
+              "body": "Checkout requests showed intermittent latency spikes."
+            },
+            {
+              "label": "Window",
+              "body": "Observed during the latest traffic peak."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "This document records the investigation path and follow-up actions."
+        }
+      ]
+    },
+    {
+      "id": "problem-symptoms",
+      "title": "Problem Symptoms",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Symptom",
+          "body": "P95 latency increased while success rate stayed mostly stable."
+        }
+      ]
+    },
+    {
+      "id": "impact-scope",
+      "title": "Impact Scope",
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "risk",
+          "headers": [
+            "Area",
+            "Impact",
+            "Confidence"
+          ],
+          "rows": [
+            [
+              "Checkout API",
+              "Higher latency",
+              "high"
+            ],
+            [
+              "Payment callback",
+              "No direct impact",
+              "medium"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "investigation-path",
+      "title": "Investigation Path",
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "sequence",
+          "title": "Call chain",
+          "downloadName": "checkout-call-chain",
+          "source": {
+            "format": "structured-sequence",
+            "steps": [
+              {
+                "from": "Client",
+                "to": "Checkout API",
+                "label": "POST /checkout"
+              },
+              {
+                "from": "Checkout API",
+                "to": "Inventory",
+                "label": "reserve items"
+              },
+              {
+                "from": "Inventory",
+                "to": "Checkout API",
+                "label": "slow response"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "core-logs-and-evidence",
+      "title": "Core Logs And Evidence",
+      "blocks": [
+        {
+          "type": "details",
+          "summary": "Representative log",
+          "blocks": [
+            {
+              "type": "code",
+              "language": "text",
+              "code": "checkout latency=1840ms dependency=inventory status=200"
+            }
+          ]
+        },
+        {
+          "type": "files",
+          "items": [
+            {
+              "path": "services/checkout/inventory_client.go",
+              "lineStart": 88,
+              "note": "Dependency call without timeout override"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "root-cause",
+      "title": "Root Cause",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "danger",
+          "title": "Root cause",
+          "body": "The checkout path inherited a longer dependency timeout than intended."
+        }
+      ]
+    },
+    {
+      "id": "mitigation-and-fix",
+      "title": "Mitigation And Fix",
+      "blocks": [
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": "Set checkout-specific timeout",
+          "description": "Use a bounded timeout for inventory reservation.",
+          "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."
+        }
+      ]
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "blocks": [
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            "P95 latency returns to the normal band.",
+            "Timeout behavior is covered by unit tests."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prevention-measures",
+      "title": "Prevention Measures",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Add dependency timeout review to service checklist.",
+            "Alert on dependency latency before checkout P95 regresses."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open Questions",
+      "blocks": [
+        {
+          "type": "open-questions",
+          "questions": [
+            "Should inventory expose a faster reservation endpoint for checkout?"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<article class="doc">
+<header class="doc-header"><h1>Checkout latency spike investigation</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main>
+<section class="doc-section" id="background">
+<h2>Background</h2>
+<section class="doc-summary"><ul><li><strong>Scope:</strong> Checkout requests showed intermittent latency spikes.</li><li><strong>Window:</strong> Observed during the latest traffic peak.</li></ul></section>
+<p>This document records the investigation path and follow-up actions.</p>
+</section>
+
+<section class="doc-section" id="problem-symptoms">
+<h2>Problem Symptoms</h2>
+<aside class="callout callout-warning"><strong>Symptom</strong><p>P95 latency increased while success rate stayed mostly stable.</p></aside>
+</section>
+
+<section class="doc-section" id="impact-scope">
+<h2>Impact Scope</h2>
+<table>
+<tr><th>Area</th><th>Impact</th><th>Confidence</th></tr>
+<tr><td>Checkout API</td><td>Higher latency</td><td>high</td></tr>
+<tr><td>Payment callback</td><td>No direct impact</td><td>medium</td></tr>
+</table>
+</section>
+
+<section class="doc-section" id="investigation-path">
+<h2>Investigation Path</h2>
+<figure class="diagram" data-download-name="checkout-call-chain"><figcaption>Call chain</figcaption><svg viewBox="0 0 860 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Call chain"><rect x="32" y="36" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="62" fill="#2f3439" font-size="14">Client -> Checkout API</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle">POST /checkout</text><rect x="32" y="104" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="130" fill="#2f3439" font-size="14">Checkout API -> Inventory</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle">reserve items</text><rect x="32" y="172" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="198" fill="#2f3439" font-size="14">Inventory -> Checkout API</text><text x="430" y="198" fill="#68717b" font-size="13" text-anchor="middle">slow response</text></svg></figure>
+</section>
+
+<section class="doc-section" id="core-logs-and-evidence">
+<h2>Core Logs And Evidence</h2>
+<details class="details-block"><summary>Representative log</summary><pre class="code-block" data-language="text"><code data-language="text">checkout latency=1840ms dependency=inventory status=200</code></pre></details>
+<ul class="files"><li><code>services/checkout/inventory_client.go:88</code> — Dependency call without timeout override</li></ul>
+</section>
+
+<section class="doc-section" id="root-cause">
+<h2>Root Cause</h2>
+<aside class="callout callout-danger"><strong>Root cause</strong><p>The checkout path inherited a longer dependency timeout than intended.</p></aside>
+</section>
+
+<section class="doc-section" id="mitigation-and-fix">
+<h2>Mitigation And Fix</h2>
+<section class="action-card"><h3>Set checkout-specific timeout</h3><p>Use a bounded timeout for inventory reservation.</p><pre class="prompt-block"><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></section>
+</section>
+
+<section class="doc-section" id="validation">
+<h2>Validation</h2>
+<ol class="acceptance-criteria"><li>P95 latency returns to the normal band.</li><li>Timeout behavior is covered by unit tests.</li></ol>
+</section>
+
+<section class="doc-section" id="prevention-measures">
+<h2>Prevention Measures</h2>
+<ul><li>Add dependency timeout review to service checklist.</li><li>Alert on dependency latency before checkout P95 regresses.</li></ul>
+</section>
+
+<section class="doc-section" id="open-questions">
+<h2>Open Questions</h2>
+<ul class="open-questions"><li>Should inventory expose a faster reservation endpoint for checkout?</li></ul>
+</section>
+</main>
+<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#problem-symptoms"><span>02</span>Problem Symptoms</a></li><li><a href="#impact-scope"><span>03</span>Impact Scope</a></li><li><a href="#investigation-path"><span>04</span>Investigation Path</a></li><li><a href="#core-logs-and-evidence"><span>05</span>Core Logs And Evidence</a></li><li><a href="#root-cause"><span>06</span>Root Cause</a></li><li><a href="#mitigation-and-fix"><span>07</span>Mitigation And Fix</a></li><li><a href="#validation"><span>08</span>Validation</a></li><li><a href="#prevention-measures"><span>09</span>Prevention Measures</a></li><li><a href="#open-questions"><span>10</span>Open Questions</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">Checkout latency spike investigation</span><span class="topbar-spacer"></span></header>
+
 <style>
 :root {
   color-scheme: light dark;
@@ -130,9 +439,10 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
 .lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
 @media (max-width: 760px) {
-  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
 }
@@ -141,15 +451,6 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-</head>
-<body>
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#problem-symptoms"><span>02</span>Problem Symptoms</a></li><li><a href="#impact-scope"><span>03</span>Impact Scope</a></li><li><a href="#investigation-path"><span>04</span>Investigation Path</a></li><li><a href="#core-logs-and-evidence"><span>05</span>Core Logs And Evidence</a></li><li><a href="#root-cause"><span>06</span>Root Cause</a></li><li><a href="#mitigation-and-fix"><span>07</span>Mitigation And Fix</a></li><li><a href="#validation"><span>08</span>Validation</a></li><li><a href="#prevention-measures"><span>09</span>Prevention Measures</a></li><li><a href="#open-questions"><span>10</span>Open Questions</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">Checkout latency spike investigation</span><span class="topbar-spacer"></span></header>
-<article class="doc">
-<header class="doc-header"><h1>Checkout latency spike investigation</h1><div class="doc-meta">Updated 2026-05-13</div></header>
-<main><section class="doc-section" data-component="section" id="background"><h2>Background</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Scope:</strong> Checkout requests showed intermittent latency spikes.</li><li><strong>Window:</strong> Observed during the latest traffic peak.</li></ul></section><p>This document records the investigation path and follow-up actions.</p></section><section class="doc-section" data-component="section" id="problem-symptoms"><h2>Problem Symptoms</h2><aside class="callout callout-warning" data-component="callout"><strong>Symptom</strong><p>P95 latency increased while success rate stayed mostly stable.</p></aside></section><section class="doc-section" data-component="section" id="impact-scope"><h2>Impact Scope</h2><table class="risk-table" data-component="table" data-table-type="risk"><thead><tr><th scope="col">Area</th><th scope="col">Impact</th><th scope="col">Confidence</th></tr></thead><tbody><tr><td>Checkout API</td><td>Higher latency</td><td>high</td></tr><tr><td>Payment callback</td><td>No direct impact</td><td>medium</td></tr></tbody></table></section><section class="doc-section" data-component="section" id="investigation-path"><h2>Investigation Path</h2><figure class="diagram" data-component="diagram" data-download-name="checkout-call-chain"><figcaption>Call chain</figcaption><svg viewBox="0 0 860 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Call chain"><rect x="32" y="36" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="62" fill="#2f3439" font-size="14">Client -> Checkout API</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle">POST /checkout</text><rect x="32" y="104" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="130" fill="#2f3439" font-size="14">Checkout API -> Inventory</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle">reserve items</text><rect x="32" y="172" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="198" fill="#2f3439" font-size="14">Inventory -> Checkout API</text><text x="430" y="198" fill="#68717b" font-size="13" text-anchor="middle">slow response</text></svg></figure></section><section class="doc-section" data-component="section" id="core-logs-and-evidence"><h2>Core Logs And Evidence</h2><details class="details-block" data-component="details-block"><summary>Representative log</summary><pre class="code-block" data-component="code-block" data-language="text"><code data-language="text">checkout latency=1840ms dependency=inventory status=200</code></pre></details><ul class="files" data-component="files"><li><code>services/checkout/inventory_client.go:88</code> — Dependency call without timeout override</li></ul></section><section class="doc-section" data-component="section" id="root-cause"><h2>Root Cause</h2><aside class="callout callout-danger" data-component="callout"><strong>Root cause</strong><p>The checkout path inherited a longer dependency timeout than intended.</p></aside></section><section class="doc-section" data-component="section" id="mitigation-and-fix"><h2>Mitigation And Fix</h2><section class="action-card" data-component="action-card"><h3>Set checkout-specific timeout</h3><p>Use a bounded timeout for inventory reservation.</p><pre class="prompt-block"><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></section></section><section class="doc-section" data-component="section" id="validation"><h2>Validation</h2><ol class="acceptance-criteria" data-component="acceptance-criteria"><li>P95 latency returns to the normal band.</li><li>Timeout behavior is covered by unit tests.</li></ol></section><section class="doc-section" data-component="section" id="prevention-measures"><h2>Prevention Measures</h2><ul><li>Add dependency timeout review to service checklist.</li><li>Alert on dependency latency before checkout P95 regresses.</li></ul></section><section class="doc-section" data-component="section" id="open-questions"><h2>Open Questions</h2><ul class="open-questions" data-component="open-questions"><li>Should inventory expose a faster reservation endpoint for checkout?</li></ul></section></main>
-<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
-</article>
 <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
 <script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {

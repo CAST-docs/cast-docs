@@ -5,6 +5,216 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Renderer implementation decision">
 <title>Renderer implementation decision</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{
+  "metadata": {
+    "title": "Renderer implementation decision",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": [
+      "engineering"
+    ],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "decision-record",
+    "scenario": "option-decision",
+    "sections": [
+      "context",
+      "decision-criteria",
+      "options-considered",
+      "comparison",
+      "decision",
+      "tradeoffs",
+      "follow-ups"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "acceptance-criteria",
+        "action-card"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "context",
+      "title": "Context",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": "Decision",
+              "body": "Choose how the HTML renderer should transform document JSON."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision-criteria",
+      "title": "Decision Criteria",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Deterministic output",
+            "Low token usage",
+            "Simple validation",
+            "Easy component reuse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "options-considered",
+      "title": "Options Considered",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The main options are direct HTML assembly and typed block rendering."
+        }
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": "Comparison",
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "decision",
+          "headers": [
+            "Option",
+            "Strength",
+            "Risk"
+          ],
+          "rows": [
+            [
+              "Direct HTML assembly",
+              "Fast to prototype",
+              "Harder to validate"
+            ],
+            [
+              "Typed block rendering",
+              "Predictable and reusable",
+              "Requires upfront schema"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "title": "Decision",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": "Decision",
+          "body": "Use typed block rendering backed by configuration registries."
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "title": "Tradeoffs",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The schema costs more upfront but reduces drift once more scenarios are added."
+        }
+      ]
+    },
+    {
+      "id": "follow-ups",
+      "title": "Follow-ups",
+      "blocks": [
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            "Every configured scenario has a fixture.",
+            "Renderer rejects unknown block types."
+          ]
+        },
+        {
+          "type": "action",
+          "priority": "p2",
+          "title": "Implement schema validation",
+          "description": "Wire doc.schema.json into validate_doc_json.py."
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<article class="doc">
+<header class="doc-header"><h1>Renderer implementation decision</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main>
+<section class="doc-section" id="context">
+<h2>Context</h2>
+<section class="doc-summary"><ul><li><strong>Decision:</strong> Choose how the HTML renderer should transform document JSON.</li></ul></section>
+</section>
+
+<section class="doc-section" id="decision-criteria">
+<h2>Decision Criteria</h2>
+<ul><li>Deterministic output</li><li>Low token usage</li><li>Simple validation</li><li>Easy component reuse</li></ul>
+</section>
+
+<section class="doc-section" id="options-considered">
+<h2>Options Considered</h2>
+<p>The main options are direct HTML assembly and typed block rendering.</p>
+</section>
+
+<section class="doc-section" id="comparison">
+<h2>Comparison</h2>
+<table>
+<tr><th>Option</th><th>Strength</th><th>Risk</th></tr>
+<tr><td>Direct HTML assembly</td><td>Fast to prototype</td><td>Harder to validate</td></tr>
+<tr><td>Typed block rendering</td><td>Predictable and reusable</td><td>Requires upfront schema</td></tr>
+</table>
+</section>
+
+<section class="doc-section" id="decision">
+<h2>Decision</h2>
+<aside class="callout callout-success"><strong>Decision</strong><p>Use typed block rendering backed by configuration registries.</p></aside>
+</section>
+
+<section class="doc-section" id="tradeoffs">
+<h2>Tradeoffs</h2>
+<p>The schema costs more upfront but reduces drift once more scenarios are added.</p>
+</section>
+
+<section class="doc-section" id="follow-ups">
+<h2>Follow-ups</h2>
+<ol class="acceptance-criteria"><li>Every configured scenario has a fixture.</li><li>Renderer rejects unknown block types.</li></ol>
+<section class="action-card"><h3>Implement schema validation</h3><p>Wire doc.schema.json into validate_doc_json.py.</p></section>
+</section>
+</main>
+<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#context"><span>01</span>Context</a></li><li><a href="#decision-criteria"><span>02</span>Decision Criteria</a></li><li><a href="#options-considered"><span>03</span>Options Considered</a></li><li><a href="#comparison"><span>04</span>Comparison</a></li><li><a href="#decision"><span>05</span>Decision</a></li><li><a href="#tradeoffs"><span>06</span>Tradeoffs</a></li><li><a href="#follow-ups"><span>07</span>Follow-ups</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">Renderer implementation decision</span><span class="topbar-spacer"></span></header>
+
 <style>
 :root {
   color-scheme: light dark;
@@ -130,9 +340,10 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
 .lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
 @media (max-width: 760px) {
-  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
 }
@@ -141,15 +352,6 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-</head>
-<body>
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#context"><span>01</span>Context</a></li><li><a href="#decision-criteria"><span>02</span>Decision Criteria</a></li><li><a href="#options-considered"><span>03</span>Options Considered</a></li><li><a href="#comparison"><span>04</span>Comparison</a></li><li><a href="#decision"><span>05</span>Decision</a></li><li><a href="#tradeoffs"><span>06</span>Tradeoffs</a></li><li><a href="#follow-ups"><span>07</span>Follow-ups</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">Renderer implementation decision</span><span class="topbar-spacer"></span></header>
-<article class="doc">
-<header class="doc-header"><h1>Renderer implementation decision</h1><div class="doc-meta">Updated 2026-05-13</div></header>
-<main><section class="doc-section" data-component="section" id="context"><h2>Context</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Decision:</strong> Choose how the HTML renderer should transform document JSON.</li></ul></section></section><section class="doc-section" data-component="section" id="decision-criteria"><h2>Decision Criteria</h2><ul><li>Deterministic output</li><li>Low token usage</li><li>Simple validation</li><li>Easy component reuse</li></ul></section><section class="doc-section" data-component="section" id="options-considered"><h2>Options Considered</h2><p>The main options are direct HTML assembly and typed block rendering.</p></section><section class="doc-section" data-component="section" id="comparison"><h2>Comparison</h2><table class="decision-table" data-component="table" data-table-type="decision"><thead><tr><th scope="col">Option</th><th scope="col">Strength</th><th scope="col">Risk</th></tr></thead><tbody><tr><td>Direct HTML assembly</td><td>Fast to prototype</td><td>Harder to validate</td></tr><tr><td>Typed block rendering</td><td>Predictable and reusable</td><td>Requires upfront schema</td></tr></tbody></table></section><section class="doc-section" data-component="section" id="decision"><h2>Decision</h2><aside class="callout callout-success" data-component="callout"><strong>Decision</strong><p>Use typed block rendering backed by configuration registries.</p></aside></section><section class="doc-section" data-component="section" id="tradeoffs"><h2>Tradeoffs</h2><p>The schema costs more upfront but reduces drift once more scenarios are added.</p></section><section class="doc-section" data-component="section" id="follow-ups"><h2>Follow-ups</h2><ol class="acceptance-criteria" data-component="acceptance-criteria"><li>Every configured scenario has a fixture.</li><li>Renderer rejects unknown block types.</li></ol><section class="action-card" data-component="action-card"><h3>Implement schema validation</h3><p>Wire doc.schema.json into validate_doc_json.py.</p></section></section></main>
-<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
-</article>
 
 
 </body>

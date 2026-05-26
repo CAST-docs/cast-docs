@@ -10,11 +10,13 @@ Current fixtures:
 - `examples/document-digest.json`
 - `examples/principle-showcase.json`
 
-Current HTML examples:
+Current rendered HTML previews (regenerated from the JSON fixtures above):
 
 - `examples/problem-investigation.html`
+- `examples/cross-team-alignment.html`
+- `examples/option-decision.html`
+- `examples/document-digest.html`
 - `examples/principle-showcase.html`
-- `examples/cast-docs-sample.html`
 
 Each fixture should include:
 
@@ -31,4 +33,4 @@ The renderer can generate fresh HTML from every JSON fixture:
 python3 scripts/render_html.py --input examples/problem-investigation.json --output dist/problem-investigation.html --validate
 ```
 
-Hand-authored HTML examples remain visual references; generated HTML is the validation target for the renderer.
+All HTML examples are renderer-generated and serve as both visual references and validation targets.

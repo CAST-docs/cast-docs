@@ -97,8 +97,8 @@ Source file:
 
 Supported shells:
 
-- `single-doc`: one standalone HTML file with inline table of contents.
-- `document-set`: a static documentation set with index, sidebar, topbar breadcrumbs, and previous/next pagination.
+- `single-doc`: one standalone HTML file with a fixed left-rail table of contents and a top bar.
+- `document-set`: a static documentation set with index, a persistent sidebar shared across files, topbar breadcrumbs, and previous/next pagination.
 
 The final output may still be self-contained per file. `document-set` means a group of self-contained HTML files that share the same generated navigation model.
 

@@ -1,119 +1,282 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Checkout latency spike investigation</title>
-  <style>
-    :root { color-scheme: light dark; --bg:#f7f8fa; --surface:#fff; --soft:#f1f5f9; --text:#1f2937; --muted:#64748b; --border:#d9e0e8; --primary:#2563eb; --primary-soft:#eaf1ff; --warn:#a16207; --warn-soft:#fff7df; --danger:#b42318; --danger-soft:#fff0ee; --success:#16794c; --success-soft:#e7f7ee; --code:#eef2f7; --shadow:0 12px 28px rgba(15,23,42,.08); --mono:"SFMono-Regular",Consolas,monospace; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    @media (prefers-color-scheme: dark) { :root { --bg:#101418; --surface:#161b22; --soft:#1f2630; --text:#e7edf3; --muted:#9aa7b5; --border:#2c3642; --primary:#7aa2ff; --primary-soft:#17243f; --warn:#f1c86b; --warn-soft:#35270c; --danger:#ff9a8f; --danger-soft:#351713; --success:#73d6a2; --success-soft:#123121; --code:#202833; --shadow:none; } }
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 var(--sans)} a{color:var(--primary);text-decoration:none} a:hover{text-decoration:underline} code,pre{font-family:var(--mono)} code{background:var(--code);border-radius:4px;padding:.1em .35em;font-size:.92em} pre{overflow:auto;background:var(--code);border:1px solid var(--border);border-radius:6px;padding:14px}.doc{max-width:1040px;margin:0 auto;padding:40px 28px 72px}.doc-header{position:relative;border-bottom:2px solid var(--border);padding-bottom:24px;margin-bottom:24px}.doc-kicker{color:#0f766e;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.doc-header h1{margin:6px 0 10px;max-width:820px;font-size:34px;line-height:1.15}.doc-meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--muted);font-size:13px}.doc-summary,.toc{border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}.doc-summary ul,.toc ol{margin:0}.doc-section{margin:42px 0 0;scroll-margin-top:24px}.doc-section h2{margin:0 0 14px;padding-left:12px;border-left:4px solid var(--primary);font-size:23px;line-height:1.25}.callout{border-left:4px solid var(--muted);border-radius:0 6px 6px 0;padding:12px 16px;margin:16px 0;background:var(--soft)}.callout strong{display:block}.callout-warning{border-color:var(--warn);background:var(--warn-soft)}.callout-danger{border-color:var(--danger);background:var(--danger-soft)}.callout-success{border-color:var(--success);background:var(--success-soft)}table{width:100%;border-collapse:collapse;margin:14px 0 18px;background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{background:var(--soft)}.details-block,.diagram,.action-card{border:1px solid var(--border);border-radius:8px;background:var(--surface);margin:16px 0}.details-block{padding:0 14px}.details-block summary{cursor:pointer;padding:12px 0;font-weight:700}.diagram{position:relative;padding:16px;overflow:auto}.diagram figcaption{margin-bottom:10px;color:var(--muted);font-weight:700;font-size:13px}.diagram svg{display:block;max-width:100%;height:auto;margin:0 auto}.diagram-toolbar{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity .15s}.diagram:hover .diagram-toolbar{opacity:1}.diagram-toolbar button,.lightbox button{border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);cursor:pointer;font:inherit;font-size:12px;padding:4px 8px}.files,.open-questions,.acceptance-criteria{padding-left:22px}.action-card{padding:14px 16px}.doc-footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:32px;background:rgba(8,13,20,.82);z-index:1000}.lightbox.open{display:flex}.lightbox-panel{position:relative;width:min(1120px,96vw);height:min(760px,88vh);border-radius:10px;background:var(--surface);overflow:hidden}.lightbox-body{width:100%;height:100%;display:grid;place-items:center;overflow:hidden;cursor:grab}.lightbox-body svg{max-width:92%;max-height:82%;transform-origin:center}.lightbox-toolbar{position:absolute;left:14px;bottom:14px;display:flex;gap:8px}.lightbox-close{position:absolute;top:12px;right:12px;z-index:2}@media(max-width:760px){.doc{padding:24px 16px 48px}.doc-header h1{font-size:27px}}@media print{.diagram-toolbar,.lightbox{display:none!important}.doc{max-width:none;padding:0}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Checkout latency spike investigation">
+<title>Checkout latency spike investigation</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #f8f8f7;
+  --surface: #ffffff;
+  --soft: #f2f3f3;
+  --text: #24272b;
+  --muted: #68717b;
+  --faint: #9aa1a8;
+  --border: #dedede;
+  --primary: #566f99;
+  --primary-soft: #f1f3f6;
+  --accent: #52686a;
+  --info: #566f99;
+  --info-soft: #f4f5f7;
+  --warn: #8a6d3b;
+  --warn-soft: #f8f4ea;
+  --danger: #9b4d49;
+  --danger-soft: #faf0ef;
+  --ok: #55745f;
+  --ok-soft: #eef4ef;
+  --code: #f1f2f2;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --surface: #17191c;
+    --soft: #202328;
+    --text: #e2e5e8;
+    --muted: #a1a7ad;
+    --faint: #767d84;
+    --border: #30343a;
+    --primary: #9aaeca;
+    --primary-soft: #1b2027;
+    --accent: #9ab4b1;
+    --info: #9aaeca;
+    --info-soft: #1b2027;
+    --warn: #c7b27e;
+    --warn-soft: #242117;
+    --danger: #d09a95;
+    --danger-soft: #271b1a;
+    --ok: #9ebaa5;
+    --ok-soft: #1a241d;
+    --code: #202328;
+  }
+}
+:root { --toc-width: 184px; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre { font-family: var(--mono); }
+code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
+pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
+.sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
+.nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc a { display: flex; gap: 8px; align-items: baseline; padding: 6px 0 6px 10px; border-left: 2px solid transparent; color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+.toc a:hover, .toc a.active { border-left-color: var(--primary); color: var(--text); text-decoration: none; }
+.toc span { width: 24px; flex: none; color: var(--faint); font: 11px/1 var(--mono); }
+.topbar { position: fixed; top: 0; left: var(--toc-width); right: 0; z-index: 10; height: 52px; display: flex; align-items: center; gap: 18px; padding: 0 32px; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+.topbar-title { color: var(--text); font-weight: 600; }
+.topbar-links { display: flex; gap: 12px; align-items: center; }
+.topbar-links:empty { display: none; }
+.topbar-link { color: var(--muted); font-size: 12.5px; }
+.topbar-spacer { flex: 1; }
+.doc { margin-left: var(--toc-width); max-width: 960px; padding: 88px 48px 84px; }
+.doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
+.doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
+.doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary { padding: 16px 18px; }
+.doc-summary ul { margin: 0; }
+.doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
+.doc-section h2 { margin: 0 0 16px; padding: 4px 0 5px 14px; border-left: 3px solid var(--primary); font-size: 22px; line-height: 1.25; }
+.doc-section h3 { margin: 0 0 8px; font-size: 16px; }
+.section-empty { color: var(--muted); font-style: italic; }
+.callout { padding: 13px 16px; border: 1px solid var(--border); border-left: 3px solid var(--info); border-radius: 8px; background: var(--info-soft); }
+.callout p { margin: 6px 0 0; }
+.callout-info { border-left-color: var(--info); background: var(--info-soft); }
+.callout-warning { border-left-color: var(--warn); background: var(--warn-soft); }
+.callout-danger { border-left-color: var(--danger); background: var(--danger-soft); }
+.callout-success { border-left-color: var(--ok); background: var(--ok-soft); }
+table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 13.5px; }
+th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { background: var(--soft); color: var(--muted); font-size: 12.5px; font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.details-block { padding: 0 14px; }
+.details-block summary { cursor: pointer; padding: 12px 0; font-weight: 700; }
+.diagram { position: relative; padding: 16px; overflow: auto; }
+.diagram figcaption { margin-bottom: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.diagram svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.diagram-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity .16s ease; }
+.diagram:hover .diagram-toolbar { opacity: 1; }
+button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
+.diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.diff-block > h3 { grid-column: 1 / -1; }
+.diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: 14px; }
+.diff-side pre { margin: 0; border: 0; border-radius: 0; }
+.diff-side span { display: block; }
+.line-add { color: var(--ok); }
+.line-remove { color: var(--danger); }
+.line-warning { color: var(--warn); }
+.line-context { color: var(--text); }
+.participants, .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.participant-card, .value-card, .action-card { padding: 14px 16px; }
+.participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
+.source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
+.prompt-block { margin-top: 10px; }
+.doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
+.lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
+.lightbox.open { display: flex; }
+.lightbox-panel { position: relative; width: min(1120px, 96vw); height: min(760px, 88vh); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.lightbox-body { width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; cursor: grab; }
+.lightbox-body svg { max-width: 92%; max-height: 82%; transform-origin: center; }
+.lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
+.lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+@media (max-width: 760px) {
+  .sidebar { position: static; inset: auto; width: auto; padding: 14px 18px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; }
+  .doc-header h1 { font-size: 28px; }
+  .diff-block { grid-template-columns: 1fr; }
+}
+@media print {
+  .sidebar, .topbar, .diagram-toolbar, .lightbox { display: none !important; }
+  .doc { margin-left: 0; max-width: none; padding: 0; }
+}
+</style>
 </head>
 <body>
-  <article class="doc">
-    <header class="doc-header">
-      <div class="doc-kicker">Problem Investigation</div>
-      <h1>Checkout latency spike investigation</h1>
-      <div class="doc-meta"><span>Status draft</span><span>Owner unknown</span><span>Updated 2026-05-13</span></div>
-    </header>
-
-    <section class="doc-summary">
-      <ul>
-        <li><strong>Scope:</strong> Checkout requests showed intermittent latency spikes.</li>
-        <li><strong>Window:</strong> Observed during the latest traffic peak.</li>
-      </ul>
-    </section>
-
-    <nav class="toc" aria-label="Table of contents">
-      <ol>
-        <li><a href="#background">Background</a></li>
-        <li><a href="#problem-symptoms">Problem Symptoms</a></li>
-        <li><a href="#impact-scope">Impact Scope</a></li>
-        <li><a href="#investigation-path">Investigation Path</a></li>
-        <li><a href="#core-logs-and-evidence">Core Logs And Evidence</a></li>
-        <li><a href="#root-cause">Root Cause</a></li>
-        <li><a href="#mitigation-and-fix">Mitigation And Fix</a></li>
-        <li><a href="#validation">Validation</a></li>
-        <li><a href="#prevention-measures">Prevention Measures</a></li>
-        <li><a href="#open-questions">Open Questions</a></li>
-      </ol>
-    </nav>
-
-    <main>
-      <section class="doc-section" id="background">
-        <h2>Background</h2>
-        <p>This document records the investigation path and follow-up actions for a latency regression.</p>
-      </section>
-
-      <section class="doc-section" id="problem-symptoms">
-        <h2>Problem Symptoms</h2>
-        <div class="callout callout-warning"><strong>Symptom</strong>P95 latency increased while success rate stayed mostly stable.</div>
-      </section>
-
-      <section class="doc-section" id="impact-scope">
-        <h2>Impact Scope</h2>
-        <table class="risk-table">
-          <thead><tr><th>Area</th><th>Impact</th><th>Confidence</th></tr></thead>
-          <tbody><tr><td>Checkout API</td><td>Higher latency</td><td>High</td></tr><tr><td>Payment callback</td><td>No direct impact</td><td>Medium</td></tr></tbody>
-        </table>
-      </section>
-
-      <section class="doc-section" id="investigation-path">
-        <h2>Investigation Path</h2>
-        <figure class="diagram svg-figure" data-download-name="checkout-call-chain">
-          <figcaption>Call chain</figcaption>
-          <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Checkout call chain">
-            <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
-            <rect x="30" y="40" width="160" height="54" rx="8" fill="#eaf1ff" stroke="#2563eb"/><text x="110" y="73" text-anchor="middle" font-size="14">Client</text>
-            <rect x="300" y="40" width="160" height="54" rx="8" fill="#e7f6f3" stroke="#0f766e"/><text x="380" y="73" text-anchor="middle" font-size="14">Checkout API</text>
-            <rect x="570" y="40" width="160" height="54" rx="8" fill="#fff7df" stroke="#a16207"/><text x="650" y="73" text-anchor="middle" font-size="14">Inventory</text>
-            <line x1="190" y1="67" x2="300" y2="67" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="245" y="52" text-anchor="middle" font-size="12">POST /checkout</text>
-            <line x1="460" y1="67" x2="570" y2="67" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="515" y="52" text-anchor="middle" font-size="12">reserve items</text>
-            <line x1="570" y1="124" x2="460" y2="124" stroke="#b42318" stroke-width="2" marker-end="url(#arrow)"/><text x="515" y="146" text-anchor="middle" font-size="12" fill="#b42318">slow response</text>
-          </svg>
-        </figure>
-      </section>
-
-      <section class="doc-section" id="core-logs-and-evidence">
-        <h2>Core Logs And Evidence</h2>
-        <details class="details-block" open>
-          <summary>Representative log</summary>
-          <pre><code>checkout latency=1840ms dependency=inventory status=200</code></pre>
-        </details>
-        <ul class="files"><li><code>services/checkout/inventory_client.go:88</code> Dependency call without timeout override.</li></ul>
-      </section>
-
-      <section class="doc-section" id="root-cause">
-        <h2>Root Cause</h2>
-        <div class="callout callout-danger"><strong>Root cause</strong>The checkout path inherited a longer dependency timeout than intended.</div>
-      </section>
-
-      <section class="doc-section" id="mitigation-and-fix">
-        <h2>Mitigation And Fix</h2>
-        <div class="action-card"><strong>Set checkout-specific timeout</strong><p>Use a bounded timeout for inventory reservation.</p><pre><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></div>
-      </section>
-
-      <section class="doc-section" id="validation">
-        <h2>Validation</h2>
-        <ul class="acceptance-criteria"><li>P95 latency returns to the normal band.</li><li>Timeout behavior is covered by unit tests.</li></ul>
-      </section>
-
-      <section class="doc-section" id="prevention-measures">
-        <h2>Prevention Measures</h2>
-        <ul><li>Add dependency timeout review to service checklist.</li><li>Alert on dependency latency before checkout P95 regresses.</li></ul>
-      </section>
-
-      <section class="doc-section" id="open-questions">
-        <h2>Open Questions</h2>
-        <ul class="open-questions"><li>Should inventory expose a faster reservation endpoint for checkout?</li></ul>
-      </section>
-    </main>
-
-    <footer class="doc-footer">Generated example for CAST Docs. No external assets or runtime services.</footer>
-  </article>
-
-  <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-  <script data-renderer-owned="true" data-interaction="diagram-viewer">(()=>{const lb=document.querySelector('.lightbox'),body=lb.querySelector('.lightbox-body'),bar=lb.querySelector('.lightbox-toolbar'),close=lb.querySelector('.lightbox-close');let z=1,x=0,y=0,src=null,clone=null;function base(svg){return svg.closest('[data-download-name]')?.getAttribute('data-download-name')||'diagram'}function ser(svg){const c=svg.cloneNode(true);if(!c.getAttribute('xmlns'))c.setAttribute('xmlns','http://www.w3.org/2000/svg');return new XMLSerializer().serializeToString(c)}function blob(b,n){const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),250)}function svgdl(s){blob(new Blob([ser(s)],{type:'image/svg+xml;charset=utf-8'}),`${base(s)}.svg`)}function png(s){const u=URL.createObjectURL(new Blob([ser(s)],{type:'image/svg+xml;charset=utf-8'})),i=new Image();i.onload=()=>{const vb=s.viewBox.baseVal,w=vb.width||900,h=vb.height||520,c=document.createElement('canvas');c.width=w*2;c.height=h*2;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.scale(2,2);ctx.drawImage(i,0,0);URL.revokeObjectURL(u);c.toBlob((p)=>p&&blob(p,`${base(s)}.png`),'image/png')};i.src=u}function apply(){if(clone)clone.style.transform=`translate(${x}px,${y}px) scale(${z})`}function btn(t,f){const b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('data-renderer-owned','true');b.addEventListener('click',f);return b}function open(s){src=s;clone=s.cloneNode(true);clone.removeAttribute('width');clone.removeAttribute('height');clone.style.transformOrigin='center';z=1;x=0;y=0;body.replaceChildren(clone);bar.replaceChildren(btn('Zoom -',()=>{z=Math.max(.25,z*.8);apply()}),btn('Zoom +',()=>{z=Math.min(8,z*1.25);apply()}),btn('Reset',()=>{z=1;x=0;y=0;apply()}),btn('SVG',()=>svgdl(src)),btn('PNG',()=>png(src)));lb.classList.add('open');apply()}function shut(){lb.classList.remove('open');body.replaceChildren();bar.replaceChildren();src=null;clone=null}close.addEventListener('click',shut);lb.addEventListener('click',(e)=>{if(e.target===lb)shut()});document.addEventListener('keydown',(e)=>{if(e.key==='Escape')shut()});body.addEventListener('wheel',(e)=>{if(!clone)return;e.preventDefault();z=Math.max(.25,Math.min(8,z*Math.exp(-e.deltaY*.0015)));apply()},{passive:false});let d=null;body.addEventListener('mousedown',(e)=>{if(clone)d={x:e.clientX,y:e.clientY,px:x,py:y}});window.addEventListener('mousemove',(e)=>{if(!d)return;x=d.px+e.clientX-d.x;y=d.py+e.clientY-d.y;apply()});window.addEventListener('mouseup',()=>{d=null});document.querySelectorAll('.diagram').forEach((fig)=>{const s=fig.querySelector('svg');if(!s)return;const t=document.createElement('div');t.className='diagram-toolbar';t.setAttribute('data-renderer-owned','true');t.append(btn('Open',()=>open(s)),btn('SVG',()=>svgdl(s)),btn('PNG',()=>png(s)));fig.appendChild(t)})})();</script>
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#problem-symptoms"><span>02</span>Problem Symptoms</a></li><li><a href="#impact-scope"><span>03</span>Impact Scope</a></li><li><a href="#investigation-path"><span>04</span>Investigation Path</a></li><li><a href="#core-logs-and-evidence"><span>05</span>Core Logs And Evidence</a></li><li><a href="#root-cause"><span>06</span>Root Cause</a></li><li><a href="#mitigation-and-fix"><span>07</span>Mitigation And Fix</a></li><li><a href="#validation"><span>08</span>Validation</a></li><li><a href="#prevention-measures"><span>09</span>Prevention Measures</a></li><li><a href="#open-questions"><span>10</span>Open Questions</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">Checkout latency spike investigation</span><span class="topbar-spacer"></span></header>
+<article class="doc">
+<header class="doc-header"><h1>Checkout latency spike investigation</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main><section class="doc-section" data-component="section" id="background"><h2>Background</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Scope:</strong> Checkout requests showed intermittent latency spikes.</li><li><strong>Window:</strong> Observed during the latest traffic peak.</li></ul></section><p>This document records the investigation path and follow-up actions.</p></section><section class="doc-section" data-component="section" id="problem-symptoms"><h2>Problem Symptoms</h2><aside class="callout callout-warning" data-component="callout"><strong>Symptom</strong><p>P95 latency increased while success rate stayed mostly stable.</p></aside></section><section class="doc-section" data-component="section" id="impact-scope"><h2>Impact Scope</h2><table class="risk-table" data-component="table" data-table-type="risk"><thead><tr><th scope="col">Area</th><th scope="col">Impact</th><th scope="col">Confidence</th></tr></thead><tbody><tr><td>Checkout API</td><td>Higher latency</td><td>high</td></tr><tr><td>Payment callback</td><td>No direct impact</td><td>medium</td></tr></tbody></table></section><section class="doc-section" data-component="section" id="investigation-path"><h2>Investigation Path</h2><figure class="diagram" data-component="diagram" data-download-name="checkout-call-chain"><figcaption>Call chain</figcaption><svg viewBox="0 0 860 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Call chain"><rect x="32" y="36" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="62" fill="#2f3439" font-size="14">Client -> Checkout API</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle">POST /checkout</text><rect x="32" y="104" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="130" fill="#2f3439" font-size="14">Checkout API -> Inventory</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle">reserve items</text><rect x="32" y="172" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="198" fill="#2f3439" font-size="14">Inventory -> Checkout API</text><text x="430" y="198" fill="#68717b" font-size="13" text-anchor="middle">slow response</text></svg></figure></section><section class="doc-section" data-component="section" id="core-logs-and-evidence"><h2>Core Logs And Evidence</h2><details class="details-block" data-component="details-block"><summary>Representative log</summary><pre class="code-block" data-component="code-block" data-language="text"><code data-language="text">checkout latency=1840ms dependency=inventory status=200</code></pre></details><ul class="files" data-component="files"><li><code>services/checkout/inventory_client.go:88</code> — Dependency call without timeout override</li></ul></section><section class="doc-section" data-component="section" id="root-cause"><h2>Root Cause</h2><aside class="callout callout-danger" data-component="callout"><strong>Root cause</strong><p>The checkout path inherited a longer dependency timeout than intended.</p></aside></section><section class="doc-section" data-component="section" id="mitigation-and-fix"><h2>Mitigation And Fix</h2><section class="action-card" data-component="action-card"><h3>Set checkout-specific timeout</h3><p>Use a bounded timeout for inventory reservation.</p><pre class="prompt-block"><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></section></section><section class="doc-section" data-component="section" id="validation"><h2>Validation</h2><ol class="acceptance-criteria" data-component="acceptance-criteria"><li>P95 latency returns to the normal band.</li><li>Timeout behavior is covered by unit tests.</li></ol></section><section class="doc-section" data-component="section" id="prevention-measures"><h2>Prevention Measures</h2><ul><li>Add dependency timeout review to service checklist.</li><li>Alert on dependency latency before checkout P95 regresses.</li></ul></section><section class="doc-section" data-component="section" id="open-questions"><h2>Open Questions</h2><ul class="open-questions" data-component="open-questions"><li>Should inventory expose a faster reservation endpoint for checkout?</li></ul></section></main>
+<footer class="doc-footer"><a href="https://github.com/jinhuang712/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
+<script data-renderer-owned="true" data-interaction="diagram-viewer">
+(() => {
+  const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
+  if (!lightbox) return;
+  const body = lightbox.querySelector('.lightbox-body');
+  const toolbar = lightbox.querySelector('.lightbox-toolbar');
+  const closeButton = lightbox.querySelector('.lightbox-close');
+  let sourceSvg = null;
+  let cloneSvg = null;
+  let zoom = 1;
+  let panX = 0;
+  let panY = 0;
+  function fileBase(svg) {
+    return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
+  }
+  function serialize(svg) {
+    const clone = svg.cloneNode(true);
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    return new XMLSerializer().serializeToString(clone);
+  }
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 250);
+  }
+  function downloadSvg(svg) {
+    downloadBlob(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }), `${fileBase(svg)}.svg`);
+  }
+  function downloadPng(svg) {
+    const url = URL.createObjectURL(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }));
+    const img = new Image();
+    img.onload = () => {
+      const box = svg.viewBox && svg.viewBox.baseVal;
+      const width = box && box.width ? box.width : 900;
+      const height = box && box.height ? box.height : 520;
+      const canvas = document.createElement('canvas');
+      canvas.width = width * 2;
+      canvas.height = height * 2;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(2, 2);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob((blob) => blob && downloadBlob(blob, `${fileBase(svg)}.png`), 'image/png');
+    };
+    img.src = url;
+  }
+  function setTransform() {
+    if (cloneSvg) cloneSvg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+  }
+  function makeButton(label, action) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.setAttribute('data-renderer-owned', 'true');
+    button.addEventListener('click', action);
+    return button;
+  }
+  function open(svg) {
+    sourceSvg = svg;
+    cloneSvg = svg.cloneNode(true);
+    cloneSvg.removeAttribute('width');
+    cloneSvg.removeAttribute('height');
+    cloneSvg.style.transformOrigin = 'center';
+    zoom = 1;
+    panX = 0;
+    panY = 0;
+    body.replaceChildren(cloneSvg);
+    toolbar.replaceChildren(
+      makeButton('Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
+      makeButton('Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
+      makeButton('Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
+      makeButton('SVG', () => downloadSvg(sourceSvg)),
+      makeButton('PNG', () => downloadPng(sourceSvg))
+    );
+    lightbox.classList.add('open');
+    setTransform();
+  }
+  function close() {
+    lightbox.classList.remove('open');
+    body.replaceChildren();
+    toolbar.replaceChildren();
+    sourceSvg = null;
+    cloneSvg = null;
+  }
+  closeButton.addEventListener('click', close);
+  lightbox.addEventListener('click', (event) => { if (event.target === lightbox) close(); });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
+  body.addEventListener('wheel', (event) => {
+    if (!cloneSvg) return;
+    event.preventDefault();
+    zoom = Math.max(0.25, Math.min(8, zoom * Math.exp(-event.deltaY * 0.0015)));
+    setTransform();
+  }, { passive: false });
+  let drag = null;
+  body.addEventListener('mousedown', (event) => {
+    if (!cloneSvg) return;
+    drag = { x: event.clientX, y: event.clientY, panX, panY };
+  });
+  window.addEventListener('mousemove', (event) => {
+    if (!drag) return;
+    panX = drag.panX + event.clientX - drag.x;
+    panY = drag.panY + event.clientY - drag.y;
+    setTransform();
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+  document.querySelectorAll('.diagram').forEach((figure) => {
+    const svg = figure.querySelector('svg');
+    if (!svg) return;
+    const tools = document.createElement('div');
+    tools.className = 'diagram-toolbar';
+    tools.setAttribute('data-renderer-owned', 'true');
+    tools.append(
+      makeButton('Open', () => open(svg)),
+      makeButton('SVG', () => downloadSvg(svg)),
+      makeButton('PNG', () => downloadPng(svg))
+    );
+    figure.appendChild(tools);
+  });
+})();
+</script>
 </body>
 </html>

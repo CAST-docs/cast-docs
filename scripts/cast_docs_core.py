@@ -711,6 +711,11 @@ def render_toc(sections: list[dict[str, Any]]) -> str:
     return f"<nav class=\"toc\" aria-label=\"Table of contents\"><ol>{''.join(items)}</ol></nav>"
 
 
+def render_sidebar(sections: list[dict[str, Any]]) -> str:
+    toc = render_toc(sections)
+    return f"<p class=\"nav-title\">Contents</p>{toc}"
+
+
 def render_shell_links(metadata: dict[str, Any], placement: str) -> str:
     links = []
     for item in as_list(metadata.get("shellLinks")):
@@ -908,7 +913,7 @@ def render_html(
         "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),
         "TOPBAR_LINKS": topbar_links,
         "DOC_META": meta_html,
-        "TOC": render_toc([section for section in sections if is_object(section)]),
+        "SIDEBAR": render_sidebar([section for section in sections if is_object(section)]),
         "SECTIONS": render_sections(sections),
         "FOOTER": footer,
         "INTERACTION_HOOKS": lightbox,

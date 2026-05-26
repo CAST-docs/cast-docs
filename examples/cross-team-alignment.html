@@ -1,3 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Order status contract alignment">
+<title>Order status contract alignment</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #f8f8f7;
+  --surface: #ffffff;
+  --soft: #f2f3f3;
+  --text: #24272b;
+  --muted: #68717b;
+  --faint: #9aa1a8;
+  --border: #dedede;
+  --primary: #566f99;
+  --primary-soft: #f1f3f6;
+  --accent: #52686a;
+  --info: #566f99;
+  --info-soft: #f4f5f7;
+  --warn: #8a6d3b;
+  --warn-soft: #f8f4ea;
+  --danger: #9b4d49;
+  --danger-soft: #faf0ef;
+  --ok: #55745f;
+  --ok-soft: #eef4ef;
+  --code: #f1f2f2;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --surface: #17191c;
+    --soft: #202328;
+    --text: #e2e5e8;
+    --muted: #a1a7ad;
+    --faint: #767d84;
+    --border: #30343a;
+    --primary: #9aaeca;
+    --primary-soft: #1b2027;
+    --accent: #9ab4b1;
+    --info: #9aaeca;
+    --info-soft: #1b2027;
+    --warn: #c7b27e;
+    --warn-soft: #242117;
+    --danger: #d09a95;
+    --danger-soft: #271b1a;
+    --ok: #9ebaa5;
+    --ok-soft: #1a241d;
+    --code: #202328;
+  }
+}
 :root { --toc-width: 184px; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -85,3 +140,19 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .sidebar, .topbar, .diagram-toolbar, .lightbox { display: none !important; }
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
+</style>
+</head>
+<body>
+<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#participants-and-responsibilities"><span>02</span>Participants And Responsibilities</a></li><li><a href="#source-of-truth"><span>03</span>Source Of Truth</a></li><li><a href="#differences-or-gaps"><span>04</span>Differences Or Gaps</a></li><li><a href="#impact"><span>05</span>Impact</a></li><li><a href="#decisions"><span>06</span>Decisions</a></li><li><a href="#action-items"><span>07</span>Action Items</a></li><li><a href="#open-questions"><span>08</span>Open Questions</a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title">Order status contract alignment</span><span class="topbar-spacer"></span></header>
+<article class="doc">
+<header class="doc-header"><h1>Order status contract alignment</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<main><section class="doc-section" data-component="section" id="background"><h2>Background</h2><section class="doc-summary" data-component="summary-block"><ul><li><strong>Topic:</strong> Consumers and owners need one order status contract.</li></ul></section></section><section class="doc-section" data-component="section" id="participants-and-responsibilities"><h2>Participants And Responsibilities</h2><section class="participants" data-component="participants"><div class="participant-card"><h3>Consumer Team</h3><p><em>consumer</em></p><p>Handle status display and fallback behavior.</p></div><div class="participant-card"><h3>Order Team</h3><p><em>owner</em></p><p>Own API implementation and compatibility.</p></div><div class="participant-card"><h3>Spec Team</h3><p><em>maintainer</em></p><p>Maintain source-of-truth schema.</p></div></section></section><section class="doc-section" data-component="section" id="source-of-truth"><h2>Source Of Truth</h2><ul class="source-refs" data-component="source-refs"><li><a href="https://example.com/spec/order-status" target="_blank" rel="noopener noreferrer">API spec</a> — order-status schema</li><li><a href="https://example.com/repo/order-service" target="_blank" rel="noopener noreferrer">Implementation</a> — order-service</li></ul></section><section class="doc-section" data-component="section" id="differences-or-gaps"><h2>Differences Or Gaps</h2><section class="diff-block" data-component="diff-block"><h3>Status field difference</h3><div class="diff-side"><h3>Spec</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<span class="line-add">&quot;payment_status&quot;: &quot;settled&quot;</span></code></pre></div><div class="diff-side"><h3>Implementation</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<span class="line-remove">&quot;payment_status&quot;: missing</span></code></pre></div></section><ul class="files" data-component="files"><li><code>api/order/response.go:42</code> — Response assembly path</li></ul></section><section class="doc-section" data-component="section" id="impact"><h2>Impact</h2><aside class="callout callout-warning" data-component="callout"><strong>Impact</strong><p>Consumers cannot distinguish paid from fully settled orders.</p></aside></section><section class="doc-section" data-component="section" id="decisions"><h2>Decisions</h2><p>The implementation will add the missing field and keep the existing status field unchanged.</p></section><section class="doc-section" data-component="section" id="action-items"><h2>Action Items</h2><section class="action-card" data-component="action-card"><h3>Patch response field</h3><p>Add payment_status to the order response.</p><pre class="prompt-block"><code>Update order response serialization and add compatibility tests.</code></pre></section></section><section class="doc-section" data-component="section" id="open-questions"><h2>Open Questions</h2><ul class="open-questions" data-component="open-questions"><li>Should older clients receive a default payment_status value?</li></ul></section></main>
+<footer class="doc-footer"><a href="https://github.com/jinhuang712/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+
+</body>
+</html>

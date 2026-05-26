@@ -193,9 +193,7 @@ Recommended HTML attributes:
 
 These attributes make output inspectable and validateable without tying CAST Docs to a browser editor.
 
-## Source Layout Target
-
-Implementation can evolve toward:
+## Source Layout
 
 ```text
 config/
@@ -209,27 +207,32 @@ config/
 schemas/
   doc.schema.json
 assets/
-  base-template.html
   template-modules/
     shell.single.html
-    shell.document-set.html
     styles.base.css
     interactions.diagram-viewer.js
-    interactions.finder-open.js
+    hooks.diagram-viewer.html
 scripts/
+  cast_docs_core.py
   render_html.py
   validate_doc_json.py
   validate_html.py
   build_index.py
 ```
 
-The final generated artifact remains a complete HTML file. The source modules only keep implementation maintainable.
+The renderer loads `shell.<layout>.html` and substitutes named slots. Interaction hook HTML and scripts are loaded by file-naming convention (`hooks.<id>.html`, `interactions.<id>.js`) so adding a new interaction is config plus assets, not Python branches. The final generated artifact remains a complete HTML file.
 
-## Near-term Implementation Order
+## Implementation Status
 
-1. Render `single-doc` from JSON using existing `base-template.html`.
-2. Compile `theme-tokens.json` into CSS variables.
-3. Render selected block types through a renderer registry.
-4. Inject interaction modules only when selected.
-5. Add `document-set` generation and index building.
-6. Replace hand-authored example HTML with renderer-generated example HTML.
+Done:
+
+1. Render `single-doc` from document JSON using `assets/template-modules/shell.single.html`.
+2. Compile `config/theme-tokens.json` into the `:root` CSS variables; static layout CSS lives in `assets/template-modules/styles.base.css`.
+3. Map `block.type` to renderer functions through a registry built from `config/components.json`.
+4. Inject interaction hooks and scripts only when the selected layout and document content trigger them.
+
+Planned:
+
+5. Add `shell.document-set.html`, `document-set` generation, and index building.
+6. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.
+7. Replace hand-authored example HTML with renderer-generated example HTML.

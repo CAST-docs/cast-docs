@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_DIR = ROOT / "config"
+TEMPLATE_DIR = ROOT / "assets" / "template-modules"
 
 SECTION_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -44,6 +45,13 @@ def load_json(path: Path) -> Any:
 
 def load_config(name: str, config_dir: Path = CONFIG_DIR) -> Any:
     return load_json(config_dir / name)
+
+
+def load_template_module(name: str, template_dir: Path = TEMPLATE_DIR) -> str:
+    path = template_dir / name
+    if not path.exists():
+        raise CastDocsError(f"template module not found: {path}")
+    return path.read_text(encoding="utf-8")
 
 
 def as_list(value: Any) -> list[Any]:
@@ -590,37 +598,109 @@ def render_open_questions(block: dict[str, Any]) -> str:
     return f"<ul class=\"open-questions\" data-component=\"open-questions\">{items}</ul>"
 
 
+RENDERER_REGISTRY: dict[str, Any] = {
+    "summary": render_summary_block,
+    "paragraph": render_paragraph,
+    "list": render_list,
+    "callout": render_callout,
+    "table": render_table,
+    "details": render_details,
+    "code": render_code,
+    "diagram": render_diagram,
+    "diff": render_diff,
+    "participants": render_participants,
+    "sourceRefs": render_source_refs,
+    "files": render_files,
+    "actionCard": render_action,
+    "valuesGrid": render_values_grid,
+    "acceptanceCriteria": render_acceptance_criteria,
+    "openQuestions": render_open_questions,
+}
+
+
+_BLOCK_RENDERER_MAP_CACHE: dict[str, dict[str, Any]] = {}
+
+
+def build_block_type_renderer_map(config_dir: Path = CONFIG_DIR) -> dict[str, Any]:
+    key = str(config_dir)
+    cached = _BLOCK_RENDERER_MAP_CACHE.get(key)
+    if cached is not None:
+        return cached
+    config = load_config("components.json", config_dir)
+    out: dict[str, Any] = {}
+    for component in config.get("components", []):
+        if not is_object(component):
+            continue
+        renderer_id = component.get("renderer")
+        if not isinstance(renderer_id, str):
+            continue
+        fn = RENDERER_REGISTRY.get(renderer_id)
+        if fn is None:
+            continue
+        for block_type in as_list(component.get("blockTypes")):
+            if isinstance(block_type, str):
+                out[block_type] = fn
+    _BLOCK_RENDERER_MAP_CACHE[key] = out
+    return out
+
+
 def render_block(block: dict[str, Any]) -> str:
-    renderers = {
-        "summary": render_summary_block,
-        "paragraph": render_paragraph,
-        "list": render_list,
-        "callout": render_callout,
-        "table": render_table,
-        "details": render_details,
-        "code": render_code,
-        "diagram": render_diagram,
-        "diff": render_diff,
-        "participants": render_participants,
-        "source-refs": render_source_refs,
-        "files": render_files,
-        "action": render_action,
-        "values-grid": render_values_grid,
-        "acceptance-criteria": render_acceptance_criteria,
-        "open-questions": render_open_questions,
-    }
+    renderers = build_block_type_renderer_map()
     renderer = renderers.get(block.get("type"))
     if not renderer:
         return f"<p class=\"section-empty\">Unsupported block: {esc(block.get('type'))}</p>"
     return renderer(block)
 
 
-def document_has_block(doc: dict[str, Any], block_type: str) -> bool:
+def block_types_in_doc(doc: dict[str, Any]) -> set[str]:
     found: set[str] = set()
     for section in as_list(doc.get("sections")):
         if is_object(section):
             collect_block_types(as_list(section.get("blocks")), found)
-    return block_type in found
+    return found
+
+
+def load_layout(layout_id: str = "single-doc", config_dir: Path = CONFIG_DIR) -> dict[str, Any]:
+    config = load_config("layouts.json", config_dir)
+    layouts = {
+        layout["id"]: layout
+        for layout in config.get("layouts", [])
+        if is_object(layout) and isinstance(layout.get("id"), str)
+    }
+    if layout_id not in layouts:
+        raise CastDocsError(f"layout not found: {layout_id}")
+    return layouts[layout_id]
+
+
+def resolve_active_interactions(
+    doc: dict[str, Any],
+    layout: dict[str, Any],
+    config_dir: Path = CONFIG_DIR,
+) -> list[dict[str, Any]]:
+    config = load_config("interactions.json", config_dir)
+    specs = {
+        spec["id"]: spec
+        for spec in config.get("interactions", [])
+        if is_object(spec) and isinstance(spec.get("id"), str)
+    }
+    default_ids = [iid for iid in as_list(layout.get("defaultInteractions")) if iid in specs]
+    optional_ids = [iid for iid in as_list(layout.get("optionalInteractions")) if iid in specs]
+    block_types = block_types_in_doc(doc)
+    active: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for iid in default_ids + optional_ids:
+        if iid in seen:
+            continue
+        seen.add(iid)
+        spec = specs[iid]
+        if iid in default_ids:
+            triggered = True
+        else:
+            supported = {bt for bt in as_list(spec.get("supportedBlockTypes")) if isinstance(bt, str)}
+            triggered = bool(supported and supported & block_types)
+        if triggered:
+            active.append(spec)
+    return active
 
 
 def render_toc(sections: list[dict[str, Any]]) -> str:
@@ -670,269 +750,142 @@ def render_sections(sections: list[Any]) -> str:
     return "".join(rendered)
 
 
-def base_css() -> str:
-    return """
-:root {
-  color-scheme: light dark;
-  --bg: #f8f8f7;
-  --surface: #ffffff;
-  --soft: #f2f3f3;
-  --text: #24272b;
-  --muted: #68717b;
-  --faint: #9aa1a8;
-  --border: #dedede;
-  --primary: #566f99;
-  --primary-soft: #f1f3f6;
-  --accent: #52686a;
-  --info: #566f99;
-  --info-soft: #f4f5f7;
-  --warn: #8a6d3b;
-  --warn-soft: #f8f4ea;
-  --danger: #9b4d49;
-  --danger-soft: #faf0ef;
-  --ok: #55745f;
-  --ok-soft: #eef4ef;
-  --code: #f1f2f2;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-  --mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+THEME_COLOR_TO_CSS_VAR: dict[str, str] = {
+    "bg": "--bg",
+    "surface": "--surface",
+    "surfaceSoft": "--soft",
+    "text": "--text",
+    "muted": "--muted",
+    "faint": "--faint",
+    "border": "--border",
+    "primary": "--primary",
+    "primarySoft": "--primary-soft",
+    "accent": "--accent",
+    "info": "--info",
+    "infoSoft": "--info-soft",
+    "warning": "--warn",
+    "warningSoft": "--warn-soft",
+    "danger": "--danger",
+    "dangerSoft": "--danger-soft",
+    "success": "--ok",
+    "successSoft": "--ok-soft",
+    "codeBg": "--code",
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111315;
-    --surface: #17191c;
-    --soft: #202328;
-    --text: #e2e5e8;
-    --muted: #a1a7ad;
-    --faint: #767d84;
-    --border: #30343a;
-    --primary: #9aaeca;
-    --primary-soft: #1b2027;
-    --accent: #9ab4b1;
-    --info: #9aaeca;
-    --info-soft: #1b2027;
-    --warn: #c7b27e;
-    --warn-soft: #242117;
-    --danger: #d09a95;
-    --danger-soft: #271b1a;
-    --ok: #9ebaa5;
-    --ok-soft: #1a241d;
-    --code: #202328;
-  }
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
-a { color: var(--primary); text-decoration: none; }
-a:hover { text-decoration: underline; }
-code, pre { font-family: var(--mono); }
-code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
-pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
-.topbar { position: sticky; top: 0; z-index: 10; height: 52px; display: flex; align-items: center; gap: 18px; padding: 0 max(28px, calc((100vw - 960px) / 2)); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
-.topbar-title { color: var(--text); font-weight: 600; }
-.topbar-links { display: flex; gap: 12px; align-items: center; }
-.topbar-links:empty { display: none; }
-.topbar-link { color: var(--muted); font-size: 12.5px; }
-.topbar-spacer { flex: 1; }
-.doc { max-width: 960px; margin: 0 auto; padding: 52px 32px 84px; }
-.doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
-.doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
-.doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
-.doc-summary, .toc, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card { margin: 18px 0; }
-.doc-summary, .toc, .details-block, .diagram, .participant-card, .value-card, .action-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
-.doc-summary { padding: 16px 18px; }
-.doc-summary ul { margin: 0; }
-.toc { padding: 16px 18px; }
-.toc ol { margin: 0; padding-left: 22px; }
-.toc span { display: inline-block; min-width: 34px; color: var(--muted); font-family: var(--mono); }
-.doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
-.doc-section h2 { margin: 0 0 16px; padding: 4px 0 5px 14px; border-left: 3px solid var(--primary); font-size: 22px; line-height: 1.25; }
-.doc-section h3 { margin: 0 0 8px; font-size: 16px; }
-.section-empty { color: var(--muted); font-style: italic; }
-.callout { padding: 13px 16px; border: 1px solid var(--border); border-left: 3px solid var(--info); border-radius: 8px; background: var(--info-soft); }
-.callout p { margin: 6px 0 0; }
-.callout-info { border-left-color: var(--info); background: var(--info-soft); }
-.callout-warning { border-left-color: var(--warn); background: var(--warn-soft); }
-.callout-danger { border-left-color: var(--danger); background: var(--danger-soft); }
-.callout-success { border-left-color: var(--ok); background: var(--ok-soft); }
-table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 13.5px; }
-th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
-th { background: var(--soft); color: var(--muted); font-size: 12.5px; font-weight: 600; }
-tr:last-child td { border-bottom: 0; }
-.details-block { padding: 0 14px; }
-.details-block summary { cursor: pointer; padding: 12px 0; font-weight: 700; }
-.diagram { position: relative; padding: 16px; overflow: auto; }
-.diagram figcaption { margin-bottom: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
-.diagram svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
-.diagram-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity .16s ease; }
-.diagram:hover .diagram-toolbar { opacity: 1; }
-button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
-.diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.diff-block > h3 { grid-column: 1 / -1; }
-.diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
-.diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: 14px; }
-.diff-side pre { margin: 0; border: 0; border-radius: 0; }
-.diff-side span { display: block; }
-.line-add { color: var(--ok); }
-.line-remove { color: var(--danger); }
-.line-warning { color: var(--warn); }
-.line-context { color: var(--text); }
-.participants, .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
-.participant-card, .value-card, .action-card { padding: 14px 16px; }
-.participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
-.source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.prompt-block { margin-top: 10px; }
-.doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
-.lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
-.lightbox.open { display: flex; }
-.lightbox-panel { position: relative; width: min(1120px, 96vw); height: min(760px, 88vh); border-radius: 10px; background: var(--surface); overflow: hidden; }
-.lightbox-body { width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; cursor: grab; }
-.lightbox-body svg { max-width: 92%; max-height: 82%; transform-origin: center; }
-.lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
-.lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
-@media (max-width: 760px) {
-  .topbar { padding: 12px 18px; height: auto; flex-wrap: wrap; }
-  .doc { padding: 32px 20px 56px; }
-  .doc-header h1 { font-size: 28px; }
-  .diff-block { grid-template-columns: 1fr; }
-}
-@media print {
-  .topbar, .diagram-toolbar, .lightbox { display: none !important; }
-  .doc { max-width: none; padding: 0; }
-}
-"""
 
 
-def diagram_viewer_js() -> str:
-    return """
-(() => {
-  const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
-  if (!lightbox) return;
-  const body = lightbox.querySelector('.lightbox-body');
-  const toolbar = lightbox.querySelector('.lightbox-toolbar');
-  const closeButton = lightbox.querySelector('.lightbox-close');
-  let sourceSvg = null;
-  let cloneSvg = null;
-  let zoom = 1;
-  let panX = 0;
-  let panY = 0;
-  function fileBase(svg) {
-    return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
-  }
-  function serialize(svg) {
-    const clone = svg.cloneNode(true);
-    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    return new XMLSerializer().serializeToString(clone);
-  }
-  function downloadBlob(blob, name) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 250);
-  }
-  function downloadSvg(svg) {
-    downloadBlob(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }), `${fileBase(svg)}.svg`);
-  }
-  function downloadPng(svg) {
-    const url = URL.createObjectURL(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }));
-    const img = new Image();
-    img.onload = () => {
-      const box = svg.viewBox && svg.viewBox.baseVal;
-      const width = box && box.width ? box.width : 900;
-      const height = box && box.height ? box.height : 520;
-      const canvas = document.createElement('canvas');
-      canvas.width = width * 2;
-      canvas.height = height * 2;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(2, 2);
-      ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-      canvas.toBlob((blob) => blob && downloadBlob(blob, `${fileBase(svg)}.png`), 'image/png');
-    };
-    img.src = url;
-  }
-  function setTransform() {
-    if (cloneSvg) cloneSvg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
-  }
-  function makeButton(label, action) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = label;
-    button.setAttribute('data-renderer-owned', 'true');
-    button.addEventListener('click', action);
-    return button;
-  }
-  function open(svg) {
-    sourceSvg = svg;
-    cloneSvg = svg.cloneNode(true);
-    cloneSvg.removeAttribute('width');
-    cloneSvg.removeAttribute('height');
-    cloneSvg.style.transformOrigin = 'center';
-    zoom = 1;
-    panX = 0;
-    panY = 0;
-    body.replaceChildren(cloneSvg);
-    toolbar.replaceChildren(
-      makeButton('Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
-      makeButton('Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
-      makeButton('Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
-      makeButton('SVG', () => downloadSvg(sourceSvg)),
-      makeButton('PNG', () => downloadPng(sourceSvg))
-    );
-    lightbox.classList.add('open');
-    setTransform();
-  }
-  function close() {
-    lightbox.classList.remove('open');
-    body.replaceChildren();
-    toolbar.replaceChildren();
-    sourceSvg = null;
-    cloneSvg = null;
-  }
-  closeButton.addEventListener('click', close);
-  lightbox.addEventListener('click', (event) => { if (event.target === lightbox) close(); });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
-  body.addEventListener('wheel', (event) => {
-    if (!cloneSvg) return;
-    event.preventDefault();
-    zoom = Math.max(0.25, Math.min(8, zoom * Math.exp(-event.deltaY * 0.0015)));
-    setTransform();
-  }, { passive: false });
-  let drag = null;
-  body.addEventListener('mousedown', (event) => {
-    if (!cloneSvg) return;
-    drag = { x: event.clientX, y: event.clientY, panX, panY };
-  });
-  window.addEventListener('mousemove', (event) => {
-    if (!drag) return;
-    panX = drag.panX + event.clientX - drag.x;
-    panY = drag.panY + event.clientY - drag.y;
-    setTransform();
-  });
-  window.addEventListener('mouseup', () => { drag = null; });
-  document.querySelectorAll('.diagram').forEach((figure) => {
-    const svg = figure.querySelector('svg');
-    if (!svg) return;
-    const tools = document.createElement('div');
-    tools.className = 'diagram-toolbar';
-    tools.setAttribute('data-renderer-owned', 'true');
-    tools.append(
-      makeButton('Open', () => open(svg)),
-      makeButton('SVG', () => downloadSvg(svg)),
-      makeButton('PNG', () => downloadPng(svg))
-    );
-    figure.appendChild(tools);
-  });
-})();
-"""
+def _merge_theme(parent: dict[str, Any], child: dict[str, Any]) -> dict[str, Any]:
+    merged = json.loads(json.dumps(parent))
+    overrides = child.get("overrides", {})
+    if isinstance(overrides, dict):
+        for dotted, value in overrides.items():
+            keys = dotted.split(".")
+            target = merged
+            for key in keys[:-1]:
+                target = target.setdefault(key, {})
+            target[keys[-1]] = value
+    return merged
 
 
-def render_html(doc: dict[str, Any]) -> str:
+def load_theme(theme_id: str = "cast-default", config_dir: Path = CONFIG_DIR) -> dict[str, Any]:
+    config = load_config("theme-tokens.json", config_dir)
+    themes = {theme["id"]: theme for theme in config.get("themes", []) if is_object(theme) and theme.get("id")}
+    if theme_id not in themes:
+        raise CastDocsError(f"theme not found: {theme_id}")
+    theme = themes[theme_id]
+    parent_id = theme.get("extends")
+    if not parent_id:
+        return theme
+    if parent_id not in themes:
+        raise CastDocsError(f"theme parent not found: {parent_id}")
+    return _merge_theme(themes[parent_id], theme)
+
+
+def compile_theme_root_css(theme: dict[str, Any]) -> str:
+    modes = theme.get("modes", {})
+    light_color = modes.get("light", {}).get("color", {}) if is_object(modes) else {}
+    dark_color = modes.get("dark", {}).get("color", {}) if is_object(modes) else {}
+    typography = theme.get("typography", {}) if is_object(theme.get("typography")) else {}
+
+    def color_lines(color_map: dict[str, Any], indent: str) -> list[str]:
+        lines = []
+        for token, var in THEME_COLOR_TO_CSS_VAR.items():
+            value = color_map.get(token) if is_object(color_map) else None
+            if value:
+                lines.append(f"{indent}{var}: {value};")
+        return lines
+
+    light_body = ["  color-scheme: light dark;", *color_lines(light_color, "  ")]
+    sans = typography.get("sans")
+    mono = typography.get("mono")
+    if sans:
+        light_body.append(f"  --sans: {sans};")
+    if mono:
+        light_body.append(f"  --mono: {mono};")
+    light_block = ":root {\n" + "\n".join(light_body) + "\n}"
+
+    dark_body = color_lines(dark_color, "    ")
+    dark_block = (
+        "@media (prefers-color-scheme: dark) {\n  :root {\n"
+        + "\n".join(dark_body)
+        + "\n  }\n}"
+    )
+    return f"{light_block}\n{dark_block}"
+
+
+def base_css(
+    theme_id: str = "cast-default",
+    config_dir: Path = CONFIG_DIR,
+    template_dir: Path = TEMPLATE_DIR,
+) -> str:
+    root = compile_theme_root_css(load_theme(theme_id, config_dir))
+    layout = load_template_module("styles.base.css", template_dir)
+    return f"\n{root}\n{layout}"
+
+
+def diagram_viewer_js(template_dir: Path = TEMPLATE_DIR) -> str:
+    return load_template_module("interactions.diagram-viewer.js", template_dir)
+
+
+def render_interaction_assets(
+    specs: list[dict[str, Any]],
+    template_dir: Path = TEMPLATE_DIR,
+) -> tuple[str, str]:
+    hooks: list[str] = []
+    scripts: list[str] = []
+    for spec in specs:
+        iid = spec.get("id")
+        if not isinstance(iid, str):
+            continue
+        hook_path = template_dir / f"hooks.{iid}.html"
+        if hook_path.exists():
+            hooks.append(hook_path.read_text(encoding="utf-8"))
+        if spec.get("requiresScript"):
+            script_path = template_dir / f"interactions.{iid}.js"
+            if script_path.exists():
+                scripts.append(
+                    f"<script data-renderer-owned=\"true\" data-interaction=\"{attr(iid)}\">{script_path.read_text(encoding='utf-8')}</script>"
+                )
+    return "".join(hooks), "".join(scripts)
+
+
+SHELL_PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Z_]+)\s*\}\}")
+
+
+def render_shell(template: str, slots: dict[str, str]) -> str:
+    def lookup(match: re.Match[str]) -> str:
+        key = match.group(1)
+        if key not in slots:
+            raise CastDocsError(f"shell template references unknown slot: {key}")
+        return slots[key]
+    return SHELL_PLACEHOLDER_RE.sub(lookup, template)
+
+
+def render_html(
+    doc: dict[str, Any],
+    layout_id: str = "single-doc",
+    config_dir: Path = CONFIG_DIR,
+    template_dir: Path = TEMPLATE_DIR,
+) -> str:
     metadata = doc["metadata"]
     sections = as_list(doc.get("sections"))
     title = metadata.get("title", "Untitled")
@@ -942,43 +895,26 @@ def render_html(doc: dict[str, Any]) -> str:
     topbar_links = render_shell_links(metadata, "topbar")
     footer_links = render_footer_links(metadata)
     footer = footer_links or f"<a href=\"https://github.com/jinhuang712/cast-docs\" target=\"_blank\" rel=\"noopener noreferrer\">CAST Docs</a>"
-    diagram_enabled = document_has_block(doc, "diagram")
-    lightbox = ""
-    script = ""
-    if diagram_enabled:
-        lightbox = (
-            "<div class=\"lightbox\" data-renderer-owned=\"true\" data-interaction=\"diagram-viewer\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Diagram viewer\">"
-            "<div class=\"lightbox-panel\">"
-            "<button class=\"lightbox-close\" type=\"button\" data-renderer-owned=\"true\" aria-label=\"Close\">Close</button>"
-            "<div class=\"lightbox-body\"></div><div class=\"lightbox-toolbar\"></div></div></div>"
-        )
-        script = f"<script data-renderer-owned=\"true\" data-interaction=\"diagram-viewer\">{diagram_viewer_js()}</script>"
+    layout = load_layout(layout_id, config_dir)
+    active_interactions = resolve_active_interactions(doc, layout, config_dir)
+    lightbox, script = render_interaction_assets(active_interactions, template_dir)
 
-    return (
-        "<!doctype html>\n"
-        f"<html lang=\"{attr(metadata.get('language', 'en'))}\">\n"
-        "<head>\n"
-        "<meta charset=\"utf-8\">\n"
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-        f"<meta name=\"description\" content=\"{attr(description or title)}\">\n"
-        f"<title>{esc(title)}</title>\n"
-        f"<style>{base_css()}</style>\n"
-        "</head>\n"
-        "<body>\n"
-        "<header class=\"topbar\">"
-        f"<span class=\"topbar-title\">{esc(title)}</span>{topbar_links}<span class=\"topbar-spacer\"></span>"
-        "</header>\n"
-        "<article class=\"doc\">\n"
-        f"<header class=\"doc-header\"><h1>{esc(title)}</h1>{meta_html}</header>\n"
-        f"{render_toc([section for section in sections if is_object(section)])}\n"
-        f"<main>{render_sections(sections)}</main>\n"
-        f"<footer class=\"doc-footer\">{footer}</footer>\n"
-        "</article>\n"
-        f"{lightbox}\n"
-        f"{script}\n"
-        "</body>\n"
-        "</html>\n"
-    )
+    shell_name = text(layout.get("shell")) or "single"
+    shell = load_template_module(f"shell.{shell_name}.html", template_dir)
+    slots = {
+        "LANG": attr(metadata.get("language", "en")),
+        "DESCRIPTION": attr(description or title),
+        "TITLE": esc(title),
+        "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),
+        "TOPBAR_LINKS": topbar_links,
+        "DOC_META": meta_html,
+        "TOC": render_toc([section for section in sections if is_object(section)]),
+        "SECTIONS": render_sections(sections),
+        "FOOTER": footer,
+        "INTERACTION_HOOKS": lightbox,
+        "INTERACTION_SCRIPTS": script,
+    }
+    return render_shell(shell, slots)
 
 
 class ProfileParser(HTMLParser):

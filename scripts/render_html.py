@@ -31,7 +31,7 @@ def main() -> int:
             print_result(doc_result)
             return 1
 
-    html_text = render_html(doc)
+    html_text = render_html(doc, config_dir=args.config_dir)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(html_text, encoding="utf-8")
     print(f"rendered: {args.output}")

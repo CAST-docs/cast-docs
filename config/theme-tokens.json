@@ -9,7 +9,7 @@
       "modes": {
         "light": {
           "color": {
-            "bg": "#f7f8fa",
+            "bg": "#f8f8f7",
             "surface": "#ffffff",
             "surfaceSoft": "#f2f3f3",
             "text": "#24272b",

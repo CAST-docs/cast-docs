@@ -77,7 +77,7 @@ Borrow principles, not product scope:
 - `references/component-library.md`: reusable document components.
 - `references/writing-style.md`: writing and editing rules.
 - `references/examples.md`: JSON fixtures and generated/hand-authored HTML examples.
-- `assets/base-template.html`: reference single-file HTML template.
+- `assets/template-modules/`: shell template, base layout CSS, interaction scripts, and interaction hook HTML loaded by the renderer.
 - `scripts/`: renderer, document JSON validator, HTML profile validator, shared core helpers, and planned index builder.
 
 ## Implementation Status

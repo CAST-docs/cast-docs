@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "title": "CAST Docs",
+    "language": "en",
+    "status": "draft",
+    "owner": "CAST-docs",
+    "audience": ["everyone"],
+    "updatedAt": "2026-05-26",
+    "description": "Render engineering documents from JSON to self-contained HTML. Component Assembly Styled Templates.",
+    "shellLinks": [
+      {"label": "Repository", "href": "https://github.com/CAST-docs/cast-docs", "placement": "topbar"},
+      {"label": "README", "href": "https://github.com/CAST-docs/cast-docs#readme", "placement": "topbar"}
+    ]
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": ["overview", "scenarios", "design-principles", "get-started", "status"],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "source-refs", "values-grid"],
+      "optional": ["callout", "code-block", "list"],
+      "omitted": ["diff-block", "action-card", "participants", "diagram", "details-block", "table", "files", "acceptance-criteria", "open-questions", "inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {"label": "Format", "body": "Author engineering documents as structured JSON; render to one self-contained HTML file."},
+            {"label": "Output", "body": "Inline CSS, no CDN, no external scripts. Opens in any browser, attaches to email, archives, and publishes to GitHub Pages."},
+            {"label": "Use as", "body": "A Claude Code skill, or a standalone Python renderer with zero third-party dependencies."}
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "CAST Docs is a controlled replacement for Markdown-based engineering documents. The JSON is the source. The HTML is the artifact. The renderer enforces one visual system, one class vocabulary, and one validation contract across every output."
+        }
+      ]
+    },
+    {
+      "id": "scenarios",
+      "title": "Five built-in scenarios",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Each scenario picks a section order and a set of components that fit a common writing situation. Open any preview to see a rendered example; the matching JSON fixture lives next to it in the repository."
+        },
+        {
+          "type": "source-refs",
+          "items": [
+            {"label": "Problem investigation", "url": "./examples/problem-investigation.html", "text": "Tracking down a bug, regression, or anomaly."},
+            {"label": "Option decision", "url": "./examples/option-decision.html", "text": "Comparing options and recording why one was chosen."},
+            {"label": "Cross-team alignment", "url": "./examples/cross-team-alignment.html", "text": "Aligning multiple teams on scope and ownership."},
+            {"label": "Document digest", "url": "./examples/document-digest.html", "text": "Summarizing a long document or set of documents."},
+            {"label": "Principle showcase", "url": "./examples/principle-showcase.html", "text": "Curating principles or guidelines for reuse."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "design-principles",
+      "title": "Why this shape",
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {"title": "HTML, not Markdown", "body": "Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer."},
+            {"title": "JSON intermediate", "body": "Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output."},
+            {"title": "Self-contained output", "body": "Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages."},
+            {"title": "Config-driven renderer", "body": "Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "get-started",
+      "title": "Get started",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Requires Python 3.9 or newer. Standard library only. Clone the repository and render one of the bundled examples:"
+        },
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "git clone https://github.com/CAST-docs/cast-docs.git\ncd cast-docs\npython3 scripts/render_html.py \\\n  --input examples/problem-investigation.json \\\n  --output out.html \\\n  --validate"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Use as a Claude Code skill",
+          "body": "Clone into ~/.claude/skills/cast-docs and the skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document. References in references/ are loaded on demand."
+        },
+        {
+          "type": "source-refs",
+          "items": [
+            {"label": "README", "url": "https://github.com/CAST-docs/cast-docs#readme", "text": "Installation, validation pipeline, repository layout."},
+            {"label": "JSON schema", "url": "https://github.com/CAST-docs/cast-docs/blob/main/schemas/doc.schema.json", "text": "The contract every input document must satisfy."},
+            {"label": "Design references", "url": "https://github.com/CAST-docs/cast-docs/tree/main/references", "text": "Design laws, generation contract, module architecture, interactive features."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "title": "Status",
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {"title": "Done (P0)", "body": "Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation."},
+            {"title": "Planned", "body": "Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples."}
+          ]
+        }
+      ]
+    }
+  ]
+}

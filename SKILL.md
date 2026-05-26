@@ -13,13 +13,23 @@ Use this skill to produce stable, readable, self-contained HTML documents from n
 
 1. Determine the document type.
 2. Extract or infer metadata.
-3. Convert the input into a structured document JSON representation.
-4. Validate the JSON representation.
-5. Render a complete single-file HTML document.
-6. Validate the generated HTML against the controlled profile.
-7. Return the `.html` file or HTML content, depending on the environment.
+3. Declare the scenario skeleton and component selection plan.
+4. Convert the input into a structured document JSON representation.
+5. Validate the JSON representation.
+6. Render a complete single-file HTML document.
+7. Validate the generated HTML against the controlled profile.
+8. Return the `.html` file or HTML content, depending on the environment.
 
 Prefer the JSON intermediate representation before HTML rendering. This keeps document structure deterministic and prevents formatting drift.
+
+## Design Laws
+
+Read `references/design-laws.md` before implementation or generation decisions. The laws are binding:
+
+- Generated HTML must keep one consistent structure, class vocabulary, and visual style.
+- Load only the components and rendering behavior needed by the selected document type and scenario.
+- Apply a scenario-specific default skeleton when the user intent implies one.
+- Prefer reuse of existing schema fragments, components, templates, and examples before adding new structures.
 
 ## Initial Document Types
 
@@ -38,8 +48,8 @@ Read `references/document-types.md` before choosing required sections.
 - Generate complete HTML files, not fragments.
 - Inline CSS only.
 - Do not depend on external CSS, JavaScript, fonts, CDNs, images, or runtime services.
-- Default to zero JavaScript.
-- Use conservative links only: anchors, relative paths, `http:`, and `https:`.
+- Default to zero JavaScript for document content. Renderer-owned inline JavaScript is allowed only for approved progressive enhancements such as diagram zoom/download.
+- Use conservative user-content links only: anchors, relative paths, `http:`, and `https:`.
 - Escape user-provided text.
 - Do not invent critical facts; mark unknowns explicitly.
 
@@ -54,14 +64,28 @@ Borrow principles, not product scope:
 
 ## Resources
 
+- `config/`: configuration registries for document types, scenario skeletons, components, HTML profile, layouts, theme tokens, and approved interactions.
+- `schemas/doc.schema.json`: structured document JSON contract.
+- `examples/`: compact fixtures covering configured scenario skeletons.
+- `references/design-laws.md`: binding architecture laws for consistency, on-demand composition, scenario skeletons, and reuse.
+- `references/generation-contract.md`: type declaration, assembly manifest, template boundary, component trigger rules, and verification gates.
+- `references/implementation-architecture.md`: config-driven implementation model, CLI contract, and lightweight validator scope.
+- `references/module-architecture.md`: BlockSpec, renderer hub, theme/layout shell, document-set, and interaction module architecture.
+- `references/interactive-features.md`: controlled progressive enhancements for diagrams.
 - `references/document-types.md`: document types and required sections.
 - `references/html-profile.md`: allowed HTML profile and safety rules.
 - `references/component-library.md`: reusable document components.
 - `references/writing-style.md`: writing and editing rules.
-- `references/examples.md`: planned examples.
-- `assets/base-template.html`: planned single-file HTML template.
-- `scripts/`: planned renderer, JSON validator, HTML validator, and index builder.
+- `references/examples.md`: JSON fixtures and generated/hand-authored HTML examples.
+- `assets/base-template.html`: reference single-file HTML template.
+- `scripts/`: renderer, document JSON validator, HTML profile validator, shared core helpers, and planned index builder.
 
-## Skeleton Status
+## Implementation Status
 
-This repository currently contains the skill skeleton only. Scripts and templates are placeholders until the implementation phase.
+P0 generation is implemented:
+
+- `scripts/validate_doc_json.py` validates document JSON against the configured document types, scenario skeletons, components, shell links, and typed block payloads.
+- `scripts/render_html.py` renders document JSON to a self-contained HTML file with inline CSS and only the interaction modules needed by the document.
+- `scripts/validate_html.py` validates rendered HTML against `config/html-profile.json`.
+
+`scripts/build_index.py` is still planned for document-set index generation.

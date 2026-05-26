@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAST Docs design principles</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f7f8fa; --surface:#fff; --soft:#f1f5f9; --text:#1f2937; --muted:#64748b; --border:#d9e0e8; --primary:#2563eb; --accent:#0f766e; --code:#eef2f7; --shadow:0 12px 28px rgba(15,23,42,.08); --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; --mono:"SFMono-Regular",Consolas,monospace; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#101418; --surface:#161b22; --soft:#1f2630; --text:#e7edf3; --muted:#9aa7b5; --border:#2c3642; --primary:#7aa2ff; --accent:#55c6b3; --code:#202833; --shadow:none; } }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 var(--sans)} a{color:var(--primary)} code,pre{font-family:var(--mono)} code{background:var(--code);border-radius:4px;padding:.1em .35em} pre{overflow:auto;background:var(--code);border:1px solid var(--border);border-radius:6px;padding:14px}.doc{max-width:1040px;margin:0 auto;padding:40px 28px 72px}.doc-header{position:relative;border-bottom:2px solid var(--border);padding-bottom:24px;margin-bottom:24px}.doc-kicker{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.doc-header h1{margin:6px 0 10px;font-size:34px;line-height:1.15}.doc-meta{color:var(--muted);font-size:13px}.doc-summary,.toc{border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}.doc-summary ul,.toc ol{margin:0}.doc-section{margin:42px 0 0}.doc-section h2{margin:0 0 14px;padding-left:12px;border-left:4px solid var(--primary);font-size:23px}.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}.value-card{border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:14px 16px}.value-card strong{display:block;margin-bottom:4px}.diagram{position:relative;border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:16px;margin:16px 0;overflow:auto}.diagram figcaption{margin-bottom:10px;color:var(--muted);font-weight:700;font-size:13px}.diagram svg{display:block;max-width:100%;height:auto;margin:0 auto}.diagram-toolbar{position:absolute;top:10px;right:10px;display:flex;gap:6px;opacity:0}.diagram:hover .diagram-toolbar{opacity:1}.diagram-toolbar button,.lightbox button{border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);cursor:pointer;font:inherit;font-size:12px;padding:4px 8px}table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}th{background:var(--soft)}.open-questions{padding-left:22px}.doc-footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:32px;background:rgba(8,13,20,.82);z-index:1000}.lightbox.open{display:flex}.lightbox-panel{position:relative;width:min(1120px,96vw);height:min(760px,88vh);border-radius:10px;background:var(--surface);overflow:hidden}.lightbox-body{width:100%;height:100%;display:grid;place-items:center;overflow:hidden}.lightbox-body svg{max-width:92%;max-height:82%;transform-origin:center}.lightbox-toolbar{position:absolute;left:14px;bottom:14px;display:flex;gap:8px}.lightbox-close{position:absolute;top:12px;right:12px}@media(max-width:760px){.doc{padding:24px 16px 48px}.doc-header h1{font-size:27px}}@media print{.diagram-toolbar,.lightbox{display:none!important}.doc{max-width:none;padding:0}}
+  </style>
+</head>
+<body>
+  <article class="doc">
+    <header class="doc-header">
+      <div class="doc-kicker">Principle Showcase</div>
+      <h1>CAST Docs design principles</h1>
+      <div class="doc-meta">Status draft · Owner unknown · Updated 2026-05-13</div>
+    </header>
+
+    <section class="doc-summary"><ul><li><strong>Purpose:</strong> Keep generated HTML stable, reusable, and easy to validate.</li></ul></section>
+    <nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary">Summary</a></li><li><a href="#context">Context</a></li><li><a href="#principles-or-features">Principles Or Features</a></li><li><a href="#examples">Examples</a></li><li><a href="#application-guidance">Application Guidance</a></li><li><a href="#open-questions">Open Questions</a></li></ol></nav>
+
+    <main>
+      <section class="doc-section" id="summary"><h2>Summary</h2><p>CAST Docs is a config-driven renderer for stable, self-contained technical documents.</p></section>
+      <section class="doc-section" id="context"><h2>Context</h2><p>The renderer should produce consistent documents without copying large templates into model context.</p></section>
+      <section class="doc-section" id="principles-or-features">
+        <h2>Principles Or Features</h2>
+        <div class="values-grid">
+          <div class="value-card"><strong>Consistent output</strong>Use one shared shell and semantic classes.</div>
+          <div class="value-card"><strong>On-demand composition</strong>Render only selected components.</div>
+          <div class="value-card"><strong>Scenario skeletons</strong>Use configured section order.</div>
+          <div class="value-card"><strong>Reuse first</strong>Prefer existing components and schema fragments.</div>
+        </div>
+      </section>
+      <section class="doc-section" id="examples">
+        <h2>Examples</h2>
+        <figure class="diagram svg-figure" data-download-name="renderer-boundary">
+          <figcaption>Renderer boundary</figcaption>
+          <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer boundary">
+            <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker></defs>
+            <rect x="34" y="52" width="150" height="72" rx="8" fill="#eaf1ff" stroke="#2563eb"/><text x="109" y="92" text-anchor="middle" font-size="14">Document JSON</text>
+            <line x1="190" y1="88" x2="270" y2="88" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="230" y="72" text-anchor="middle" font-size="12">typed blocks</text>
+            <rect x="276" y="52" width="150" height="72" rx="8" fill="#e7f6f3" stroke="#0f766e"/><text x="351" y="92" text-anchor="middle" font-size="14">Renderer</text>
+            <line x1="432" y1="88" x2="506" y2="88" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/><text x="468" y="72" text-anchor="middle" font-size="12">HTML</text>
+          </svg>
+        </figure>
+        <pre><code>python3 scripts/render_html.py --input doc.json --output doc.html --validate</code></pre>
+      </section>
+      <section class="doc-section" id="application-guidance">
+        <h2>Application Guidance</h2>
+        <table><thead><tr><th>Need</th><th>Use</th></tr></thead><tbody><tr><td>Explain a rule</td><td>Paragraph or callout</td></tr><tr><td>Show equal principles</td><td>Values grid</td></tr><tr><td>Show structure</td><td>Diagram</td></tr></tbody></table>
+      </section>
+      <section class="doc-section" id="open-questions"><h2>Open Questions</h2><ul class="open-questions"><li>Should raw SVG fallback be disabled in locked-down environments?</li></ul></section>
+    </main>
+    <footer class="doc-footer">Generated example for CAST Docs. No external assets or runtime services.</footer>
+  </article>
+  <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
+  <script data-renderer-owned="true" data-interaction="diagram-viewer">(()=>{const lb=document.querySelector('.lightbox'),body=lb.querySelector('.lightbox-body'),bar=lb.querySelector('.lightbox-toolbar'),close=lb.querySelector('.lightbox-close');let z=1,x=0,y=0,src=null,clone=null;function base(svg){return svg.closest('[data-download-name]')?.getAttribute('data-download-name')||'diagram'}function ser(svg){const c=svg.cloneNode(true);if(!c.getAttribute('xmlns'))c.setAttribute('xmlns','http://www.w3.org/2000/svg');return new XMLSerializer().serializeToString(c)}function blob(b,n){const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),250)}function svgdl(s){blob(new Blob([ser(s)],{type:'image/svg+xml;charset=utf-8'}),`${base(s)}.svg`)}function png(s){const u=URL.createObjectURL(new Blob([ser(s)],{type:'image/svg+xml;charset=utf-8'})),i=new Image();i.onload=()=>{const vb=s.viewBox.baseVal,w=vb.width||900,h=vb.height||520,c=document.createElement('canvas');c.width=w*2;c.height=h*2;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.scale(2,2);ctx.drawImage(i,0,0);URL.revokeObjectURL(u);c.toBlob((p)=>p&&blob(p,`${base(s)}.png`),'image/png')};i.src=u}function apply(){if(clone)clone.style.transform=`translate(${x}px,${y}px) scale(${z})`}function btn(t,f){const b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('data-renderer-owned','true');b.addEventListener('click',f);return b}function open(s){src=s;clone=s.cloneNode(true);clone.removeAttribute('width');clone.removeAttribute('height');clone.style.transformOrigin='center';z=1;x=0;y=0;body.replaceChildren(clone);bar.replaceChildren(btn('Zoom -',()=>{z=Math.max(.25,z*.8);apply()}),btn('Zoom +',()=>{z=Math.min(8,z*1.25);apply()}),btn('Reset',()=>{z=1;x=0;y=0;apply()}),btn('SVG',()=>svgdl(src)),btn('PNG',()=>png(src)));lb.classList.add('open');apply()}function shut(){lb.classList.remove('open');body.replaceChildren();bar.replaceChildren();src=null;clone=null}close.addEventListener('click',shut);lb.addEventListener('click',(e)=>{if(e.target===lb)shut()});document.addEventListener('keydown',(e)=>{if(e.key==='Escape')shut()});body.addEventListener('wheel',(e)=>{if(!clone)return;e.preventDefault();z=Math.max(.25,Math.min(8,z*Math.exp(-e.deltaY*.0015)));apply()},{passive:false});let d=null;body.addEventListener('mousedown',(e)=>{if(clone)d={x:e.clientX,y:e.clientY,px:x,py:y}});window.addEventListener('mousemove',(e)=>{if(!d)return;x=d.px+e.clientX-d.x;y=d.py+e.clientY-d.y;apply()});window.addEventListener('mouseup',()=>{d=null});document.querySelectorAll('.diagram').forEach((fig)=>{const s=fig.querySelector('svg');if(!s)return;const t=document.createElement('div');t.className='diagram-toolbar';t.setAttribute('data-renderer-owned','true');t.append(btn('Open',()=>open(s)),btn('SVG',()=>svgdl(s)),btn('PNG',()=>png(s)));fig.appendChild(t)})})();</script>
+</body>
+</html>

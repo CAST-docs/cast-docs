@@ -2,6 +2,14 @@
 
 CAST Docs uses a controlled HTML subset. The goal is deterministic document output, not arbitrary web page generation.
 
+All generated documents must share the same base structure, class vocabulary, style system, and approved interaction model. Document-specific styling should be represented through approved semantic classes, not one-off CSS.
+
+The renderer owns the shared template, style system, and approved progressive-enhancement scripts. Generation should not copy the full template into the prompt context, and should not introduce external scripts, CDNs, fonts, images, or runtime services.
+
+Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download.
+
+Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
+
 ## Required Structure
 
 - Complete `<!doctype html>` document.
@@ -21,6 +29,8 @@ CAST Docs uses a controlled HTML subset. The goal is deterministic document outp
 Planned allowed tags:
 
 - `html`, `head`, `meta`, `title`, `style`, `body`
+- renderer-owned `script`
+- renderer-owned `button`
 - `article`, `header`, `nav`, `main`, `section`, `footer`
 - `h1`, `h2`, `h3`, `p`, `a`, `strong`, `em`, `code`, `pre`
 - `ul`, `ol`, `li`
@@ -31,7 +41,7 @@ Planned allowed tags:
 
 ## Disallowed Tags
 
-- `script`
+- user-content `script`
 - `iframe`
 - `object`
 - `embed`
@@ -41,7 +51,7 @@ Planned allowed tags:
 - `canvas`
 - `form`
 - `input`
-- `button`
+- user-content `button`
 - `textarea`
 - `select`
 
@@ -73,5 +83,13 @@ Use stable semantic classes such as:
 - `status-pill`
 - `section-empty`
 - `doc-footer`
+- `diagram`
+- `diagram-toolbar`
+- `svg-figure`
+- `lightbox`
+- `lightbox-panel`
+- `lightbox-body`
+- `lightbox-toolbar`
+- `lightbox-close`
 
 Do not generate random utility classes or Tailwind-style class lists.

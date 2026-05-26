@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "defaultTheme": "cast-default",
+  "themes": [
+    {
+      "id": "cast-default",
+      "label": "CAST Default",
+      "intent": "Calm technical documents with restrained color, dense readable content, and stable semantic components.",
+      "modes": {
+        "light": {
+          "color": {
+            "bg": "#f7f8fa",
+            "surface": "#ffffff",
+            "surfaceSoft": "#f2f3f3",
+            "text": "#24272b",
+            "muted": "#68717b",
+            "faint": "#9aa1a8",
+            "border": "#dedede",
+            "borderStrong": "#c8cacc",
+            "primary": "#566f99",
+            "primarySoft": "#f1f3f6",
+            "accent": "#52686a",
+            "accentSoft": "#eef3f2",
+            "info": "#566f99",
+            "infoSoft": "#f4f5f7",
+            "success": "#55745f",
+            "successSoft": "#eef4ef",
+            "warning": "#8a6d3b",
+            "warningSoft": "#f8f4ea",
+            "danger": "#9b4d49",
+            "dangerSoft": "#faf0ef",
+            "codeBg": "#f1f2f2"
+          },
+          "shadow": {
+            "sm": "0 1px 2px rgba(15, 23, 42, 0.05)",
+            "md": "0 8px 20px rgba(15, 23, 42, 0.07)",
+            "lg": "0 16px 44px rgba(15, 23, 42, 0.12)"
+          }
+        },
+        "dark": {
+          "color": {
+            "bg": "#111315",
+            "surface": "#17191c",
+            "surfaceSoft": "#202328",
+            "text": "#e2e5e8",
+            "muted": "#a1a7ad",
+            "faint": "#767d84",
+            "border": "#30343a",
+            "borderStrong": "#42474f",
+            "primary": "#9aaeca",
+            "primarySoft": "#1b2027",
+            "accent": "#9ab4b1",
+            "accentSoft": "#1a2424",
+            "info": "#9aaeca",
+            "infoSoft": "#1b2027",
+            "success": "#9ebaa5",
+            "successSoft": "#1a241d",
+            "warning": "#c7b27e",
+            "warningSoft": "#242117",
+            "danger": "#d09a95",
+            "dangerSoft": "#271b1a",
+            "codeBg": "#202328"
+          },
+          "shadow": {
+            "sm": "none",
+            "md": "none",
+            "lg": "0 0 0 1px rgba(255, 255, 255, 0.04)"
+          }
+        }
+      },
+      "typography": {
+        "sans": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+        "mono": "\"SFMono-Regular\", \"SF Mono\", Consolas, \"Liberation Mono\", monospace",
+        "size": {
+          "xs": "11px",
+          "sm": "12.5px",
+          "base": "15px",
+          "md": "16px",
+          "lg": "20px",
+          "xl": "28px",
+          "title": "34px"
+        },
+        "lineHeight": {
+          "tight": "1.25",
+          "normal": "1.65",
+          "loose": "1.75",
+          "code": "1.55"
+        },
+        "weight": {
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700
+        }
+      },
+      "space": {
+        "1": "4px",
+        "2": "8px",
+        "3": "12px",
+        "4": "16px",
+        "5": "20px",
+        "6": "24px",
+        "8": "32px",
+        "10": "40px",
+        "12": "48px",
+        "16": "64px"
+      },
+      "radius": {
+        "sm": "4px",
+        "md": "6px",
+        "lg": "8px",
+        "xl": "10px",
+        "pill": "999px"
+      },
+      "motion": {
+        "fast": "120ms",
+        "base": "160ms",
+        "slow": "220ms",
+        "ease": "cubic-bezier(0.2, 0, 0, 1)"
+      }
+    },
+    {
+      "id": "compact-doc",
+      "label": "Compact Doc",
+      "intent": "Higher-density technical reports with smaller cards, tighter headings, and less whitespace.",
+      "extends": "cast-default",
+      "overrides": {
+        "typography.size.base": "14px",
+        "typography.size.title": "30px",
+        "space.8": "28px",
+        "space.10": "34px",
+        "radius.lg": "6px"
+      }
+    }
+  ]
+}

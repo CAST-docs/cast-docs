@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "title": "CAST Docs design principles",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": ["maintainers"],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "principle-showcase",
+    "sections": [
+      "summary",
+      "context",
+      "principles-or-features",
+      "examples",
+      "application-guidance",
+      "open-questions"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "values-grid", "open-questions"],
+      "optional": ["inline-svg-figure", "code-block", "table"],
+      "omitted": ["diff-block", "action-card"]
+    }
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "title": "Summary",
+      "blocks": [
+        {"type": "summary", "items": [{"label": "Purpose", "body": "Keep generated HTML stable, reusable, and easy to validate."}]}
+      ]
+    },
+    {
+      "id": "context",
+      "title": "Context",
+      "blocks": [
+        {"type": "paragraph", "text": "The renderer should produce consistent documents without copying large templates into model context."}
+      ]
+    },
+    {
+      "id": "principles-or-features",
+      "title": "Principles Or Features",
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {"title": "Consistent output", "body": "Use one shared shell and semantic classes."},
+            {"title": "On-demand composition", "body": "Render only selected components."},
+            {"title": "Scenario skeletons", "body": "Use configured section order."},
+            {"title": "Reuse first", "body": "Prefer existing components and schema fragments."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "svg",
+          "title": "Renderer boundary",
+          "downloadName": "renderer-boundary",
+          "source": {
+            "format": "svg",
+            "content": "<svg viewBox=\"0 0 360 120\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#eef3ff\" stroke=\"#6b7a90\"/><text x=\"80\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Document JSON</text><line x1=\"155\" y1=\"60\" x2=\"205\" y2=\"60\" stroke=\"#6b7a90\" stroke-width=\"2\"/><rect x=\"210\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#f6f8fa\" stroke=\"#6b7a90\"/><text x=\"280\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Renderer</text></svg>"
+          }
+        },
+        {"type": "code", "language": "sh", "code": "python3 scripts/render_html.py --input doc.json --output doc.html --validate"}
+      ]
+    },
+    {
+      "id": "application-guidance",
+      "title": "Application Guidance",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Need", "Use"],
+          "rows": [["Explain a rule", "paragraph or callout"], ["Show equal principles", "values-grid"], ["Show structure", "diagram"]]
+        }
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open Questions",
+      "blocks": [
+        {"type": "open-questions", "questions": ["Should raw SVG fallback be disabled in locked-down environments?"]}
+      ]
+    }
+  ]
+}

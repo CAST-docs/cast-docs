@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "interactions": [
+    {
+      "id": "diagram-viewer",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["diagram", "diagram-toolbar", "lightbox"],
+      "capabilities": ["open-lightbox", "zoom", "pan", "download-svg", "download-png"],
+      "supportedBlockTypes": ["diagram"]
+    },
+    {
+      "id": "finder-open",
+      "enabledByDefault": false,
+      "rendererOwned": true,
+      "requiresScript": false,
+      "templateHooks": ["data-interaction=\"finder-open\""],
+      "capabilities": ["open-local-folder"],
+      "supportedBlockTypes": []
+    }
+  ]
+}

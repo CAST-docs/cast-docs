@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "documentTypes": [
+    {
+      "id": "engineering-spec",
+      "label": "Engineering Spec",
+      "purpose": "Design specifications that describe how a system or feature should work.",
+      "requiredSections": [
+        "summary",
+        "background",
+        "goals",
+        "non-goals",
+        "design",
+        "interfaces",
+        "edge-cases",
+        "security-and-privacy",
+        "testing-plan",
+        "rollout-plan",
+        "open-questions"
+      ]
+    },
+    {
+      "id": "engineering-plan",
+      "label": "Engineering Plan",
+      "purpose": "Execution plans that describe how engineering work will be delivered.",
+      "requiredSections": [
+        "summary",
+        "background",
+        "goals",
+        "non-goals",
+        "current-state",
+        "proposed-plan",
+        "alternatives-considered",
+        "risks",
+        "milestones",
+        "acceptance-criteria",
+        "open-questions"
+      ]
+    },
+    {
+      "id": "product-requirement",
+      "label": "Product Requirement",
+      "purpose": "Product requirements, user needs, flows, and success metrics.",
+      "requiredSections": [
+        "summary",
+        "problem",
+        "users",
+        "goals",
+        "non-goals",
+        "requirements",
+        "user-flows",
+        "metrics",
+        "dependencies",
+        "risks",
+        "open-questions"
+      ]
+    },
+    {
+      "id": "decision-record",
+      "label": "Decision Record",
+      "purpose": "Decisions that need context, tradeoffs, and follow-up actions.",
+      "requiredSections": [
+        "context",
+        "decision",
+        "options-considered",
+        "tradeoffs",
+        "consequences",
+        "follow-ups"
+      ]
+    },
+    {
+      "id": "research-note",
+      "label": "Research Note",
+      "purpose": "Research notes that separate question, evidence, interpretation, and recommendations.",
+      "requiredSections": [
+        "summary",
+        "question",
+        "findings",
+        "evidence",
+        "interpretation",
+        "limitations",
+        "recommendations",
+        "next-steps"
+      ]
+    }
+  ]
+}

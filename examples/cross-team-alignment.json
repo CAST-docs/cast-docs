@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "title": "Order status contract alignment",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": ["api consumers", "api owners"],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "cross-team-alignment",
+    "sections": [
+      "background",
+      "participants-and-responsibilities",
+      "source-of-truth",
+      "differences-or-gaps",
+      "impact",
+      "decisions",
+      "action-items",
+      "open-questions"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "participants", "source-refs", "open-questions"],
+      "optional": ["diff-block", "files", "action-card", "callout"],
+      "omitted": ["diagram", "values-grid", "inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "background",
+      "title": "Background",
+      "blocks": [
+        {"type": "summary", "items": [{"label": "Topic", "body": "Consumers and owners need one order status contract."}]}
+      ]
+    },
+    {
+      "id": "participants-and-responsibilities",
+      "title": "Participants And Responsibilities",
+      "blocks": [
+        {
+          "type": "participants",
+          "items": [
+            {"name": "Consumer Team", "role": "consumer", "responsibility": "Handle status display and fallback behavior."},
+            {"name": "Order Team", "role": "owner", "responsibility": "Own API implementation and compatibility."},
+            {"name": "Spec Team", "role": "maintainer", "responsibility": "Maintain source-of-truth schema."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-of-truth",
+      "title": "Source Of Truth",
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {"label": "API spec", "url": "https://example.com/spec/order-status", "text": "order-status schema"},
+            {"label": "Implementation", "url": "https://example.com/repo/order-service", "text": "order-service"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "differences-or-gaps",
+      "title": "Differences Or Gaps",
+      "blocks": [
+        {
+          "type": "diff",
+          "title": "Status field difference",
+          "left": {
+            "label": "Spec",
+            "language": "json",
+            "lines": [
+              {"kind": "context", "text": "\"status\": \"paid\""},
+              {"kind": "add", "text": "\"payment_status\": \"settled\""}
+            ]
+          },
+          "right": {
+            "label": "Implementation",
+            "language": "json",
+            "lines": [
+              {"kind": "context", "text": "\"status\": \"paid\""},
+              {"kind": "remove", "text": "\"payment_status\": missing"}
+            ]
+          }
+        },
+        {"type": "files", "items": [{"path": "api/order/response.go", "lineStart": 42, "note": "Response assembly path"}]}
+      ]
+    },
+    {
+      "id": "impact",
+      "title": "Impact",
+      "blocks": [
+        {"type": "callout", "variant": "warning", "title": "Impact", "body": "Consumers cannot distinguish paid from fully settled orders."}
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": "Decisions",
+      "blocks": [
+        {"type": "paragraph", "text": "The implementation will add the missing field and keep the existing status field unchanged."}
+      ]
+    },
+    {
+      "id": "action-items",
+      "title": "Action Items",
+      "blocks": [
+        {"type": "action", "priority": "p1", "title": "Patch response field", "description": "Add payment_status to the order response.", "prompt": "Update order response serialization and add compatibility tests."}
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open Questions",
+      "blocks": [
+        {"type": "open-questions", "questions": ["Should older clients receive a default payment_status value?"]}
+      ]
+    }
+  ]
+}

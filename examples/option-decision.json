@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "title": "Renderer implementation decision",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": ["engineering"],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "decision-record",
+    "scenario": "option-decision",
+    "sections": [
+      "context",
+      "decision-criteria",
+      "options-considered",
+      "comparison",
+      "decision",
+      "tradeoffs",
+      "follow-ups"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "table", "callout"],
+      "optional": ["acceptance-criteria", "action-card"],
+      "omitted": ["diagram", "diff-block", "inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "context",
+      "title": "Context",
+      "blocks": [
+        {"type": "summary", "items": [{"label": "Decision", "body": "Choose how the HTML renderer should transform document JSON."}]}
+      ]
+    },
+    {
+      "id": "decision-criteria",
+      "title": "Decision Criteria",
+      "blocks": [
+        {"type": "list", "items": ["Deterministic output", "Low token usage", "Simple validation", "Easy component reuse"]}
+      ]
+    },
+    {
+      "id": "options-considered",
+      "title": "Options Considered",
+      "blocks": [
+        {"type": "paragraph", "text": "The main options are direct HTML assembly and typed block rendering."}
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": "Comparison",
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "decision",
+          "headers": ["Option", "Strength", "Risk"],
+          "rows": [
+            ["Direct HTML assembly", "Fast to prototype", "Harder to validate"],
+            ["Typed block rendering", "Predictable and reusable", "Requires upfront schema"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "title": "Decision",
+      "blocks": [
+        {"type": "callout", "variant": "success", "title": "Decision", "body": "Use typed block rendering backed by configuration registries."}
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "title": "Tradeoffs",
+      "blocks": [
+        {"type": "paragraph", "text": "The schema costs more upfront but reduces drift once more scenarios are added."}
+      ]
+    },
+    {
+      "id": "follow-ups",
+      "title": "Follow-ups",
+      "blocks": [
+        {"type": "acceptance-criteria", "items": ["Every configured scenario has a fixture.", "Renderer rejects unknown block types."]},
+        {"type": "action", "priority": "p2", "title": "Implement schema validation", "description": "Wire doc.schema.json into validate_doc_json.py."}
+      ]
+    }
+  ]
+}

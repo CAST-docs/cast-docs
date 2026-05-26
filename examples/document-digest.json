@@ -1,0 +1,98 @@
+{
+  "metadata": {
+    "title": "API design notes digest",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": ["engineering"],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "research-note",
+    "scenario": "document-digest",
+    "sections": [
+      "summary",
+      "source-documents",
+      "key-findings",
+      "cross-document-relationships",
+      "limitations",
+      "next-steps"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "source-refs"],
+      "optional": ["table", "diagram", "details-block"],
+      "omitted": ["diff-block", "action-card", "inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "title": "Summary",
+      "blocks": [
+        {"type": "summary", "items": [{"label": "Digest", "body": "Two source documents converge on a typed API contract approach."}]}
+      ]
+    },
+    {
+      "id": "source-documents",
+      "title": "Source Documents",
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {"label": "Design note", "url": "https://example.com/design-note"},
+            {"label": "Review notes", "url": "https://example.com/review-notes"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key-findings",
+      "title": "Key Findings",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": ["Finding", "Evidence"],
+          "rows": [["Typed contracts reduce ambiguity", "Both documents mention schema drift"], ["Examples are required", "Review notes ask for fixtures"]]
+        }
+      ]
+    },
+    {
+      "id": "cross-document-relationships",
+      "title": "Cross-document Relationships",
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": "Document relationship",
+          "downloadName": "document-relationship",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {"id": "design", "label": "Design note"},
+              {"id": "review", "label": "Review notes"},
+              {"id": "schema", "label": "Schema contract"}
+            ],
+            "edges": [
+              {"from": "design", "to": "schema", "label": "defines"},
+              {"from": "review", "to": "schema", "label": "validates"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "limitations",
+      "title": "Limitations",
+      "blocks": [
+        {"type": "details", "summary": "Known gaps", "blocks": [{"type": "paragraph", "text": "The digest does not evaluate implementation complexity."}]}
+      ]
+    },
+    {
+      "id": "next-steps",
+      "title": "Next Steps",
+      "blocks": [
+        {"type": "list", "items": ["Convert the findings into schema tests.", "Review fixture coverage after renderer implementation."]}
+      ]
+    }
+  ]
+}

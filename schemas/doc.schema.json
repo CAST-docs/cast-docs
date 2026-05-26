@@ -1,0 +1,460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cast-docs.local/schemas/doc.schema.json",
+  "title": "CAST Docs Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "manifest", "sections"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "language"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "language": {"type": "string", "enum": ["zh-CN", "en"]},
+        "status": {"type": "string", "enum": ["draft", "review", "final", "unknown"]},
+        "owner": {"type": "string"},
+        "audience": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "updatedAt": {"type": "string", "format": "date"},
+        "description": {"type": "string"},
+        "shellLinks": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/shellLink"}
+        }
+      }
+    },
+    "manifest": {"$ref": "#/$defs/manifest"},
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/section"}
+    }
+  },
+  "$defs": {
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["documentType", "scenario", "sections", "components"],
+      "properties": {
+        "documentType": {"type": "string"},
+        "scenario": {"type": "string"},
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "optional", "omitted"],
+          "properties": {
+            "required": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "optional": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "omitted": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "shellLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "href"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "href": {
+          "type": "string",
+          "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
+        },
+        "placement": {"type": "string", "enum": ["topbar", "footer"], "default": "topbar"}
+      }
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "blocks"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "title": {"type": "string", "minLength": 1},
+        "blocks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/block"}
+        }
+      }
+    },
+    "block": {
+      "oneOf": [
+        {"$ref": "#/$defs/summaryBlock"},
+        {"$ref": "#/$defs/paragraphBlock"},
+        {"$ref": "#/$defs/listBlock"},
+        {"$ref": "#/$defs/calloutBlock"},
+        {"$ref": "#/$defs/tableBlock"},
+        {"$ref": "#/$defs/detailsBlock"},
+        {"$ref": "#/$defs/codeBlock"},
+        {"$ref": "#/$defs/diagramBlock"},
+        {"$ref": "#/$defs/diffBlock"},
+        {"$ref": "#/$defs/participantsBlock"},
+        {"$ref": "#/$defs/sourceRefsBlock"},
+        {"$ref": "#/$defs/filesBlock"},
+        {"$ref": "#/$defs/actionBlock"},
+        {"$ref": "#/$defs/valuesGridBlock"},
+        {"$ref": "#/$defs/acceptanceCriteriaBlock"},
+        {"$ref": "#/$defs/openQuestionsBlock"}
+      ]
+    },
+    "summaryBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "summary"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "body"],
+            "properties": {
+              "label": {"type": "string"},
+              "body": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "paragraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": {"const": "paragraph"},
+        "text": {"type": "string"}
+      }
+    },
+    "listBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "list"},
+        "ordered": {"type": "boolean", "default": false},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "calloutBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "variant", "body"],
+      "properties": {
+        "type": {"const": "callout"},
+        "variant": {"type": "string", "enum": ["info", "warning", "danger", "success"]},
+        "title": {"type": "string"},
+        "body": {"type": "string"}
+      }
+    },
+    "tableBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "headers", "rows"],
+      "properties": {
+        "type": {"const": "table"},
+        "caption": {"type": "string"},
+        "tableType": {"type": "string", "enum": ["data", "risk", "decision"]},
+        "headers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "detailsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "summary", "blocks"],
+      "properties": {
+        "type": {"const": "details"},
+        "summary": {"type": "string"},
+        "open": {"type": "boolean", "default": false},
+        "blocks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/block"}
+        }
+      }
+    },
+    "codeBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "code"],
+      "properties": {
+        "type": {"const": "code"},
+        "language": {"type": "string"},
+        "code": {"type": "string"}
+      }
+    },
+    "diagramBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "kind", "source"],
+      "properties": {
+        "type": {"const": "diagram"},
+        "kind": {"type": "string", "enum": ["sequence", "flow", "architecture", "svg"]},
+        "title": {"type": "string"},
+        "downloadName": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "source": {
+          "oneOf": [
+            {"$ref": "#/$defs/sequenceDiagramSource"},
+            {"$ref": "#/$defs/flowDiagramSource"},
+            {"$ref": "#/$defs/svgDiagramSource"}
+          ]
+        }
+      }
+    },
+    "sequenceDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "steps"],
+      "properties": {
+        "format": {"const": "structured-sequence"},
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to", "label"],
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "label": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "flowDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "nodes", "edges"],
+      "properties": {
+        "format": {"const": "structured-flow"},
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"type": "string"}
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to"],
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "label": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "svgDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "content"],
+      "properties": {
+        "format": {"const": "svg"},
+        "content": {"type": "string", "minLength": 1}
+      }
+    },
+    "diffBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "left", "right"],
+      "properties": {
+        "type": {"const": "diff"},
+        "title": {"type": "string"},
+        "left": {"$ref": "#/$defs/diffSide"},
+        "right": {"$ref": "#/$defs/diffSide"}
+      }
+    },
+    "diffSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "lines"],
+      "properties": {
+        "label": {"type": "string"},
+        "language": {"type": "string"},
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "text"],
+            "properties": {
+              "kind": {"type": "string", "enum": ["add", "remove", "warning", "context"]},
+              "text": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "participantsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "participants"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "responsibility"],
+            "properties": {
+              "name": {"type": "string"},
+              "role": {"type": "string"},
+              "responsibility": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "sourceRefsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "source-refs"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "url"],
+            "properties": {
+              "label": {"type": "string"},
+              "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
+              "text": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "filesBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "files"},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path"],
+            "properties": {
+              "path": {"type": "string"},
+              "lineStart": {"type": "integer", "minimum": 1},
+              "lineEnd": {"type": "integer", "minimum": 1},
+              "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
+              "note": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "actionBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "title", "description"],
+      "properties": {
+        "type": {"const": "action"},
+        "priority": {"type": "string", "enum": ["p0", "p1", "p2", "none"]},
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "prompt": {"type": "string"}
+      }
+    },
+    "valuesGridBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "values-grid"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title", "body"],
+            "properties": {
+              "title": {"type": "string"},
+              "body": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "acceptanceCriteriaBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "acceptance-criteria"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "openQuestionsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "questions"],
+      "properties": {
+        "type": {"const": "open-questions"},
+        "questions": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

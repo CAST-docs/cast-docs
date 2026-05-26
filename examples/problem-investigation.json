@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "title": "Checkout latency spike investigation",
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": ["engineering"],
+    "updatedAt": "2026-05-13"
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "problem-investigation",
+    "sections": [
+      "background",
+      "problem-symptoms",
+      "impact-scope",
+      "investigation-path",
+      "core-logs-and-evidence",
+      "root-cause",
+      "mitigation-and-fix",
+      "validation",
+      "prevention-measures",
+      "open-questions"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "callout", "open-questions"],
+      "optional": ["table", "details-block", "code-block", "diagram", "files", "action-card"],
+      "omitted": ["diff-block", "values-grid", "inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "background",
+      "title": "Background",
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {"label": "Scope", "body": "Checkout requests showed intermittent latency spikes."},
+            {"label": "Window", "body": "Observed during the latest traffic peak."}
+          ]
+        },
+        {"type": "paragraph", "text": "This document records the investigation path and follow-up actions."}
+      ]
+    },
+    {
+      "id": "problem-symptoms",
+      "title": "Problem Symptoms",
+      "blocks": [
+        {"type": "callout", "variant": "warning", "title": "Symptom", "body": "P95 latency increased while success rate stayed mostly stable."}
+      ]
+    },
+    {
+      "id": "impact-scope",
+      "title": "Impact Scope",
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "risk",
+          "headers": ["Area", "Impact", "Confidence"],
+          "rows": [["Checkout API", "Higher latency", "high"], ["Payment callback", "No direct impact", "medium"]]
+        }
+      ]
+    },
+    {
+      "id": "investigation-path",
+      "title": "Investigation Path",
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "sequence",
+          "title": "Call chain",
+          "downloadName": "checkout-call-chain",
+          "source": {
+            "format": "structured-sequence",
+            "steps": [
+              {"from": "Client", "to": "Checkout API", "label": "POST /checkout"},
+              {"from": "Checkout API", "to": "Inventory", "label": "reserve items"},
+              {"from": "Inventory", "to": "Checkout API", "label": "slow response"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "core-logs-and-evidence",
+      "title": "Core Logs And Evidence",
+      "blocks": [
+        {
+          "type": "details",
+          "summary": "Representative log",
+          "blocks": [
+            {"type": "code", "language": "text", "code": "checkout latency=1840ms dependency=inventory status=200"}
+          ]
+        },
+        {
+          "type": "files",
+          "items": [
+            {"path": "services/checkout/inventory_client.go", "lineStart": 88, "note": "Dependency call without timeout override"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "root-cause",
+      "title": "Root Cause",
+      "blocks": [
+        {"type": "callout", "variant": "danger", "title": "Root cause", "body": "The checkout path inherited a longer dependency timeout than intended."}
+      ]
+    },
+    {
+      "id": "mitigation-and-fix",
+      "title": "Mitigation And Fix",
+      "blocks": [
+        {"type": "action", "priority": "p1", "title": "Set checkout-specific timeout", "description": "Use a bounded timeout for inventory reservation.", "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."}
+      ]
+    },
+    {
+      "id": "validation",
+      "title": "Validation",
+      "blocks": [
+        {"type": "acceptance-criteria", "items": ["P95 latency returns to the normal band.", "Timeout behavior is covered by unit tests."]}
+      ]
+    },
+    {
+      "id": "prevention-measures",
+      "title": "Prevention Measures",
+      "blocks": [
+        {"type": "list", "items": ["Add dependency timeout review to service checklist.", "Alert on dependency latency before checkout P95 regresses."]}
+      ]
+    },
+    {
+      "id": "open-questions",
+      "title": "Open Questions",
+      "blocks": [
+        {"type": "open-questions", "questions": ["Should inventory expose a faster reservation endpoint for checkout?"]}
+      ]
+    }
+  ]
+}

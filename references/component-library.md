@@ -2,6 +2,30 @@
 
 This file defines planned reusable document components. It is a skeleton for the future renderer and examples.
 
+Components are loaded on demand. A document should include only the components required by its document type, scenario skeleton, and available content.
+
+Before adding a new component, check whether an existing component plus a clearer section title can represent the content.
+
+The implementation target is to support the full component set in this file. On-demand composition controls when a component is rendered; it is not a reason to omit component implementations from the renderer.
+
+## Component Selection Contract
+
+Each reusable component should eventually define:
+
+- Purpose.
+- Required trigger.
+- Optional trigger.
+- JSON shape.
+- HTML rendering rule.
+- Allowed child content.
+- Empty-state behavior.
+
+The generator must record selected components in the assembly manifest before rendering. Strong triggers are mandatory. Optional triggers should be included only when they add new information.
+
+Component availability and triggers should be represented in configuration so new scenarios can reuse existing components without renderer changes.
+
+Scenario skeletons do not whitelist components. Any configured component may be used in any scenario when its trigger matches and it helps communicate the content. The renderer should validate the component payload, not block it because of the scenario name.
+
 ## Summary Block
 
 Use for the concise document summary near the top of the page.
@@ -23,6 +47,7 @@ Planned variants:
 - `info`
 - `warning`
 - `danger`
+- `success`
 
 ## Tables
 
@@ -39,6 +64,8 @@ Use for small configuration, schema, API, or command examples when necessary.
 ## Inline SVG Figure
 
 Use only for simple self-contained diagrams. SVG must follow the controlled HTML profile.
+
+Diagram components should support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction.
 
 ## Acceptance Criteria
 

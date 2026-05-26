@@ -1,0 +1,235 @@
+# Module Architecture
+
+CAST Docs is a small static document rendering system. It should feel like a restrained document product, while keeping the final artifact self-contained and easy to validate.
+
+## Architecture Shape
+
+```text
+Document JSON
+  -> Manifest Resolver
+  -> Block Registry
+  -> Renderer Hub
+  -> Theme + Layout Resolver
+  -> Shell Composer
+  -> Interaction Injector
+  -> HTML Profile Validator
+  -> Self-contained HTML
+```
+
+The important boundary: generated content describes structure and intent. Renderer modules own HTML assembly, styling, and approved interactions.
+
+## Module Types
+
+### Document Schema
+
+Owns the JSON contract:
+
+- Metadata.
+- Manifest.
+- Sections.
+- Typed blocks.
+- Structured diagram source with controlled SVG fallback.
+
+Source files:
+
+- `schemas/doc.schema.json`
+- `config/document-types.json`
+- `config/scenario-skeletons.json`
+
+### BlockSpec
+
+Each block should eventually be described as a BlockSpec.
+
+```json
+{
+  "type": "callout",
+  "schemaRef": "#/$defs/calloutBlock",
+  "renderer": "callout",
+  "allowedChildren": ["paragraph", "list", "code"],
+  "classes": ["callout", "callout-info", "callout-warning"],
+  "interactions": [],
+  "validation": ["variant-known", "body-non-empty"],
+  "examples": ["examples/problem-investigation.json#root-cause"]
+}
+```
+
+This mirrors the useful part of Lark/Docmost: every module has schema, renderer, attributes, and serialization rules.
+
+### Renderer Hub
+
+The renderer hub maps `block.type` to rendering functions. It should avoid scenario-specific branches.
+
+```text
+paragraph -> renderParagraph
+callout   -> renderCallout
+table     -> renderTable
+diagram   -> renderDiagram
+diff      -> renderDiff
+```
+
+Scenarios affect which sections and components are selected. They should not change how a block renders.
+
+### Theme Tokens
+
+Theme tokens carry the restrained visual system. They should compile into CSS custom properties.
+
+Source file:
+
+- `config/theme-tokens.json`
+
+Design rules:
+
+- One primary color.
+- One accent color.
+- Neutral surfaces first.
+- Semantic state colors for info/success/warning/danger.
+- 4px spacing rhythm.
+- 4-10px regular radii.
+- No decorative gradients or one-off palettes.
+
+### Layout Shells
+
+Layout shells control document chrome.
+
+Source file:
+
+- `config/layouts.json`
+
+Supported shells:
+
+- `single-doc`: one standalone HTML file with inline table of contents.
+- `document-set`: a static documentation set with index, sidebar, topbar breadcrumbs, and previous/next pagination.
+
+The final output may still be self-contained per file. `document-set` means a group of self-contained HTML files that share the same generated navigation model.
+
+Shells may expose optional link slots, such as `topbar-links`, for caller-provided jumps back to an index page, repository home, or parent document. Empty slots must not render visible chrome. These links are document navigation, not implementation metadata.
+
+### Interaction Modules
+
+Interactions are renderer-owned progressive enhancements. They are injected only when selected by layout or manifest.
+
+Source file:
+
+- `config/interactions.json`
+
+Examples:
+
+- `diagram-viewer`: lightbox, zoom, pan, SVG download, PNG download.
+- `finder-open`: local folder opening through installer-managed URL scheme.
+- `copy-code`: copy code or prompt blocks.
+- `toc-scrollspy`: active heading highlight in long document-set pages.
+
+Generated content must not author scripts. It may only provide semantic hooks such as `data-interaction`, `data-download-name`, or `data-component`.
+
+### Shell Composer
+
+The shell composer combines:
+
+- Layout shell.
+- Optional shell links from `metadata.shellLinks`.
+- Theme CSS variables.
+- Component CSS.
+- Rendered sections.
+- Selected interaction modules.
+- Footer metadata.
+
+The composer should be the only place where the final one-file HTML is assembled.
+
+### Validator
+
+Validation should remain layered:
+
+1. `schema`: JSON shape is valid.
+2. `manifest`: selected document type, scenario, sections, and components are valid.
+3. `render`: every block type has a renderer and every required section is present.
+4. `html-profile`: allowed tags, attributes, classes, URL schemes, and renderer-owned scripts.
+5. `output`: no unresolved placeholders, TOC links resolve, interaction hooks match injected modules.
+
+## Document Set Model
+
+`document-set` is the main lesson from Jsonita. A set manifest should define navigation once:
+
+```json
+{
+  "id": "architecture-pack",
+  "title": "Architecture Pack",
+  "sections": [
+    {
+      "id": "plan",
+      "label": "Plan",
+      "chapters": [
+        {
+          "id": "overview",
+          "number": "00",
+          "title": "Overview",
+          "href": "plan/00_overview.html",
+          "source": "examples/overview.json"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Renderer behavior:
+
+- Generate `index.html`.
+- Generate each chapter HTML.
+- Inject the same sidebar/topbar/pagination model into each chapter.
+- Keep every generated HTML openable by itself.
+- Avoid runtime navigation generation unless an interaction module explicitly needs it.
+
+## Serialization Rules
+
+Borrow the Docmost idea of semantic serialization, not its full editor stack.
+
+Recommended HTML attributes:
+
+- `data-component="<component-id>"`
+- `data-block-type="<block-type>"`
+- `data-section-id="<section-id>"`
+- `data-interaction="<interaction-id>"`
+- `data-download-name="<safe-name>"`
+
+These attributes make output inspectable and validateable without tying CAST Docs to a browser editor.
+
+## Source Layout Target
+
+Implementation can evolve toward:
+
+```text
+config/
+  document-types.json
+  scenario-skeletons.json
+  components.json
+  html-profile.json
+  interactions.json
+  layouts.json
+  theme-tokens.json
+schemas/
+  doc.schema.json
+assets/
+  base-template.html
+  template-modules/
+    shell.single.html
+    shell.document-set.html
+    styles.base.css
+    interactions.diagram-viewer.js
+    interactions.finder-open.js
+scripts/
+  render_html.py
+  validate_doc_json.py
+  validate_html.py
+  build_index.py
+```
+
+The final generated artifact remains a complete HTML file. The source modules only keep implementation maintainable.
+
+## Near-term Implementation Order
+
+1. Render `single-doc` from JSON using existing `base-template.html`.
+2. Compile `theme-tokens.json` into CSS variables.
+3. Render selected block types through a renderer registry.
+4. Inject interaction modules only when selected.
+5. Add `document-set` generation and index building.
+6. Replace hand-authored example HTML with renderer-generated example HTML.

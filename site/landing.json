@@ -151,6 +151,18 @@
           }
         },
         {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Component gallery",
+            "zh-CN": "组件大全"
+          },
+          "body": {
+            "en": "Use the component gallery as a block reference and visual acceptance page, not as a writing scenario.",
+            "zh-CN": "组件大全作为 block 参考和视觉验收页使用，不作为写作场景。"
+          }
+        },
+        {
           "type": "source-refs",
           "items": [
             {
@@ -207,11 +219,16 @@
                 "en": "Curating principles or guidelines for reuse.",
                 "zh-CN": "整理可复用的原则或指南。"
               }
-            },
+            }
+          ]
+        },
+        {
+          "type": "source-refs",
+          "items": [
             {
               "label": {
-                "en": "Component gallery",
-                "zh-CN": "组件大全"
+                "en": "Open component gallery",
+                "zh-CN": "打开组件大全"
               },
               "url": "./examples/component-gallery.html",
               "text": {

@@ -53,8 +53,7 @@
       "overview",
       "scenarios",
       "design-principles",
-      "get-started",
-      "status"
+      "get-started"
     ],
     "components": {
       "required": [
@@ -378,40 +377,6 @@
               "text": {
                 "en": "Design laws, generation contract, module architecture, interactive features.",
                 "zh-CN": "设计法则、生成契约、模块架构和交互能力。"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "status",
-      "title": {
-        "en": "Status",
-        "zh-CN": "状态"
-      },
-      "blocks": [
-        {
-          "type": "values-grid",
-          "items": [
-            {
-              "title": {
-                "en": "Done (P0)",
-                "zh-CN": "已完成（P0）"
-              },
-              "body": {
-                "en": "Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation.",
-                "zh-CN": "已支持单文档渲染和完整 block 库。cast-default 主题由 theme token 编译生成。图表查看器支持缩放、拖拽、SVG 和 PNG 下载。已具备 JSON schema 与 HTML profile 校验。"
-              }
-            },
-            {
-              "title": {
-                "en": "Planned",
-                "zh-CN": "计划中"
-              },
-              "body": {
-                "en": "Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples.",
-                "zh-CN": "支持带侧边栏、顶部栏和分页的文档集布局。为 GitHub Pages 友好的多页面站点生成索引。将排版和间距 token 编译进基础 CSS。用渲染器生成的示例 HTML 替换剩余手写样例。"
               }
             }
           ]

@@ -629,6 +629,8 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
         for index, item in enumerate(require_array("items")):
             validate_inline(item, f"{path}.items[{index}]", errors)
     elif block_type == "open-questions":
+        if block.get("title") is not None:
+            validate_localized_string(block.get("title"), f"{path}.title", errors, non_empty=True)
         for index, item in enumerate(require_array("questions")):
             validate_inline(item, f"{path}.questions[{index}]", errors)
     elif block_type == "media":
@@ -1218,7 +1220,8 @@ def render_acceptance_criteria(block: dict[str, Any], ctx: RenderContext | None 
 
 def render_open_questions(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     items = "".join(f"<li>{render_inline(item, ctx)}</li>" for item in as_list(block.get("questions")))
-    return f"<ul class=\"open-questions\">{items}</ul>"
+    title = render_text(block.get("title"), ctx) if block.get("title") is not None else render_i18n_text(ctx, "openQuestions.title", "Open questions")
+    return f"<section class=\"open-questions-block\"><h3 class=\"open-questions-title\">{title}</h3><ul class=\"open-questions\">{items}</ul></section>"
 
 
 def render_media(block: dict[str, Any], ctx: RenderContext | None = None) -> str:

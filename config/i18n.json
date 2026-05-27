@@ -29,6 +29,7 @@
         "diagram.zoomOut": "Zoom -",
         "metadata.owner": "Owner",
         "metadata.updated": "Updated",
+        "openQuestions.title": "Open questions",
         "state.noContent": "No content.",
         "state.unsupportedBlock": "Unsupported block",
         "state.untitled": "Untitled"
@@ -61,6 +62,7 @@
         "diagram.zoomOut": "缩小",
         "metadata.owner": "负责人",
         "metadata.updated": "更新于",
+        "openQuestions.title": "开放问题",
         "state.noContent": "暂无内容。",
         "state.unsupportedBlock": "不支持的内容块",
         "state.untitled": "未命名"

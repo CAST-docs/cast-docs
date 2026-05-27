@@ -199,6 +199,8 @@
     "prompt-block",
     "values-grid",
     "value-card",
+    "open-questions-block",
+    "open-questions-title",
     "acceptance-criteria",
     "open-questions",
     "doc-footer"

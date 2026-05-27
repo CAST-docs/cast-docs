@@ -1390,6 +1390,10 @@
         },
         {
           "type": "open-questions",
+          "title": {
+            "en": "Open questions component",
+            "zh-CN": "开放问题组件"
+          },
           "questions": [
             {
               "en": "Should future icon components become first-class JSON blocks?",

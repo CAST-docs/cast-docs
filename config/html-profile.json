@@ -23,6 +23,9 @@
       "strong",
       "em",
       "code",
+      "del",
+      "u",
+      "mark",
       "pre",
       "ul",
       "ol",
@@ -67,7 +70,8 @@
     "data-component",
     "data-interaction",
     "data-download-name",
-    "data-renderer-owned"
+    "data-renderer-owned",
+    "data-mark"
   ],
   "tagAttributes": {
     "html": ["lang"],

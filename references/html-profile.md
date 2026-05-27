@@ -32,7 +32,7 @@ Planned allowed tags:
 - renderer-owned `script`
 - renderer-owned `button`
 - `article`, `header`, `nav`, `main`, `section`, `footer`
-- `h1`, `h2`, `h3`, `p`, `a`, `strong`, `em`, `code`, `pre`
+- `h1`, `h2`, `h3`, `p`, `a`, `strong`, `em`, `code`, `pre`, `del`, `u`, `mark`
 - `ul`, `ol`, `li`
 - `table`, `thead`, `tbody`, `tr`, `th`, `td`
 - `dl`, `dt`, `dd`
@@ -93,3 +93,7 @@ Use stable semantic classes such as:
 - `lightbox-close`
 
 Do not generate random utility classes or Tailwind-style class lists.
+
+## Inline Marks
+
+Inline semantic marks use the `data-mark` attribute (`deprecated`, `term`, `metric`) rather than CSS classes; visual marks use the `del`, `u`, and `mark` tags. Inline `code` may carry `data-mark="ref"` for a code reference. No new classes are introduced for inline formatting.

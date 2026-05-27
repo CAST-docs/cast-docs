@@ -130,6 +130,119 @@ def collect_block_types(blocks: list[Any], found: set[str]) -> None:
         collect_block_types(as_list(block.get("blocks")), found)
 
 
+INLINE_MARK_CATEGORIES: dict[str, str] = {
+    "strong": "visual",
+    "em": "visual",
+    "code": "visual",
+    "del": "visual",
+    "u": "visual",
+    "mark": "visual",
+    "deprecated": "semantic",
+    "term": "semantic",
+    "metric": "semantic",
+    "link": "ref",
+    "ref": "ref",
+}
+INLINE_LINK_SCHEMES = {"anchor", "relative", "http", "https"}
+
+
+def inline_anchor(href: Any, inner: str) -> str | None:
+    if not isinstance(href, str):
+        return None
+    kind = href_kind(href)
+    if kind not in INLINE_LINK_SCHEMES:
+        return None
+    target = " target=\"_blank\" rel=\"noopener noreferrer\"" if kind in ("http", "https") else ""
+    return f"<a href=\"{attr(href)}\"{target}>{inner}</a>"
+
+
+def apply_inline_mark(mark: Any, inner: str) -> str:
+    if isinstance(mark, str):
+        mark_type, spec = mark, {}
+    elif is_object(mark) and isinstance(mark.get("type"), str):
+        mark_type, spec = mark["type"], mark
+    else:
+        return inner
+    category = INLINE_MARK_CATEGORIES.get(mark_type)
+    if category == "visual":
+        return f"<{mark_type}>{inner}</{mark_type}>"
+    if category == "semantic":
+        if mark_type == "term":
+            definition = spec.get("definition")
+            title = f" title=\"{attr(definition)}\"" if isinstance(definition, str) and definition else ""
+            return f"<span data-mark=\"term\"{title}>{inner}</span>"
+        return f"<span data-mark=\"{attr(mark_type)}\">{inner}</span>"
+    if category == "ref":
+        if mark_type == "link":
+            return inline_anchor(spec.get("href"), inner) or inner
+        coded = f"<code data-mark=\"ref\">{inner}</code>"
+        return inline_anchor(spec.get("url"), coded) or coded
+    return inner
+
+
+def render_run(run: Any) -> str:
+    if not is_object(run):
+        return ""
+    out = esc(run.get("text"))
+    for mark in as_list(run.get("marks")):
+        out = apply_inline_mark(mark, out)
+    return out
+
+
+def render_inline(value: Any) -> str:
+    if isinstance(value, list):
+        return "".join(render_run(run) for run in value)
+    return esc(value)
+
+
+def validate_inline_mark(mark: Any, path: str, errors: list[str]) -> None:
+    if isinstance(mark, str):
+        category = INLINE_MARK_CATEGORIES.get(mark)
+        if category is None:
+            errors.append(f"{path} is an unknown inline mark: {mark}")
+        elif category == "ref":
+            errors.append(f"{path} '{mark}' must use object form with its required fields")
+        return
+    if not is_object(mark) or not isinstance(mark.get("type"), str):
+        errors.append(f"{path} must be a mark name or an object with a string type")
+        return
+    mark_type = mark["type"]
+    category = INLINE_MARK_CATEGORIES.get(mark_type)
+    if category is None:
+        errors.append(f"{path}.type is an unknown inline mark: {mark_type}")
+        return
+    if mark_type == "link":
+        href = mark.get("href")
+        if not isinstance(href, str) or href_kind(href) not in INLINE_LINK_SCHEMES:
+            errors.append(f"{path}.href must be an anchor, relative, or http(s) URL")
+    elif mark_type == "ref":
+        if not isinstance(mark.get("path"), str) or not mark.get("path"):
+            errors.append(f"{path}.path must be a non-empty string")
+        line = mark.get("line")
+        if line is not None and (not isinstance(line, int) or isinstance(line, bool)):
+            errors.append(f"{path}.line must be an integer")
+        url = mark.get("url")
+        if url is not None and (not isinstance(url, str) or href_kind(url) not in INLINE_LINK_SCHEMES):
+            errors.append(f"{path}.url must be an anchor, relative, or http(s) URL")
+
+
+def validate_inline(value: Any, path: str, errors: list[str]) -> None:
+    if isinstance(value, str):
+        return
+    if not isinstance(value, list):
+        errors.append(f"{path} must be a string or an array of runs")
+        return
+    for index, run in enumerate(value):
+        run_path = f"{path}[{index}]"
+        if not is_object(run):
+            errors.append(f"{run_path} must be a run object")
+            continue
+        if not isinstance(run.get("text"), str):
+            errors.append(f"{run_path}.text must be a string")
+        for mark_index, mark in enumerate(as_list(run.get("marks"))):
+            validate_inline_mark(mark, f"{run_path}.marks[{mark_index}]", errors)
+
+
 def validate_block(block: Any, path: str, errors: list[str]) -> None:
     if not is_object(block):
         errors.append(f"{path} must be an object")
@@ -157,20 +270,16 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 continue
             if not isinstance(item.get("label"), str) or not item.get("label"):
                 errors.append(f"{path}.items[{index}].label must be a non-empty string")
-            if not isinstance(item.get("body"), str):
-                errors.append(f"{path}.items[{index}].body must be a string")
+            validate_inline(item.get("body"), f"{path}.items[{index}].body", errors)
     elif block_type == "paragraph":
-        if not isinstance(block.get("text"), str):
-            errors.append(f"{path}.text must be a string")
+        validate_inline(block.get("text"), f"{path}.text", errors)
     elif block_type == "list":
         for index, item in enumerate(require_array("items")):
-            if not isinstance(item, str):
-                errors.append(f"{path}.items[{index}] must be a string")
+            validate_inline(item, f"{path}.items[{index}]", errors)
     elif block_type == "callout":
         if block.get("variant") not in {"info", "warning", "danger", "success"}:
             errors.append(f"{path}.variant must be one of info, warning, danger, success")
-        if not isinstance(block.get("body"), str):
-            errors.append(f"{path}.body must be a string")
+        validate_inline(block.get("body"), f"{path}.body", errors)
     elif block_type == "table":
         headers = require_array("headers")
         rows = require_array("rows")
@@ -184,8 +293,7 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
             if headers and len(row) != len(headers):
                 errors.append(f"{path}.rows[{row_index}] must have {len(headers)} cells")
             for cell_index, cell in enumerate(row):
-                if not isinstance(cell, str):
-                    errors.append(f"{path}.rows[{row_index}][{cell_index}] must be a string")
+                validate_inline(cell, f"{path}.rows[{row_index}][{cell_index}]", errors)
     elif block_type == "details":
         require_string("summary")
         for index, child in enumerate(require_array("blocks")):
@@ -244,8 +352,10 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                     errors.append(f"{path}.{side_key}.lines[{index}].text must be a string")
     elif block_type == "participants":
         for index, item in enumerate(require_array("items")):
-            if not is_object(item) or not isinstance(item.get("name"), str) or not isinstance(item.get("responsibility"), str):
-                errors.append(f"{path}.items[{index}] must include name and responsibility")
+            if not is_object(item) or not isinstance(item.get("name"), str):
+                errors.append(f"{path}.items[{index}] must include a string name")
+                continue
+            validate_inline(item.get("responsibility"), f"{path}.items[{index}].responsibility", errors)
     elif block_type == "source-refs":
         for index, item in enumerate(require_array("items")):
             if not is_object(item) or not isinstance(item.get("label"), str) or not isinstance(item.get("url"), str):
@@ -259,21 +369,21 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 errors.append(f"{path}.items[{index}] must include path")
     elif block_type == "action":
         require_string("title")
-        require_string("description")
+        validate_inline(block.get("description"), f"{path}.description", errors)
         if block.get("priority", "none") not in {"p0", "p1", "p2", "none"}:
             errors.append(f"{path}.priority is unsupported")
     elif block_type == "values-grid":
         for index, item in enumerate(require_array("items")):
-            if not is_object(item) or not isinstance(item.get("title"), str) or not isinstance(item.get("body"), str):
-                errors.append(f"{path}.items[{index}] must include title and body")
+            if not is_object(item) or not isinstance(item.get("title"), str):
+                errors.append(f"{path}.items[{index}] must include a string title")
+                continue
+            validate_inline(item.get("body"), f"{path}.items[{index}].body", errors)
     elif block_type == "acceptance-criteria":
         for index, item in enumerate(require_array("items")):
-            if not isinstance(item, str):
-                errors.append(f"{path}.items[{index}] must be a string")
+            validate_inline(item, f"{path}.items[{index}]", errors)
     elif block_type == "open-questions":
         for index, item in enumerate(require_array("questions")):
-            if not isinstance(item, str):
-                errors.append(f"{path}.questions[{index}] must be a string")
+            validate_inline(item, f"{path}.questions[{index}]", errors)
     else:
         errors.append(f"{path}.type is unknown: {block_type}")
 
@@ -395,17 +505,17 @@ def render_summary_block(block: dict[str, Any]) -> str:
     items = []
     for item in as_list(block.get("items")):
         if is_object(item):
-            items.append(f"<li><strong>{esc(item.get('label'))}:</strong> {esc(item.get('body'))}</li>")
+            items.append(f"<li><strong>{esc(item.get('label'))}:</strong> {render_inline(item.get('body'))}</li>")
     return f"<section class=\"doc-summary\"><ul>{''.join(items)}</ul></section>"
 
 
 def render_paragraph(block: dict[str, Any]) -> str:
-    return f"<p>{esc(block.get('text'))}</p>"
+    return f"<p>{render_inline(block.get('text'))}</p>"
 
 
 def render_list(block: dict[str, Any]) -> str:
     tag = "ol" if block.get("ordered") else "ul"
-    items = "".join(f"<li>{esc(item)}</li>" for item in as_list(block.get("items")))
+    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("items")))
     return f"<{tag}>{items}</{tag}>"
 
 
@@ -421,14 +531,14 @@ def render_callout(block: dict[str, Any]) -> str:
     title_html = f"<strong>{esc(title)}</strong>" if title else ""
     return (
         f"<aside class=\"{cls}\">"
-        f"{title_html}<p>{esc(block.get('body'))}</p>"
+        f"{title_html}<p>{render_inline(block.get('body'))}</p>"
         "</aside>"
     )
 
 
 def render_table(block: dict[str, Any]) -> str:
     header_cells = "".join(f"<th>{esc(header)}</th>" for header in as_list(block.get("headers")))
-    rows = ["<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>"
+    rows = ["<tr>" + "".join(f"<td>{render_inline(cell)}</td>" for cell in row) + "</tr>"
             for row in as_list(block.get("rows")) if isinstance(row, list)]
     body = ("\n" + "\n".join(rows)) if rows else ""
     return f"<table>\n<tr>{header_cells}</tr>{body}\n</table>"
@@ -536,7 +646,7 @@ def render_participants(block: dict[str, Any]) -> str:
         if not is_object(item):
             continue
         role = f"<p><em>{esc(item.get('role'))}</em></p>" if item.get("role") else ""
-        cards.append(f"<div class=\"participant-card\"><h3>{esc(item.get('name'))}</h3>{role}<p>{esc(item.get('responsibility'))}</p></div>")
+        cards.append(f"<div class=\"participant-card\"><h3>{esc(item.get('name'))}</h3>{role}<p>{render_inline(item.get('responsibility'))}</p></div>")
     return f"<section class=\"participants\">{''.join(cards)}</section>"
 
 
@@ -570,24 +680,24 @@ def render_files(block: dict[str, Any]) -> str:
 
 def render_action(block: dict[str, Any]) -> str:
     prompt = f"<pre class=\"prompt-block\"><code>{esc(block.get('prompt'))}</code></pre>" if block.get("prompt") else ""
-    return f"<section class=\"action-card\"><h3>{esc(block.get('title'))}</h3><p>{esc(block.get('description'))}</p>{prompt}</section>"
+    return f"<section class=\"action-card\"><h3>{esc(block.get('title'))}</h3><p>{render_inline(block.get('description'))}</p>{prompt}</section>"
 
 
 def render_values_grid(block: dict[str, Any]) -> str:
     cards = []
     for item in as_list(block.get("items")):
         if is_object(item):
-            cards.append(f"<div class=\"value-card\"><h3>{esc(item.get('title'))}</h3><p>{esc(item.get('body'))}</p></div>")
+            cards.append(f"<div class=\"value-card\"><h3>{esc(item.get('title'))}</h3><p>{render_inline(item.get('body'))}</p></div>")
     return f"<section class=\"values-grid\">{''.join(cards)}</section>"
 
 
 def render_acceptance_criteria(block: dict[str, Any]) -> str:
-    items = "".join(f"<li>{esc(item)}</li>" for item in as_list(block.get("items")))
+    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("items")))
     return f"<ol class=\"acceptance-criteria\">{items}</ol>"
 
 
 def render_open_questions(block: dict[str, Any]) -> str:
-    items = "".join(f"<li>{esc(item)}</li>" for item in as_list(block.get("questions")))
+    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("questions")))
     return f"<ul class=\"open-questions\">{items}</ul>"
 
 

@@ -158,6 +158,36 @@ The generator should not include optional components for decoration or recap. Co
 
 Scenario skeletons do not restrict component choice. They provide the required section scaffold. Within each section, the generator may select any configured component whose trigger matches the source material or whose use makes the explanation clearer. For example, a `problem-investigation` document may include a sequence diagram for a call chain, a diff block for code or schema differences, a table for impact scope, and details blocks for core logs.
 
+## Inline Text Formatting
+
+Prose-bearing fields accept either a plain string or an array of **runs**. A plain string is escaped as-is. An array carries typed inline marks whose semantics are preserved in the JSON sidecar, not just the visual style — this is the point: a mark such as `deprecated`, `metric`, or `ref` is machine-readable, not decorative.
+
+Fields that accept inline runs: `paragraph.text`, `list.items[]`, `callout.body`, table `rows[][]` cells, `summary.items[].body`, `participants.items[].responsibility`, `action.description`, `values-grid.items[].body`, `acceptance-criteria.items[]`, and `open-questions.questions[]`. Titles, labels, table headers, `code`, and diff lines stay plain strings.
+
+A run is `{ "text": string, "marks"?: array }`. Each mark is a string shorthand or an object that carries data:
+
+- Visual: `strong`, `em`, `code`, `del`, `u`, `mark`.
+- Semantic: `deprecated`, `term` (+ optional `definition`), `metric` (+ optional `unit`, `value`).
+- Reference: `{ "type": "link", "href": ... }`; `{ "type": "ref", "path": ..., "line"?: integer, "url"?: ... }`.
+
+```json
+{ "type": "paragraph", "text": [
+  { "text": "Timeout cut from " },
+  { "text": "30s", "marks": ["del"] },
+  { "text": " to " },
+  { "text": "3s", "marks": [{ "type": "metric", "unit": "s", "value": 3 }] },
+  { "text": " in " },
+  { "text": "inventory_client.go:88", "marks": [{ "type": "ref", "path": "services/checkout/inventory_client.go", "line": 88 }] }
+]}
+```
+
+Rules:
+
+- Marks nest innermost-first in array order: `["code", "deprecated"]` renders `<span data-mark="deprecated"><code>…</code></span>`.
+- Visual marks render as their tag. Semantic marks render as `<span data-mark="TYPE">`; rich attributes (`unit`, `value`, `definition`) live in the sidecar JSON, not the rendered span. `link` renders an anchor; `ref` renders code, linked when `url` is present.
+- `link.href` and `ref.url` allow only anchor, relative, HTTP, and HTTPS schemes — never `mailto:`, `tel:`, or `javascript:`.
+- An anchor href (`#id`) must resolve to a real section or block id, or HTML validation fails.
+
 ## Verification Gates
 
 At minimum, generation should verify:
@@ -168,3 +198,4 @@ At minimum, generation should verify:
 - User-provided text is escaped unless a field is explicitly trusted by schema.
 - The final HTML has no unresolved template placeholders.
 - No unused component shell is rendered.
+- Inline marks use only the approved vocabulary; `link`/`ref` hrefs use allowed schemes and `#anchor` targets resolve.

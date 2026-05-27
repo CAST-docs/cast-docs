@@ -40,14 +40,26 @@
             {"label": "Window", "body": "Observed during the latest traffic peak."}
           ]
         },
-        {"type": "paragraph", "text": "This document records the investigation path and follow-up actions."}
+        {"type": "paragraph", "text": [
+          {"text": "This document records the investigation path for the "},
+          {"text": "tail-latency", "marks": [{"type": "term", "definition": "the slowest few percent of requests, tracked at P95/P99"}]},
+          {"text": " regression and the follow-up actions."}
+        ]}
       ]
     },
     {
       "id": "problem-symptoms",
       "title": "Problem Symptoms",
       "blocks": [
-        {"type": "callout", "variant": "warning", "title": "Symptom", "body": "P95 latency increased while success rate stayed mostly stable."}
+        {"type": "callout", "variant": "warning", "title": "Symptom", "body": [
+          {"text": "P95 latency jumped from "},
+          {"text": "310ms", "marks": [{"type": "metric", "unit": "ms", "value": 310}]},
+          {"text": " to "},
+          {"text": "1840ms", "marks": [{"type": "metric", "unit": "ms", "value": 1840}]},
+          {"text": " during peak, while success rate held near "},
+          {"text": "99.2%", "marks": [{"type": "metric", "unit": "%", "value": 99.2}]},
+          {"text": "."}
+        ]}
       ]
     },
     {
@@ -58,7 +70,10 @@
           "type": "table",
           "tableType": "risk",
           "headers": ["Area", "Impact", "Confidence"],
-          "rows": [["Checkout API", "Higher latency", "high"], ["Payment callback", "No direct impact", "medium"]]
+          "rows": [
+            [[{"text": "checkout-api", "marks": ["code"]}], [{"text": "P95 "}, {"text": "+1530ms", "marks": [{"type": "metric", "unit": "ms", "value": 1530}]}], "high"],
+            [[{"text": "payment-callback", "marks": ["code"]}], "No direct impact", "medium"]
+          ]
         }
       ]
     },
@@ -105,35 +120,62 @@
       "id": "root-cause",
       "title": "Root Cause",
       "blocks": [
-        {"type": "callout", "variant": "danger", "title": "Root cause", "body": "The checkout path inherited a longer dependency timeout than intended."}
+        {"type": "callout", "variant": "danger", "title": "Root cause", "body": [
+          {"text": "Checkout inherited the "},
+          {"text": "30s", "marks": ["del"]},
+          {"text": " global dependency timeout instead of the intended "},
+          {"text": "3s", "marks": [{"type": "metric", "unit": "s", "value": 3}]},
+          {"text": "; the per-call override in "},
+          {"text": "inventory_client.go:88", "marks": [{"type": "ref", "path": "services/checkout/inventory_client.go", "line": 88}]},
+          {"text": " was never wired up."}
+        ]}
       ]
     },
     {
       "id": "mitigation-and-fix",
       "title": "Mitigation And Fix",
       "blocks": [
-        {"type": "action", "priority": "p1", "title": "Set checkout-specific timeout", "description": "Use a bounded timeout for inventory reservation.", "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."}
+        {"type": "action", "priority": "p1", "title": "Set checkout-specific timeout", "description": [
+          {"text": "Wrap the reservation call in a "},
+          {"text": "context.WithTimeout", "marks": ["code"]},
+          {"text": " of "},
+          {"text": "3s", "marks": [{"type": "metric", "unit": "s", "value": 3}]},
+          {"text": ", replacing the inherited "},
+          {"text": "DefaultTimeout", "marks": ["code", "deprecated"]},
+          {"text": ". Track rollout in the "},
+          {"text": "checkout timeout runbook", "marks": [{"type": "link", "href": "https://runbooks.internal.example.com/checkout-timeout"}]},
+          {"text": "."}
+        ], "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."}
       ]
     },
     {
       "id": "validation",
       "title": "Validation",
       "blocks": [
-        {"type": "acceptance-criteria", "items": ["P95 latency returns to the normal band.", "Timeout behavior is covered by unit tests."]}
+        {"type": "acceptance-criteria", "items": [
+          [{"text": "P95 checkout latency returns below "}, {"text": "400ms", "marks": [{"type": "metric", "unit": "ms", "value": 400}]}, {"text": "."}],
+          [{"text": "Timeout behaviour is covered by unit tests on "}, {"text": "reserveInventory", "marks": ["code"]}, {"text": "."}]
+        ]}
       ]
     },
     {
       "id": "prevention-measures",
       "title": "Prevention Measures",
       "blocks": [
-        {"type": "list", "items": ["Add dependency timeout review to service checklist.", "Alert on dependency latency before checkout P95 regresses."]}
+        {"type": "list", "items": [
+          "Add a per-call timeout to the service template so new clients can't inherit the global default.",
+          [{"text": "Alert when dependency P95 exceeds "}, {"text": "500ms", "marks": [{"type": "metric", "unit": "ms", "value": 500}]}, {"text": ", well before "}, {"text": "checkout-api", "marks": ["code"]}, {"text": " regresses."}]
+        ]}
       ]
     },
     {
       "id": "open-questions",
       "title": "Open Questions",
       "blocks": [
-        {"type": "open-questions", "questions": ["Should inventory expose a faster reservation endpoint for checkout?"]}
+        {"type": "open-questions", "questions": [
+          [{"text": "Should "}, {"text": "inventory-svc", "marks": ["code"]}, {"text": " expose a faster reservation endpoint for "}, {"text": "checkout-api", "marks": ["code"]}, {"text": "?"}],
+          [{"text": "Do the "}, {"text": "Prevention Measures", "marks": [{"type": "link", "href": "#prevention-measures"}]}, {"text": " cover the batch-reservation path too?"}]
+        ]}
       ]
     }
   ]

@@ -80,7 +80,23 @@
         },
         {
           "type": "paragraph",
-          "text": "This document records the investigation path and follow-up actions."
+          "text": [
+            {
+              "text": "This document records the investigation path for the "
+            },
+            {
+              "text": "tail-latency",
+              "marks": [
+                {
+                  "type": "term",
+                  "definition": "the slowest few percent of requests, tracked at P95/P99"
+                }
+              ]
+            },
+            {
+              "text": " regression and the follow-up actions."
+            }
+          ]
         }
       ]
     },
@@ -92,7 +108,50 @@
           "type": "callout",
           "variant": "warning",
           "title": "Symptom",
-          "body": "P95 latency increased while success rate stayed mostly stable."
+          "body": [
+            {
+              "text": "P95 latency jumped from "
+            },
+            {
+              "text": "310ms",
+              "marks": [
+                {
+                  "type": "metric",
+                  "unit": "ms",
+                  "value": 310
+                }
+              ]
+            },
+            {
+              "text": " to "
+            },
+            {
+              "text": "1840ms",
+              "marks": [
+                {
+                  "type": "metric",
+                  "unit": "ms",
+                  "value": 1840
+                }
+              ]
+            },
+            {
+              "text": " during peak, while success rate held near "
+            },
+            {
+              "text": "99.2%",
+              "marks": [
+                {
+                  "type": "metric",
+                  "unit": "%",
+                  "value": 99.2
+                }
+              ]
+            },
+            {
+              "text": "."
+            }
+          ]
         }
       ]
     },
@@ -110,12 +169,40 @@
           ],
           "rows": [
             [
-              "Checkout API",
-              "Higher latency",
+              [
+                {
+                  "text": "checkout-api",
+                  "marks": [
+                    "code"
+                  ]
+                }
+              ],
+              [
+                {
+                  "text": "P95 "
+                },
+                {
+                  "text": "+1530ms",
+                  "marks": [
+                    {
+                      "type": "metric",
+                      "unit": "ms",
+                      "value": 1530
+                    }
+                  ]
+                }
+              ],
               "high"
             ],
             [
-              "Payment callback",
+              [
+                {
+                  "text": "payment-callback",
+                  "marks": [
+                    "code"
+                  ]
+                }
+              ],
               "No direct impact",
               "medium"
             ]
@@ -190,7 +277,46 @@
           "type": "callout",
           "variant": "danger",
           "title": "Root cause",
-          "body": "The checkout path inherited a longer dependency timeout than intended."
+          "body": [
+            {
+              "text": "Checkout inherited the "
+            },
+            {
+              "text": "30s",
+              "marks": [
+                "del"
+              ]
+            },
+            {
+              "text": " global dependency timeout instead of the intended "
+            },
+            {
+              "text": "3s",
+              "marks": [
+                {
+                  "type": "metric",
+                  "unit": "s",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "text": "; the per-call override in "
+            },
+            {
+              "text": "inventory_client.go:88",
+              "marks": [
+                {
+                  "type": "ref",
+                  "path": "services/checkout/inventory_client.go",
+                  "line": 88
+                }
+              ]
+            },
+            {
+              "text": " was never wired up."
+            }
+          ]
         }
       ]
     },
@@ -202,7 +328,55 @@
           "type": "action",
           "priority": "p1",
           "title": "Set checkout-specific timeout",
-          "description": "Use a bounded timeout for inventory reservation.",
+          "description": [
+            {
+              "text": "Wrap the reservation call in a "
+            },
+            {
+              "text": "context.WithTimeout",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": " of "
+            },
+            {
+              "text": "3s",
+              "marks": [
+                {
+                  "type": "metric",
+                  "unit": "s",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "text": ", replacing the inherited "
+            },
+            {
+              "text": "DefaultTimeout",
+              "marks": [
+                "code",
+                "deprecated"
+              ]
+            },
+            {
+              "text": ". Track rollout in the "
+            },
+            {
+              "text": "checkout timeout runbook",
+              "marks": [
+                {
+                  "type": "link",
+                  "href": "https://runbooks.internal.example.com/checkout-timeout"
+                }
+              ]
+            },
+            {
+              "text": "."
+            }
+          ],
           "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."
         }
       ]
@@ -214,8 +388,38 @@
         {
           "type": "acceptance-criteria",
           "items": [
-            "P95 latency returns to the normal band.",
-            "Timeout behavior is covered by unit tests."
+            [
+              {
+                "text": "P95 checkout latency returns below "
+              },
+              {
+                "text": "400ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 400
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            [
+              {
+                "text": "Timeout behaviour is covered by unit tests on "
+              },
+              {
+                "text": "reserveInventory",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
           ]
         }
       ]
@@ -227,8 +431,34 @@
         {
           "type": "list",
           "items": [
-            "Add dependency timeout review to service checklist.",
-            "Alert on dependency latency before checkout P95 regresses."
+            "Add a per-call timeout to the service template so new clients can't inherit the global default.",
+            [
+              {
+                "text": "Alert when dependency P95 exceeds "
+              },
+              {
+                "text": "500ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 500
+                  }
+                ]
+              },
+              {
+                "text": ", well before "
+              },
+              {
+                "text": "checkout-api",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " regresses."
+              }
+            ]
           ]
         }
       ]
@@ -240,7 +470,46 @@
         {
           "type": "open-questions",
           "questions": [
-            "Should inventory expose a faster reservation endpoint for checkout?"
+            [
+              {
+                "text": "Should "
+              },
+              {
+                "text": "inventory-svc",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " expose a faster reservation endpoint for "
+              },
+              {
+                "text": "checkout-api",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "?"
+              }
+            ],
+            [
+              {
+                "text": "Do the "
+              },
+              {
+                "text": "Prevention Measures",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "#prevention-measures"
+                  }
+                ]
+              },
+              {
+                "text": " cover the batch-reservation path too?"
+              }
+            ]
           ]
         }
       ]
@@ -255,20 +524,20 @@
 <section class="doc-section" id="background">
 <h2>Background</h2>
 <section class="doc-summary"><ul><li><strong>Scope:</strong> Checkout requests showed intermittent latency spikes.</li><li><strong>Window:</strong> Observed during the latest traffic peak.</li></ul></section>
-<p>This document records the investigation path and follow-up actions.</p>
+<p>This document records the investigation path for the <span data-mark="term" title="the slowest few percent of requests, tracked at P95/P99">tail-latency</span> regression and the follow-up actions.</p>
 </section>
 
 <section class="doc-section" id="problem-symptoms">
 <h2>Problem Symptoms</h2>
-<aside class="callout callout-warning"><strong>Symptom</strong><p>P95 latency increased while success rate stayed mostly stable.</p></aside>
+<aside class="callout callout-warning"><strong>Symptom</strong><p>P95 latency jumped from <span data-mark="metric">310ms</span> to <span data-mark="metric">1840ms</span> during peak, while success rate held near <span data-mark="metric">99.2%</span>.</p></aside>
 </section>
 
 <section class="doc-section" id="impact-scope">
 <h2>Impact Scope</h2>
 <table>
 <tr><th>Area</th><th>Impact</th><th>Confidence</th></tr>
-<tr><td>Checkout API</td><td>Higher latency</td><td>high</td></tr>
-<tr><td>Payment callback</td><td>No direct impact</td><td>medium</td></tr>
+<tr><td><code>checkout-api</code></td><td>P95 <span data-mark="metric">+1530ms</span></td><td>high</td></tr>
+<tr><td><code>payment-callback</code></td><td>No direct impact</td><td>medium</td></tr>
 </table>
 </section>
 
@@ -285,27 +554,27 @@
 
 <section class="doc-section" id="root-cause">
 <h2>Root Cause</h2>
-<aside class="callout callout-danger"><strong>Root cause</strong><p>The checkout path inherited a longer dependency timeout than intended.</p></aside>
+<aside class="callout callout-danger"><strong>Root cause</strong><p>Checkout inherited the <del>30s</del> global dependency timeout instead of the intended <span data-mark="metric">3s</span>; the per-call override in <code data-mark="ref">inventory_client.go:88</code> was never wired up.</p></aside>
 </section>
 
 <section class="doc-section" id="mitigation-and-fix">
 <h2>Mitigation And Fix</h2>
-<section class="action-card"><h3>Set checkout-specific timeout</h3><p>Use a bounded timeout for inventory reservation.</p><pre class="prompt-block"><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></section>
+<section class="action-card"><h3>Set checkout-specific timeout</h3><p>Wrap the reservation call in a <code>context.WithTimeout</code> of <span data-mark="metric">3s</span>, replacing the inherited <span data-mark="deprecated"><code>DefaultTimeout</code></span>. Track rollout in the <a href="https://runbooks.internal.example.com/checkout-timeout" target="_blank" rel="noopener noreferrer">checkout timeout runbook</a>.</p><pre class="prompt-block"><code>Inspect checkout inventory calls and propose a timeout change with tests.</code></pre></section>
 </section>
 
 <section class="doc-section" id="validation">
 <h2>Validation</h2>
-<ol class="acceptance-criteria"><li>P95 latency returns to the normal band.</li><li>Timeout behavior is covered by unit tests.</li></ol>
+<ol class="acceptance-criteria"><li>P95 checkout latency returns below <span data-mark="metric">400ms</span>.</li><li>Timeout behaviour is covered by unit tests on <code>reserveInventory</code>.</li></ol>
 </section>
 
 <section class="doc-section" id="prevention-measures">
 <h2>Prevention Measures</h2>
-<ul><li>Add dependency timeout review to service checklist.</li><li>Alert on dependency latency before checkout P95 regresses.</li></ul>
+<ul><li>Add a per-call timeout to the service template so new clients can&#x27;t inherit the global default.</li><li>Alert when dependency P95 exceeds <span data-mark="metric">500ms</span>, well before <code>checkout-api</code> regresses.</li></ul>
 </section>
 
 <section class="doc-section" id="open-questions">
 <h2>Open Questions</h2>
-<ul class="open-questions"><li>Should inventory expose a faster reservation endpoint for checkout?</li></ul>
+<ul class="open-questions"><li>Should <code>inventory-svc</code> expose a faster reservation endpoint for <code>checkout-api</code>?</li><li>Do the <a href="#prevention-measures">Prevention Measures</a> cover the batch-reservation path too?</li></ul>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
@@ -371,6 +640,12 @@ a:hover { text-decoration: underline; }
 code, pre { font-family: var(--mono); }
 code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
 pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
+mark { background: var(--warn-soft); color: var(--text); padding: .02em .22em; border-radius: 3px; }
+del { color: var(--muted); text-decoration: line-through; }
+u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+[data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
+[data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
+[data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
 .sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
 .nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }

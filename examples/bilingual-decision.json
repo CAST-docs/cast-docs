@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "title": {
+      "en": "Bilingual rendering decision",
+      "zh-CN": "双语渲染方案决策"
+    },
+    "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "status": "draft",
+    "owner": "Docs Platform",
+    "audience": [
+      "engineering"
+    ],
+    "updatedAt": "2026-05-27",
+    "shellLinks": [
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ]
+  },
+  "manifest": {
+    "documentType": "decision-record",
+    "scenario": "option-decision",
+    "sections": [
+      "context",
+      "decision-criteria",
+      "options-considered",
+      "comparison",
+      "decision",
+      "tradeoffs",
+      "follow-ups"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "acceptance-criteria"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure",
+        "action-card"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "context",
+      "title": {
+        "en": "Context",
+        "zh-CN": "背景"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Need",
+                "zh-CN": "诉求"
+              },
+              "body": {
+                "en": "One HTML artifact should carry English and Chinese content.",
+                "zh-CN": "同一个 HTML 产物需要同时承载英文和中文正文。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision-criteria",
+      "title": {
+        "en": "Decision Criteria",
+        "zh-CN": "决策标准"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Keep existing single-language documents valid.",
+              "zh-CN": "保持现有单语言文档继续有效。"
+            },
+            {
+              "en": "Render both languages from structured JSON.",
+              "zh-CN": "从结构化 JSON 渲染双语内容。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "options-considered",
+      "title": {
+        "en": "Options Considered",
+        "zh-CN": "备选方案"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The renderer can either emit separate files or keep both languages in one self-contained HTML file.",
+            "zh-CN": "渲染器可以输出两份独立文件，也可以把两种语言放进同一个自包含 HTML 文件。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": {
+        "en": "Comparison",
+        "zh-CN": "方案对比"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "decision",
+          "headers": [
+            {
+              "en": "Option",
+              "zh-CN": "方案"
+            },
+            {
+              "en": "Strength",
+              "zh-CN": "优势"
+            },
+            {
+              "en": "Risk",
+              "zh-CN": "风险"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Separate files",
+                "zh-CN": "独立文件"
+              },
+              {
+                "en": "Simple HTML output",
+                "zh-CN": "HTML 输出简单"
+              },
+              {
+                "en": "Readers lose context when switching language",
+                "zh-CN": "切换语言时容易丢失阅读上下文"
+              }
+            ],
+            [
+              {
+                "en": "Single bilingual file",
+                "zh-CN": "单个双语文件"
+              },
+              {
+                "en": "Portable and easy to share",
+                "zh-CN": "便携，易分享"
+              },
+              {
+                "en": "Renderer needs locale-aware fields",
+                "zh-CN": "渲染器需要理解本地化字段"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "title": {
+        "en": "Decision",
+        "zh-CN": "决策"
+      },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": {
+            "en": "Decision",
+            "zh-CN": "结论"
+          },
+          "body": {
+            "en": "Use localized JSON values and a top-right language switcher in the rendered HTML.",
+            "zh-CN": "使用本地化 JSON 字段，并在渲染后的 HTML 右上角提供语言切换器。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "title": {
+        "en": "Tradeoffs",
+        "zh-CN": "取舍"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The HTML file is slightly larger, but readers can switch languages without leaving the document.",
+            "zh-CN": "HTML 文件会略大，但读者无需离开文档就能切换语言。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "follow-ups",
+      "title": {
+        "en": "Follow-ups",
+        "zh-CN": "后续事项"
+      },
+      "blocks": [
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": "The default language is visible before JavaScript runs.",
+              "zh-CN": "JavaScript 执行前默认语言已经可见。"
+            },
+            {
+              "en": "The switcher updates headings, body content, metadata, and table of contents.",
+              "zh-CN": "切换器会更新标题、正文、元信息和目录。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

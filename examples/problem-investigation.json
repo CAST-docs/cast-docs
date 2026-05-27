@@ -1,13 +1,29 @@
 {
   "metadata": {
-    "title": "Checkout latency spike investigation",
+    "title": {
+      "en": "Checkout latency spike investigation",
+      "zh-CN": "Checkout 延迟尖峰排查"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
-    "audience": ["engineering"],
+    "audience": [
+      "engineering"
+    ],
     "updatedAt": "2026-05-13",
     "shellLinks": [
-      {"label": "CAST Docs", "href": "../index.html", "placement": "topbar"}
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -26,75 +42,384 @@
       "open-questions"
     ],
     "components": {
-      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "callout", "open-questions"],
-      "optional": ["table", "details-block", "code-block", "diagram", "files", "action-card"],
-      "omitted": ["diff-block", "values-grid", "inline-svg-figure"]
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "callout",
+        "open-questions"
+      ],
+      "optional": [
+        "table",
+        "details-block",
+        "code-block",
+        "diagram",
+        "files",
+        "action-card"
+      ],
+      "omitted": [
+        "diff-block",
+        "values-grid",
+        "inline-svg-figure"
+      ]
     }
   },
   "sections": [
     {
       "id": "background",
-      "title": "Background",
+      "title": {
+        "en": "Background",
+        "zh-CN": "背景"
+      },
       "blocks": [
         {
           "type": "summary",
           "items": [
-            {"label": "Scope", "body": "Checkout requests showed intermittent latency spikes."},
-            {"label": "Window", "body": "Observed during the latest traffic peak."}
+            {
+              "label": {
+                "en": "Scope",
+                "zh-CN": "范围"
+              },
+              "body": {
+                "en": "Checkout requests showed intermittent latency spikes.",
+                "zh-CN": "Checkout 请求出现间歇性延迟尖峰。"
+              }
+            },
+            {
+              "label": {
+                "en": "Window",
+                "zh-CN": "时间窗口"
+              },
+              "body": {
+                "en": "Observed during the latest traffic peak.",
+                "zh-CN": "在最近一次流量高峰期间观察到。"
+              }
+            }
           ]
         },
-        {"type": "paragraph", "text": [
-          {"text": "This document records the investigation path for the "},
-          {"text": "tail-latency", "marks": [{"type": "term", "definition": "the slowest few percent of requests, tracked at P95/P99"}]},
-          {"text": " regression and the follow-up actions."}
-        ]}
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {
+                "text": "This document records the investigation path for the "
+              },
+              {
+                "text": "tail-latency",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "the slowest few percent of requests, tracked at P95/P99"
+                  }
+                ]
+              },
+              {
+                "text": " regression and the follow-up actions."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "本文记录 "
+              },
+              {
+                "text": "尾延迟",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "the slowest few percent of requests, tracked at P95/P99"
+                  }
+                ]
+              },
+              {
+                "text": " 回归的排查路径和后续动作。"
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "problem-symptoms",
-      "title": "Problem Symptoms",
+      "title": {
+        "en": "Problem Symptoms",
+        "zh-CN": "问题症状"
+      },
       "blocks": [
-        {"type": "callout", "variant": "warning", "title": "Symptom", "body": [
-          {"text": "P95 latency jumped from "},
-          {"text": "310ms", "marks": [{"type": "metric", "unit": "ms", "value": 310}]},
-          {"text": " to "},
-          {"text": "1840ms", "marks": [{"type": "metric", "unit": "ms", "value": 1840}]},
-          {"text": " during peak, while success rate held near "},
-          {"text": "99.2%", "marks": [{"type": "metric", "unit": "%", "value": 99.2}]},
-          {"text": "."}
-        ]}
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Symptom",
+            "zh-CN": "症状"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "P95 latency jumped from "
+              },
+              {
+                "text": "310ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 310
+                  }
+                ]
+              },
+              {
+                "text": " to "
+              },
+              {
+                "text": "1840ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 1840
+                  }
+                ]
+              },
+              {
+                "text": " during peak, while success rate held near "
+              },
+              {
+                "text": "99.2%",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "%",
+                    "value": 99.2
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "P95 延迟从 "
+              },
+              {
+                "text": "310ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 310
+                  }
+                ]
+              },
+              {
+                "text": " 上升到 "
+              },
+              {
+                "text": "1840ms",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 1840
+                  }
+                ]
+              },
+              {
+                "text": "，发生在高峰期间，而成功率保持在约 "
+              },
+              {
+                "text": "99.2%",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "%",
+                    "value": 99.2
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "impact-scope",
-      "title": "Impact Scope",
+      "title": {
+        "en": "Impact Scope",
+        "zh-CN": "影响范围"
+      },
       "blocks": [
         {
           "type": "table",
           "tableType": "risk",
-          "headers": ["Area", "Impact", "Confidence"],
+          "headers": [
+            {
+              "en": "Area",
+              "zh-CN": "区域"
+            },
+            {
+              "en": "Impact",
+              "zh-CN": "影响"
+            },
+            {
+              "en": "Confidence",
+              "zh-CN": "置信度"
+            }
+          ],
           "rows": [
-            [[{"text": "checkout-api", "marks": ["code"]}], [{"text": "P95 "}, {"text": "+1530ms", "marks": [{"type": "metric", "unit": "ms", "value": 1530}]}], "high"],
-            [[{"text": "payment-callback", "marks": ["code"]}], "No direct impact", "medium"]
+            [
+              {
+                "en": [
+                  {
+                    "text": "checkout-api",
+                    "marks": [
+                      "code"
+                    ]
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "checkout-api",
+                    "marks": [
+                      "code"
+                    ]
+                  }
+                ]
+              },
+              {
+                "en": [
+                  {
+                    "text": "P95 "
+                  },
+                  {
+                    "text": "+1530ms",
+                    "marks": [
+                      {
+                        "type": "metric",
+                        "unit": "ms",
+                        "value": 1530
+                      }
+                    ]
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "P95 "
+                  },
+                  {
+                    "text": "+1530ms",
+                    "marks": [
+                      {
+                        "type": "metric",
+                        "unit": "ms",
+                        "value": 1530
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "en": "high",
+                "zh-CN": "高"
+              }
+            ],
+            [
+              {
+                "en": [
+                  {
+                    "text": "payment-callback",
+                    "marks": [
+                      "code"
+                    ]
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "payment-callback",
+                    "marks": [
+                      "code"
+                    ]
+                  }
+                ]
+              },
+              {
+                "en": "No direct impact",
+                "zh-CN": "无直接影响"
+              },
+              {
+                "en": "medium",
+                "zh-CN": "中"
+              }
+            ]
           ]
         }
       ]
     },
     {
       "id": "investigation-path",
-      "title": "Investigation Path",
+      "title": {
+        "en": "Investigation Path",
+        "zh-CN": "排查路径"
+      },
       "blocks": [
         {
           "type": "diagram",
           "kind": "sequence",
-          "title": "Call chain",
+          "title": {
+            "en": "Call chain",
+            "zh-CN": "调用链"
+          },
           "downloadName": "checkout-call-chain",
           "source": {
             "format": "structured-sequence",
             "steps": [
-              {"from": "Client", "to": "Checkout API", "label": "POST /checkout"},
-              {"from": "Checkout API", "to": "Inventory", "label": "reserve items"},
-              {"from": "Inventory", "to": "Checkout API", "label": "slow response"}
+              {
+                "from": {
+                  "en": "Client",
+                  "zh-CN": "客户端"
+                },
+                "to": {
+                  "en": "Checkout API",
+                  "zh-CN": "Checkout API"
+                },
+                "label": {
+                  "en": "POST /checkout",
+                  "zh-CN": "POST /checkout"
+                }
+              },
+              {
+                "from": {
+                  "en": "Checkout API",
+                  "zh-CN": "Checkout API"
+                },
+                "to": {
+                  "en": "Inventory",
+                  "zh-CN": "库存服务"
+                },
+                "label": {
+                  "en": "reserve items",
+                  "zh-CN": "预占商品"
+                }
+              },
+              {
+                "from": {
+                  "en": "Inventory",
+                  "zh-CN": "库存服务"
+                },
+                "to": {
+                  "en": "Checkout API",
+                  "zh-CN": "Checkout API"
+                },
+                "label": {
+                  "en": "slow response",
+                  "zh-CN": "响应缓慢"
+                }
+              }
             ]
           }
         }
@@ -102,83 +427,512 @@
     },
     {
       "id": "core-logs-and-evidence",
-      "title": "Core Logs And Evidence",
+      "title": {
+        "en": "Core Logs And Evidence",
+        "zh-CN": "核心日志与证据"
+      },
       "blocks": [
         {
           "type": "details",
-          "summary": "Representative log",
+          "summary": {
+            "en": "Representative log",
+            "zh-CN": "代表性日志"
+          },
           "blocks": [
-            {"type": "code", "language": "text", "code": "checkout latency=1840ms dependency=inventory status=200"}
+            {
+              "type": "code",
+              "language": "text",
+              "code": "checkout latency=1840ms dependency=inventory status=200"
+            }
           ]
         },
         {
           "type": "files",
           "items": [
-            {"path": "services/checkout/inventory_client.go", "lineStart": 88, "note": "Dependency call without timeout override"}
+            {
+              "path": "services/checkout/inventory_client.go",
+              "lineStart": 88,
+              "note": {
+                "en": "Dependency call without timeout override",
+                "zh-CN": "依赖调用缺少超时覆盖"
+              }
+            }
           ]
         }
       ]
     },
     {
       "id": "root-cause",
-      "title": "Root Cause",
+      "title": {
+        "en": "Root Cause",
+        "zh-CN": "根因"
+      },
       "blocks": [
-        {"type": "callout", "variant": "danger", "title": "Root cause", "body": [
-          {"text": "Checkout inherited the "},
-          {"text": "30s", "marks": ["del"]},
-          {"text": " global dependency timeout instead of the intended "},
-          {"text": "3s", "marks": [{"type": "metric", "unit": "s", "value": 3}]},
-          {"text": "; the per-call override in "},
-          {"text": "inventory_client.go:88", "marks": [{"type": "ref", "path": "services/checkout/inventory_client.go", "line": 88}]},
-          {"text": " was never wired up."}
-        ]}
+        {
+          "type": "callout",
+          "variant": "danger",
+          "title": {
+            "en": "Root cause",
+            "zh-CN": "根因"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "Checkout inherited the "
+              },
+              {
+                "text": "30s",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": " global dependency timeout instead of the intended "
+              },
+              {
+                "text": "3s",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "s",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "text": "; the per-call override in "
+              },
+              {
+                "text": "inventory_client.go:88",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "services/checkout/inventory_client.go",
+                    "line": 88
+                  }
+                ]
+              },
+              {
+                "text": " was never wired up."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "Checkout 继承了 "
+              },
+              {
+                "text": "30s",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": " 的全局依赖超时，而不是预期的 "
+              },
+              {
+                "text": "3s",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "s",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "text": "；位于 "
+              },
+              {
+                "text": "inventory_client.go:88",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "services/checkout/inventory_client.go",
+                    "line": 88
+                  }
+                ]
+              },
+              {
+                "text": " 的单次调用覆盖从未接入。"
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "mitigation-and-fix",
-      "title": "Mitigation And Fix",
+      "title": {
+        "en": "Mitigation And Fix",
+        "zh-CN": "缓解与修复"
+      },
       "blocks": [
-        {"type": "action", "priority": "p1", "title": "Set checkout-specific timeout", "description": [
-          {"text": "Wrap the reservation call in a "},
-          {"text": "context.WithTimeout", "marks": ["code"]},
-          {"text": " of "},
-          {"text": "3s", "marks": [{"type": "metric", "unit": "s", "value": 3}]},
-          {"text": ", replacing the inherited "},
-          {"text": "DefaultTimeout", "marks": ["code", "deprecated"]},
-          {"text": ". Track rollout in the "},
-          {"text": "checkout timeout runbook", "marks": [{"type": "link", "href": "https://runbooks.internal.example.com/checkout-timeout"}]},
-          {"text": "."}
-        ], "prompt": "Inspect checkout inventory calls and propose a timeout change with tests."}
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": {
+            "en": "Set checkout-specific timeout",
+            "zh-CN": "设置 Checkout 专用超时"
+          },
+          "description": {
+            "en": [
+              {
+                "text": "Wrap the reservation call in a "
+              },
+              {
+                "text": "context.WithTimeout",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " of "
+              },
+              {
+                "text": "3s",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "s",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "text": ", replacing the inherited "
+              },
+              {
+                "text": "DefaultTimeout",
+                "marks": [
+                  "code",
+                  "deprecated"
+                ]
+              },
+              {
+                "text": ". Track rollout in the "
+              },
+              {
+                "text": "checkout timeout runbook",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "https://runbooks.internal.example.com/checkout-timeout"
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "用 "
+              },
+              {
+                "text": "context.WithTimeout",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 包裹预占调用，超时时间为 "
+              },
+              {
+                "text": "3s",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "s",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "text": "，替换继承而来的 "
+              },
+              {
+                "text": "DefaultTimeout",
+                "marks": [
+                  "code",
+                  "deprecated"
+                ]
+              },
+              {
+                "text": "。在 "
+              },
+              {
+                "text": "Checkout 超时 runbook",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "https://runbooks.internal.example.com/checkout-timeout"
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          },
+          "prompt": {
+            "en": "Inspect checkout inventory calls and propose a timeout change with tests.",
+            "zh-CN": "检查 checkout 的库存调用，并提出带测试的超时修改方案。"
+          }
+        }
       ]
     },
     {
       "id": "validation",
-      "title": "Validation",
+      "title": {
+        "en": "Validation",
+        "zh-CN": "验证"
+      },
       "blocks": [
-        {"type": "acceptance-criteria", "items": [
-          [{"text": "P95 checkout latency returns below "}, {"text": "400ms", "marks": [{"type": "metric", "unit": "ms", "value": 400}]}, {"text": "."}],
-          [{"text": "Timeout behaviour is covered by unit tests on "}, {"text": "reserveInventory", "marks": ["code"]}, {"text": "."}]
-        ]}
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": [
+                {
+                  "text": "P95 checkout latency returns below "
+                },
+                {
+                  "text": "400ms",
+                  "marks": [
+                    {
+                      "type": "metric",
+                      "unit": "ms",
+                      "value": 400
+                    }
+                  ]
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "P95 checkout 延迟恢复到 "
+                },
+                {
+                  "text": "400ms",
+                  "marks": [
+                    {
+                      "type": "metric",
+                      "unit": "ms",
+                      "value": 400
+                    }
+                  ]
+                },
+                {
+                  "text": "."
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "Timeout behaviour is covered by unit tests on "
+                },
+                {
+                  "text": "reserveInventory",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "针对 "
+                },
+                {
+                  "text": "reserveInventory",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": "."
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": "prevention-measures",
-      "title": "Prevention Measures",
+      "title": {
+        "en": "Prevention Measures",
+        "zh-CN": "预防措施"
+      },
       "blocks": [
-        {"type": "list", "items": [
-          "Add a per-call timeout to the service template so new clients can't inherit the global default.",
-          [{"text": "Alert when dependency P95 exceeds "}, {"text": "500ms", "marks": [{"type": "metric", "unit": "ms", "value": 500}]}, {"text": ", well before "}, {"text": "checkout-api", "marks": ["code"]}, {"text": " regresses."}]
-        ]}
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Add a per-call timeout to the service template so new clients can't inherit the global default.",
+              "zh-CN": "在服务模板中加入单次调用超时，避免新客户端继承全局默认值。"
+            },
+            {
+              "en": [
+                {
+                  "text": "Alert when dependency P95 exceeds "
+                },
+                {
+                  "text": "500ms",
+                  "marks": [
+                    {
+                      "type": "metric",
+                      "unit": "ms",
+                      "value": 500
+                    }
+                  ]
+                },
+                {
+                  "text": ", well before "
+                },
+                {
+                  "text": "checkout-api",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " regresses."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "当依赖 P95 超过 "
+                },
+                {
+                  "text": "500ms",
+                  "marks": [
+                    {
+                      "type": "metric",
+                      "unit": "ms",
+                      "value": 500
+                    }
+                  ]
+                },
+                {
+                  "text": " 时告警，早于 "
+                },
+                {
+                  "text": "checkout-api",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 发生回归。"
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": "open-questions",
-      "title": "Open Questions",
+      "title": {
+        "en": "Open Questions",
+        "zh-CN": "开放问题"
+      },
       "blocks": [
-        {"type": "open-questions", "questions": [
-          [{"text": "Should "}, {"text": "inventory-svc", "marks": ["code"]}, {"text": " expose a faster reservation endpoint for "}, {"text": "checkout-api", "marks": ["code"]}, {"text": "?"}],
-          [{"text": "Do the "}, {"text": "Prevention Measures", "marks": [{"type": "link", "href": "#prevention-measures"}]}, {"text": " cover the batch-reservation path too?"}]
-        ]}
+        {
+          "type": "open-questions",
+          "questions": [
+            {
+              "en": [
+                {
+                  "text": "Should "
+                },
+                {
+                  "text": "inventory-svc",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " expose a faster reservation endpoint for "
+                },
+                {
+                  "text": "checkout-api",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": "?"
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "是否应该让 "
+                },
+                {
+                  "text": "inventory-svc",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 为 "
+                },
+                {
+                  "text": "checkout-api",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": "？"
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "Do the "
+                },
+                {
+                  "text": "Prevention Measures",
+                  "marks": [
+                    {
+                      "type": "link",
+                      "href": "#prevention-measures"
+                    }
+                  ]
+                },
+                {
+                  "text": " cover the batch-reservation path too?"
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "这些 "
+                },
+                {
+                  "text": "预防措施",
+                  "marks": [
+                    {
+                      "type": "link",
+                      "href": "#prevention-measures"
+                    }
+                  ]
+                },
+                {
+                  "text": " 是否也覆盖批量预占路径？"
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ]

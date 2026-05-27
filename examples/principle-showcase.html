@@ -11,7 +11,10 @@
 <script type="application/json" id="cast-doc-source" data-renderer-owned="true">
 {
   "metadata": {
-    "title": "CAST Docs design principles",
+    "title": {
+      "en": "CAST Docs design principles",
+      "zh-CN": "CAST Docs 设计原则"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
@@ -21,10 +24,17 @@
     "updatedAt": "2026-05-13",
     "shellLinks": [
       {
-        "label": "CAST Docs",
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
         "href": "../index.html",
         "placement": "topbar"
       }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -62,14 +72,23 @@
   "sections": [
     {
       "id": "summary",
-      "title": "Summary",
+      "title": {
+        "en": "Summary",
+        "zh-CN": "摘要"
+      },
       "blocks": [
         {
           "type": "summary",
           "items": [
             {
-              "label": "Purpose",
-              "body": "Keep generated HTML stable, reusable, and easy to validate."
+              "label": {
+                "en": "Purpose",
+                "zh-CN": "目的"
+              },
+              "body": {
+                "en": "Keep generated HTML stable, reusable, and easy to validate.",
+                "zh-CN": "保持生成的 HTML 稳定、可复用且易于校验。"
+              }
             }
           ]
         }
@@ -77,74 +96,145 @@
     },
     {
       "id": "context",
-      "title": "Context",
+      "title": {
+        "en": "Context",
+        "zh-CN": "背景"
+      },
       "blocks": [
         {
           "type": "paragraph",
-          "text": [
-            {
-              "text": "The renderer produces "
-            },
-            {
-              "text": "deterministic",
-              "marks": [
-                {
-                  "type": "term",
-                  "definition": "same input yields byte-identical output"
-                }
-              ]
-            },
-            {
-              "text": " documents "
-            },
-            {
-              "text": "without",
-              "marks": [
-                "em"
-              ]
-            },
-            {
-              "text": " copying large templates into model context."
-            }
-          ]
+          "text": {
+            "en": [
+              {
+                "text": "The renderer produces "
+              },
+              {
+                "text": "deterministic",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "same input yields byte-identical output"
+                  }
+                ]
+              },
+              {
+                "text": " documents "
+              },
+              {
+                "text": "without",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": " copying large templates into model context."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "渲染器会生成 "
+              },
+              {
+                "text": "确定性的",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "same input yields byte-identical output"
+                  }
+                ]
+              },
+              {
+                "text": " 文档，"
+              },
+              {
+                "text": "无需",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": " 将大型模板复制进模型上下文。"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "principles-or-features",
-      "title": "Principles Or Features",
+      "title": {
+        "en": "Principles Or Features",
+        "zh-CN": "原则或特性"
+      },
       "blocks": [
         {
           "type": "values-grid",
           "items": [
             {
-              "title": "Consistent output",
-              "body": [
-                {
-                  "text": "Use "
-                },
-                {
-                  "text": "one shared shell",
-                  "marks": [
-                    "mark"
-                  ]
-                },
-                {
-                  "text": " and semantic classes."
-                }
-              ]
+              "title": {
+                "en": "Consistent output",
+                "zh-CN": "一致输出"
+              },
+              "body": {
+                "en": [
+                  {
+                    "text": "Use "
+                  },
+                  {
+                    "text": "one shared shell",
+                    "marks": [
+                      "mark"
+                    ]
+                  },
+                  {
+                    "text": " and semantic classes."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "使用 "
+                  },
+                  {
+                    "text": "一个共享 shell",
+                    "marks": [
+                      "mark"
+                    ]
+                  },
+                  {
+                    "text": " 和语义化类名。"
+                  }
+                ]
+              }
             },
             {
-              "title": "On-demand composition",
-              "body": "Render only selected components."
+              "title": {
+                "en": "On-demand composition",
+                "zh-CN": "按需组合"
+              },
+              "body": {
+                "en": "Render only selected components.",
+                "zh-CN": "只渲染被选择的组件。"
+              }
             },
             {
-              "title": "Scenario skeletons",
-              "body": "Use configured section order."
+              "title": {
+                "en": "Scenario skeletons",
+                "zh-CN": "场景骨架"
+              },
+              "body": {
+                "en": "Use configured section order.",
+                "zh-CN": "使用已配置的章节顺序。"
+              }
             },
             {
-              "title": "Reuse first",
-              "body": "Prefer existing components and schema fragments."
+              "title": {
+                "en": "Reuse first",
+                "zh-CN": "复用优先"
+              },
+              "body": {
+                "en": "Prefer existing components and schema fragments.",
+                "zh-CN": "优先使用已有组件和 schema 片段。"
+              }
             }
           ]
         }
@@ -152,16 +242,43 @@
     },
     {
       "id": "examples",
-      "title": "Examples",
+      "title": {
+        "en": "Examples",
+        "zh-CN": "示例"
+      },
       "blocks": [
         {
           "type": "diagram",
-          "kind": "svg",
-          "title": "Renderer boundary",
+          "kind": "flow",
+          "title": {
+            "en": "Renderer boundary",
+            "zh-CN": "渲染器边界"
+          },
           "downloadName": "renderer-boundary",
           "source": {
-            "format": "svg",
-            "content": "<svg viewBox=\"0 0 360 120\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#eef3ff\" stroke=\"#6b7a90\"/><text x=\"80\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Document JSON<\/text><line x1=\"155\" y1=\"60\" x2=\"205\" y2=\"60\" stroke=\"#6b7a90\" stroke-width=\"2\"/><rect x=\"210\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#f6f8fa\" stroke=\"#6b7a90\"/><text x=\"280\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Renderer<\/text><\/svg>"
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "Document JSON",
+                  "zh-CN": "文档 JSON"
+                }
+              },
+              {
+                "id": "renderer",
+                "label": {
+                  "en": "Renderer",
+                  "zh-CN": "渲染器"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "renderer"
+              }
+            ]
           }
         },
         {
@@ -173,26 +290,53 @@
     },
     {
       "id": "application-guidance",
-      "title": "Application Guidance",
+      "title": {
+        "en": "Application Guidance",
+        "zh-CN": "应用指南"
+      },
       "blocks": [
         {
           "type": "table",
           "headers": [
-            "Need",
-            "Use"
+            {
+              "en": "Need",
+              "zh-CN": "诉求"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "Use"
+            }
           ],
           "rows": [
             [
-              "Explain a rule",
-              "paragraph or callout"
+              {
+                "en": "Explain a rule",
+                "zh-CN": "解释规则"
+              },
+              {
+                "en": "paragraph or callout",
+                "zh-CN": "paragraph 或 callout"
+              }
             ],
             [
-              "Show equal principles",
-              "values-grid"
+              {
+                "en": "Show equal principles",
+                "zh-CN": "展示同级原则"
+              },
+              {
+                "en": "values-grid",
+                "zh-CN": "values-grid"
+              }
             ],
             [
-              "Show structure",
-              "diagram"
+              {
+                "en": "Show structure",
+                "zh-CN": "展示结构"
+              },
+              {
+                "en": "diagram",
+                "zh-CN": "diagram"
+              }
             ]
           ]
         }
@@ -200,12 +344,18 @@
     },
     {
       "id": "open-questions",
-      "title": "Open Questions",
+      "title": {
+        "en": "Open Questions",
+        "zh-CN": "开放问题"
+      },
       "blocks": [
         {
           "type": "open-questions",
           "questions": [
-            "Should raw SVG fallback be disabled in locked-down environments?"
+            {
+              "en": "Should raw SVG fallback be disabled in locked-down environments?",
+              "zh-CN": "在锁定环境中是否应禁用 raw SVG fallback？"
+            }
           ]
         }
       ]
@@ -215,49 +365,49 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1>CAST Docs design principles</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">CAST Docs design principles</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs 设计原则</span></h1><div class="doc-meta"><span data-i18n-key="metadata.updated">Updated</span> 2026-05-13</div></header>
 <main>
 <section class="doc-section" id="summary">
-<h2>Summary</h2>
-<section class="doc-summary"><ul><li><strong>Purpose:</strong> Keep generated HTML stable, reusable, and easy to validate.</li></ul></section>
+<h2><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></h2>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Purpose</span><span data-locale="zh-CN" data-locale-active="false">目的</span>:</strong> <span data-locale="en" data-locale-active="true">Keep generated HTML stable, reusable, and easy to validate.</span><span data-locale="zh-CN" data-locale-active="false">保持生成的 HTML 稳定、可复用且易于校验。</span></li></ul></section>
 </section>
 
 <section class="doc-section" id="context">
-<h2>Context</h2>
-<p>The renderer produces <span data-mark="term" title="same input yields byte-identical output">deterministic</span> documents <em>without</em> copying large templates into model context.</p>
+<h2><span data-locale="en" data-locale-active="true">Context</span><span data-locale="zh-CN" data-locale-active="false">背景</span></h2>
+<p><span data-locale="en" data-locale-active="true">The renderer produces <span data-mark="term" title="same input yields byte-identical output">deterministic</span> documents <em>without</em> copying large templates into model context.</span><span data-locale="zh-CN" data-locale-active="false">渲染器会生成 <span data-mark="term" title="same input yields byte-identical output">确定性的</span> 文档，<em>无需</em> 将大型模板复制进模型上下文。</span></p>
 </section>
 
 <section class="doc-section" id="principles-or-features">
-<h2>Principles Or Features</h2>
-<section class="values-grid"><div class="value-card"><h3>Consistent output</h3><p>Use <mark>one shared shell</mark> and semantic classes.</p></div><div class="value-card"><h3>On-demand composition</h3><p>Render only selected components.</p></div><div class="value-card"><h3>Scenario skeletons</h3><p>Use configured section order.</p></div><div class="value-card"><h3>Reuse first</h3><p>Prefer existing components and schema fragments.</p></div></section>
+<h2><span data-locale="en" data-locale-active="true">Principles Or Features</span><span data-locale="zh-CN" data-locale-active="false">原则或特性</span></h2>
+<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Consistent output</span><span data-locale="zh-CN" data-locale-active="false">一致输出</span></h3><p><span data-locale="en" data-locale-active="true">Use <mark>one shared shell</mark> and semantic classes.</span><span data-locale="zh-CN" data-locale-active="false">使用 <mark>一个共享 shell</mark> 和语义化类名。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">On-demand composition</span><span data-locale="zh-CN" data-locale-active="false">按需组合</span></h3><p><span data-locale="en" data-locale-active="true">Render only selected components.</span><span data-locale="zh-CN" data-locale-active="false">只渲染被选择的组件。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Scenario skeletons</span><span data-locale="zh-CN" data-locale-active="false">场景骨架</span></h3><p><span data-locale="en" data-locale-active="true">Use configured section order.</span><span data-locale="zh-CN" data-locale-active="false">使用已配置的章节顺序。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Reuse first</span><span data-locale="zh-CN" data-locale-active="false">复用优先</span></h3><p><span data-locale="en" data-locale-active="true">Prefer existing components and schema fragments.</span><span data-locale="zh-CN" data-locale-active="false">优先使用已有组件和 schema 片段。</span></p></div></section>
 </section>
 
 <section class="doc-section" id="examples">
-<h2>Examples</h2>
-<figure class="diagram" data-download-name="renderer-boundary"><figcaption>Renderer boundary</figcaption><svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="30" width="140" height="60" rx="8" fill="#eef3ff" stroke="#6b7a90"/><text x="80" y="62" text-anchor="middle" font-size="14">Document JSON</text><line x1="155" y1="60" x2="205" y2="60" stroke="#6b7a90" stroke-width="2"/><rect x="210" y="30" width="140" height="60" rx="8" fill="#f6f8fa" stroke="#6b7a90"/><text x="280" y="62" text-anchor="middle" font-size="14">Renderer</text></svg></figure>
+<h2><span data-locale="en" data-locale-active="true">Examples</span><span data-locale="zh-CN" data-locale-active="false">示例</span></h2>
+<figure class="diagram" data-download-name="renderer-boundary"><figcaption><span data-locale="en" data-locale-active="true">Renderer boundary</span><span data-locale="zh-CN" data-locale-active="false">渲染器边界</span></figcaption><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer boundary"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="300" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Document JSON</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">文档 JSON</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Renderer</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">渲染器</text></svg></figure>
 <pre class="code-block" data-language="sh"><code data-language="sh">python3 scripts/render_html.py --input doc.json --output doc.html --validate</code></pre>
 </section>
 
 <section class="doc-section" id="application-guidance">
-<h2>Application Guidance</h2>
+<h2><span data-locale="en" data-locale-active="true">Application Guidance</span><span data-locale="zh-CN" data-locale-active="false">应用指南</span></h2>
 <table>
-<tr><th>Need</th><th>Use</th></tr>
-<tr><td>Explain a rule</td><td>paragraph or callout</td></tr>
-<tr><td>Show equal principles</td><td>values-grid</td></tr>
-<tr><td>Show structure</td><td>diagram</td></tr>
+<tr><th><span data-locale="en" data-locale-active="true">Need</span><span data-locale="zh-CN" data-locale-active="false">诉求</span></th><th><span data-locale="en" data-locale-active="true">Use</span><span data-locale="zh-CN" data-locale-active="false">Use</span></th></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Explain a rule</span><span data-locale="zh-CN" data-locale-active="false">解释规则</span></td><td><span data-locale="en" data-locale-active="true">paragraph or callout</span><span data-locale="zh-CN" data-locale-active="false">paragraph 或 callout</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Show equal principles</span><span data-locale="zh-CN" data-locale-active="false">展示同级原则</span></td><td><span data-locale="en" data-locale-active="true">values-grid</span><span data-locale="zh-CN" data-locale-active="false">values-grid</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Show structure</span><span data-locale="zh-CN" data-locale-active="false">展示结构</span></td><td><span data-locale="en" data-locale-active="true">diagram</span><span data-locale="zh-CN" data-locale-active="false">diagram</span></td></tr>
 </table>
 </section>
 
 <section class="doc-section" id="open-questions">
-<h2>Open Questions</h2>
-<ul class="open-questions"><li>Should raw SVG fallback be disabled in locked-down environments?</li></ul>
+<h2><span data-locale="en" data-locale-active="true">Open Questions</span><span data-locale="zh-CN" data-locale-active="false">开放问题</span></h2>
+<ul class="open-questions"><li><span data-locale="en" data-locale-active="true">Should raw SVG fallback be disabled in locked-down environments?</span><span data-locale="zh-CN" data-locale-active="false">在锁定环境中是否应禁用 raw SVG fallback？</span></li></ul>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span>Summary</a></li><li><a href="#context"><span>02</span>Context</a></li><li><a href="#principles-or-features"><span>03</span>Principles Or Features</a></li><li><a href="#examples"><span>04</span>Examples</a></li><li><a href="#application-guidance"><span>05</span>Application Guidance</a></li><li><a href="#open-questions"><span>06</span>Open Questions</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">CAST Docs design principles</span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html">CAST Docs</a></nav><span class="topbar-spacer"></span></header>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></a></li><li><a href="#context"><span>02</span><span data-locale="en" data-locale-active="true">Context</span><span data-locale="zh-CN" data-locale-active="false">背景</span></a></li><li><a href="#principles-or-features"><span>03</span><span data-locale="en" data-locale-active="true">Principles Or Features</span><span data-locale="zh-CN" data-locale-active="false">原则或特性</span></a></li><li><a href="#examples"><span>04</span><span data-locale="en" data-locale-active="true">Examples</span><span data-locale="zh-CN" data-locale-active="false">示例</span></a></li><li><a href="#application-guidance"><span>05</span><span data-locale="en" data-locale-active="true">Application Guidance</span><span data-locale="zh-CN" data-locale-active="false">应用指南</span></a></li><li><a href="#open-questions"><span>06</span><span data-locale="en" data-locale-active="true">Open Questions</span><span data-locale="zh-CN" data-locale-active="false">开放问题</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">CAST Docs design principles</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs 设计原则</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
 :root {
@@ -322,6 +472,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 [data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
 [data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
 [data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
+[data-locale][data-locale-active="false"] { display: none; }
 .sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
 .nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
@@ -336,6 +487,9 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .topbar-links:empty { display: none; }
 .topbar-link { color: var(--muted); font-size: 12.5px; }
 .topbar-spacer { flex: 1; }
+.locale-switcher { display: inline-flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.locale-button { min-width: 44px; border: 0; background: transparent; color: var(--muted); padding: 5px 8px; }
+.locale-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
 .doc { margin-left: var(--toc-width); max-width: 960px; padding: 88px 48px 84px; }
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
@@ -402,8 +556,8 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-<script data-renderer-owned="true" data-interaction="diagram-viewer">
+<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {
   const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
   if (!lightbox) return;
@@ -415,6 +569,13 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   let zoom = 1;
   let panX = 0;
   let panY = 0;
+  function label(key, fallback) {
+    const config = window.CAST_DOCS_I18N || {};
+    const locale = config.activeLocale || document.documentElement.lang || 'en';
+    const strings = (config.strings && config.strings[locale]) || {};
+    const fallbackStrings = (config.strings && config.strings.en) || {};
+    return strings[key] || fallbackStrings[key] || fallback;
+  }
   function fileBase(svg) {
     return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
   }
@@ -467,6 +628,11 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     button.addEventListener('click', action);
     return button;
   }
+  function makeI18nButton(key, fallback, action) {
+    const button = makeButton(label(key, fallback), action);
+    button.setAttribute('data-i18n-key', key);
+    return button;
+  }
   function open(svg) {
     sourceSvg = svg;
     cloneSvg = svg.cloneNode(true);
@@ -478,11 +644,11 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     panY = 0;
     body.replaceChildren(cloneSvg);
     toolbar.replaceChildren(
-      makeButton('Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
-      makeButton('Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
-      makeButton('Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
-      makeButton('SVG', () => downloadSvg(sourceSvg)),
-      makeButton('PNG', () => downloadPng(sourceSvg))
+      makeI18nButton('diagram.zoomOut', 'Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
+      makeI18nButton('diagram.zoomIn', 'Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
+      makeI18nButton('diagram.reset', 'Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(sourceSvg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(sourceSvg))
     );
     lightbox.classList.add('open');
     setTransform();
@@ -522,12 +688,41 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     tools.className = 'diagram-toolbar';
     tools.setAttribute('data-renderer-owned', 'true');
     tools.append(
-      makeButton('Open', () => open(svg)),
-      makeButton('SVG', () => downloadSvg(svg)),
-      makeButton('PNG', () => downloadPng(svg))
+      makeI18nButton('diagram.open', 'Open', () => open(svg)),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(svg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(svg))
     );
     figure.appendChild(tools);
   });
+})();
+</script><script data-renderer-owned="true" data-interaction="i18n">(() => {
+  const config = window.CAST_DOCS_I18N;
+  if (!config || !Array.isArray(config.locales) || config.locales.length < 2) return;
+  const root = document.documentElement;
+  const stringsFor = (locale) => (config.strings && config.strings[locale]) || {};
+  const label = (locale, key, fallback) => stringsFor(locale)[key] || stringsFor(config.activeLocale)[key] || fallback;
+  function apply(locale) {
+    if (!config.locales.includes(locale)) return;
+    root.lang = locale;
+    root.setAttribute('data-active-locale', locale);
+    config.activeLocale = locale;
+    document.querySelectorAll('[data-locale]').forEach((node) => {
+      const active = node.getAttribute('data-locale') === locale;
+      node.setAttribute('data-locale-active', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-locale-target]').forEach((button) => {
+      const active = button.getAttribute('data-locale-target') === locale;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-i18n-key]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-key');
+      if (key) node.textContent = label(locale, key, node.textContent);
+    });
+  }
+  document.querySelectorAll('[data-locale-target]').forEach((button) => {
+    button.addEventListener('click', () => apply(button.getAttribute('data-locale-target')));
+  });
+  apply(config.activeLocale);
 })();
 </script>
 </body>

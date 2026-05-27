@@ -11,8 +11,14 @@
       "additionalProperties": false,
       "required": ["title", "language"],
       "properties": {
-        "title": {"type": "string", "minLength": 1},
+        "title": {"$ref": "#/$defs/localizedString"},
         "language": {"type": "string", "enum": ["zh-CN", "en"]},
+        "locales": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "enum": ["zh-CN", "en"]}
+        },
         "status": {"type": "string", "enum": ["draft", "review", "final", "unknown"]},
         "owner": {"type": "string"},
         "audience": {
@@ -20,7 +26,7 @@
           "items": {"type": "string"}
         },
         "updatedAt": {"type": "string", "format": "date"},
-        "description": {"type": "string"},
+        "description": {"$ref": "#/$defs/localizedString"},
         "shellLinks": {
           "type": "array",
           "maxItems": 3,
@@ -36,10 +42,43 @@
     }
   },
   "$defs": {
+    "localizedString": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "en": {"type": "string"},
+            "zh-CN": {"type": "string"}
+          }
+        }
+      ]
+    },
     "inlineText": {
       "oneOf": [
         {"type": "string"},
-        {"type": "array", "items": {"$ref": "#/$defs/run"}}
+        {"type": "array", "items": {"$ref": "#/$defs/run"}},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "en": {
+              "oneOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"$ref": "#/$defs/run"}}
+              ]
+            },
+            "zh-CN": {
+              "oneOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"$ref": "#/$defs/run"}}
+              ]
+            }
+          }
+        }
       ]
     },
     "run": {
@@ -139,7 +178,7 @@
       "additionalProperties": false,
       "required": ["label", "href"],
       "properties": {
-        "label": {"type": "string", "minLength": 1},
+        "label": {"$ref": "#/$defs/localizedString"},
         "href": {
           "type": "string",
           "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
@@ -153,7 +192,7 @@
       "required": ["id", "title", "blocks"],
       "properties": {
         "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
-        "title": {"type": "string", "minLength": 1},
+        "title": {"$ref": "#/$defs/localizedString"},
         "blocks": {
           "type": "array",
           "items": {"$ref": "#/$defs/block"}
@@ -194,7 +233,7 @@
             "additionalProperties": false,
             "required": ["label", "body"],
             "properties": {
-              "label": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"},
               "body": {"$ref": "#/$defs/inlineText"}
             }
           }
@@ -231,7 +270,7 @@
       "properties": {
         "type": {"const": "callout"},
         "variant": {"type": "string", "enum": ["info", "warning", "danger", "success"]},
-        "title": {"type": "string"},
+        "title": {"$ref": "#/$defs/localizedString"},
         "body": {"$ref": "#/$defs/inlineText"}
       }
     },
@@ -241,12 +280,12 @@
       "required": ["type", "headers", "rows"],
       "properties": {
         "type": {"const": "table"},
-        "caption": {"type": "string"},
+        "caption": {"$ref": "#/$defs/localizedString"},
         "tableType": {"type": "string", "enum": ["data", "risk", "decision"]},
         "headers": {
           "type": "array",
           "minItems": 1,
-          "items": {"type": "string"}
+          "items": {"$ref": "#/$defs/localizedString"}
         },
         "rows": {
           "type": "array",
@@ -263,7 +302,7 @@
       "required": ["type", "summary", "blocks"],
       "properties": {
         "type": {"const": "details"},
-        "summary": {"type": "string"},
+        "summary": {"$ref": "#/$defs/localizedString"},
         "open": {"type": "boolean", "default": false},
         "blocks": {
           "type": "array",
@@ -288,7 +327,7 @@
       "properties": {
         "type": {"const": "diagram"},
         "kind": {"type": "string", "enum": ["sequence", "flow", "architecture", "svg"]},
-        "title": {"type": "string"},
+        "title": {"$ref": "#/$defs/localizedString"},
         "downloadName": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
         "source": {
           "oneOf": [
@@ -313,9 +352,9 @@
             "additionalProperties": false,
             "required": ["from", "to", "label"],
             "properties": {
-              "from": {"type": "string"},
-              "to": {"type": "string"},
-              "label": {"type": "string"}
+              "from": {"$ref": "#/$defs/localizedString"},
+              "to": {"$ref": "#/$defs/localizedString"},
+              "label": {"$ref": "#/$defs/localizedString"}
             }
           }
         }
@@ -336,7 +375,7 @@
             "required": ["id", "label"],
             "properties": {
               "id": {"type": "string"},
-              "label": {"type": "string"}
+              "label": {"$ref": "#/$defs/localizedString"}
             }
           }
         },
@@ -349,7 +388,7 @@
             "properties": {
               "from": {"type": "string"},
               "to": {"type": "string"},
-              "label": {"type": "string"}
+              "label": {"$ref": "#/$defs/localizedString"}
             }
           }
         }
@@ -370,7 +409,7 @@
       "required": ["type", "left", "right"],
       "properties": {
         "type": {"const": "diff"},
-        "title": {"type": "string"},
+        "title": {"$ref": "#/$defs/localizedString"},
         "left": {"$ref": "#/$defs/diffSide"},
         "right": {"$ref": "#/$defs/diffSide"}
       }
@@ -380,7 +419,7 @@
       "additionalProperties": false,
       "required": ["label", "lines"],
       "properties": {
-        "label": {"type": "string"},
+        "label": {"$ref": "#/$defs/localizedString"},
         "language": {"type": "string"},
         "lines": {
           "type": "array",
@@ -390,7 +429,7 @@
             "required": ["kind", "text"],
             "properties": {
               "kind": {"type": "string", "enum": ["add", "remove", "warning", "context"]},
-              "text": {"type": "string"}
+              "text": {"$ref": "#/$defs/localizedString"}
             }
           }
         }
@@ -410,8 +449,8 @@
             "additionalProperties": false,
             "required": ["name", "responsibility"],
             "properties": {
-              "name": {"type": "string"},
-              "role": {"type": "string"},
+              "name": {"$ref": "#/$defs/localizedString"},
+              "role": {"$ref": "#/$defs/localizedString"},
               "responsibility": {"$ref": "#/$defs/inlineText"}
             }
           }
@@ -432,9 +471,9 @@
             "additionalProperties": false,
             "required": ["label", "url"],
             "properties": {
-              "label": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"},
               "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
-              "text": {"type": "string"}
+              "text": {"$ref": "#/$defs/localizedString"}
             }
           }
         }
@@ -457,7 +496,7 @@
               "lineStart": {"type": "integer", "minimum": 1},
               "lineEnd": {"type": "integer", "minimum": 1},
               "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
-              "note": {"type": "string"}
+              "note": {"$ref": "#/$defs/localizedString"}
             }
           }
         }
@@ -470,9 +509,9 @@
       "properties": {
         "type": {"const": "action"},
         "priority": {"type": "string", "enum": ["p0", "p1", "p2", "none"]},
-        "title": {"type": "string"},
+        "title": {"$ref": "#/$defs/localizedString"},
         "description": {"$ref": "#/$defs/inlineText"},
-        "prompt": {"type": "string"}
+        "prompt": {"$ref": "#/$defs/localizedString"}
       }
     },
     "valuesGridBlock": {
@@ -489,7 +528,7 @@
             "additionalProperties": false,
             "required": ["title", "body"],
             "properties": {
-              "title": {"type": "string"},
+              "title": {"$ref": "#/$defs/localizedString"},
               "body": {"$ref": "#/$defs/inlineText"}
             }
           }

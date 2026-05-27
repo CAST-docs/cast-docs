@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Renderer implementation decision">
-<title>Renderer implementation decision</title>
+<meta name="description" content="Bilingual rendering decision">
+<title>Bilingual rendering decision</title>
 </head>
 <body>
 
@@ -12,16 +12,20 @@
 {
   "metadata": {
     "title": {
-      "en": "Renderer implementation decision",
-      "zh-CN": "渲染器实现决策"
+      "en": "Bilingual rendering decision",
+      "zh-CN": "双语渲染方案决策"
     },
     "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
     "status": "draft",
-    "owner": "unknown",
+    "owner": "Docs Platform",
     "audience": [
       "engineering"
     ],
-    "updatedAt": "2026-05-13",
+    "updatedAt": "2026-05-27",
     "shellLinks": [
       {
         "label": {
@@ -31,10 +35,6 @@
         "href": "../index.html",
         "placement": "topbar"
       }
-    ],
-    "locales": [
-      "en",
-      "zh-CN"
     ]
   },
   "manifest": {
@@ -60,13 +60,13 @@
         "callout"
       ],
       "optional": [
-        "acceptance-criteria",
-        "action-card"
+        "acceptance-criteria"
       ],
       "omitted": [
         "diagram",
         "diff-block",
-        "inline-svg-figure"
+        "inline-svg-figure",
+        "action-card"
       ]
     }
   },
@@ -83,12 +83,12 @@
           "items": [
             {
               "label": {
-                "en": "Decision",
-                "zh-CN": "决策"
+                "en": "Need",
+                "zh-CN": "诉求"
               },
               "body": {
-                "en": "Choose how the HTML renderer should transform document JSON.",
-                "zh-CN": "选择 HTML 渲染器应如何转换文档 JSON。"
+                "en": "One HTML artifact should carry English and Chinese content.",
+                "zh-CN": "同一个 HTML 产物需要同时承载英文和中文正文。"
               }
             }
           ]
@@ -106,20 +106,12 @@
           "type": "list",
           "items": [
             {
-              "en": "Deterministic output",
-              "zh-CN": "确定性输出"
+              "en": "Keep existing single-language documents valid.",
+              "zh-CN": "保持现有单语言文档继续有效。"
             },
             {
-              "en": "Low token usage",
-              "zh-CN": "低 token 使用量"
-            },
-            {
-              "en": "Simple validation",
-              "zh-CN": "简单校验"
-            },
-            {
-              "en": "Easy component reuse",
-              "zh-CN": "组件易复用"
+              "en": "Render both languages from structured JSON.",
+              "zh-CN": "从结构化 JSON 渲染双语内容。"
             }
           ]
         }
@@ -135,8 +127,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "The main options are direct HTML assembly and typed block rendering.",
-            "zh-CN": "主要方案是直接组装 HTML，或使用类型化 block 渲染。"
+            "en": "The renderer can either emit separate files or keep both languages in one self-contained HTML file.",
+            "zh-CN": "渲染器可以输出两份独立文件，也可以把两种语言放进同一个自包含 HTML 文件。"
           }
         }
       ]
@@ -145,7 +137,7 @@
       "id": "comparison",
       "title": {
         "en": "Comparison",
-        "zh-CN": "对比"
+        "zh-CN": "方案对比"
       },
       "blocks": [
         {
@@ -168,30 +160,30 @@
           "rows": [
             [
               {
-                "en": "Direct HTML assembly",
-                "zh-CN": "直接组装 HTML"
+                "en": "Separate files",
+                "zh-CN": "独立文件"
               },
               {
-                "en": "Fast to prototype",
-                "zh-CN": "原型实现快"
+                "en": "Simple HTML output",
+                "zh-CN": "HTML 输出简单"
               },
               {
-                "en": "Harder to validate",
-                "zh-CN": "更难校验"
+                "en": "Readers lose context when switching language",
+                "zh-CN": "切换语言时容易丢失阅读上下文"
               }
             ],
             [
               {
-                "en": "Typed block rendering",
-                "zh-CN": "类型化 block 渲染"
+                "en": "Single bilingual file",
+                "zh-CN": "单个双语文件"
               },
               {
-                "en": "Predictable and reusable",
-                "zh-CN": "可预测且可复用"
+                "en": "Portable and easy to share",
+                "zh-CN": "便携，易分享"
               },
               {
-                "en": "Requires upfront schema",
-                "zh-CN": "需要先定义 schema"
+                "en": "Renderer needs locale-aware fields",
+                "zh-CN": "渲染器需要理解本地化字段"
               }
             ]
           ]
@@ -210,55 +202,11 @@
           "variant": "success",
           "title": {
             "en": "Decision",
-            "zh-CN": "决策"
+            "zh-CN": "结论"
           },
           "body": {
-            "en": [
-              {
-                "text": "Use typed block rendering backed by "
-              },
-              {
-                "text": "configuration registries",
-                "marks": [
-                  "code"
-                ]
-              },
-              {
-                "text": ", not "
-              },
-              {
-                "text": "direct HTML assembly",
-                "marks": [
-                  "del"
-                ]
-              },
-              {
-                "text": "."
-              }
-            ],
-            "zh-CN": [
-              {
-                "text": "采用由 "
-              },
-              {
-                "text": "配置注册表",
-                "marks": [
-                  "code"
-                ]
-              },
-              {
-                "text": " 支撑的类型化 block 渲染，而不是 "
-              },
-              {
-                "text": "直接组装 HTML",
-                "marks": [
-                  "del"
-                ]
-              },
-              {
-                "text": "."
-              }
-            ]
+            "en": "Use localized JSON values and a top-right language switcher in the rendered HTML.",
+            "zh-CN": "使用本地化 JSON 字段，并在渲染后的 HTML 右上角提供语言切换器。"
           }
         }
       ]
@@ -273,8 +221,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "The schema costs more upfront but reduces drift once more scenarios are added.",
-            "zh-CN": "schema 前期成本更高，但在添加更多场景后可以减少漂移。"
+            "en": "The HTML file is slightly larger, but readers can switch languages without leaving the document.",
+            "zh-CN": "HTML 文件会略大，但读者无需离开文档就能切换语言。"
           }
         }
       ]
@@ -290,76 +238,14 @@
           "type": "acceptance-criteria",
           "items": [
             {
-              "en": "Every configured scenario has a fixture.",
-              "zh-CN": "每个已配置场景都有 fixture。"
+              "en": "The default language is visible before JavaScript runs.",
+              "zh-CN": "JavaScript 执行前默认语言已经可见。"
             },
             {
-              "en": "Renderer rejects unknown block types.",
-              "zh-CN": "渲染器会拒绝未知 block 类型。"
+              "en": "The switcher updates headings, body content, metadata, and table of contents.",
+              "zh-CN": "切换器会更新标题、正文、元信息和目录。"
             }
           ]
-        },
-        {
-          "type": "action",
-          "priority": "p2",
-          "title": {
-            "en": "Implement schema validation",
-            "zh-CN": "实现 schema 校验"
-          },
-          "description": {
-            "en": [
-              {
-                "text": "Wire "
-              },
-              {
-                "text": "doc.schema.json",
-                "marks": [
-                  {
-                    "type": "ref",
-                    "path": "schemas/doc.schema.json"
-                  }
-                ]
-              },
-              {
-                "text": " into "
-              },
-              {
-                "text": "validate_doc_json.py",
-                "marks": [
-                  "code"
-                ]
-              },
-              {
-                "text": "."
-              }
-            ],
-            "zh-CN": [
-              {
-                "text": "将 "
-              },
-              {
-                "text": "doc.schema.json",
-                "marks": [
-                  {
-                    "type": "ref",
-                    "path": "schemas/doc.schema.json"
-                  }
-                ]
-              },
-              {
-                "text": " 接入 "
-              },
-              {
-                "text": "validate_doc_json.py",
-                "marks": [
-                  "code"
-                ]
-              },
-              {
-                "text": "."
-              }
-            ]
-          }
         }
       ]
     }
@@ -368,53 +254,52 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">Renderer implementation decision</span><span data-locale="zh-CN" data-locale-active="false">渲染器实现决策</span></h1><div class="doc-meta"><span data-i18n-key="metadata.updated">Updated</span> 2026-05-13</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">Bilingual rendering decision</span><span data-locale="zh-CN" data-locale-active="false">双语渲染方案决策</span></h1><div class="doc-meta"><span data-i18n-key="metadata.owner">Owner</span> Docs Platform · <span data-i18n-key="metadata.updated">Updated</span> 2026-05-27</div></header>
 <main>
 <section class="doc-section" id="context">
 <h2><span data-locale="en" data-locale-active="true">Context</span><span data-locale="zh-CN" data-locale-active="false">背景</span></h2>
-<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">决策</span>:</strong> <span data-locale="en" data-locale-active="true">Choose how the HTML renderer should transform document JSON.</span><span data-locale="zh-CN" data-locale-active="false">选择 HTML 渲染器应如何转换文档 JSON。</span></li></ul></section>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Need</span><span data-locale="zh-CN" data-locale-active="false">诉求</span>:</strong> <span data-locale="en" data-locale-active="true">One HTML artifact should carry English and Chinese content.</span><span data-locale="zh-CN" data-locale-active="false">同一个 HTML 产物需要同时承载英文和中文正文。</span></li></ul></section>
 </section>
 
 <section class="doc-section" id="decision-criteria">
 <h2><span data-locale="en" data-locale-active="true">Decision Criteria</span><span data-locale="zh-CN" data-locale-active="false">决策标准</span></h2>
-<ul><li><span data-locale="en" data-locale-active="true">Deterministic output</span><span data-locale="zh-CN" data-locale-active="false">确定性输出</span></li><li><span data-locale="en" data-locale-active="true">Low token usage</span><span data-locale="zh-CN" data-locale-active="false">低 token 使用量</span></li><li><span data-locale="en" data-locale-active="true">Simple validation</span><span data-locale="zh-CN" data-locale-active="false">简单校验</span></li><li><span data-locale="en" data-locale-active="true">Easy component reuse</span><span data-locale="zh-CN" data-locale-active="false">组件易复用</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">Keep existing single-language documents valid.</span><span data-locale="zh-CN" data-locale-active="false">保持现有单语言文档继续有效。</span></li><li><span data-locale="en" data-locale-active="true">Render both languages from structured JSON.</span><span data-locale="zh-CN" data-locale-active="false">从结构化 JSON 渲染双语内容。</span></li></ul>
 </section>
 
 <section class="doc-section" id="options-considered">
 <h2><span data-locale="en" data-locale-active="true">Options Considered</span><span data-locale="zh-CN" data-locale-active="false">备选方案</span></h2>
-<p><span data-locale="en" data-locale-active="true">The main options are direct HTML assembly and typed block rendering.</span><span data-locale="zh-CN" data-locale-active="false">主要方案是直接组装 HTML，或使用类型化 block 渲染。</span></p>
+<p><span data-locale="en" data-locale-active="true">The renderer can either emit separate files or keep both languages in one self-contained HTML file.</span><span data-locale="zh-CN" data-locale-active="false">渲染器可以输出两份独立文件，也可以把两种语言放进同一个自包含 HTML 文件。</span></p>
 </section>
 
 <section class="doc-section" id="comparison">
-<h2><span data-locale="en" data-locale-active="true">Comparison</span><span data-locale="zh-CN" data-locale-active="false">对比</span></h2>
+<h2><span data-locale="en" data-locale-active="true">Comparison</span><span data-locale="zh-CN" data-locale-active="false">方案对比</span></h2>
 <table>
 <tr><th><span data-locale="en" data-locale-active="true">Option</span><span data-locale="zh-CN" data-locale-active="false">方案</span></th><th><span data-locale="en" data-locale-active="true">Strength</span><span data-locale="zh-CN" data-locale-active="false">优势</span></th><th><span data-locale="en" data-locale-active="true">Risk</span><span data-locale="zh-CN" data-locale-active="false">风险</span></th></tr>
-<tr><td><span data-locale="en" data-locale-active="true">Direct HTML assembly</span><span data-locale="zh-CN" data-locale-active="false">直接组装 HTML</span></td><td><span data-locale="en" data-locale-active="true">Fast to prototype</span><span data-locale="zh-CN" data-locale-active="false">原型实现快</span></td><td><span data-locale="en" data-locale-active="true">Harder to validate</span><span data-locale="zh-CN" data-locale-active="false">更难校验</span></td></tr>
-<tr><td><span data-locale="en" data-locale-active="true">Typed block rendering</span><span data-locale="zh-CN" data-locale-active="false">类型化 block 渲染</span></td><td><span data-locale="en" data-locale-active="true">Predictable and reusable</span><span data-locale="zh-CN" data-locale-active="false">可预测且可复用</span></td><td><span data-locale="en" data-locale-active="true">Requires upfront schema</span><span data-locale="zh-CN" data-locale-active="false">需要先定义 schema</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Separate files</span><span data-locale="zh-CN" data-locale-active="false">独立文件</span></td><td><span data-locale="en" data-locale-active="true">Simple HTML output</span><span data-locale="zh-CN" data-locale-active="false">HTML 输出简单</span></td><td><span data-locale="en" data-locale-active="true">Readers lose context when switching language</span><span data-locale="zh-CN" data-locale-active="false">切换语言时容易丢失阅读上下文</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Single bilingual file</span><span data-locale="zh-CN" data-locale-active="false">单个双语文件</span></td><td><span data-locale="en" data-locale-active="true">Portable and easy to share</span><span data-locale="zh-CN" data-locale-active="false">便携，易分享</span></td><td><span data-locale="en" data-locale-active="true">Renderer needs locale-aware fields</span><span data-locale="zh-CN" data-locale-active="false">渲染器需要理解本地化字段</span></td></tr>
 </table>
 </section>
 
 <section class="doc-section" id="decision">
 <h2><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">决策</span></h2>
-<aside class="callout callout-success"><strong><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">决策</span></strong><p><span data-locale="en" data-locale-active="true">Use typed block rendering backed by <code>configuration registries</code>, not <del>direct HTML assembly</del>.</span><span data-locale="zh-CN" data-locale-active="false">采用由 <code>配置注册表</code> 支撑的类型化 block 渲染，而不是 <del>直接组装 HTML</del>.</span></p></aside>
+<aside class="callout callout-success"><strong><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">结论</span></strong><p><span data-locale="en" data-locale-active="true">Use localized JSON values and a top-right language switcher in the rendered HTML.</span><span data-locale="zh-CN" data-locale-active="false">使用本地化 JSON 字段，并在渲染后的 HTML 右上角提供语言切换器。</span></p></aside>
 </section>
 
 <section class="doc-section" id="tradeoffs">
 <h2><span data-locale="en" data-locale-active="true">Tradeoffs</span><span data-locale="zh-CN" data-locale-active="false">取舍</span></h2>
-<p><span data-locale="en" data-locale-active="true">The schema costs more upfront but reduces drift once more scenarios are added.</span><span data-locale="zh-CN" data-locale-active="false">schema 前期成本更高，但在添加更多场景后可以减少漂移。</span></p>
+<p><span data-locale="en" data-locale-active="true">The HTML file is slightly larger, but readers can switch languages without leaving the document.</span><span data-locale="zh-CN" data-locale-active="false">HTML 文件会略大，但读者无需离开文档就能切换语言。</span></p>
 </section>
 
 <section class="doc-section" id="follow-ups">
 <h2><span data-locale="en" data-locale-active="true">Follow-ups</span><span data-locale="zh-CN" data-locale-active="false">后续事项</span></h2>
-<ol class="acceptance-criteria"><li><span data-locale="en" data-locale-active="true">Every configured scenario has a fixture.</span><span data-locale="zh-CN" data-locale-active="false">每个已配置场景都有 fixture。</span></li><li><span data-locale="en" data-locale-active="true">Renderer rejects unknown block types.</span><span data-locale="zh-CN" data-locale-active="false">渲染器会拒绝未知 block 类型。</span></li></ol>
-<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Implement schema validation</span><span data-locale="zh-CN" data-locale-active="false">实现 schema 校验</span></h3><p><span data-locale="en" data-locale-active="true">Wire <code data-mark="ref">doc.schema.json</code> into <code>validate_doc_json.py</code>.</span><span data-locale="zh-CN" data-locale-active="false">将 <code data-mark="ref">doc.schema.json</code> 接入 <code>validate_doc_json.py</code>.</span></p></section>
+<ol class="acceptance-criteria"><li><span data-locale="en" data-locale-active="true">The default language is visible before JavaScript runs.</span><span data-locale="zh-CN" data-locale-active="false">JavaScript 执行前默认语言已经可见。</span></li><li><span data-locale="en" data-locale-active="true">The switcher updates headings, body content, metadata, and table of contents.</span><span data-locale="zh-CN" data-locale-active="false">切换器会更新标题、正文、元信息和目录。</span></li></ol>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#context"><span>01</span><span data-locale="en" data-locale-active="true">Context</span><span data-locale="zh-CN" data-locale-active="false">背景</span></a></li><li><a href="#decision-criteria"><span>02</span><span data-locale="en" data-locale-active="true">Decision Criteria</span><span data-locale="zh-CN" data-locale-active="false">决策标准</span></a></li><li><a href="#options-considered"><span>03</span><span data-locale="en" data-locale-active="true">Options Considered</span><span data-locale="zh-CN" data-locale-active="false">备选方案</span></a></li><li><a href="#comparison"><span>04</span><span data-locale="en" data-locale-active="true">Comparison</span><span data-locale="zh-CN" data-locale-active="false">对比</span></a></li><li><a href="#decision"><span>05</span><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">决策</span></a></li><li><a href="#tradeoffs"><span>06</span><span data-locale="en" data-locale-active="true">Tradeoffs</span><span data-locale="zh-CN" data-locale-active="false">取舍</span></a></li><li><a href="#follow-ups"><span>07</span><span data-locale="en" data-locale-active="true">Follow-ups</span><span data-locale="zh-CN" data-locale-active="false">后续事项</span></a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">Renderer implementation decision</span><span data-locale="zh-CN" data-locale-active="false">渲染器实现决策</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#context"><span>01</span><span data-locale="en" data-locale-active="true">Context</span><span data-locale="zh-CN" data-locale-active="false">背景</span></a></li><li><a href="#decision-criteria"><span>02</span><span data-locale="en" data-locale-active="true">Decision Criteria</span><span data-locale="zh-CN" data-locale-active="false">决策标准</span></a></li><li><a href="#options-considered"><span>03</span><span data-locale="en" data-locale-active="true">Options Considered</span><span data-locale="zh-CN" data-locale-active="false">备选方案</span></a></li><li><a href="#comparison"><span>04</span><span data-locale="en" data-locale-active="true">Comparison</span><span data-locale="zh-CN" data-locale-active="false">方案对比</span></a></li><li><a href="#decision"><span>05</span><span data-locale="en" data-locale-active="true">Decision</span><span data-locale="zh-CN" data-locale-active="false">决策</span></a></li><li><a href="#tradeoffs"><span>06</span><span data-locale="en" data-locale-active="true">Tradeoffs</span><span data-locale="zh-CN" data-locale-active="false">取舍</span></a></li><li><a href="#follow-ups"><span>07</span><span data-locale="en" data-locale-active="true">Follow-ups</span><span data-locale="zh-CN" data-locale-active="false">后续事项</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">Bilingual rendering decision</span><span data-locale="zh-CN" data-locale-active="false">双语渲染方案决策</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
 :root {

@@ -10,6 +10,13 @@
   let zoom = 1;
   let panX = 0;
   let panY = 0;
+  function label(key, fallback) {
+    const config = window.CAST_DOCS_I18N || {};
+    const locale = config.activeLocale || document.documentElement.lang || 'en';
+    const strings = (config.strings && config.strings[locale]) || {};
+    const fallbackStrings = (config.strings && config.strings.en) || {};
+    return strings[key] || fallbackStrings[key] || fallback;
+  }
   function fileBase(svg) {
     return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
   }
@@ -62,6 +69,11 @@
     button.addEventListener('click', action);
     return button;
   }
+  function makeI18nButton(key, fallback, action) {
+    const button = makeButton(label(key, fallback), action);
+    button.setAttribute('data-i18n-key', key);
+    return button;
+  }
   function open(svg) {
     sourceSvg = svg;
     cloneSvg = svg.cloneNode(true);
@@ -73,11 +85,11 @@
     panY = 0;
     body.replaceChildren(cloneSvg);
     toolbar.replaceChildren(
-      makeButton('Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
-      makeButton('Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
-      makeButton('Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
-      makeButton('SVG', () => downloadSvg(sourceSvg)),
-      makeButton('PNG', () => downloadPng(sourceSvg))
+      makeI18nButton('diagram.zoomOut', 'Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
+      makeI18nButton('diagram.zoomIn', 'Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
+      makeI18nButton('diagram.reset', 'Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(sourceSvg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(sourceSvg))
     );
     lightbox.classList.add('open');
     setTransform();
@@ -117,9 +129,9 @@
     tools.className = 'diagram-toolbar';
     tools.setAttribute('data-renderer-owned', 'true');
     tools.append(
-      makeButton('Open', () => open(svg)),
-      makeButton('SVG', () => downloadSvg(svg)),
-      makeButton('PNG', () => downloadPng(svg))
+      makeI18nButton('diagram.open', 'Open', () => open(svg)),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(svg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(svg))
     );
     figure.appendChild(tools);
   });

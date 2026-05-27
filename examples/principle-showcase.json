@@ -1,13 +1,29 @@
 {
   "metadata": {
-    "title": "CAST Docs design principles",
+    "title": {
+      "en": "CAST Docs design principles",
+      "zh-CN": "CAST Docs 设计原则"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
-    "audience": ["maintainers"],
+    "audience": [
+      "maintainers"
+    ],
     "updatedAt": "2026-05-13",
     "shellLinks": [
-      {"label": "CAST Docs", "href": "../index.html", "placement": "topbar"}
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -22,74 +38,315 @@
       "open-questions"
     ],
     "components": {
-      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "values-grid", "open-questions"],
-      "optional": ["inline-svg-figure", "code-block", "table"],
-      "omitted": ["diff-block", "action-card"]
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "values-grid",
+        "open-questions"
+      ],
+      "optional": [
+        "inline-svg-figure",
+        "code-block",
+        "table"
+      ],
+      "omitted": [
+        "diff-block",
+        "action-card"
+      ]
     }
   },
   "sections": [
     {
       "id": "summary",
-      "title": "Summary",
+      "title": {
+        "en": "Summary",
+        "zh-CN": "摘要"
+      },
       "blocks": [
-        {"type": "summary", "items": [{"label": "Purpose", "body": "Keep generated HTML stable, reusable, and easy to validate."}]}
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Purpose",
+                "zh-CN": "目的"
+              },
+              "body": {
+                "en": "Keep generated HTML stable, reusable, and easy to validate.",
+                "zh-CN": "保持生成的 HTML 稳定、可复用且易于校验。"
+              }
+            }
+          ]
+        }
       ]
     },
     {
       "id": "context",
-      "title": "Context",
+      "title": {
+        "en": "Context",
+        "zh-CN": "背景"
+      },
       "blocks": [
-        {"type": "paragraph", "text": [{"text": "The renderer produces "}, {"text": "deterministic", "marks": [{"type": "term", "definition": "same input yields byte-identical output"}]}, {"text": " documents "}, {"text": "without", "marks": ["em"]}, {"text": " copying large templates into model context."}]}
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {
+                "text": "The renderer produces "
+              },
+              {
+                "text": "deterministic",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "same input yields byte-identical output"
+                  }
+                ]
+              },
+              {
+                "text": " documents "
+              },
+              {
+                "text": "without",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": " copying large templates into model context."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "渲染器会生成 "
+              },
+              {
+                "text": "确定性的",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "same input yields byte-identical output"
+                  }
+                ]
+              },
+              {
+                "text": " 文档，"
+              },
+              {
+                "text": "无需",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": " 将大型模板复制进模型上下文。"
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "principles-or-features",
-      "title": "Principles Or Features",
+      "title": {
+        "en": "Principles Or Features",
+        "zh-CN": "原则或特性"
+      },
       "blocks": [
         {
           "type": "values-grid",
           "items": [
-            {"title": "Consistent output", "body": [{"text": "Use "}, {"text": "one shared shell", "marks": ["mark"]}, {"text": " and semantic classes."}]},
-            {"title": "On-demand composition", "body": "Render only selected components."},
-            {"title": "Scenario skeletons", "body": "Use configured section order."},
-            {"title": "Reuse first", "body": "Prefer existing components and schema fragments."}
+            {
+              "title": {
+                "en": "Consistent output",
+                "zh-CN": "一致输出"
+              },
+              "body": {
+                "en": [
+                  {
+                    "text": "Use "
+                  },
+                  {
+                    "text": "one shared shell",
+                    "marks": [
+                      "mark"
+                    ]
+                  },
+                  {
+                    "text": " and semantic classes."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "使用 "
+                  },
+                  {
+                    "text": "一个共享 shell",
+                    "marks": [
+                      "mark"
+                    ]
+                  },
+                  {
+                    "text": " 和语义化类名。"
+                  }
+                ]
+              }
+            },
+            {
+              "title": {
+                "en": "On-demand composition",
+                "zh-CN": "按需组合"
+              },
+              "body": {
+                "en": "Render only selected components.",
+                "zh-CN": "只渲染被选择的组件。"
+              }
+            },
+            {
+              "title": {
+                "en": "Scenario skeletons",
+                "zh-CN": "场景骨架"
+              },
+              "body": {
+                "en": "Use configured section order.",
+                "zh-CN": "使用已配置的章节顺序。"
+              }
+            },
+            {
+              "title": {
+                "en": "Reuse first",
+                "zh-CN": "复用优先"
+              },
+              "body": {
+                "en": "Prefer existing components and schema fragments.",
+                "zh-CN": "优先使用已有组件和 schema 片段。"
+              }
+            }
           ]
         }
       ]
     },
     {
       "id": "examples",
-      "title": "Examples",
+      "title": {
+        "en": "Examples",
+        "zh-CN": "示例"
+      },
       "blocks": [
         {
           "type": "diagram",
-          "kind": "svg",
-          "title": "Renderer boundary",
+          "kind": "flow",
+          "title": {
+            "en": "Renderer boundary",
+            "zh-CN": "渲染器边界"
+          },
           "downloadName": "renderer-boundary",
           "source": {
-            "format": "svg",
-            "content": "<svg viewBox=\"0 0 360 120\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"10\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#eef3ff\" stroke=\"#6b7a90\"/><text x=\"80\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Document JSON</text><line x1=\"155\" y1=\"60\" x2=\"205\" y2=\"60\" stroke=\"#6b7a90\" stroke-width=\"2\"/><rect x=\"210\" y=\"30\" width=\"140\" height=\"60\" rx=\"8\" fill=\"#f6f8fa\" stroke=\"#6b7a90\"/><text x=\"280\" y=\"62\" text-anchor=\"middle\" font-size=\"14\">Renderer</text></svg>"
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "Document JSON",
+                  "zh-CN": "文档 JSON"
+                }
+              },
+              {
+                "id": "renderer",
+                "label": {
+                  "en": "Renderer",
+                  "zh-CN": "渲染器"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "renderer"
+              }
+            ]
           }
         },
-        {"type": "code", "language": "sh", "code": "python3 scripts/render_html.py --input doc.json --output doc.html --validate"}
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "python3 scripts/render_html.py --input doc.json --output doc.html --validate"
+        }
       ]
     },
     {
       "id": "application-guidance",
-      "title": "Application Guidance",
+      "title": {
+        "en": "Application Guidance",
+        "zh-CN": "应用指南"
+      },
       "blocks": [
         {
           "type": "table",
-          "headers": ["Need", "Use"],
-          "rows": [["Explain a rule", "paragraph or callout"], ["Show equal principles", "values-grid"], ["Show structure", "diagram"]]
+          "headers": [
+            {
+              "en": "Need",
+              "zh-CN": "诉求"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "Use"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Explain a rule",
+                "zh-CN": "解释规则"
+              },
+              {
+                "en": "paragraph or callout",
+                "zh-CN": "paragraph 或 callout"
+              }
+            ],
+            [
+              {
+                "en": "Show equal principles",
+                "zh-CN": "展示同级原则"
+              },
+              {
+                "en": "values-grid",
+                "zh-CN": "values-grid"
+              }
+            ],
+            [
+              {
+                "en": "Show structure",
+                "zh-CN": "展示结构"
+              },
+              {
+                "en": "diagram",
+                "zh-CN": "diagram"
+              }
+            ]
+          ]
         }
       ]
     },
     {
       "id": "open-questions",
-      "title": "Open Questions",
+      "title": {
+        "en": "Open Questions",
+        "zh-CN": "开放问题"
+      },
       "blocks": [
-        {"type": "open-questions", "questions": ["Should raw SVG fallback be disabled in locked-down environments?"]}
+        {
+          "type": "open-questions",
+          "questions": [
+            {
+              "en": "Should raw SVG fallback be disabled in locked-down environments?",
+              "zh-CN": "在锁定环境中是否应禁用 raw SVG fallback？"
+            }
+          ]
+        }
       ]
     }
   ]

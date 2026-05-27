@@ -13,7 +13,7 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1>{{ TITLE }}</h1>{{ DOC_META }}</header>
+<header class="doc-header"><h1>{{ DISPLAY_TITLE }}</h1>{{ DOC_META }}</header>
 <main>
 {{ SECTIONS }}
 </main>
@@ -21,7 +21,7 @@
 </article>
 
 <aside class="sidebar">{{ SIDEBAR }}</aside>
-<header class="topbar"><span class="topbar-title">{{ TITLE }}</span>{{ TOPBAR_LINKS }}<span class="topbar-spacer"></span></header>
+<header class="topbar"><span class="topbar-title">{{ DISPLAY_TITLE }}</span>{{ TOPBAR_LINKS }}<span class="topbar-spacer"></span>{{ LANGUAGE_SWITCHER }}</header>
 
 <style>{{ STYLE }}</style>
 {{ INTERACTION_HOOKS }}

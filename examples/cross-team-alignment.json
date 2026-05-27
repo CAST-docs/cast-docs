@@ -1,13 +1,30 @@
 {
   "metadata": {
-    "title": "Order status contract alignment",
+    "title": {
+      "en": "Order status contract alignment",
+      "zh-CN": "订单状态契约对齐"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
-    "audience": ["api consumers", "api owners"],
+    "audience": [
+      "api consumers",
+      "api owners"
+    ],
     "updatedAt": "2026-05-13",
     "shellLinks": [
-      {"label": "CAST Docs", "href": "../index.html", "placement": "topbar"}
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -24,99 +41,401 @@
       "open-questions"
     ],
     "components": {
-      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "participants", "source-refs", "open-questions"],
-      "optional": ["diff-block", "files", "action-card", "callout"],
-      "omitted": ["diagram", "values-grid", "inline-svg-figure"]
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "participants",
+        "source-refs",
+        "open-questions"
+      ],
+      "optional": [
+        "diff-block",
+        "files",
+        "action-card",
+        "callout"
+      ],
+      "omitted": [
+        "diagram",
+        "values-grid",
+        "inline-svg-figure"
+      ]
     }
   },
   "sections": [
     {
       "id": "background",
-      "title": "Background",
+      "title": {
+        "en": "Background",
+        "zh-CN": "背景"
+      },
       "blocks": [
-        {"type": "summary", "items": [{"label": "Topic", "body": "Consumers and owners need one order status contract."}]}
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Topic",
+                "zh-CN": "Topic"
+              },
+              "body": {
+                "en": "Consumers and owners need one order status contract.",
+                "zh-CN": "消费方和归属方需要一份统一的订单状态契约。"
+              }
+            }
+          ]
+        }
       ]
     },
     {
       "id": "participants-and-responsibilities",
-      "title": "Participants And Responsibilities",
+      "title": {
+        "en": "Participants And Responsibilities",
+        "zh-CN": "参与方与职责"
+      },
       "blocks": [
         {
           "type": "participants",
           "items": [
-            {"name": "Consumer Team", "role": "consumer", "responsibility": "Handle status display and fallback behavior."},
-            {"name": "Order Team", "role": "owner", "responsibility": "Own API implementation and compatibility."},
-            {"name": "Spec Team", "role": "maintainer", "responsibility": "Maintain source-of-truth schema."}
+            {
+              "name": {
+                "en": "Consumer Team",
+                "zh-CN": "消费方团队"
+              },
+              "role": {
+                "en": "consumer",
+                "zh-CN": "消费方"
+              },
+              "responsibility": {
+                "en": "Handle status display and fallback behavior.",
+                "zh-CN": "负责状态展示和降级行为。"
+              }
+            },
+            {
+              "name": {
+                "en": "Order Team",
+                "zh-CN": "订单团队"
+              },
+              "role": {
+                "en": "owner",
+                "zh-CN": "归属方"
+              },
+              "responsibility": {
+                "en": "Own API implementation and compatibility.",
+                "zh-CN": "负责 API 实现和兼容性。"
+              }
+            },
+            {
+              "name": {
+                "en": "Spec Team",
+                "zh-CN": "规格团队"
+              },
+              "role": {
+                "en": "maintainer",
+                "zh-CN": "维护方"
+              },
+              "responsibility": {
+                "en": "Maintain source-of-truth schema.",
+                "zh-CN": "维护事实来源 schema。"
+              }
+            }
           ]
         }
       ]
     },
     {
       "id": "source-of-truth",
-      "title": "Source Of Truth",
+      "title": {
+        "en": "Source Of Truth",
+        "zh-CN": "事实来源"
+      },
       "blocks": [
         {
           "type": "source-refs",
           "items": [
-            {"label": "API spec", "url": "https://example.com/spec/order-status", "text": "order-status schema"},
-            {"label": "Implementation", "url": "https://example.com/repo/order-service", "text": "order-service"}
+            {
+              "label": {
+                "en": "API spec",
+                "zh-CN": "API 规格"
+              },
+              "url": "https://example.com/spec/order-status",
+              "text": {
+                "en": "order-status schema",
+                "zh-CN": "order-status schema"
+              }
+            },
+            {
+              "label": {
+                "en": "Implementation",
+                "zh-CN": "实现"
+              },
+              "url": "https://example.com/repo/order-service",
+              "text": {
+                "en": "order-service",
+                "zh-CN": "order-service"
+              }
+            }
           ]
         }
       ]
     },
     {
       "id": "differences-or-gaps",
-      "title": "Differences Or Gaps",
+      "title": {
+        "en": "Differences Or Gaps",
+        "zh-CN": "差异或缺口"
+      },
       "blocks": [
         {
           "type": "diff",
-          "title": "Status field difference",
+          "title": {
+            "en": "Status field difference",
+            "zh-CN": "状态字段差异"
+          },
           "left": {
-            "label": "Spec",
+            "label": {
+              "en": "Spec",
+              "zh-CN": "规格"
+            },
             "language": "json",
             "lines": [
-              {"kind": "context", "text": "\"status\": \"paid\""},
-              {"kind": "add", "text": "\"payment_status\": \"settled\""}
+              {
+                "kind": "context",
+                "text": "\"status\": \"paid\""
+              },
+              {
+                "kind": "add",
+                "text": "\"payment_status\": \"settled\""
+              }
             ]
           },
           "right": {
-            "label": "Implementation",
+            "label": {
+              "en": "Implementation",
+              "zh-CN": "实现"
+            },
             "language": "json",
             "lines": [
-              {"kind": "context", "text": "\"status\": \"paid\""},
-              {"kind": "remove", "text": "\"payment_status\": missing"}
+              {
+                "kind": "context",
+                "text": "\"status\": \"paid\""
+              },
+              {
+                "kind": "remove",
+                "text": "\"payment_status\": missing"
+              }
             ]
           }
         },
-        {"type": "files", "items": [{"path": "api/order/response.go", "lineStart": 42, "note": "Response assembly path"}]}
+        {
+          "type": "files",
+          "items": [
+            {
+              "path": "api/order/response.go",
+              "lineStart": 42,
+              "note": {
+                "en": "Response assembly path",
+                "zh-CN": "响应组装路径"
+              }
+            }
+          ]
+        }
       ]
     },
     {
       "id": "impact",
-      "title": "Impact",
+      "title": {
+        "en": "Impact",
+        "zh-CN": "影响"
+      },
       "blocks": [
-        {"type": "callout", "variant": "warning", "title": "Impact", "body": [{"text": "Consumers cannot distinguish "}, {"text": "status: paid", "marks": ["code"]}, {"text": " from fully settled orders, because "}, {"text": "payment_status", "marks": ["code"]}, {"text": " is missing."}]}
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Impact",
+            "zh-CN": "影响"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "Consumers cannot distinguish "
+              },
+              {
+                "text": "status: paid",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " from fully settled orders, because "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " is missing."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "消费者无法区分 "
+              },
+              {
+                "text": "status: paid",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 和已完全结算订单，因为 "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 缺失。"
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "decisions",
-      "title": "Decisions",
+      "title": {
+        "en": "Decisions",
+        "zh-CN": "决策"
+      },
       "blocks": [
-        {"type": "paragraph", "text": [{"text": "The implementation will add "}, {"text": "payment_status", "marks": ["code"]}, {"text": " and keep the existing "}, {"text": "status", "marks": ["code"]}, {"text": " field unchanged; the change lands in "}, {"text": "response.go:42", "marks": [{"type": "ref", "path": "api/order/response.go", "line": 42}]}, {"text": "."}]}
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {
+                "text": "The implementation will add "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " and keep the existing "
+              },
+              {
+                "text": "status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " field unchanged; the change lands in "
+              },
+              {
+                "text": "response.go:42",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "api/order/response.go",
+                    "line": 42
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "实现会新增 "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "，并保持现有 "
+              },
+              {
+                "text": "status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 字段不变；变更落在 "
+              },
+              {
+                "text": "response.go:42",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "api/order/response.go",
+                    "line": 42
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "action-items",
-      "title": "Action Items",
+      "title": {
+        "en": "Action Items",
+        "zh-CN": "行动项"
+      },
       "blocks": [
-        {"type": "action", "priority": "p1", "title": "Patch response field", "description": "Add payment_status to the order response.", "prompt": "Update order response serialization and add compatibility tests."}
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": {
+            "en": "Patch response field",
+            "zh-CN": "修补响应字段"
+          },
+          "description": {
+            "en": "Add payment_status to the order response.",
+            "zh-CN": "向订单响应中添加 payment_status。"
+          },
+          "prompt": {
+            "en": "Update order response serialization and add compatibility tests.",
+            "zh-CN": "更新订单响应序列化，并添加兼容性测试。"
+          }
+        }
       ]
     },
     {
       "id": "open-questions",
-      "title": "Open Questions",
+      "title": {
+        "en": "Open Questions",
+        "zh-CN": "开放问题"
+      },
       "blocks": [
-        {"type": "open-questions", "questions": ["Should older clients receive a default payment_status value?"]}
+        {
+          "type": "open-questions",
+          "questions": [
+            {
+              "en": "Should older clients receive a default payment_status value?",
+              "zh-CN": "旧客户端是否应收到默认的 payment_status 值？"
+            }
+          ]
+        }
       ]
     }
   ]

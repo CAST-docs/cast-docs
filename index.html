@@ -11,7 +11,10 @@
 <script type="application/json" id="cast-doc-source" data-renderer-owned="true">
 {
   "metadata": {
-    "title": "CAST Docs",
+    "title": {
+      "en": "CAST Docs",
+      "zh-CN": "CAST Docs"
+    },
     "language": "en",
     "status": "draft",
     "owner": "CAST-docs",
@@ -19,18 +22,31 @@
       "everyone"
     ],
     "updatedAt": "2026-05-26",
-    "description": "Render engineering documents from JSON to self-contained HTML. Component Assembly Styled Templates.",
+    "description": {
+      "en": "Render engineering documents from JSON to self-contained HTML. Component Assembly Styled Templates.",
+      "zh-CN": "将工程文档从 JSON 渲染为自包含 HTML。Component Assembly Styled Templates。"
+    },
     "shellLinks": [
       {
-        "label": "Repository",
+        "label": {
+          "en": "Repository",
+          "zh-CN": "仓库"
+        },
         "href": "https://github.com/CAST-docs/cast-docs",
         "placement": "topbar"
       },
       {
-        "label": "README",
+        "label": {
+          "en": "README",
+          "zh-CN": "README"
+        },
         "href": "https://github.com/CAST-docs/cast-docs#readme",
         "placement": "topbar"
       }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -75,66 +91,126 @@
   "sections": [
     {
       "id": "overview",
-      "title": "Overview",
+      "title": {
+        "en": "Overview",
+        "zh-CN": "概览"
+      },
       "blocks": [
         {
           "type": "summary",
           "items": [
             {
-              "label": "Format",
-              "body": "Author engineering documents as structured JSON; render to one self-contained HTML file."
+              "label": {
+                "en": "Format",
+                "zh-CN": "格式"
+              },
+              "body": {
+                "en": "Author engineering documents as structured JSON; render to one self-contained HTML file.",
+                "zh-CN": "以结构化 JSON 编写工程文档；渲染为一个自包含 HTML 文件。"
+              }
             },
             {
-              "label": "Output",
-              "body": "Inline CSS, no CDN, no external scripts. Opens in any browser, attaches to email, archives, and publishes to GitHub Pages."
+              "label": {
+                "en": "Output",
+                "zh-CN": "输出"
+              },
+              "body": {
+                "en": "Inline CSS, no CDN, no external scripts. Opens in any browser, attaches to email, archives, and publishes to GitHub Pages.",
+                "zh-CN": "内联 CSS，无 CDN，无外部脚本。可在任意浏览器打开，也适合邮件附件、归档和发布到 GitHub Pages。"
+              }
             },
             {
-              "label": "Use as",
-              "body": "A Claude Code skill, or a standalone Python renderer with zero third-party dependencies."
+              "label": {
+                "en": "Use as",
+                "zh-CN": "使用方式"
+              },
+              "body": {
+                "en": "A Claude Code skill, or a standalone Python renderer with zero third-party dependencies.",
+                "zh-CN": "可作为 Claude Code skill 使用，也可作为零第三方依赖的独立 Python 渲染器使用。"
+              }
             }
           ]
         },
         {
           "type": "paragraph",
-          "text": "CAST Docs is a controlled replacement for Markdown-based engineering documents. The JSON is the source. The HTML is the artifact. The renderer enforces one visual system, one class vocabulary, and one validation contract across every output."
+          "text": {
+            "en": "CAST Docs is a controlled replacement for Markdown-based engineering documents. The JSON is the source. The HTML is the artifact. The renderer enforces one visual system, one class vocabulary, and one validation contract across every output.",
+            "zh-CN": "CAST Docs 是对 Markdown 工程文档的受控替代方案。JSON 是源文件，HTML 是产物。渲染器在所有输出中强制使用同一套视觉系统、类名词表和校验契约。"
+          }
         }
       ]
     },
     {
       "id": "scenarios",
-      "title": "Five built-in scenarios",
+      "title": {
+        "en": "Five built-in scenarios",
+        "zh-CN": "五个内置场景"
+      },
       "blocks": [
         {
           "type": "paragraph",
-          "text": "Each scenario picks a section order and a set of components that fit a common writing situation. Open any preview to see a rendered example; the matching JSON fixture lives next to it in the repository."
+          "text": {
+            "en": "Each scenario picks a section order and a set of components that fit a common writing situation. Open any preview to see a rendered example; the matching JSON fixture lives next to it in the repository.",
+            "zh-CN": "每个场景都会选择适合常见写作情境的章节顺序和组件集合。打开任意预览即可查看渲染示例；对应的 JSON fixture 位于仓库中的相邻位置。"
+          }
         },
         {
           "type": "source-refs",
           "items": [
             {
-              "label": "Problem investigation",
+              "label": {
+                "en": "Problem investigation",
+                "zh-CN": "问题排查"
+              },
               "url": "./examples/problem-investigation.html",
-              "text": "Tracking down a bug, regression, or anomaly."
+              "text": {
+                "en": "Tracking down a bug, regression, or anomaly.",
+                "zh-CN": "追踪 bug、回归或异常。"
+              }
             },
             {
-              "label": "Option decision",
+              "label": {
+                "en": "Option decision",
+                "zh-CN": "方案决策"
+              },
               "url": "./examples/option-decision.html",
-              "text": "Comparing options and recording why one was chosen."
+              "text": {
+                "en": "Comparing options and recording why one was chosen.",
+                "zh-CN": "比较多个方案，并记录选择某个方案的原因。"
+              }
             },
             {
-              "label": "Cross-team alignment",
+              "label": {
+                "en": "Cross-team alignment",
+                "zh-CN": "跨团队对齐"
+              },
               "url": "./examples/cross-team-alignment.html",
-              "text": "Aligning multiple teams on scope and ownership."
+              "text": {
+                "en": "Aligning multiple teams on scope and ownership.",
+                "zh-CN": "让多个团队在范围和归属上达成一致。"
+              }
             },
             {
-              "label": "Document digest",
+              "label": {
+                "en": "Document digest",
+                "zh-CN": "文档摘要"
+              },
               "url": "./examples/document-digest.html",
-              "text": "Summarizing a long document or set of documents."
+              "text": {
+                "en": "Summarizing a long document or set of documents.",
+                "zh-CN": "总结长文档或一组文档。"
+              }
             },
             {
-              "label": "Principle showcase",
+              "label": {
+                "en": "Principle showcase",
+                "zh-CN": "原则展示"
+              },
               "url": "./examples/principle-showcase.html",
-              "text": "Curating principles or guidelines for reuse."
+              "text": {
+                "en": "Curating principles or guidelines for reuse.",
+                "zh-CN": "整理可复用的原则或指南。"
+              }
             }
           ]
         }
@@ -142,26 +218,53 @@
     },
     {
       "id": "design-principles",
-      "title": "Why this shape",
+      "title": {
+        "en": "Why this shape",
+        "zh-CN": "为什么采用这种形态"
+      },
       "blocks": [
         {
           "type": "values-grid",
           "items": [
             {
-              "title": "HTML, not Markdown",
-              "body": "Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer."
+              "title": {
+                "en": "HTML, not Markdown",
+                "zh-CN": "使用 HTML，而不是 Markdown"
+              },
+              "body": {
+                "en": "Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer.",
+                "zh-CN": "如果不依赖各渲染器扩展，Markdown 无法稳定承载 callout、决策矩阵、diff block、图表查看器和受控表格。由我们掌控 HTML，才能在所有查看器中得到一致输出。"
+              }
             },
             {
-              "title": "JSON intermediate",
-              "body": "Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output."
+              "title": {
+                "en": "JSON intermediate",
+                "zh-CN": "JSON 中间表示"
+              },
+              "body": {
+                "en": "Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output.",
+                "zh-CN": "模型直接从 prose 生成 HTML 是非确定性的。prose 到 JSON 再到 HTML 可以分离内容和渲染，让 JSON 可校验、可 diff，并让渲染器产出字节稳定的结果。"
+              }
             },
             {
-              "title": "Self-contained output",
-              "body": "Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages."
+              "title": {
+                "en": "Self-contained output",
+                "zh-CN": "自包含输出"
+              },
+              "body": {
+                "en": "Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages.",
+                "zh-CN": "内联 CSS，无外部资源。HTML 可以在任意浏览器打开，作为邮件附件发送，复制到 S3，或通过 GitHub Pages 提供服务。"
+              }
             },
             {
-              "title": "Config-driven renderer",
-              "body": "Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles."
+              "title": {
+                "en": "Config-driven renderer",
+                "zh-CN": "配置驱动渲染器"
+              },
+              "body": {
+                "en": "Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.",
+                "zh-CN": "新增组件、主题、布局或交互时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 中，scripts/ 里的 Python 只负责组装。"
+              }
             }
           ]
         }
@@ -169,11 +272,17 @@
     },
     {
       "id": "get-started",
-      "title": "Get started",
+      "title": {
+        "en": "Get started",
+        "zh-CN": "开始使用"
+      },
       "blocks": [
         {
           "type": "paragraph",
-          "text": "Requires Python 3.9 or newer. Standard library only. Clone the repository and render one of the bundled examples:"
+          "text": {
+            "en": "Requires Python 3.9 or newer. Standard library only. Clone the repository and render one of the bundled examples:",
+            "zh-CN": "需要 Python 3.9 或更新版本。仅使用标准库。克隆仓库并渲染一个内置示例："
+          }
         },
         {
           "type": "code",
@@ -183,26 +292,50 @@
         {
           "type": "callout",
           "variant": "info",
-          "title": "Use as a Claude Code skill",
-          "body": "Clone into ~/.claude/skills/cast-docs and the skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document. References in references/ are loaded on demand."
+          "title": {
+            "en": "Use as a Claude Code skill",
+            "zh-CN": "作为 Claude Code skill 使用"
+          },
+          "body": {
+            "en": "Clone into ~/.claude/skills/cast-docs and the skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document. References in references/ are loaded on demand.",
+            "zh-CN": "克隆到 ~/.claude/skills/cast-docs 后，当你要求 Claude 生成工程规格、决策记录或自包含 HTML 文档时，该 skill 会自动启用。references/ 中的参考材料会按需加载。"
+          }
         },
         {
           "type": "source-refs",
           "items": [
             {
-              "label": "README",
+              "label": {
+                "en": "README",
+                "zh-CN": "README"
+              },
               "url": "https://github.com/CAST-docs/cast-docs#readme",
-              "text": "Installation, validation pipeline, repository layout."
+              "text": {
+                "en": "Installation, validation pipeline, repository layout.",
+                "zh-CN": "安装方式、校验流程和仓库结构。"
+              }
             },
             {
-              "label": "JSON schema",
+              "label": {
+                "en": "JSON schema",
+                "zh-CN": "JSON schema"
+              },
               "url": "https://github.com/CAST-docs/cast-docs/blob/main/schemas/doc.schema.json",
-              "text": "The contract every input document must satisfy."
+              "text": {
+                "en": "The contract every input document must satisfy.",
+                "zh-CN": "所有输入文档都必须满足的契约。"
+              }
             },
             {
-              "label": "Design references",
+              "label": {
+                "en": "Design references",
+                "zh-CN": "设计参考"
+              },
               "url": "https://github.com/CAST-docs/cast-docs/tree/main/references",
-              "text": "Design laws, generation contract, module architecture, interactive features."
+              "text": {
+                "en": "Design laws, generation contract, module architecture, interactive features.",
+                "zh-CN": "设计法则、生成契约、模块架构和交互能力。"
+              }
             }
           ]
         }
@@ -210,18 +343,33 @@
     },
     {
       "id": "status",
-      "title": "Status",
+      "title": {
+        "en": "Status",
+        "zh-CN": "状态"
+      },
       "blocks": [
         {
           "type": "values-grid",
           "items": [
             {
-              "title": "Done (P0)",
-              "body": "Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation."
+              "title": {
+                "en": "Done (P0)",
+                "zh-CN": "已完成（P0）"
+              },
+              "body": {
+                "en": "Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation.",
+                "zh-CN": "已支持单文档渲染和完整 block 库。cast-default 主题由 theme token 编译生成。图表查看器支持缩放、拖拽、SVG 和 PNG 下载。已具备 JSON schema 与 HTML profile 校验。"
+              }
             },
             {
-              "title": "Planned",
-              "body": "Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples."
+              "title": {
+                "en": "Planned",
+                "zh-CN": "计划中"
+              },
+              "body": {
+                "en": "Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples.",
+                "zh-CN": "支持带侧边栏、顶部栏和分页的文档集布局。为 GitHub Pages 友好的多页面站点生成索引。将排版和间距 token 编译进基础 CSS。用渲染器生成的示例 HTML 替换剩余手写样例。"
+              }
             }
           ]
         }
@@ -232,48 +380,48 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1>CAST Docs</h1><div class="doc-meta">Owner CAST-docs · Updated 2026-05-26</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></h1><div class="doc-meta"><span data-i18n-key="metadata.owner">Owner</span> CAST-docs · <span data-i18n-key="metadata.updated">Updated</span> 2026-05-26</div></header>
 <main>
 <section class="doc-section" id="overview">
-<h2>Overview</h2>
-<section class="doc-summary"><ul><li><strong>Format:</strong> Author engineering documents as structured JSON; render to one self-contained HTML file.</li><li><strong>Output:</strong> Inline CSS, no CDN, no external scripts. Opens in any browser, attaches to email, archives, and publishes to GitHub Pages.</li><li><strong>Use as:</strong> A Claude Code skill, or a standalone Python renderer with zero third-party dependencies.</li></ul></section>
-<p>CAST Docs is a controlled replacement for Markdown-based engineering documents. The JSON is the source. The HTML is the artifact. The renderer enforces one visual system, one class vocabulary, and one validation contract across every output.</p>
+<h2><span data-locale="en" data-locale-active="true">Overview</span><span data-locale="zh-CN" data-locale-active="false">概览</span></h2>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Format</span><span data-locale="zh-CN" data-locale-active="false">格式</span>:</strong> <span data-locale="en" data-locale-active="true">Author engineering documents as structured JSON; render to one self-contained HTML file.</span><span data-locale="zh-CN" data-locale-active="false">以结构化 JSON 编写工程文档；渲染为一个自包含 HTML 文件。</span></li><li><strong><span data-locale="en" data-locale-active="true">Output</span><span data-locale="zh-CN" data-locale-active="false">输出</span>:</strong> <span data-locale="en" data-locale-active="true">Inline CSS, no CDN, no external scripts. Opens in any browser, attaches to email, archives, and publishes to GitHub Pages.</span><span data-locale="zh-CN" data-locale-active="false">内联 CSS，无 CDN，无外部脚本。可在任意浏览器打开，也适合邮件附件、归档和发布到 GitHub Pages。</span></li><li><strong><span data-locale="en" data-locale-active="true">Use as</span><span data-locale="zh-CN" data-locale-active="false">使用方式</span>:</strong> <span data-locale="en" data-locale-active="true">A Claude Code skill, or a standalone Python renderer with zero third-party dependencies.</span><span data-locale="zh-CN" data-locale-active="false">可作为 Claude Code skill 使用，也可作为零第三方依赖的独立 Python 渲染器使用。</span></li></ul></section>
+<p><span data-locale="en" data-locale-active="true">CAST Docs is a controlled replacement for Markdown-based engineering documents. The JSON is the source. The HTML is the artifact. The renderer enforces one visual system, one class vocabulary, and one validation contract across every output.</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs 是对 Markdown 工程文档的受控替代方案。JSON 是源文件，HTML 是产物。渲染器在所有输出中强制使用同一套视觉系统、类名词表和校验契约。</span></p>
 </section>
 
 <section class="doc-section" id="scenarios">
-<h2>Five built-in scenarios</h2>
-<p>Each scenario picks a section order and a set of components that fit a common writing situation. Open any preview to see a rendered example; the matching JSON fixture lives next to it in the repository.</p>
-<ul class="source-refs"><li><a href="./examples/problem-investigation.html">Problem investigation</a> — Tracking down a bug, regression, or anomaly.</li><li><a href="./examples/option-decision.html">Option decision</a> — Comparing options and recording why one was chosen.</li><li><a href="./examples/cross-team-alignment.html">Cross-team alignment</a> — Aligning multiple teams on scope and ownership.</li><li><a href="./examples/document-digest.html">Document digest</a> — Summarizing a long document or set of documents.</li><li><a href="./examples/principle-showcase.html">Principle showcase</a> — Curating principles or guidelines for reuse.</li></ul>
+<h2><span data-locale="en" data-locale-active="true">Five built-in scenarios</span><span data-locale="zh-CN" data-locale-active="false">五个内置场景</span></h2>
+<p><span data-locale="en" data-locale-active="true">Each scenario picks a section order and a set of components that fit a common writing situation. Open any preview to see a rendered example; the matching JSON fixture lives next to it in the repository.</span><span data-locale="zh-CN" data-locale-active="false">每个场景都会选择适合常见写作情境的章节顺序和组件集合。打开任意预览即可查看渲染示例；对应的 JSON fixture 位于仓库中的相邻位置。</span></p>
+<ul class="source-refs"><li><a href="./examples/problem-investigation.html"><span data-locale="en" data-locale-active="true">Problem investigation</span><span data-locale="zh-CN" data-locale-active="false">问题排查</span></a> - <span data-locale="en" data-locale-active="true">Tracking down a bug, regression, or anomaly.</span><span data-locale="zh-CN" data-locale-active="false">追踪 bug、回归或异常。</span></li><li><a href="./examples/option-decision.html"><span data-locale="en" data-locale-active="true">Option decision</span><span data-locale="zh-CN" data-locale-active="false">方案决策</span></a> - <span data-locale="en" data-locale-active="true">Comparing options and recording why one was chosen.</span><span data-locale="zh-CN" data-locale-active="false">比较多个方案，并记录选择某个方案的原因。</span></li><li><a href="./examples/cross-team-alignment.html"><span data-locale="en" data-locale-active="true">Cross-team alignment</span><span data-locale="zh-CN" data-locale-active="false">跨团队对齐</span></a> - <span data-locale="en" data-locale-active="true">Aligning multiple teams on scope and ownership.</span><span data-locale="zh-CN" data-locale-active="false">让多个团队在范围和归属上达成一致。</span></li><li><a href="./examples/document-digest.html"><span data-locale="en" data-locale-active="true">Document digest</span><span data-locale="zh-CN" data-locale-active="false">文档摘要</span></a> - <span data-locale="en" data-locale-active="true">Summarizing a long document or set of documents.</span><span data-locale="zh-CN" data-locale-active="false">总结长文档或一组文档。</span></li><li><a href="./examples/principle-showcase.html"><span data-locale="en" data-locale-active="true">Principle showcase</span><span data-locale="zh-CN" data-locale-active="false">原则展示</span></a> - <span data-locale="en" data-locale-active="true">Curating principles or guidelines for reuse.</span><span data-locale="zh-CN" data-locale-active="false">整理可复用的原则或指南。</span></li></ul>
 </section>
 
 <section class="doc-section" id="design-principles">
-<h2>Why this shape</h2>
-<section class="values-grid"><div class="value-card"><h3>HTML, not Markdown</h3><p>Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer.</p></div><div class="value-card"><h3>JSON intermediate</h3><p>Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output.</p></div><div class="value-card"><h3>Self-contained output</h3><p>Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages.</p></div><div class="value-card"><h3>Config-driven renderer</h3><p>Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.</p></div></section>
+<h2><span data-locale="en" data-locale-active="true">Why this shape</span><span data-locale="zh-CN" data-locale-active="false">为什么采用这种形态</span></h2>
+<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">HTML, not Markdown</span><span data-locale="zh-CN" data-locale-active="false">使用 HTML，而不是 Markdown</span></h3><p><span data-locale="en" data-locale-active="true">Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer.</span><span data-locale="zh-CN" data-locale-active="false">如果不依赖各渲染器扩展，Markdown 无法稳定承载 callout、决策矩阵、diff block、图表查看器和受控表格。由我们掌控 HTML，才能在所有查看器中得到一致输出。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">JSON intermediate</span><span data-locale="zh-CN" data-locale-active="false">JSON 中间表示</span></h3><p><span data-locale="en" data-locale-active="true">Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output.</span><span data-locale="zh-CN" data-locale-active="false">模型直接从 prose 生成 HTML 是非确定性的。prose 到 JSON 再到 HTML 可以分离内容和渲染，让 JSON 可校验、可 diff，并让渲染器产出字节稳定的结果。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Self-contained output</span><span data-locale="zh-CN" data-locale-active="false">自包含输出</span></h3><p><span data-locale="en" data-locale-active="true">Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages.</span><span data-locale="zh-CN" data-locale-active="false">内联 CSS，无外部资源。HTML 可以在任意浏览器打开，作为邮件附件发送，复制到 S3，或通过 GitHub Pages 提供服务。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Config-driven renderer</span><span data-locale="zh-CN" data-locale-active="false">配置驱动渲染器</span></h3><p><span data-locale="en" data-locale-active="true">Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.</span><span data-locale="zh-CN" data-locale-active="false">新增组件、主题、布局或交互时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 中，scripts/ 里的 Python 只负责组装。</span></p></div></section>
 </section>
 
 <section class="doc-section" id="get-started">
-<h2>Get started</h2>
-<p>Requires Python 3.9 or newer. Standard library only. Clone the repository and render one of the bundled examples:</p>
+<h2><span data-locale="en" data-locale-active="true">Get started</span><span data-locale="zh-CN" data-locale-active="false">开始使用</span></h2>
+<p><span data-locale="en" data-locale-active="true">Requires Python 3.9 or newer. Standard library only. Clone the repository and render one of the bundled examples:</span><span data-locale="zh-CN" data-locale-active="false">需要 Python 3.9 或更新版本。仅使用标准库。克隆仓库并渲染一个内置示例：</span></p>
 <pre class="code-block" data-language="sh"><code data-language="sh">git clone https://github.com/CAST-docs/cast-docs.git
 cd cast-docs
 python3 scripts/render_html.py \
   --input examples/problem-investigation.json \
   --output out.html \
   --validate</code></pre>
-<aside class="callout callout-info"><strong>Use as a Claude Code skill</strong><p>Clone into ~/.claude/skills/cast-docs and the skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document. References in references/ are loaded on demand.</p></aside>
-<ul class="source-refs"><li><a href="https://github.com/CAST-docs/cast-docs#readme" target="_blank" rel="noopener noreferrer">README</a> — Installation, validation pipeline, repository layout.</li><li><a href="https://github.com/CAST-docs/cast-docs/blob/main/schemas/doc.schema.json" target="_blank" rel="noopener noreferrer">JSON schema</a> — The contract every input document must satisfy.</li><li><a href="https://github.com/CAST-docs/cast-docs/tree/main/references" target="_blank" rel="noopener noreferrer">Design references</a> — Design laws, generation contract, module architecture, interactive features.</li></ul>
+<aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">Use as a Claude Code skill</span><span data-locale="zh-CN" data-locale-active="false">作为 Claude Code skill 使用</span></strong><p><span data-locale="en" data-locale-active="true">Clone into ~/.claude/skills/cast-docs and the skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document. References in references/ are loaded on demand.</span><span data-locale="zh-CN" data-locale-active="false">克隆到 ~/.claude/skills/cast-docs 后，当你要求 Claude 生成工程规格、决策记录或自包含 HTML 文档时，该 skill 会自动启用。references/ 中的参考材料会按需加载。</span></p></aside>
+<ul class="source-refs"><li><a href="https://github.com/CAST-docs/cast-docs#readme" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">README</span><span data-locale="zh-CN" data-locale-active="false">README</span></a> - <span data-locale="en" data-locale-active="true">Installation, validation pipeline, repository layout.</span><span data-locale="zh-CN" data-locale-active="false">安装方式、校验流程和仓库结构。</span></li><li><a href="https://github.com/CAST-docs/cast-docs/blob/main/schemas/doc.schema.json" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">JSON schema</span><span data-locale="zh-CN" data-locale-active="false">JSON schema</span></a> - <span data-locale="en" data-locale-active="true">The contract every input document must satisfy.</span><span data-locale="zh-CN" data-locale-active="false">所有输入文档都必须满足的契约。</span></li><li><a href="https://github.com/CAST-docs/cast-docs/tree/main/references" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Design references</span><span data-locale="zh-CN" data-locale-active="false">设计参考</span></a> - <span data-locale="en" data-locale-active="true">Design laws, generation contract, module architecture, interactive features.</span><span data-locale="zh-CN" data-locale-active="false">设计法则、生成契约、模块架构和交互能力。</span></li></ul>
 </section>
 
 <section class="doc-section" id="status">
-<h2>Status</h2>
-<section class="values-grid"><div class="value-card"><h3>Done (P0)</h3><p>Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation.</p></div><div class="value-card"><h3>Planned</h3><p>Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples.</p></div></section>
+<h2><span data-locale="en" data-locale-active="true">Status</span><span data-locale="zh-CN" data-locale-active="false">状态</span></h2>
+<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Done (P0)</span><span data-locale="zh-CN" data-locale-active="false">已完成（P0）</span></h3><p><span data-locale="en" data-locale-active="true">Single-doc rendering with the full block library. cast-default theme compiled from theme tokens. Diagram viewer interaction with zoom, pan, SVG and PNG download. JSON schema and HTML profile validation.</span><span data-locale="zh-CN" data-locale-active="false">已支持单文档渲染和完整 block 库。cast-default 主题由 theme token 编译生成。图表查看器支持缩放、拖拽、SVG 和 PNG 下载。已具备 JSON schema 与 HTML profile 校验。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Planned</span><span data-locale="zh-CN" data-locale-active="false">计划中</span></h3><p><span data-locale="en" data-locale-active="true">Document-set layout with sidebar, topbar, and pagination. Index builder for GitHub-Pages-friendly multi-page sites. Typography and spacing tokens compiled into the base CSS. Renderer-generated example HTML to replace any remaining hand-authored samples.</span><span data-locale="zh-CN" data-locale-active="false">支持带侧边栏、顶部栏和分页的文档集布局。为 GitHub Pages 友好的多页面站点生成索引。将排版和间距 token 编译进基础 CSS。用渲染器生成的示例 HTML 替换剩余手写样例。</span></p></div></section>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#overview"><span>01</span>Overview</a></li><li><a href="#scenarios"><span>02</span>Five built-in scenarios</a></li><li><a href="#design-principles"><span>03</span>Why this shape</a></li><li><a href="#get-started"><span>04</span>Get started</a></li><li><a href="#status"><span>05</span>Status</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">CAST Docs</span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">Repository</a><a class="topbar-link" href="https://github.com/CAST-docs/cast-docs#readme" target="_blank" rel="noopener noreferrer">README</a></nav><span class="topbar-spacer"></span></header>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#overview"><span>01</span><span data-locale="en" data-locale-active="true">Overview</span><span data-locale="zh-CN" data-locale-active="false">概览</span></a></li><li><a href="#scenarios"><span>02</span><span data-locale="en" data-locale-active="true">Five built-in scenarios</span><span data-locale="zh-CN" data-locale-active="false">五个内置场景</span></a></li><li><a href="#design-principles"><span>03</span><span data-locale="en" data-locale-active="true">Why this shape</span><span data-locale="zh-CN" data-locale-active="false">为什么采用这种形态</span></a></li><li><a href="#get-started"><span>04</span><span data-locale="en" data-locale-active="true">Get started</span><span data-locale="zh-CN" data-locale-active="false">开始使用</span></a></li><li><a href="#status"><span>05</span><span data-locale="en" data-locale-active="true">Status</span><span data-locale="zh-CN" data-locale-active="false">状态</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Repository</span><span data-locale="zh-CN" data-locale-active="false">仓库</span></a><a class="topbar-link" href="https://github.com/CAST-docs/cast-docs#readme" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">README</span><span data-locale="zh-CN" data-locale-active="false">README</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
 :root {
@@ -338,6 +486,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 [data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
 [data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
 [data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
+[data-locale][data-locale-active="false"] { display: none; }
 .sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
 .nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
@@ -352,6 +501,9 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .topbar-links:empty { display: none; }
 .topbar-link { color: var(--muted); font-size: 12.5px; }
 .topbar-spacer { flex: 1; }
+.locale-switcher { display: inline-flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.locale-button { min-width: 44px; border: 0; background: transparent; color: var(--muted); padding: 5px 8px; }
+.locale-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
 .doc { margin-left: var(--toc-width); max-width: 960px; padding: 88px 48px 84px; }
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
@@ -419,6 +571,35 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 }
 </style>
 
-
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="i18n">(() => {
+  const config = window.CAST_DOCS_I18N;
+  if (!config || !Array.isArray(config.locales) || config.locales.length < 2) return;
+  const root = document.documentElement;
+  const stringsFor = (locale) => (config.strings && config.strings[locale]) || {};
+  const label = (locale, key, fallback) => stringsFor(locale)[key] || stringsFor(config.activeLocale)[key] || fallback;
+  function apply(locale) {
+    if (!config.locales.includes(locale)) return;
+    root.lang = locale;
+    root.setAttribute('data-active-locale', locale);
+    config.activeLocale = locale;
+    document.querySelectorAll('[data-locale]').forEach((node) => {
+      const active = node.getAttribute('data-locale') === locale;
+      node.setAttribute('data-locale-active', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-locale-target]').forEach((button) => {
+      const active = button.getAttribute('data-locale-target') === locale;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-i18n-key]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-key');
+      if (key) node.textContent = label(locale, key, node.textContent);
+    });
+  }
+  document.querySelectorAll('[data-locale-target]').forEach((button) => {
+    button.addEventListener('click', () => apply(button.getAttribute('data-locale-target')));
+  });
+  apply(config.activeLocale);
+})();
+</script>
 </body>
 </html>

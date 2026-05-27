@@ -2,3 +2,14 @@ __pycache__/
 *.pyc
 .DS_Store
 .idea/
+
+# Local AI assistant instructions and artifacts
+CLAUDE.md
+AGENTS.md
+.claude/
+.codex/
+.cursor/
+.continue/
+*.ai.local.*
+*.prompt.local.*
+*.scratch.*

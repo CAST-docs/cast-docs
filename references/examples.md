@@ -9,6 +9,7 @@ Current fixtures:
 - `examples/option-decision.json`
 - `examples/document-digest.json`
 - `examples/principle-showcase.json`
+- `examples/bilingual-decision.json`
 
 Current rendered HTML previews (regenerated from the JSON fixtures above):
 

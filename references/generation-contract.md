@@ -147,6 +147,29 @@ python3 scripts/render_html.py --input doc.json --output doc.html --validate
 
 The CLI should not require the model to copy templates, CSS, or renderer internals into context.
 
+## Bilingual Documents
+
+When the caller asks for a bilingual document, keep both languages in the same document JSON and set `metadata.locales`.
+
+```json
+{
+  "metadata": {
+    "title": {
+      "en": "Bilingual rendering decision",
+      "zh-CN": "双语渲染方案决策"
+    },
+    "language": "en",
+    "locales": ["en", "zh-CN"]
+  }
+}
+```
+
+Human-readable fields may use a localized object whose keys are supported locale ids. The renderer writes both language variants into the same HTML and exposes a top-right language switcher. `metadata.language` is the initial visible language.
+
+Allowed localized fields include document and section titles, shell link labels, summary labels, inline prose fields, list items, table headers and cells, callout titles, details summaries, diagram labels, diff labels and lines, participant names and roles, source reference labels and notes, file notes, action titles and prompts, values-grid titles, acceptance criteria, and open questions.
+
+Keep machine fields single-valued: ids, paths, URLs, code, language tags, status, scenario names, document type names, component ids, and section ids should not be localized.
+
 ## Component Trigger Policy
 
 Each component has a trigger level:

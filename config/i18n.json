@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "defaultLocale": "en",
+  "locales": {
+    "en": {
+      "label": "EN",
+      "name": "English",
+      "strings": {
+        "chrome.contents": "Contents",
+        "chrome.documentLinksAria": "Document links",
+        "chrome.languageAria": "Language",
+        "chrome.tocAria": "Table of contents",
+        "diagram.close": "Close",
+        "diagram.flowAria": "Flow diagram",
+        "diagram.open": "Open",
+        "diagram.png": "PNG",
+        "diagram.reset": "Reset",
+        "diagram.sequenceAria": "Sequence diagram",
+        "diagram.svg": "SVG",
+        "diagram.unsupported": "Unsupported diagram",
+        "diagram.viewerAria": "Diagram viewer",
+        "diagram.zoomIn": "Zoom +",
+        "diagram.zoomOut": "Zoom -",
+        "metadata.owner": "Owner",
+        "metadata.updated": "Updated",
+        "state.noContent": "No content.",
+        "state.unsupportedBlock": "Unsupported block",
+        "state.untitled": "Untitled"
+      }
+    },
+    "zh-CN": {
+      "label": "中文",
+      "name": "中文",
+      "strings": {
+        "chrome.contents": "目录",
+        "chrome.documentLinksAria": "文档链接",
+        "chrome.languageAria": "语言",
+        "chrome.tocAria": "目录",
+        "diagram.close": "关闭",
+        "diagram.flowAria": "流程图",
+        "diagram.open": "打开",
+        "diagram.png": "PNG",
+        "diagram.reset": "重置",
+        "diagram.sequenceAria": "时序图",
+        "diagram.svg": "SVG",
+        "diagram.unsupported": "不支持的图表",
+        "diagram.viewerAria": "图表查看器",
+        "diagram.zoomIn": "放大",
+        "diagram.zoomOut": "缩小",
+        "metadata.owner": "负责人",
+        "metadata.updated": "更新于",
+        "state.noContent": "暂无内容。",
+        "state.unsupportedBlock": "不支持的内容块",
+        "state.untitled": "未命名"
+      }
+    }
+  }
+}

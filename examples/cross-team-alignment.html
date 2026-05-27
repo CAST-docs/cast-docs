@@ -11,7 +11,10 @@
 <script type="application/json" id="cast-doc-source" data-renderer-owned="true">
 {
   "metadata": {
-    "title": "Order status contract alignment",
+    "title": {
+      "en": "Order status contract alignment",
+      "zh-CN": "订单状态契约对齐"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
@@ -22,10 +25,17 @@
     "updatedAt": "2026-05-13",
     "shellLinks": [
       {
-        "label": "CAST Docs",
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
         "href": "../index.html",
         "placement": "topbar"
       }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -68,14 +78,23 @@
   "sections": [
     {
       "id": "background",
-      "title": "Background",
+      "title": {
+        "en": "Background",
+        "zh-CN": "背景"
+      },
       "blocks": [
         {
           "type": "summary",
           "items": [
             {
-              "label": "Topic",
-              "body": "Consumers and owners need one order status contract."
+              "label": {
+                "en": "Topic",
+                "zh-CN": "Topic"
+              },
+              "body": {
+                "en": "Consumers and owners need one order status contract.",
+                "zh-CN": "消费方和归属方需要一份统一的订单状态契约。"
+              }
             }
           ]
         }
@@ -83,25 +102,55 @@
     },
     {
       "id": "participants-and-responsibilities",
-      "title": "Participants And Responsibilities",
+      "title": {
+        "en": "Participants And Responsibilities",
+        "zh-CN": "参与方与职责"
+      },
       "blocks": [
         {
           "type": "participants",
           "items": [
             {
-              "name": "Consumer Team",
-              "role": "consumer",
-              "responsibility": "Handle status display and fallback behavior."
+              "name": {
+                "en": "Consumer Team",
+                "zh-CN": "消费方团队"
+              },
+              "role": {
+                "en": "consumer",
+                "zh-CN": "消费方"
+              },
+              "responsibility": {
+                "en": "Handle status display and fallback behavior.",
+                "zh-CN": "负责状态展示和降级行为。"
+              }
             },
             {
-              "name": "Order Team",
-              "role": "owner",
-              "responsibility": "Own API implementation and compatibility."
+              "name": {
+                "en": "Order Team",
+                "zh-CN": "订单团队"
+              },
+              "role": {
+                "en": "owner",
+                "zh-CN": "归属方"
+              },
+              "responsibility": {
+                "en": "Own API implementation and compatibility.",
+                "zh-CN": "负责 API 实现和兼容性。"
+              }
             },
             {
-              "name": "Spec Team",
-              "role": "maintainer",
-              "responsibility": "Maintain source-of-truth schema."
+              "name": {
+                "en": "Spec Team",
+                "zh-CN": "规格团队"
+              },
+              "role": {
+                "en": "maintainer",
+                "zh-CN": "维护方"
+              },
+              "responsibility": {
+                "en": "Maintain source-of-truth schema.",
+                "zh-CN": "维护事实来源 schema。"
+              }
             }
           ]
         }
@@ -109,20 +158,35 @@
     },
     {
       "id": "source-of-truth",
-      "title": "Source Of Truth",
+      "title": {
+        "en": "Source Of Truth",
+        "zh-CN": "事实来源"
+      },
       "blocks": [
         {
           "type": "source-refs",
           "items": [
             {
-              "label": "API spec",
+              "label": {
+                "en": "API spec",
+                "zh-CN": "API 规格"
+              },
               "url": "https://example.com/spec/order-status",
-              "text": "order-status schema"
+              "text": {
+                "en": "order-status schema",
+                "zh-CN": "order-status schema"
+              }
             },
             {
-              "label": "Implementation",
+              "label": {
+                "en": "Implementation",
+                "zh-CN": "实现"
+              },
               "url": "https://example.com/repo/order-service",
-              "text": "order-service"
+              "text": {
+                "en": "order-service",
+                "zh-CN": "order-service"
+              }
             }
           ]
         }
@@ -130,13 +194,22 @@
     },
     {
       "id": "differences-or-gaps",
-      "title": "Differences Or Gaps",
+      "title": {
+        "en": "Differences Or Gaps",
+        "zh-CN": "差异或缺口"
+      },
       "blocks": [
         {
           "type": "diff",
-          "title": "Status field difference",
+          "title": {
+            "en": "Status field difference",
+            "zh-CN": "状态字段差异"
+          },
           "left": {
-            "label": "Spec",
+            "label": {
+              "en": "Spec",
+              "zh-CN": "规格"
+            },
             "language": "json",
             "lines": [
               {
@@ -150,7 +223,10 @@
             ]
           },
           "right": {
-            "label": "Implementation",
+            "label": {
+              "en": "Implementation",
+              "zh-CN": "实现"
+            },
             "language": "json",
             "lines": [
               {
@@ -170,7 +246,10 @@
             {
               "path": "api/order/response.go",
               "lineStart": 42,
-              "note": "Response assembly path"
+              "note": {
+                "en": "Response assembly path",
+                "zh-CN": "响应组装路径"
+              }
             }
           ]
         }
@@ -178,104 +257,194 @@
     },
     {
       "id": "impact",
-      "title": "Impact",
+      "title": {
+        "en": "Impact",
+        "zh-CN": "影响"
+      },
       "blocks": [
         {
           "type": "callout",
           "variant": "warning",
-          "title": "Impact",
-          "body": [
-            {
-              "text": "Consumers cannot distinguish "
-            },
-            {
-              "text": "status: paid",
-              "marks": [
-                "code"
-              ]
-            },
-            {
-              "text": " from fully settled orders, because "
-            },
-            {
-              "text": "payment_status",
-              "marks": [
-                "code"
-              ]
-            },
-            {
-              "text": " is missing."
-            }
-          ]
+          "title": {
+            "en": "Impact",
+            "zh-CN": "影响"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "Consumers cannot distinguish "
+              },
+              {
+                "text": "status: paid",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " from fully settled orders, because "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " is missing."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "消费者无法区分 "
+              },
+              {
+                "text": "status: paid",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 和已完全结算订单，因为 "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 缺失。"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "decisions",
-      "title": "Decisions",
+      "title": {
+        "en": "Decisions",
+        "zh-CN": "决策"
+      },
       "blocks": [
         {
           "type": "paragraph",
-          "text": [
-            {
-              "text": "The implementation will add "
-            },
-            {
-              "text": "payment_status",
-              "marks": [
-                "code"
-              ]
-            },
-            {
-              "text": " and keep the existing "
-            },
-            {
-              "text": "status",
-              "marks": [
-                "code"
-              ]
-            },
-            {
-              "text": " field unchanged; the change lands in "
-            },
-            {
-              "text": "response.go:42",
-              "marks": [
-                {
-                  "type": "ref",
-                  "path": "api/order/response.go",
-                  "line": 42
-                }
-              ]
-            },
-            {
-              "text": "."
-            }
-          ]
+          "text": {
+            "en": [
+              {
+                "text": "The implementation will add "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " and keep the existing "
+              },
+              {
+                "text": "status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " field unchanged; the change lands in "
+              },
+              {
+                "text": "response.go:42",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "api/order/response.go",
+                    "line": 42
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "实现会新增 "
+              },
+              {
+                "text": "payment_status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "，并保持现有 "
+              },
+              {
+                "text": "status",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 字段不变；变更落在 "
+              },
+              {
+                "text": "response.go:42",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "api/order/response.go",
+                    "line": 42
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "action-items",
-      "title": "Action Items",
+      "title": {
+        "en": "Action Items",
+        "zh-CN": "行动项"
+      },
       "blocks": [
         {
           "type": "action",
           "priority": "p1",
-          "title": "Patch response field",
-          "description": "Add payment_status to the order response.",
-          "prompt": "Update order response serialization and add compatibility tests."
+          "title": {
+            "en": "Patch response field",
+            "zh-CN": "修补响应字段"
+          },
+          "description": {
+            "en": "Add payment_status to the order response.",
+            "zh-CN": "向订单响应中添加 payment_status。"
+          },
+          "prompt": {
+            "en": "Update order response serialization and add compatibility tests.",
+            "zh-CN": "更新订单响应序列化，并添加兼容性测试。"
+          }
         }
       ]
     },
     {
       "id": "open-questions",
-      "title": "Open Questions",
+      "title": {
+        "en": "Open Questions",
+        "zh-CN": "开放问题"
+      },
       "blocks": [
         {
           "type": "open-questions",
           "questions": [
-            "Should older clients receive a default payment_status value?"
+            {
+              "en": "Should older clients receive a default payment_status value?",
+              "zh-CN": "旧客户端是否应收到默认的 payment_status 值？"
+            }
           ]
         }
       ]
@@ -285,56 +454,56 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1>Order status contract alignment</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">Order status contract alignment</span><span data-locale="zh-CN" data-locale-active="false">订单状态契约对齐</span></h1><div class="doc-meta"><span data-i18n-key="metadata.updated">Updated</span> 2026-05-13</div></header>
 <main>
 <section class="doc-section" id="background">
-<h2>Background</h2>
-<section class="doc-summary"><ul><li><strong>Topic:</strong> Consumers and owners need one order status contract.</li></ul></section>
+<h2><span data-locale="en" data-locale-active="true">Background</span><span data-locale="zh-CN" data-locale-active="false">背景</span></h2>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Topic</span><span data-locale="zh-CN" data-locale-active="false">Topic</span>:</strong> <span data-locale="en" data-locale-active="true">Consumers and owners need one order status contract.</span><span data-locale="zh-CN" data-locale-active="false">消费方和归属方需要一份统一的订单状态契约。</span></li></ul></section>
 </section>
 
 <section class="doc-section" id="participants-and-responsibilities">
-<h2>Participants And Responsibilities</h2>
-<section class="participants"><div class="participant-card"><h3>Consumer Team</h3><p><em>consumer</em></p><p>Handle status display and fallback behavior.</p></div><div class="participant-card"><h3>Order Team</h3><p><em>owner</em></p><p>Own API implementation and compatibility.</p></div><div class="participant-card"><h3>Spec Team</h3><p><em>maintainer</em></p><p>Maintain source-of-truth schema.</p></div></section>
+<h2><span data-locale="en" data-locale-active="true">Participants And Responsibilities</span><span data-locale="zh-CN" data-locale-active="false">参与方与职责</span></h2>
+<section class="participants"><div class="participant-card"><h3><span data-locale="en" data-locale-active="true">Consumer Team</span><span data-locale="zh-CN" data-locale-active="false">消费方团队</span></h3><p><em><span data-locale="en" data-locale-active="true">consumer</span><span data-locale="zh-CN" data-locale-active="false">消费方</span></em></p><p><span data-locale="en" data-locale-active="true">Handle status display and fallback behavior.</span><span data-locale="zh-CN" data-locale-active="false">负责状态展示和降级行为。</span></p></div><div class="participant-card"><h3><span data-locale="en" data-locale-active="true">Order Team</span><span data-locale="zh-CN" data-locale-active="false">订单团队</span></h3><p><em><span data-locale="en" data-locale-active="true">owner</span><span data-locale="zh-CN" data-locale-active="false">归属方</span></em></p><p><span data-locale="en" data-locale-active="true">Own API implementation and compatibility.</span><span data-locale="zh-CN" data-locale-active="false">负责 API 实现和兼容性。</span></p></div><div class="participant-card"><h3><span data-locale="en" data-locale-active="true">Spec Team</span><span data-locale="zh-CN" data-locale-active="false">规格团队</span></h3><p><em><span data-locale="en" data-locale-active="true">maintainer</span><span data-locale="zh-CN" data-locale-active="false">维护方</span></em></p><p><span data-locale="en" data-locale-active="true">Maintain source-of-truth schema.</span><span data-locale="zh-CN" data-locale-active="false">维护事实来源 schema。</span></p></div></section>
 </section>
 
 <section class="doc-section" id="source-of-truth">
-<h2>Source Of Truth</h2>
-<ul class="source-refs"><li><a href="https://example.com/spec/order-status" target="_blank" rel="noopener noreferrer">API spec</a> — order-status schema</li><li><a href="https://example.com/repo/order-service" target="_blank" rel="noopener noreferrer">Implementation</a> — order-service</li></ul>
+<h2><span data-locale="en" data-locale-active="true">Source Of Truth</span><span data-locale="zh-CN" data-locale-active="false">事实来源</span></h2>
+<ul class="source-refs"><li><a href="https://example.com/spec/order-status" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">API spec</span><span data-locale="zh-CN" data-locale-active="false">API 规格</span></a> - <span data-locale="en" data-locale-active="true">order-status schema</span><span data-locale="zh-CN" data-locale-active="false">order-status schema</span></li><li><a href="https://example.com/repo/order-service" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Implementation</span><span data-locale="zh-CN" data-locale-active="false">实现</span></a> - <span data-locale="en" data-locale-active="true">order-service</span><span data-locale="zh-CN" data-locale-active="false">order-service</span></li></ul>
 </section>
 
 <section class="doc-section" id="differences-or-gaps">
-<h2>Differences Or Gaps</h2>
-<section class="diff-block"><h3>Status field difference</h3><div class="diff-side"><h3>Spec</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
-<span class="line-add">&quot;payment_status&quot;: &quot;settled&quot;</span></code></pre></div><div class="diff-side"><h3>Implementation</h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<h2><span data-locale="en" data-locale-active="true">Differences Or Gaps</span><span data-locale="zh-CN" data-locale-active="false">差异或缺口</span></h2>
+<section class="diff-block"><h3><span data-locale="en" data-locale-active="true">Status field difference</span><span data-locale="zh-CN" data-locale-active="false">状态字段差异</span></h3><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">Spec</span><span data-locale="zh-CN" data-locale-active="false">规格</span></h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
+<span class="line-add">&quot;payment_status&quot;: &quot;settled&quot;</span></code></pre></div><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">Implementation</span><span data-locale="zh-CN" data-locale-active="false">实现</span></h3><pre><code><span class="line-context">&quot;status&quot;: &quot;paid&quot;</span>
 <span class="line-remove">&quot;payment_status&quot;: missing</span></code></pre></div></section>
-<ul class="files"><li><code>api/order/response.go:42</code> — Response assembly path</li></ul>
+<ul class="files"><li><code>api/order/response.go:42</code> - <span data-locale="en" data-locale-active="true">Response assembly path</span><span data-locale="zh-CN" data-locale-active="false">响应组装路径</span></li></ul>
 </section>
 
 <section class="doc-section" id="impact">
-<h2>Impact</h2>
-<aside class="callout callout-warning"><strong>Impact</strong><p>Consumers cannot distinguish <code>status: paid</code> from fully settled orders, because <code>payment_status</code> is missing.</p></aside>
+<h2><span data-locale="en" data-locale-active="true">Impact</span><span data-locale="zh-CN" data-locale-active="false">影响</span></h2>
+<aside class="callout callout-warning"><strong><span data-locale="en" data-locale-active="true">Impact</span><span data-locale="zh-CN" data-locale-active="false">影响</span></strong><p><span data-locale="en" data-locale-active="true">Consumers cannot distinguish <code>status: paid</code> from fully settled orders, because <code>payment_status</code> is missing.</span><span data-locale="zh-CN" data-locale-active="false">消费者无法区分 <code>status: paid</code> 和已完全结算订单，因为 <code>payment_status</code> 缺失。</span></p></aside>
 </section>
 
 <section class="doc-section" id="decisions">
-<h2>Decisions</h2>
-<p>The implementation will add <code>payment_status</code> and keep the existing <code>status</code> field unchanged; the change lands in <code data-mark="ref">response.go:42</code>.</p>
+<h2><span data-locale="en" data-locale-active="true">Decisions</span><span data-locale="zh-CN" data-locale-active="false">决策</span></h2>
+<p><span data-locale="en" data-locale-active="true">The implementation will add <code>payment_status</code> and keep the existing <code>status</code> field unchanged; the change lands in <code data-mark="ref">response.go:42</code>.</span><span data-locale="zh-CN" data-locale-active="false">实现会新增 <code>payment_status</code>，并保持现有 <code>status</code> 字段不变；变更落在 <code data-mark="ref">response.go:42</code>.</span></p>
 </section>
 
 <section class="doc-section" id="action-items">
-<h2>Action Items</h2>
-<section class="action-card"><h3>Patch response field</h3><p>Add payment_status to the order response.</p><pre class="prompt-block"><code>Update order response serialization and add compatibility tests.</code></pre></section>
+<h2><span data-locale="en" data-locale-active="true">Action Items</span><span data-locale="zh-CN" data-locale-active="false">行动项</span></h2>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Patch response field</span><span data-locale="zh-CN" data-locale-active="false">修补响应字段</span></h3><p><span data-locale="en" data-locale-active="true">Add payment_status to the order response.</span><span data-locale="zh-CN" data-locale-active="false">向订单响应中添加 payment_status。</span></p><pre class="prompt-block"><code><span data-locale="en" data-locale-active="true">Update order response serialization and add compatibility tests.</span><span data-locale="zh-CN" data-locale-active="false">更新订单响应序列化，并添加兼容性测试。</span></code></pre></section>
 </section>
 
 <section class="doc-section" id="open-questions">
-<h2>Open Questions</h2>
-<ul class="open-questions"><li>Should older clients receive a default payment_status value?</li></ul>
+<h2><span data-locale="en" data-locale-active="true">Open Questions</span><span data-locale="zh-CN" data-locale-active="false">开放问题</span></h2>
+<ul class="open-questions"><li><span data-locale="en" data-locale-active="true">Should older clients receive a default payment_status value?</span><span data-locale="zh-CN" data-locale-active="false">旧客户端是否应收到默认的 payment_status 值？</span></li></ul>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span>Background</a></li><li><a href="#participants-and-responsibilities"><span>02</span>Participants And Responsibilities</a></li><li><a href="#source-of-truth"><span>03</span>Source Of Truth</a></li><li><a href="#differences-or-gaps"><span>04</span>Differences Or Gaps</a></li><li><a href="#impact"><span>05</span>Impact</a></li><li><a href="#decisions"><span>06</span>Decisions</a></li><li><a href="#action-items"><span>07</span>Action Items</a></li><li><a href="#open-questions"><span>08</span>Open Questions</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">Order status contract alignment</span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html">CAST Docs</a></nav><span class="topbar-spacer"></span></header>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#background"><span>01</span><span data-locale="en" data-locale-active="true">Background</span><span data-locale="zh-CN" data-locale-active="false">背景</span></a></li><li><a href="#participants-and-responsibilities"><span>02</span><span data-locale="en" data-locale-active="true">Participants And Responsibilities</span><span data-locale="zh-CN" data-locale-active="false">参与方与职责</span></a></li><li><a href="#source-of-truth"><span>03</span><span data-locale="en" data-locale-active="true">Source Of Truth</span><span data-locale="zh-CN" data-locale-active="false">事实来源</span></a></li><li><a href="#differences-or-gaps"><span>04</span><span data-locale="en" data-locale-active="true">Differences Or Gaps</span><span data-locale="zh-CN" data-locale-active="false">差异或缺口</span></a></li><li><a href="#impact"><span>05</span><span data-locale="en" data-locale-active="true">Impact</span><span data-locale="zh-CN" data-locale-active="false">影响</span></a></li><li><a href="#decisions"><span>06</span><span data-locale="en" data-locale-active="true">Decisions</span><span data-locale="zh-CN" data-locale-active="false">决策</span></a></li><li><a href="#action-items"><span>07</span><span data-locale="en" data-locale-active="true">Action Items</span><span data-locale="zh-CN" data-locale-active="false">行动项</span></a></li><li><a href="#open-questions"><span>08</span><span data-locale="en" data-locale-active="true">Open Questions</span><span data-locale="zh-CN" data-locale-active="false">开放问题</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">Order status contract alignment</span><span data-locale="zh-CN" data-locale-active="false">订单状态契约对齐</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
 :root {
@@ -399,6 +568,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 [data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
 [data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
 [data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
+[data-locale][data-locale-active="false"] { display: none; }
 .sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
 .nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
@@ -413,6 +583,9 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .topbar-links:empty { display: none; }
 .topbar-link { color: var(--muted); font-size: 12.5px; }
 .topbar-spacer { flex: 1; }
+.locale-switcher { display: inline-flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.locale-button { min-width: 44px; border: 0; background: transparent; color: var(--muted); padding: 5px 8px; }
+.locale-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
 .doc { margin-left: var(--toc-width); max-width: 960px; padding: 88px 48px 84px; }
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
@@ -480,6 +653,35 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 }
 </style>
 
-
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="i18n">(() => {
+  const config = window.CAST_DOCS_I18N;
+  if (!config || !Array.isArray(config.locales) || config.locales.length < 2) return;
+  const root = document.documentElement;
+  const stringsFor = (locale) => (config.strings && config.strings[locale]) || {};
+  const label = (locale, key, fallback) => stringsFor(locale)[key] || stringsFor(config.activeLocale)[key] || fallback;
+  function apply(locale) {
+    if (!config.locales.includes(locale)) return;
+    root.lang = locale;
+    root.setAttribute('data-active-locale', locale);
+    config.activeLocale = locale;
+    document.querySelectorAll('[data-locale]').forEach((node) => {
+      const active = node.getAttribute('data-locale') === locale;
+      node.setAttribute('data-locale-active', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-locale-target]').forEach((button) => {
+      const active = button.getAttribute('data-locale-target') === locale;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-i18n-key]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-key');
+      if (key) node.textContent = label(locale, key, node.textContent);
+    });
+  }
+  document.querySelectorAll('[data-locale-target]').forEach((button) => {
+    button.addEventListener('click', () => apply(button.getAttribute('data-locale-target')));
+  });
+  apply(config.activeLocale);
+})();
+</script>
 </body>
 </html>

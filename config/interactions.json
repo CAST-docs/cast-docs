@@ -18,6 +18,15 @@
       "templateHooks": ["data-interaction=\"finder-open\""],
       "capabilities": ["open-local-folder"],
       "supportedBlockTypes": []
+    },
+    {
+      "id": "i18n",
+      "enabledByDefault": false,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["locale-switcher", "data-locale", "data-i18n-key"],
+      "capabilities": ["switch-locale"],
+      "supportedBlockTypes": []
     }
   ]
 }

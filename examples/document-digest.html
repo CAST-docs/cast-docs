@@ -11,7 +11,10 @@
 <script type="application/json" id="cast-doc-source" data-renderer-owned="true">
 {
   "metadata": {
-    "title": "API design notes digest",
+    "title": {
+      "en": "API design notes digest",
+      "zh-CN": "API 设计笔记摘要"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
@@ -21,10 +24,17 @@
     "updatedAt": "2026-05-13",
     "shellLinks": [
       {
-        "label": "CAST Docs",
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
         "href": "../index.html",
         "placement": "topbar"
       }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -62,36 +72,67 @@
   "sections": [
     {
       "id": "summary",
-      "title": "Summary",
+      "title": {
+        "en": "Summary",
+        "zh-CN": "摘要"
+      },
       "blocks": [
         {
           "type": "summary",
           "items": [
             {
-              "label": "Digest",
-              "body": [
-                {
-                  "text": "Across "
-                },
-                {
-                  "text": "2 source documents",
-                  "marks": [
-                    "metric"
-                  ]
-                },
-                {
-                  "text": ", the notes converge on a typed "
-                },
-                {
-                  "text": "API contract",
-                  "marks": [
-                    "code"
-                  ]
-                },
-                {
-                  "text": " approach."
-                }
-              ]
+              "label": {
+                "en": "Digest",
+                "zh-CN": "摘要"
+              },
+              "body": {
+                "en": [
+                  {
+                    "text": "Across "
+                  },
+                  {
+                    "text": "2 source documents",
+                    "marks": [
+                      "metric"
+                    ]
+                  },
+                  {
+                    "text": ", the notes converge on a typed "
+                  },
+                  {
+                    "text": "API contract",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " approach."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "在 "
+                  },
+                  {
+                    "text": "2 份源文档",
+                    "marks": [
+                      "metric"
+                    ]
+                  },
+                  {
+                    "text": " 中，这些笔记都指向类型化 "
+                  },
+                  {
+                    "text": "API 契约",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " 方案。"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -99,17 +140,26 @@
     },
     {
       "id": "source-documents",
-      "title": "Source Documents",
+      "title": {
+        "en": "Source Documents",
+        "zh-CN": "源文档"
+      },
       "blocks": [
         {
           "type": "source-refs",
           "items": [
             {
-              "label": "Design note",
+              "label": {
+                "en": "Design note",
+                "zh-CN": "设计笔记"
+              },
               "url": "https://example.com/design-note"
             },
             {
-              "label": "Review notes",
+              "label": {
+                "en": "Review notes",
+                "zh-CN": "评审笔记"
+              },
               "url": "https://example.com/review-notes"
             }
           ]
@@ -118,47 +168,93 @@
     },
     {
       "id": "key-findings",
-      "title": "Key Findings",
+      "title": {
+        "en": "Key Findings",
+        "zh-CN": "关键发现"
+      },
       "blocks": [
         {
           "type": "table",
           "headers": [
-            "Finding",
-            "Evidence"
+            {
+              "en": "Finding",
+              "zh-CN": "发现"
+            },
+            {
+              "en": "Evidence",
+              "zh-CN": "证据"
+            }
           ],
           "rows": [
             [
-              "Typed contracts reduce ambiguity",
-              "Both documents mention schema drift"
+              {
+                "en": "Typed contracts reduce ambiguity",
+                "zh-CN": "类型化契约可以减少歧义"
+              },
+              {
+                "en": "Both documents mention schema drift",
+                "zh-CN": "两份文档都提到了 schema 漂移"
+              }
             ],
             [
-              "Examples are required",
-              [
-                {
-                  "text": "Review notes ask for "
-                },
-                {
-                  "text": "fixtures",
-                  "marks": [
-                    "code"
-                  ]
-                },
-                {
-                  "text": " — see the "
-                },
-                {
-                  "text": "review notes",
-                  "marks": [
-                    {
-                      "type": "link",
-                      "href": "https://example.com/review-notes"
-                    }
-                  ]
-                },
-                {
-                  "text": "."
-                }
-              ]
+              {
+                "en": "Examples are required",
+                "zh-CN": "示例是必需的"
+              },
+              {
+                "en": [
+                  {
+                    "text": "Review notes ask for "
+                  },
+                  {
+                    "text": "fixtures",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " — see the "
+                  },
+                  {
+                    "text": "review notes",
+                    "marks": [
+                      {
+                        "type": "link",
+                        "href": "https://example.com/review-notes"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "评审笔记要求提供 "
+                  },
+                  {
+                    "text": "fixtures",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": "，参见 "
+                  },
+                  {
+                    "text": "评审笔记",
+                    "marks": [
+                      {
+                        "type": "link",
+                        "href": "https://example.com/review-notes"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "."
+                  }
+                ]
+              }
             ]
           ]
         }
@@ -166,39 +262,60 @@
     },
     {
       "id": "cross-document-relationships",
-      "title": "Cross-document Relationships",
+      "title": {
+        "en": "Cross-document Relationships",
+        "zh-CN": "跨文档关系"
+      },
       "blocks": [
         {
           "type": "diagram",
           "kind": "flow",
-          "title": "Document relationship",
+          "title": {
+            "en": "Document relationship",
+            "zh-CN": "文档关系"
+          },
           "downloadName": "document-relationship",
           "source": {
             "format": "structured-flow",
             "nodes": [
               {
                 "id": "design",
-                "label": "Design note"
+                "label": {
+                  "en": "Design note",
+                  "zh-CN": "设计笔记"
+                }
               },
               {
                 "id": "review",
-                "label": "Review notes"
+                "label": {
+                  "en": "Review notes",
+                  "zh-CN": "评审笔记"
+                }
               },
               {
                 "id": "schema",
-                "label": "Schema contract"
+                "label": {
+                  "en": "Schema contract",
+                  "zh-CN": "Schema 契约"
+                }
               }
             ],
             "edges": [
               {
                 "from": "design",
                 "to": "schema",
-                "label": "defines"
+                "label": {
+                  "en": "defines",
+                  "zh-CN": "定义"
+                }
               },
               {
                 "from": "review",
                 "to": "schema",
-                "label": "validates"
+                "label": {
+                  "en": "validates",
+                  "zh-CN": "校验"
+                }
               }
             ]
           }
@@ -207,15 +324,24 @@
     },
     {
       "id": "limitations",
-      "title": "Limitations",
+      "title": {
+        "en": "Limitations",
+        "zh-CN": "限制"
+      },
       "blocks": [
         {
           "type": "details",
-          "summary": "Known gaps",
+          "summary": {
+            "en": "Known gaps",
+            "zh-CN": "已知缺口"
+          },
           "blocks": [
             {
               "type": "paragraph",
-              "text": "The digest does not evaluate implementation complexity."
+              "text": {
+                "en": "The digest does not evaluate implementation complexity.",
+                "zh-CN": "该摘要不评估实现复杂度。"
+              }
             }
           ]
         }
@@ -223,13 +349,22 @@
     },
     {
       "id": "next-steps",
-      "title": "Next Steps",
+      "title": {
+        "en": "Next Steps",
+        "zh-CN": "下一步"
+      },
       "blocks": [
         {
           "type": "list",
           "items": [
-            "Convert the findings into schema tests.",
-            "Review fixture coverage after renderer implementation."
+            {
+              "en": "Convert the findings into schema tests.",
+              "zh-CN": "将发现转化为 schema 测试。"
+            },
+            {
+              "en": "Review fixture coverage after renderer implementation.",
+              "zh-CN": "在渲染器实现后复查 fixture 覆盖率。"
+            }
           ]
         }
       ]
@@ -239,47 +374,47 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1>API design notes digest</h1><div class="doc-meta">Updated 2026-05-13</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">API design notes digest</span><span data-locale="zh-CN" data-locale-active="false">API 设计笔记摘要</span></h1><div class="doc-meta"><span data-i18n-key="metadata.updated">Updated</span> 2026-05-13</div></header>
 <main>
 <section class="doc-section" id="summary">
-<h2>Summary</h2>
-<section class="doc-summary"><ul><li><strong>Digest:</strong> Across <span data-mark="metric">2 source documents</span>, the notes converge on a typed <code>API contract</code> approach.</li></ul></section>
+<h2><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></h2>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Digest</span><span data-locale="zh-CN" data-locale-active="false">摘要</span>:</strong> <span data-locale="en" data-locale-active="true">Across <span data-mark="metric">2 source documents</span>, the notes converge on a typed <code>API contract</code> approach.</span><span data-locale="zh-CN" data-locale-active="false">在 <span data-mark="metric">2 份源文档</span> 中，这些笔记都指向类型化 <code>API 契约</code> 方案。</span></li></ul></section>
 </section>
 
 <section class="doc-section" id="source-documents">
-<h2>Source Documents</h2>
-<ul class="source-refs"><li><a href="https://example.com/design-note" target="_blank" rel="noopener noreferrer">Design note</a></li><li><a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">Review notes</a></li></ul>
+<h2><span data-locale="en" data-locale-active="true">Source Documents</span><span data-locale="zh-CN" data-locale-active="false">源文档</span></h2>
+<ul class="source-refs"><li><a href="https://example.com/design-note" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Design note</span><span data-locale="zh-CN" data-locale-active="false">设计笔记</span></a></li><li><a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Review notes</span><span data-locale="zh-CN" data-locale-active="false">评审笔记</span></a></li></ul>
 </section>
 
 <section class="doc-section" id="key-findings">
-<h2>Key Findings</h2>
+<h2><span data-locale="en" data-locale-active="true">Key Findings</span><span data-locale="zh-CN" data-locale-active="false">关键发现</span></h2>
 <table>
-<tr><th>Finding</th><th>Evidence</th></tr>
-<tr><td>Typed contracts reduce ambiguity</td><td>Both documents mention schema drift</td></tr>
-<tr><td>Examples are required</td><td>Review notes ask for <code>fixtures</code> — see the <a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">review notes</a>.</td></tr>
+<tr><th><span data-locale="en" data-locale-active="true">Finding</span><span data-locale="zh-CN" data-locale-active="false">发现</span></th><th><span data-locale="en" data-locale-active="true">Evidence</span><span data-locale="zh-CN" data-locale-active="false">证据</span></th></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Typed contracts reduce ambiguity</span><span data-locale="zh-CN" data-locale-active="false">类型化契约可以减少歧义</span></td><td><span data-locale="en" data-locale-active="true">Both documents mention schema drift</span><span data-locale="zh-CN" data-locale-active="false">两份文档都提到了 schema 漂移</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Examples are required</span><span data-locale="zh-CN" data-locale-active="false">示例是必需的</span></td><td><span data-locale="en" data-locale-active="true">Review notes ask for <code>fixtures</code> — see the <a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">review notes</a>.</span><span data-locale="zh-CN" data-locale-active="false">评审笔记要求提供 <code>fixtures</code>，参见 <a href="https://example.com/review-notes" target="_blank" rel="noopener noreferrer">评审笔记</a>.</span></td></tr>
 </table>
 </section>
 
 <section class="doc-section" id="cross-document-relationships">
-<h2>Cross-document Relationships</h2>
-<figure class="diagram" data-download-name="document-relationship"><figcaption>Document relationship</figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document relationship"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="360" y="66" text-anchor="middle" font-size="12" fill="#68717b">defines</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b">validates</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Design note</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Review notes</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439">Schema contract</text></svg></figure>
+<h2><span data-locale="en" data-locale-active="true">Cross-document Relationships</span><span data-locale="zh-CN" data-locale-active="false">跨文档关系</span></h2>
+<figure class="diagram" data-download-name="document-relationship"><figcaption><span data-locale="en" data-locale-active="true">Document relationship</span><span data-locale="zh-CN" data-locale-active="false">文档关系</span></figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document relationship"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="360" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">defines</text><text x="360" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">定义</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">validates</text><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">校验</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Design note</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">设计笔记</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Review notes</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">评审笔记</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Schema contract</text><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Schema 契约</text></svg></figure>
 </section>
 
 <section class="doc-section" id="limitations">
-<h2>Limitations</h2>
-<details class="details-block"><summary>Known gaps</summary><p>The digest does not evaluate implementation complexity.</p></details>
+<h2><span data-locale="en" data-locale-active="true">Limitations</span><span data-locale="zh-CN" data-locale-active="false">限制</span></h2>
+<details class="details-block"><summary><span data-locale="en" data-locale-active="true">Known gaps</span><span data-locale="zh-CN" data-locale-active="false">已知缺口</span></summary><p><span data-locale="en" data-locale-active="true">The digest does not evaluate implementation complexity.</span><span data-locale="zh-CN" data-locale-active="false">该摘要不评估实现复杂度。</span></p></details>
 </section>
 
 <section class="doc-section" id="next-steps">
-<h2>Next Steps</h2>
-<ul><li>Convert the findings into schema tests.</li><li>Review fixture coverage after renderer implementation.</li></ul>
+<h2><span data-locale="en" data-locale-active="true">Next Steps</span><span data-locale="zh-CN" data-locale-active="false">下一步</span></h2>
+<ul><li><span data-locale="en" data-locale-active="true">Convert the findings into schema tests.</span><span data-locale="zh-CN" data-locale-active="false">将发现转化为 schema 测试。</span></li><li><span data-locale="en" data-locale-active="true">Review fixture coverage after renderer implementation.</span><span data-locale="zh-CN" data-locale-active="false">在渲染器实现后复查 fixture 覆盖率。</span></li></ul>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title">Contents</p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span>Summary</a></li><li><a href="#source-documents"><span>02</span>Source Documents</a></li><li><a href="#key-findings"><span>03</span>Key Findings</a></li><li><a href="#cross-document-relationships"><span>04</span>Cross-document Relationships</a></li><li><a href="#limitations"><span>05</span>Limitations</a></li><li><a href="#next-steps"><span>06</span>Next Steps</a></li></ol></nav></aside>
-<header class="topbar"><span class="topbar-title">API design notes digest</span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html">CAST Docs</a></nav><span class="topbar-spacer"></span></header>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#summary"><span>01</span><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></a></li><li><a href="#source-documents"><span>02</span><span data-locale="en" data-locale-active="true">Source Documents</span><span data-locale="zh-CN" data-locale-active="false">源文档</span></a></li><li><a href="#key-findings"><span>03</span><span data-locale="en" data-locale-active="true">Key Findings</span><span data-locale="zh-CN" data-locale-active="false">关键发现</span></a></li><li><a href="#cross-document-relationships"><span>04</span><span data-locale="en" data-locale-active="true">Cross-document Relationships</span><span data-locale="zh-CN" data-locale-active="false">跨文档关系</span></a></li><li><a href="#limitations"><span>05</span><span data-locale="en" data-locale-active="true">Limitations</span><span data-locale="zh-CN" data-locale-active="false">限制</span></a></li><li><a href="#next-steps"><span>06</span><span data-locale="en" data-locale-active="true">Next Steps</span><span data-locale="zh-CN" data-locale-active="false">下一步</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">API design notes digest</span><span data-locale="zh-CN" data-locale-active="false">API 设计笔记摘要</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
 :root {
@@ -344,6 +479,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 [data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
 [data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
 [data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
+[data-locale][data-locale-active="false"] { display: none; }
 .sidebar { position: fixed; inset: 52px auto 0 0; width: var(--toc-width); padding: 28px 22px 60px 28px; overflow-y: auto; background: var(--bg); border-right: 1px solid var(--border); }
 .nav-title { margin: 0 0 12px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
@@ -358,6 +494,9 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .topbar-links:empty { display: none; }
 .topbar-link { color: var(--muted); font-size: 12.5px; }
 .topbar-spacer { flex: 1; }
+.locale-switcher { display: inline-flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.locale-button { min-width: 44px; border: 0; background: transparent; color: var(--muted); padding: 5px 8px; }
+.locale-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
 .doc { margin-left: var(--toc-width); max-width: 960px; padding: 88px 48px 84px; }
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
@@ -424,8 +563,8 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 0; }
 }
 </style>
-<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close">Close</button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-<script data-renderer-owned="true" data-interaction="diagram-viewer">
+<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {
   const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
   if (!lightbox) return;
@@ -437,6 +576,13 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   let zoom = 1;
   let panX = 0;
   let panY = 0;
+  function label(key, fallback) {
+    const config = window.CAST_DOCS_I18N || {};
+    const locale = config.activeLocale || document.documentElement.lang || 'en';
+    const strings = (config.strings && config.strings[locale]) || {};
+    const fallbackStrings = (config.strings && config.strings.en) || {};
+    return strings[key] || fallbackStrings[key] || fallback;
+  }
   function fileBase(svg) {
     return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
   }
@@ -489,6 +635,11 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     button.addEventListener('click', action);
     return button;
   }
+  function makeI18nButton(key, fallback, action) {
+    const button = makeButton(label(key, fallback), action);
+    button.setAttribute('data-i18n-key', key);
+    return button;
+  }
   function open(svg) {
     sourceSvg = svg;
     cloneSvg = svg.cloneNode(true);
@@ -500,11 +651,11 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     panY = 0;
     body.replaceChildren(cloneSvg);
     toolbar.replaceChildren(
-      makeButton('Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
-      makeButton('Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
-      makeButton('Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
-      makeButton('SVG', () => downloadSvg(sourceSvg)),
-      makeButton('PNG', () => downloadPng(sourceSvg))
+      makeI18nButton('diagram.zoomOut', 'Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
+      makeI18nButton('diagram.zoomIn', 'Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
+      makeI18nButton('diagram.reset', 'Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(sourceSvg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(sourceSvg))
     );
     lightbox.classList.add('open');
     setTransform();
@@ -544,12 +695,41 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     tools.className = 'diagram-toolbar';
     tools.setAttribute('data-renderer-owned', 'true');
     tools.append(
-      makeButton('Open', () => open(svg)),
-      makeButton('SVG', () => downloadSvg(svg)),
-      makeButton('PNG', () => downloadPng(svg))
+      makeI18nButton('diagram.open', 'Open', () => open(svg)),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(svg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(svg))
     );
     figure.appendChild(tools);
   });
+})();
+</script><script data-renderer-owned="true" data-interaction="i18n">(() => {
+  const config = window.CAST_DOCS_I18N;
+  if (!config || !Array.isArray(config.locales) || config.locales.length < 2) return;
+  const root = document.documentElement;
+  const stringsFor = (locale) => (config.strings && config.strings[locale]) || {};
+  const label = (locale, key, fallback) => stringsFor(locale)[key] || stringsFor(config.activeLocale)[key] || fallback;
+  function apply(locale) {
+    if (!config.locales.includes(locale)) return;
+    root.lang = locale;
+    root.setAttribute('data-active-locale', locale);
+    config.activeLocale = locale;
+    document.querySelectorAll('[data-locale]').forEach((node) => {
+      const active = node.getAttribute('data-locale') === locale;
+      node.setAttribute('data-locale-active', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-locale-target]').forEach((button) => {
+      const active = button.getAttribute('data-locale-target') === locale;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-i18n-key]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-key');
+      if (key) node.textContent = label(locale, key, node.textContent);
+    });
+  }
+  document.querySelectorAll('[data-locale-target]').forEach((button) => {
+    button.addEventListener('click', () => apply(button.getAttribute('data-locale-target')));
+  });
+  apply(config.activeLocale);
 })();
 </script>
 </body>

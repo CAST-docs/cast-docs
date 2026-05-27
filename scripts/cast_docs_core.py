@@ -20,6 +20,7 @@ SECTION_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RAW_SVG_RISK_RE = re.compile(r"<\s*(script|iframe|object|embed)\b|on[a-z]+\s*=", re.IGNORECASE)
 UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
+SUPPORTED_LOCALES = ("en", "zh-CN")
 
 
 class CastDocsError(Exception):
@@ -34,6 +35,14 @@ class ValidationResult:
     @property
     def ok(self) -> bool:
         return not self.errors
+
+
+@dataclass
+class RenderContext:
+    active_locale: str
+    locales: list[str]
+    i18n: dict[str, Any]
+    config_dir: Path
 
 
 def load_json(path: Path) -> Any:
@@ -78,6 +87,98 @@ def slug_to_title(value: str) -> str:
     return " ".join(part.capitalize() for part in value.split("-"))
 
 
+def is_localized_object(value: Any) -> bool:
+    return is_object(value) and any(locale in value for locale in SUPPORTED_LOCALES)
+
+
+def locale_is_supported(locale: Any) -> bool:
+    return isinstance(locale, str) and locale in SUPPORTED_LOCALES
+
+
+def normalize_locale(locale: Any, fallback: str = "en") -> str:
+    return locale if locale_is_supported(locale) else fallback
+
+
+def localized_value(value: Any, locale: str, fallback: str = "en") -> Any:
+    if not is_localized_object(value):
+        return value
+    if locale in value:
+        return value[locale]
+    if fallback in value:
+        return value[fallback]
+    for supported_locale in SUPPORTED_LOCALES:
+        if supported_locale in value:
+            return value[supported_locale]
+    return ""
+
+
+def collect_locales_from_value(value: Any, found: set[str]) -> None:
+    if is_localized_object(value):
+        for locale in SUPPORTED_LOCALES:
+            if locale in value:
+                found.add(locale)
+                collect_locales_from_value(value[locale], found)
+        return
+    if isinstance(value, list):
+        for item in value:
+            collect_locales_from_value(item, found)
+    elif is_object(value):
+        for item in value.values():
+            collect_locales_from_value(item, found)
+
+
+def document_locales(doc: dict[str, Any]) -> list[str]:
+    metadata = doc.get("metadata", {}) if is_object(doc.get("metadata")) else {}
+    default_locale = normalize_locale(metadata.get("language"), "en")
+    configured = metadata.get("locales")
+    if isinstance(configured, list):
+        locales = [locale for locale in configured if locale_is_supported(locale)]
+    else:
+        found: set[str] = set()
+        collect_locales_from_value(doc, found)
+        locales = [locale for locale in SUPPORTED_LOCALES if locale in found]
+    if default_locale not in locales:
+        locales.insert(0, default_locale)
+    return locales or [default_locale]
+
+
+def default_locale_for_context(ctx: RenderContext | None) -> str:
+    return ctx.active_locale if ctx else "en"
+
+
+def i18n_label(i18n: dict[str, Any], locale: str, key: str, fallback: str = "") -> str:
+    default_locale = i18n.get("defaultLocale", "en")
+    locales = i18n.get("locales", {}) if is_object(i18n.get("locales")) else {}
+    for candidate in (locale, default_locale, "en"):
+        bundle = locales.get(candidate)
+        strings = bundle.get("strings", {}) if is_object(bundle) else {}
+        value = strings.get(key) if is_object(strings) else None
+        if isinstance(value, str):
+            return value
+    return fallback
+
+
+def locale_display_label(i18n: dict[str, Any], locale: str) -> str:
+    locales = i18n.get("locales", {}) if is_object(i18n.get("locales")) else {}
+    bundle = locales.get(locale)
+    if is_object(bundle) and isinstance(bundle.get("label"), str):
+        return bundle["label"]
+    return locale
+
+
+def tr(ctx: RenderContext | None, key: str, fallback: str) -> str:
+    if ctx is None:
+        return fallback
+    return i18n_label(ctx.i18n, ctx.active_locale, key, fallback)
+
+
+def render_i18n_text(ctx: RenderContext | None, key: str, fallback: str) -> str:
+    value = esc(tr(ctx, key, fallback))
+    if ctx is None or len(ctx.locales) <= 1:
+        return value
+    return f"<span data-i18n-key=\"{attr(key)}\">{value}</span>"
+
+
 def href_kind(href: str) -> str | None:
     if href.startswith("#"):
         return "anchor"
@@ -110,8 +211,7 @@ def validate_shell_links(metadata: dict[str, Any], errors: list[str]) -> None:
         label = link.get("label")
         href = link.get("href")
         placement = link.get("placement", "topbar")
-        if not isinstance(label, str) or not label.strip():
-            errors.append(f"{path}.label must be a non-empty string")
+        validate_localized_string(label, f"{path}.label", errors, non_empty=True)
         if not isinstance(href, str) or not href.strip():
             errors.append(f"{path}.href must be a non-empty string")
         elif href_kind(href) not in {"anchor", "relative", "http", "https"}:
@@ -189,10 +289,64 @@ def render_run(run: Any) -> str:
     return out
 
 
-def render_inline(value: Any) -> str:
+def render_inline_for_locale(value: Any, locale: str, fallback: str = "en") -> str:
+    selected = localized_value(value, locale, fallback)
+    if isinstance(selected, list):
+        return "".join(render_run(run) for run in selected)
+    return esc(selected)
+
+
+def render_localized_spans(value: Any, renderer: Any, ctx: RenderContext | None) -> str:
+    if not is_localized_object(value) or ctx is None or len(ctx.locales) <= 1:
+        return renderer(localized_value(value, default_locale_for_context(ctx)))
+    out: list[str] = []
+    for locale in ctx.locales:
+        active = "true" if locale == ctx.active_locale else "false"
+        out.append(
+            f"<span data-locale=\"{attr(locale)}\" data-locale-active=\"{active}\">"
+            f"{renderer(localized_value(value, locale, ctx.active_locale))}"
+            "</span>"
+        )
+    return "".join(out)
+
+
+def render_text(value: Any, ctx: RenderContext | None = None) -> str:
+    return render_localized_spans(value, esc, ctx)
+
+
+def render_inline(value: Any, ctx: RenderContext | None = None) -> str:
+    if is_localized_object(value) and ctx is not None and len(ctx.locales) > 1:
+        return render_localized_spans(
+            value,
+            lambda selected: render_inline_for_locale(selected, default_locale_for_context(ctx), default_locale_for_context(ctx)),
+            ctx,
+        )
     if isinstance(value, list):
         return "".join(render_run(run) for run in value)
-    return esc(value)
+    return esc(localized_value(value, default_locale_for_context(ctx)))
+
+
+def svg_text_for_locale(value: Any, locale: str, fallback: str = "en") -> str:
+    return html.escape(text(localized_value(value, locale, fallback)), quote=False)
+
+
+def render_svg_text_variants(
+    value: Any,
+    ctx: RenderContext | None,
+    attrs: str,
+    *,
+    anchor: str | None = None,
+) -> str:
+    if is_localized_object(value) and ctx is not None and len(ctx.locales) > 1:
+        nodes = []
+        for locale in ctx.locales:
+            active = "true" if locale == ctx.active_locale else "false"
+            nodes.append(
+                f"<text {attrs} data-locale=\"{attr(locale)}\" data-locale-active=\"{active}\""
+                f"{anchor or ''}>{svg_text_for_locale(value, locale, ctx.active_locale)}</text>"
+            )
+        return "".join(nodes)
+    return f"<text {attrs}{anchor or ''}>{svg_text_for_locale(value, default_locale_for_context(ctx))}</text>"
 
 
 def validate_inline_mark(mark: Any, path: str, errors: list[str]) -> None:
@@ -227,6 +381,11 @@ def validate_inline_mark(mark: Any, path: str, errors: list[str]) -> None:
 
 
 def validate_inline(value: Any, path: str, errors: list[str]) -> None:
+    if is_localized_object(value):
+        for locale in SUPPORTED_LOCALES:
+            if locale in value:
+                validate_inline(value[locale], f"{path}.{locale}", errors)
+        return
     if isinstance(value, str):
         return
     if not isinstance(value, list):
@@ -243,6 +402,23 @@ def validate_inline(value: Any, path: str, errors: list[str]) -> None:
             validate_inline_mark(mark, f"{run_path}.marks[{mark_index}]", errors)
 
 
+def validate_localized_string(value: Any, path: str, errors: list[str], *, non_empty: bool = False) -> None:
+    if isinstance(value, str):
+        if non_empty and not value:
+            errors.append(f"{path} must be a non-empty string")
+        return
+    if is_localized_object(value):
+        for locale in SUPPORTED_LOCALES:
+            if locale in value:
+                localized = value[locale]
+                if not isinstance(localized, str):
+                    errors.append(f"{path}.{locale} must be a string")
+                elif non_empty and not localized:
+                    errors.append(f"{path}.{locale} must be a non-empty string")
+        return
+    errors.append(f"{path} must be a string or localized string object")
+
+
 def validate_block(block: Any, path: str, errors: list[str]) -> None:
     if not is_object(block):
         errors.append(f"{path} must be an object")
@@ -253,8 +429,7 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
         return
 
     def require_string(key: str) -> None:
-        if not isinstance(block.get(key), str) or not block.get(key):
-            errors.append(f"{path}.{key} must be a non-empty string")
+        validate_localized_string(block.get(key), f"{path}.{key}", errors, non_empty=True)
 
     def require_array(key: str) -> list[Any]:
         value = block.get(key)
@@ -268,8 +443,7 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
             if not is_object(item):
                 errors.append(f"{path}.items[{index}] must be an object")
                 continue
-            if not isinstance(item.get("label"), str) or not item.get("label"):
-                errors.append(f"{path}.items[{index}].label must be a non-empty string")
+            validate_localized_string(item.get("label"), f"{path}.items[{index}].label", errors, non_empty=True)
             validate_inline(item.get("body"), f"{path}.items[{index}].body", errors)
     elif block_type == "paragraph":
         validate_inline(block.get("text"), f"{path}.text", errors)
@@ -284,8 +458,7 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
         headers = require_array("headers")
         rows = require_array("rows")
         for index, header in enumerate(headers):
-            if not isinstance(header, str):
-                errors.append(f"{path}.headers[{index}] must be a string")
+            validate_localized_string(header, f"{path}.headers[{index}]", errors)
         for row_index, row in enumerate(rows):
             if not isinstance(row, list):
                 errors.append(f"{path}.rows[{row_index}] must be an array")
@@ -314,12 +487,13 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                         errors.append(f"{path}.source.steps[{index}] must be an object")
                         continue
                     for key in ("from", "to", "label"):
-                        if not isinstance(step.get(key), str) or not step.get(key):
-                            errors.append(f"{path}.source.steps[{index}].{key} must be a non-empty string")
+                        validate_localized_string(step.get(key), f"{path}.source.steps[{index}].{key}", errors, non_empty=True)
             elif fmt == "structured-flow":
                 for index, node in enumerate(as_list(source.get("nodes"))):
-                    if not is_object(node) or not isinstance(node.get("id"), str) or not isinstance(node.get("label"), str):
+                    if not is_object(node) or not isinstance(node.get("id"), str):
                         errors.append(f"{path}.source.nodes[{index}] must include string id and label")
+                        continue
+                    validate_localized_string(node.get("label"), f"{path}.source.nodes[{index}].label", errors)
                 for index, edge in enumerate(as_list(source.get("edges"))):
                     if not is_object(edge) or not isinstance(edge.get("from"), str) or not isinstance(edge.get("to"), str):
                         errors.append(f"{path}.source.edges[{index}] must include string from and to")
@@ -334,49 +508,63 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
         download_name = block.get("downloadName")
         if download_name is not None and (not isinstance(download_name, str) or not SAFE_NAME_RE.match(download_name)):
             errors.append(f"{path}.downloadName must be a safe kebab-case name")
+        if block.get("title") is not None:
+            validate_localized_string(block.get("title"), f"{path}.title", errors)
     elif block_type == "diff":
+        if block.get("title") is not None:
+            validate_localized_string(block.get("title"), f"{path}.title", errors)
         for side_key in ("left", "right"):
             side = block.get(side_key)
             if not is_object(side):
                 errors.append(f"{path}.{side_key} must be an object")
                 continue
-            if not isinstance(side.get("label"), str) or not side.get("label"):
-                errors.append(f"{path}.{side_key}.label must be a non-empty string")
+            validate_localized_string(side.get("label"), f"{path}.{side_key}.label", errors, non_empty=True)
             for index, line in enumerate(as_list(side.get("lines"))):
                 if not is_object(line):
                     errors.append(f"{path}.{side_key}.lines[{index}] must be an object")
                     continue
                 if line.get("kind") not in {"add", "remove", "warning", "context"}:
                     errors.append(f"{path}.{side_key}.lines[{index}].kind is unsupported")
-                if not isinstance(line.get("text"), str):
-                    errors.append(f"{path}.{side_key}.lines[{index}].text must be a string")
+                validate_localized_string(line.get("text"), f"{path}.{side_key}.lines[{index}].text", errors)
     elif block_type == "participants":
         for index, item in enumerate(require_array("items")):
-            if not is_object(item) or not isinstance(item.get("name"), str):
+            if not is_object(item):
                 errors.append(f"{path}.items[{index}] must include a string name")
                 continue
+            validate_localized_string(item.get("name"), f"{path}.items[{index}].name", errors, non_empty=True)
+            if item.get("role") is not None:
+                validate_localized_string(item.get("role"), f"{path}.items[{index}].role", errors)
             validate_inline(item.get("responsibility"), f"{path}.items[{index}].responsibility", errors)
     elif block_type == "source-refs":
         for index, item in enumerate(require_array("items")):
-            if not is_object(item) or not isinstance(item.get("label"), str) or not isinstance(item.get("url"), str):
+            if not is_object(item) or not isinstance(item.get("url"), str):
                 errors.append(f"{path}.items[{index}] must include label and url")
                 continue
+            validate_localized_string(item.get("label"), f"{path}.items[{index}].label", errors, non_empty=True)
+            if item.get("text") is not None:
+                validate_localized_string(item.get("text"), f"{path}.items[{index}].text", errors)
             if href_kind(item["url"]) not in {"anchor", "relative", "http", "https"}:
                 errors.append(f"{path}.items[{index}].url uses an unsupported URL scheme")
     elif block_type == "files":
         for index, item in enumerate(require_array("items")):
             if not is_object(item) or not isinstance(item.get("path"), str):
                 errors.append(f"{path}.items[{index}] must include path")
+                continue
+            if item.get("note") is not None:
+                validate_localized_string(item.get("note"), f"{path}.items[{index}].note", errors)
     elif block_type == "action":
         require_string("title")
         validate_inline(block.get("description"), f"{path}.description", errors)
+        if block.get("prompt") is not None:
+            validate_localized_string(block.get("prompt"), f"{path}.prompt", errors)
         if block.get("priority", "none") not in {"p0", "p1", "p2", "none"}:
             errors.append(f"{path}.priority is unsupported")
     elif block_type == "values-grid":
         for index, item in enumerate(require_array("items")):
-            if not is_object(item) or not isinstance(item.get("title"), str):
+            if not is_object(item):
                 errors.append(f"{path}.items[{index}] must include a string title")
                 continue
+            validate_localized_string(item.get("title"), f"{path}.items[{index}].title", errors, non_empty=True)
             validate_inline(item.get("body"), f"{path}.items[{index}].body", errors)
     elif block_type == "acceptance-criteria":
         for index, item in enumerate(require_array("items")):
@@ -409,9 +597,25 @@ def validate_document(doc: Any, config_dir: Path = CONFIG_DIR) -> ValidationResu
         sections = []
 
     if not isinstance(metadata.get("title"), str) or not metadata.get("title"):
-        errors.append("metadata.title must be a non-empty string")
+        if not is_localized_object(metadata.get("title")):
+            errors.append("metadata.title must be a non-empty string")
+        else:
+            validate_localized_string(metadata.get("title"), "metadata.title", errors, non_empty=True)
     if metadata.get("language") not in {"zh-CN", "en"}:
         errors.append("metadata.language must be zh-CN or en")
+    locales = metadata.get("locales")
+    if locales is not None:
+        if not isinstance(locales, list) or not locales:
+            errors.append("metadata.locales must be a non-empty array")
+        else:
+            seen_locales: set[str] = set()
+            for index, locale in enumerate(locales):
+                if locale not in set(SUPPORTED_LOCALES):
+                    errors.append(f"metadata.locales[{index}] must be zh-CN or en")
+                elif locale in seen_locales:
+                    errors.append(f"metadata.locales[{index}] is duplicated: {locale}")
+                else:
+                    seen_locales.add(locale)
     validate_shell_links(metadata, errors)
 
     document_types = {item["id"]: item for item in load_config("document-types.json", config_dir)["documentTypes"]}
@@ -440,8 +644,7 @@ def validate_document(doc: Any, config_dir: Path = CONFIG_DIR) -> ValidationResu
             errors.append(f"{path}.id must be safe kebab-case")
         else:
             actual_section_ids.append(section_id)
-        if not isinstance(section.get("title"), str) or not section.get("title"):
-            errors.append(f"{path}.title must be a non-empty string")
+        validate_localized_string(section.get("title"), f"{path}.title", errors, non_empty=True)
         blocks = section.get("blocks")
         if not isinstance(blocks, list):
             errors.append(f"{path}.blocks must be an array")
@@ -490,36 +693,36 @@ def validate_document(doc: Any, config_dir: Path = CONFIG_DIR) -> ValidationResu
     return ValidationResult(errors, warnings)
 
 
-def metadata_line(metadata: dict[str, Any]) -> str:
+def metadata_line(metadata: dict[str, Any], ctx: RenderContext | None = None) -> str:
     parts: list[str] = []
     owner = metadata.get("owner")
     updated_at = metadata.get("updatedAt")
     if isinstance(owner, str) and owner and owner != "unknown":
-        parts.append(f"Owner {esc(owner)}")
+        parts.append(f"{render_i18n_text(ctx, 'metadata.owner', 'Owner')} {render_text(owner, ctx)}")
     if isinstance(updated_at, str) and updated_at:
-        parts.append(f"Updated {esc(updated_at)}")
+        parts.append(f"{render_i18n_text(ctx, 'metadata.updated', 'Updated')} {esc(updated_at)}")
     return " · ".join(parts)
 
 
-def render_summary_block(block: dict[str, Any]) -> str:
+def render_summary_block(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     items = []
     for item in as_list(block.get("items")):
         if is_object(item):
-            items.append(f"<li><strong>{esc(item.get('label'))}:</strong> {render_inline(item.get('body'))}</li>")
+            items.append(f"<li><strong>{render_text(item.get('label'), ctx)}:</strong> {render_inline(item.get('body'), ctx)}</li>")
     return f"<section class=\"doc-summary\"><ul>{''.join(items)}</ul></section>"
 
 
-def render_paragraph(block: dict[str, Any]) -> str:
-    return f"<p>{render_inline(block.get('text'))}</p>"
+def render_paragraph(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    return f"<p>{render_inline(block.get('text'), ctx)}</p>"
 
 
-def render_list(block: dict[str, Any]) -> str:
+def render_list(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     tag = "ol" if block.get("ordered") else "ul"
-    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("items")))
+    items = "".join(f"<li>{render_inline(item, ctx)}</li>" for item in as_list(block.get("items")))
     return f"<{tag}>{items}</{tag}>"
 
 
-def render_callout(block: dict[str, Any]) -> str:
+def render_callout(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     variant = block.get("variant", "info")
     cls = {
         "info": "callout callout-info",
@@ -528,29 +731,29 @@ def render_callout(block: dict[str, Any]) -> str:
         "success": "callout callout-success",
     }.get(variant, "callout callout-info")
     title = block.get("title")
-    title_html = f"<strong>{esc(title)}</strong>" if title else ""
+    title_html = f"<strong>{render_text(title, ctx)}</strong>" if title else ""
     return (
         f"<aside class=\"{cls}\">"
-        f"{title_html}<p>{render_inline(block.get('body'))}</p>"
+        f"{title_html}<p>{render_inline(block.get('body'), ctx)}</p>"
         "</aside>"
     )
 
 
-def render_table(block: dict[str, Any]) -> str:
-    header_cells = "".join(f"<th>{esc(header)}</th>" for header in as_list(block.get("headers")))
-    rows = ["<tr>" + "".join(f"<td>{render_inline(cell)}</td>" for cell in row) + "</tr>"
+def render_table(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    header_cells = "".join(f"<th>{render_text(header, ctx)}</th>" for header in as_list(block.get("headers")))
+    rows = ["<tr>" + "".join(f"<td>{render_inline(cell, ctx)}</td>" for cell in row) + "</tr>"
             for row in as_list(block.get("rows")) if isinstance(row, list)]
     body = ("\n" + "\n".join(rows)) if rows else ""
     return f"<table>\n<tr>{header_cells}</tr>{body}\n</table>"
 
 
-def render_details(block: dict[str, Any]) -> str:
+def render_details(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     open_attr = " open" if block.get("open") else ""
-    body = "".join(render_block(child) for child in as_list(block.get("blocks")) if is_object(child))
-    return f"<details class=\"details-block\"{open_attr}><summary>{esc(block.get('summary'))}</summary>{body}</details>"
+    body = "".join(render_block(child, ctx) for child in as_list(block.get("blocks")) if is_object(child))
+    return f"<details class=\"details-block\"{open_attr}><summary>{render_text(block.get('summary'), ctx)}</summary>{body}</details>"
 
 
-def render_code(block: dict[str, Any]) -> str:
+def render_code(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     language = block.get("language", "")
     lang_attr = f" data-language=\"{attr(language)}\"" if language else ""
     return f"<pre class=\"code-block\"{lang_attr}><code{lang_attr}>{esc(block.get('code'))}</code></pre>"
@@ -560,7 +763,7 @@ def svg_text(value: Any) -> str:
     return html.escape(text(value), quote=False)
 
 
-def render_sequence_svg(block: dict[str, Any]) -> str:
+def render_sequence_svg(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     steps = as_list(block.get("source", {}).get("steps"))
     width = 860
     row_height = 68
@@ -570,13 +773,16 @@ def render_sequence_svg(block: dict[str, Any]) -> str:
         y = 36 + index * row_height
         rows.append(
             f"<rect x=\"32\" y=\"{y}\" width=\"796\" height=\"42\" rx=\"7\" fill=\"#f3f4f4\" stroke=\"#9aa1a8\" stroke-width=\"1\"/>"
-            f"<text x=\"58\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\">{svg_text(step.get('from'))} -> {svg_text(step.get('to'))}</text>"
-            f"<text x=\"430\" y=\"{y + 26}\" fill=\"#68717b\" font-size=\"13\" text-anchor=\"middle\">{svg_text(step.get('label'))}</text>"
+            f"{render_svg_text_variants(step.get('from'), ctx, f'x=\"58\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\"')}"
+            f"<text x=\"180\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\">-&gt;</text>"
+            f"{render_svg_text_variants(step.get('to'), ctx, f'x=\"218\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\"')}"
+            f"{render_svg_text_variants(step.get('label'), ctx, f'x=\"430\" y=\"{y + 26}\" fill=\"#68717b\" font-size=\"13\" text-anchor=\"middle\"')}"
         )
-    return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(block.get('title') or 'Sequence diagram')}\">{''.join(rows)}</svg>"
+    aria = localized_value(block.get("title") or tr(ctx, "diagram.sequenceAria", "Sequence diagram"), default_locale_for_context(ctx))
+    return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(aria)}\">{''.join(rows)}</svg>"
 
 
-def render_flow_svg(block: dict[str, Any]) -> str:
+def render_flow_svg(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     source = block.get("source", {})
     nodes = as_list(source.get("nodes"))
     width = max(420, 220 * len(nodes))
@@ -598,79 +804,80 @@ def render_flow_svg(block: dict[str, Any]) -> str:
         x2 = 80 + end * 220
         parts.append(f"<line x1=\"{x1}\" y1=\"82\" x2=\"{x2}\" y2=\"82\" stroke=\"#8a929b\" stroke-width=\"2\" marker-end=\"url(#arrow)\"></line>")
         if edge.get("label"):
-            parts.append(f"<text x=\"{(x1 + x2) / 2:.0f}\" y=\"66\" text-anchor=\"middle\" font-size=\"12\" fill=\"#68717b\">{svg_text(edge.get('label'))}</text>")
+            parts.append(render_svg_text_variants(edge.get("label"), ctx, f"x=\"{(x1 + x2) / 2:.0f}\" y=\"66\" text-anchor=\"middle\" font-size=\"12\" fill=\"#68717b\""))
     for index, node in enumerate(nodes):
         if not is_object(node):
             continue
         x = 80 + index * 220
         parts.append(f"<rect x=\"{x}\" y=\"54\" width=\"120\" height=\"56\" rx=\"7\" fill=\"#f3f4f4\" stroke=\"#9aa1a8\"></rect>")
-        parts.append(f"<text x=\"{x + 60}\" y=\"87\" text-anchor=\"middle\" font-size=\"13\" fill=\"#2f3439\">{svg_text(node.get('label'))}</text>")
-    return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(block.get('title') or 'Flow diagram')}\">{''.join(parts)}</svg>"
+        parts.append(render_svg_text_variants(node.get("label"), ctx, f"x=\"{x + 60}\" y=\"87\" text-anchor=\"middle\" font-size=\"13\" fill=\"#2f3439\""))
+    aria = localized_value(block.get("title") or tr(ctx, "diagram.flowAria", "Flow diagram"), default_locale_for_context(ctx))
+    return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(aria)}\">{''.join(parts)}</svg>"
 
 
-def render_diagram(block: dict[str, Any]) -> str:
+def render_diagram(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     source = block.get("source", {})
     fmt = source.get("format")
     if fmt == "structured-sequence":
-        svg = render_sequence_svg(block)
+        svg = render_sequence_svg(block, ctx)
     elif fmt == "structured-flow":
-        svg = render_flow_svg(block)
+        svg = render_flow_svg(block, ctx)
     elif fmt == "svg":
         svg = text(source.get("content"))
     else:
-        svg = "<svg viewBox=\"0 0 320 100\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"20\" y=\"50\">Unsupported diagram</text></svg>"
+        svg = f"<svg viewBox=\"0 0 320 100\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"20\" y=\"50\">{esc(tr(ctx, 'diagram.unsupported', 'Unsupported diagram'))}</text></svg>"
     name = attr(block.get("downloadName") or "diagram")
     title = block.get("title")
-    caption = f"<figcaption>{esc(title)}</figcaption>" if title else ""
+    caption = f"<figcaption>{render_text(title, ctx)}</figcaption>" if title else ""
     return f"<figure class=\"diagram\" data-download-name=\"{name}\">{caption}{svg}</figure>"
 
 
-def render_diff(block: dict[str, Any]) -> str:
+def render_diff(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     def side_html(side: dict[str, Any]) -> str:
         lines = []
         for line in as_list(side.get("lines")):
             if is_object(line):
                 kind = line.get("kind", "context")
-                lines.append(f"<span class=\"line-{attr(kind)}\">{esc(line.get('text'))}</span>")
-        return f"<div class=\"diff-side\"><h3>{esc(side.get('label'))}</h3><pre><code>{chr(10).join(lines)}</code></pre></div>"
+                lines.append(f"<span class=\"line-{attr(kind)}\">{render_text(line.get('text'), ctx)}</span>")
+        return f"<div class=\"diff-side\"><h3>{render_text(side.get('label'), ctx)}</h3><pre><code>{chr(10).join(lines)}</code></pre></div>"
 
     left = side_html(block.get("left", {}))
     right = side_html(block.get("right", {}))
-    title = f"<h3>{esc(block.get('title'))}</h3>" if block.get("title") else ""
+    title = f"<h3>{render_text(block.get('title'), ctx)}</h3>" if block.get("title") else ""
     return f"<section class=\"diff-block\">{title}{left}{right}</section>"
 
 
-def render_participants(block: dict[str, Any]) -> str:
+def render_participants(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     cards = []
     for item in as_list(block.get("items")):
         if not is_object(item):
             continue
-        role = f"<p><em>{esc(item.get('role'))}</em></p>" if item.get("role") else ""
-        cards.append(f"<div class=\"participant-card\"><h3>{esc(item.get('name'))}</h3>{role}<p>{render_inline(item.get('responsibility'))}</p></div>")
+        role = f"<p><em>{render_text(item.get('role'), ctx)}</em></p>" if item.get("role") else ""
+        cards.append(f"<div class=\"participant-card\"><h3>{render_text(item.get('name'), ctx)}</h3>{role}<p>{render_inline(item.get('responsibility'), ctx)}</p></div>")
     return f"<section class=\"participants\">{''.join(cards)}</section>"
 
 
-def render_source_refs(block: dict[str, Any]) -> str:
+def render_source_refs(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     items = []
     for item in as_list(block.get("items")):
         if not is_object(item):
             continue
         href = attr(item.get("url"))
-        label = esc(item.get("label"))
-        note = f" — {esc(item.get('text'))}" if item.get("text") else ""
+        label = render_text(item.get("label"), ctx)
+        note = f" - {render_text(item.get('text'), ctx)}" if item.get("text") else ""
         target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
         items.append(f"<li><a href=\"{href}\"{target}>{label}</a>{note}</li>")
     return f"<ul class=\"source-refs\">{''.join(items)}</ul>"
 
 
-def render_files(block: dict[str, Any]) -> str:
+def render_files(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     items = []
     for item in as_list(block.get("items")):
         if not is_object(item):
             continue
         path = esc(item.get("path"))
         line = f":{esc(item.get('lineStart'))}" if item.get("lineStart") else ""
-        note = f" — {esc(item.get('note'))}" if item.get("note") else ""
+        note = f" - {render_text(item.get('note'), ctx)}" if item.get("note") else ""
         if item.get("url"):
             items.append(f"<li><a href=\"{attr(item.get('url'))}\">{path}{line}</a>{note}</li>")
         else:
@@ -678,26 +885,26 @@ def render_files(block: dict[str, Any]) -> str:
     return f"<ul class=\"files\">{''.join(items)}</ul>"
 
 
-def render_action(block: dict[str, Any]) -> str:
-    prompt = f"<pre class=\"prompt-block\"><code>{esc(block.get('prompt'))}</code></pre>" if block.get("prompt") else ""
-    return f"<section class=\"action-card\"><h3>{esc(block.get('title'))}</h3><p>{render_inline(block.get('description'))}</p>{prompt}</section>"
+def render_action(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    prompt = f"<pre class=\"prompt-block\"><code>{render_text(block.get('prompt'), ctx)}</code></pre>" if block.get("prompt") else ""
+    return f"<section class=\"action-card\"><h3>{render_text(block.get('title'), ctx)}</h3><p>{render_inline(block.get('description'), ctx)}</p>{prompt}</section>"
 
 
-def render_values_grid(block: dict[str, Any]) -> str:
+def render_values_grid(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     cards = []
     for item in as_list(block.get("items")):
         if is_object(item):
-            cards.append(f"<div class=\"value-card\"><h3>{esc(item.get('title'))}</h3><p>{render_inline(item.get('body'))}</p></div>")
+            cards.append(f"<div class=\"value-card\"><h3>{render_text(item.get('title'), ctx)}</h3><p>{render_inline(item.get('body'), ctx)}</p></div>")
     return f"<section class=\"values-grid\">{''.join(cards)}</section>"
 
 
-def render_acceptance_criteria(block: dict[str, Any]) -> str:
-    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("items")))
+def render_acceptance_criteria(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    items = "".join(f"<li>{render_inline(item, ctx)}</li>" for item in as_list(block.get("items")))
     return f"<ol class=\"acceptance-criteria\">{items}</ol>"
 
 
-def render_open_questions(block: dict[str, Any]) -> str:
-    items = "".join(f"<li>{render_inline(item)}</li>" for item in as_list(block.get("questions")))
+def render_open_questions(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    items = "".join(f"<li>{render_inline(item, ctx)}</li>" for item in as_list(block.get("questions")))
     return f"<ul class=\"open-questions\">{items}</ul>"
 
 
@@ -747,12 +954,12 @@ def build_block_type_renderer_map(config_dir: Path = CONFIG_DIR) -> dict[str, An
     return out
 
 
-def render_block(block: dict[str, Any]) -> str:
-    renderers = build_block_type_renderer_map()
+def render_block(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    renderers = build_block_type_renderer_map(ctx.config_dir if ctx else CONFIG_DIR)
     renderer = renderers.get(block.get("type"))
     if not renderer:
-        return f"<p class=\"section-empty\">Unsupported block: {esc(block.get('type'))}</p>"
-    return renderer(block)
+        return f"<p class=\"section-empty\">{esc(tr(ctx, 'state.unsupportedBlock', 'Unsupported block'))}: {esc(block.get('type'))}</p>"
+    return renderer(block, ctx)
 
 
 def block_types_in_doc(doc: dict[str, Any]) -> set[str]:
@@ -806,55 +1013,72 @@ def resolve_active_interactions(
     return active
 
 
-def render_toc(sections: list[dict[str, Any]]) -> str:
+def render_toc(sections: list[dict[str, Any]], ctx: RenderContext | None = None) -> str:
     items = []
     for index, section in enumerate(sections, start=1):
         number = f"{index:02d}"
-        items.append(f"<li><a href=\"#{attr(section.get('id'))}\"><span>{number}</span>{esc(section.get('title'))}</a></li>")
-    return f"<nav class=\"toc\" aria-label=\"Table of contents\"><ol>{''.join(items)}</ol></nav>"
+        items.append(f"<li><a href=\"#{attr(section.get('id'))}\"><span>{number}</span>{render_text(section.get('title'), ctx)}</a></li>")
+    return f"<nav class=\"toc\" aria-label=\"{attr(tr(ctx, 'chrome.tocAria', 'Table of contents'))}\"><ol>{''.join(items)}</ol></nav>"
 
 
-def render_sidebar(sections: list[dict[str, Any]]) -> str:
-    toc = render_toc(sections)
-    return f"<p class=\"nav-title\">Contents</p>{toc}"
+def render_sidebar(sections: list[dict[str, Any]], ctx: RenderContext | None = None) -> str:
+    toc = render_toc(sections, ctx)
+    return f"<p class=\"nav-title\">{render_i18n_text(ctx, 'chrome.contents', 'Contents')}</p>{toc}"
 
 
-def render_shell_links(metadata: dict[str, Any], placement: str) -> str:
+def render_shell_links(metadata: dict[str, Any], placement: str, ctx: RenderContext | None = None) -> str:
     links = []
     for item in as_list(metadata.get("shellLinks")):
         if not is_object(item) or item.get("placement", "topbar") != placement:
             continue
         href = text(item.get("href"))
         target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
-        links.append(f"<a class=\"topbar-link\" href=\"{attr(href)}\"{target}>{esc(item.get('label'))}</a>")
+        links.append(f"<a class=\"topbar-link\" href=\"{attr(href)}\"{target}>{render_text(item.get('label'), ctx)}</a>")
     if not links:
         return ""
-    return f"<nav class=\"topbar-links\" data-slot=\"topbar-links\" aria-label=\"Document links\">{''.join(links)}</nav>"
+    return f"<nav class=\"topbar-links\" data-slot=\"topbar-links\" aria-label=\"{attr(tr(ctx, 'chrome.documentLinksAria', 'Document links'))}\">{''.join(links)}</nav>"
 
 
-def render_footer_links(metadata: dict[str, Any]) -> str:
+def render_footer_links(metadata: dict[str, Any], ctx: RenderContext | None = None) -> str:
     links = []
     for item in as_list(metadata.get("shellLinks")):
         if not is_object(item) or item.get("placement") != "footer":
             continue
         href = text(item.get("href"))
         target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
-        links.append(f"<a href=\"{attr(href)}\"{target}>{esc(item.get('label'))}</a>")
+        links.append(f"<a href=\"{attr(href)}\"{target}>{render_text(item.get('label'), ctx)}</a>")
     return " · ".join(links)
 
 
-def render_sections(sections: list[Any]) -> str:
+def render_language_switcher(ctx: RenderContext) -> str:
+    if len(ctx.locales) <= 1:
+        return ""
+    buttons = []
+    for locale in ctx.locales:
+        active = locale == ctx.active_locale
+        buttons.append(
+            f"<button class=\"locale-button\" type=\"button\" data-locale-target=\"{attr(locale)}\""
+            f" aria-pressed=\"{'true' if active else 'false'}\">{esc(locale_display_label(ctx.i18n, locale))}</button>"
+        )
+    return (
+        f"<div class=\"locale-switcher\" data-renderer-owned=\"true\" role=\"group\" "
+        f"aria-label=\"{attr(tr(ctx, 'chrome.languageAria', 'Language'))}\">"
+        f"{''.join(buttons)}</div>"
+    )
+
+
+def render_sections(sections: list[Any], ctx: RenderContext | None = None) -> str:
     rendered = []
     for section in sections:
         if not is_object(section):
             continue
-        blocks_list = [render_block(block) for block in as_list(section.get("blocks")) if is_object(block)]
+        blocks_list = [render_block(block, ctx) for block in as_list(section.get("blocks")) if is_object(block)]
         if not blocks_list:
-            blocks_list = ["<p class=\"section-empty\">No content.</p>"]
+            blocks_list = [f"<p class=\"section-empty\">{esc(tr(ctx, 'state.noContent', 'No content.'))}</p>"]
         blocks_text = "\n".join(blocks_list)
         rendered.append(
             f"<section class=\"doc-section\" id=\"{attr(section.get('id'))}\">\n"
-            f"<h2>{esc(section.get('title'))}</h2>\n"
+            f"<h2>{render_text(section.get('title'), ctx)}</h2>\n"
             f"{blocks_text}\n"
             "</section>"
         )
@@ -959,6 +1183,7 @@ def diagram_viewer_js(template_dir: Path = TEMPLATE_DIR) -> str:
 
 def render_interaction_assets(
     specs: list[dict[str, Any]],
+    ctx: RenderContext | None = None,
     template_dir: Path = TEMPLATE_DIR,
 ) -> tuple[str, str]:
     hooks: list[str] = []
@@ -969,7 +1194,12 @@ def render_interaction_assets(
             continue
         hook_path = template_dir / f"hooks.{iid}.html"
         if hook_path.exists():
-            hooks.append(hook_path.read_text(encoding="utf-8"))
+            hook = hook_path.read_text(encoding="utf-8")
+            if ctx is not None and iid == "diagram-viewer":
+                hook = hook.replace("Diagram viewer", attr(tr(ctx, "diagram.viewerAria", "Diagram viewer")))
+                hook = hook.replace(">Close</button>", f">{render_i18n_text(ctx, 'diagram.close', 'Close')}</button>")
+                hook = hook.replace('aria-label="Close"', f'aria-label="{attr(tr(ctx, "diagram.close", "Close"))}"')
+            hooks.append(hook)
         if spec.get("requiresScript"):
             script_path = template_dir / f"interactions.{iid}.js"
             if script_path.exists():
@@ -977,6 +1207,32 @@ def render_interaction_assets(
                     f"<script data-renderer-owned=\"true\" data-interaction=\"{attr(iid)}\">{script_path.read_text(encoding='utf-8')}</script>"
                 )
     return "".join(hooks), "".join(scripts)
+
+
+def render_i18n_bootstrap(ctx: RenderContext) -> str:
+    if len(ctx.locales) <= 1 and ctx.active_locale == "en":
+        return ""
+    payload = {
+        "activeLocale": ctx.active_locale,
+        "locales": ctx.locales,
+        "strings": {
+            locale: (ctx.i18n.get("locales", {}).get(locale, {}).get("strings", {}))
+            for locale in ctx.locales
+        },
+    }
+    source = json.dumps(payload, ensure_ascii=False).replace("</", "<\\/")
+    return f"<script data-renderer-owned=\"true\" data-interaction=\"i18n\">window.CAST_DOCS_I18N = {source};</script>"
+
+
+def render_i18n_script(template_dir: Path = TEMPLATE_DIR) -> str:
+    script_path = template_dir / "interactions.i18n.js"
+    if not script_path.exists():
+        return ""
+    return (
+        "<script data-renderer-owned=\"true\" data-interaction=\"i18n\">"
+        f"{script_path.read_text(encoding='utf-8')}"
+        "</script>"
+    )
 
 
 SHELL_PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Z_]+)\s*\}\}")
@@ -998,17 +1254,26 @@ def render_html(
     template_dir: Path = TEMPLATE_DIR,
 ) -> str:
     metadata = doc["metadata"]
+    i18n = load_config("i18n.json", config_dir)
+    locales = document_locales(doc)
+    active_locale = normalize_locale(metadata.get("language"), "en")
+    if active_locale not in locales:
+        locales.insert(0, active_locale)
+    ctx = RenderContext(active_locale=active_locale, locales=locales, i18n=i18n, config_dir=config_dir)
     sections = as_list(doc.get("sections"))
-    title = metadata.get("title", "Untitled")
-    description = metadata.get("description", "")
-    meta = metadata_line(metadata)
+    title_value = metadata.get("title", tr(ctx, "state.untitled", "Untitled"))
+    title = localized_value(title_value, active_locale, "en")
+    description = localized_value(metadata.get("description", ""), active_locale, "en")
+    meta = metadata_line(metadata, ctx)
     meta_html = f"<div class=\"doc-meta\">{meta}</div>" if meta else ""
-    topbar_links = render_shell_links(metadata, "topbar")
-    footer_links = render_footer_links(metadata)
+    topbar_links = render_shell_links(metadata, "topbar", ctx)
+    footer_links = render_footer_links(metadata, ctx)
     footer = footer_links or f"<a href=\"https://github.com/CAST-docs/cast-docs\" target=\"_blank\" rel=\"noopener noreferrer\">CAST Docs</a>"
     layout = load_layout(layout_id, config_dir)
     active_interactions = resolve_active_interactions(doc, layout, config_dir)
-    lightbox, script = render_interaction_assets(active_interactions, template_dir)
+    lightbox, script = render_interaction_assets(active_interactions, ctx, template_dir)
+    i18n_bootstrap = render_i18n_bootstrap(ctx)
+    i18n_script = render_i18n_script(template_dir) if len(ctx.locales) > 1 or active_locale != "en" else ""
 
     shell_name = text(layout.get("shell")) or "single"
     shell = load_template_module(f"shell.{shell_name}.html", template_dir)
@@ -1017,15 +1282,17 @@ def render_html(
         "LANG": attr(metadata.get("language", "en")),
         "DESCRIPTION": attr(description or title),
         "TITLE": esc(title),
+        "DISPLAY_TITLE": render_text(title_value, ctx),
         "DOC_JSON": doc_json,
         "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),
         "TOPBAR_LINKS": topbar_links,
+        "LANGUAGE_SWITCHER": render_language_switcher(ctx),
         "DOC_META": meta_html,
-        "SIDEBAR": render_sidebar([section for section in sections if is_object(section)]),
-        "SECTIONS": render_sections(sections),
+        "SIDEBAR": render_sidebar([section for section in sections if is_object(section)], ctx),
+        "SECTIONS": render_sections(sections, ctx),
         "FOOTER": footer,
         "INTERACTION_HOOKS": lightbox,
-        "INTERACTION_SCRIPTS": script,
+        "INTERACTION_SCRIPTS": f"{i18n_bootstrap}{script}{i18n_script}",
     }
     return render_shell(shell, slots)
 

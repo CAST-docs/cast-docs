@@ -1,13 +1,29 @@
 {
   "metadata": {
-    "title": "Renderer implementation decision",
+    "title": {
+      "en": "Renderer implementation decision",
+      "zh-CN": "渲染器实现决策"
+    },
     "language": "en",
     "status": "draft",
     "owner": "unknown",
-    "audience": ["engineering"],
+    "audience": [
+      "engineering"
+    ],
     "updatedAt": "2026-05-13",
     "shellLinks": [
-      {"label": "CAST Docs", "href": "../index.html", "placement": "topbar"}
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
     ]
   },
   "manifest": {
@@ -23,68 +39,317 @@
       "follow-ups"
     ],
     "components": {
-      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph", "table", "callout"],
-      "optional": ["acceptance-criteria", "action-card"],
-      "omitted": ["diagram", "diff-block", "inline-svg-figure"]
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "acceptance-criteria",
+        "action-card"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
     }
   },
   "sections": [
     {
       "id": "context",
-      "title": "Context",
+      "title": {
+        "en": "Context",
+        "zh-CN": "背景"
+      },
       "blocks": [
-        {"type": "summary", "items": [{"label": "Decision", "body": "Choose how the HTML renderer should transform document JSON."}]}
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Decision",
+                "zh-CN": "决策"
+              },
+              "body": {
+                "en": "Choose how the HTML renderer should transform document JSON.",
+                "zh-CN": "选择 HTML 渲染器应如何转换文档 JSON。"
+              }
+            }
+          ]
+        }
       ]
     },
     {
       "id": "decision-criteria",
-      "title": "Decision Criteria",
+      "title": {
+        "en": "Decision Criteria",
+        "zh-CN": "决策标准"
+      },
       "blocks": [
-        {"type": "list", "items": ["Deterministic output", "Low token usage", "Simple validation", "Easy component reuse"]}
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Deterministic output",
+              "zh-CN": "确定性输出"
+            },
+            {
+              "en": "Low token usage",
+              "zh-CN": "低 token 使用量"
+            },
+            {
+              "en": "Simple validation",
+              "zh-CN": "简单校验"
+            },
+            {
+              "en": "Easy component reuse",
+              "zh-CN": "组件易复用"
+            }
+          ]
+        }
       ]
     },
     {
       "id": "options-considered",
-      "title": "Options Considered",
+      "title": {
+        "en": "Options Considered",
+        "zh-CN": "备选方案"
+      },
       "blocks": [
-        {"type": "paragraph", "text": "The main options are direct HTML assembly and typed block rendering."}
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The main options are direct HTML assembly and typed block rendering.",
+            "zh-CN": "主要方案是直接组装 HTML，或使用类型化 block 渲染。"
+          }
+        }
       ]
     },
     {
       "id": "comparison",
-      "title": "Comparison",
+      "title": {
+        "en": "Comparison",
+        "zh-CN": "对比"
+      },
       "blocks": [
         {
           "type": "table",
           "tableType": "decision",
-          "headers": ["Option", "Strength", "Risk"],
+          "headers": [
+            {
+              "en": "Option",
+              "zh-CN": "方案"
+            },
+            {
+              "en": "Strength",
+              "zh-CN": "优势"
+            },
+            {
+              "en": "Risk",
+              "zh-CN": "风险"
+            }
+          ],
           "rows": [
-            ["Direct HTML assembly", "Fast to prototype", "Harder to validate"],
-            ["Typed block rendering", "Predictable and reusable", "Requires upfront schema"]
+            [
+              {
+                "en": "Direct HTML assembly",
+                "zh-CN": "直接组装 HTML"
+              },
+              {
+                "en": "Fast to prototype",
+                "zh-CN": "原型实现快"
+              },
+              {
+                "en": "Harder to validate",
+                "zh-CN": "更难校验"
+              }
+            ],
+            [
+              {
+                "en": "Typed block rendering",
+                "zh-CN": "类型化 block 渲染"
+              },
+              {
+                "en": "Predictable and reusable",
+                "zh-CN": "可预测且可复用"
+              },
+              {
+                "en": "Requires upfront schema",
+                "zh-CN": "需要先定义 schema"
+              }
+            ]
           ]
         }
       ]
     },
     {
       "id": "decision",
-      "title": "Decision",
+      "title": {
+        "en": "Decision",
+        "zh-CN": "决策"
+      },
       "blocks": [
-        {"type": "callout", "variant": "success", "title": "Decision", "body": [{"text": "Use typed block rendering backed by "}, {"text": "configuration registries", "marks": ["code"]}, {"text": ", not "}, {"text": "direct HTML assembly", "marks": ["del"]}, {"text": "."}]}
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": {
+            "en": "Decision",
+            "zh-CN": "决策"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "Use typed block rendering backed by "
+              },
+              {
+                "text": "configuration registries",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": ", not "
+              },
+              {
+                "text": "direct HTML assembly",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "采用由 "
+              },
+              {
+                "text": "配置注册表",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": " 支撑的类型化 block 渲染，而不是 "
+              },
+              {
+                "text": "直接组装 HTML",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        }
       ]
     },
     {
       "id": "tradeoffs",
-      "title": "Tradeoffs",
+      "title": {
+        "en": "Tradeoffs",
+        "zh-CN": "取舍"
+      },
       "blocks": [
-        {"type": "paragraph", "text": "The schema costs more upfront but reduces drift once more scenarios are added."}
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The schema costs more upfront but reduces drift once more scenarios are added.",
+            "zh-CN": "schema 前期成本更高，但在添加更多场景后可以减少漂移。"
+          }
+        }
       ]
     },
     {
       "id": "follow-ups",
-      "title": "Follow-ups",
+      "title": {
+        "en": "Follow-ups",
+        "zh-CN": "后续事项"
+      },
       "blocks": [
-        {"type": "acceptance-criteria", "items": ["Every configured scenario has a fixture.", "Renderer rejects unknown block types."]},
-        {"type": "action", "priority": "p2", "title": "Implement schema validation", "description": [{"text": "Wire "}, {"text": "doc.schema.json", "marks": [{"type": "ref", "path": "schemas/doc.schema.json"}]}, {"text": " into "}, {"text": "validate_doc_json.py", "marks": ["code"]}, {"text": "."}]}
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": "Every configured scenario has a fixture.",
+              "zh-CN": "每个已配置场景都有 fixture。"
+            },
+            {
+              "en": "Renderer rejects unknown block types.",
+              "zh-CN": "渲染器会拒绝未知 block 类型。"
+            }
+          ]
+        },
+        {
+          "type": "action",
+          "priority": "p2",
+          "title": {
+            "en": "Implement schema validation",
+            "zh-CN": "实现 schema 校验"
+          },
+          "description": {
+            "en": [
+              {
+                "text": "Wire "
+              },
+              {
+                "text": "doc.schema.json",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json"
+                  }
+                ]
+              },
+              {
+                "text": " into "
+              },
+              {
+                "text": "validate_doc_json.py",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "将 "
+              },
+              {
+                "text": "doc.schema.json",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json"
+                  }
+                ]
+              },
+              {
+                "text": " 接入 "
+              },
+              {
+                "text": "validate_doc_json.py",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        }
       ]
     }
   ]

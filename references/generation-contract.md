@@ -127,6 +127,32 @@ Rules:
 
 Home navigation is an optional capability (`shell-links`, default off). When the document is one of a multi-page set that has a sibling landing or index page — for example an `examples/*.html` page next to `index.html` — add a single topbar link back to it, such as `{"label": "CAST Docs", "href": "../index.html"}`. A standalone document gets none. This is the only shell link the generator may add on its own; all others must come from the caller.
 
+## Optional Logo
+
+Document chrome may expose a renderer-owned logo when the caller provides `metadata.logo`.
+
+Use it for CAST Docs site pages, example pages, and document sets that have a stable brand mark:
+
+```json
+{
+  "metadata": {
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": "CAST Docs logo",
+      "href": "index.html"
+    }
+  }
+}
+```
+
+Rules:
+
+- `src` allows `data:image` sources or repository-local PNG/JPG/GIF/WebP paths.
+- Repository-local paths are resolved from the repository root and embedded as data URIs during render, preserving single-file HTML output.
+- `alt` is required and may be localized.
+- `href` is optional and follows the same safe scheme rules as shell links.
+- Do not add a logo to standalone user documents unless the caller asks for branded chrome.
+
 ## CLI Boundary
 
 The renderer should expose a small CLI surface:

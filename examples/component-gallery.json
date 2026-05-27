@@ -29,7 +29,15 @@
         "href": "../index.html",
         "placement": "topbar"
       }
-    ]
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
   },
   "manifest": {
     "documentType": "engineering-spec",
@@ -849,8 +857,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "Columns can be a pure visual distribution pattern. They do not need card borders and do not have to wrap child blocks.",
-            "zh-CN": "Columns 可以只是单纯视觉分布；它不需要卡片边框，也不一定包裹子 block。"
+            "en": "A lightweight column layout can place a release checklist next to a verification matrix without turning each column into a card.",
+            "zh-CN": "轻量分栏可以把发布检查清单和验证矩阵并排放置，而不把每一列变成卡片。"
           }
         },
         {
@@ -858,65 +866,101 @@
           "columns": [
             {
               "title": {
-                "en": "Column 1",
-                "zh-CN": "Column 1"
+                "en": "Release checklist",
+                "zh-CN": "发布检查清单"
               },
               "blocks": [
                 {
                   "type": "list",
                   "items": [
                     {
-                      "en": "123",
-                      "zh-CN": "123"
+                      "en": "Schema migration reviewed",
+                      "zh-CN": "Schema 迁移已复核"
                     },
                     {
-                      "en": "222223",
-                      "zh-CN": "222223"
+                      "en": "Rollback path documented",
+                      "zh-CN": "回滚路径已记录"
+                    },
+                    {
+                      "en": "Owner and escalation channel confirmed",
+                      "zh-CN": "负责人和升级渠道已确认"
+                    },
+                    {
+                      "en": "Post-release metrics selected",
+                      "zh-CN": "发布后观察指标已选定"
                     }
                   ]
                 },
                 {
                   "type": "code",
                   "language": "json",
-                  "code": "{\n  \"name\": \"KLOOK Product Center\",\n  \"version\": \"1.0.0\",\n  \"enabled\": true,\n  \"owners\": [\n    \"Jin\",\n    \"Backend Team\"\n  ],\n  \"config\": {\n    \"language\": \"Go\",\n    \"maxRetries\": 3,\n    \"timeoutMs\": 5000,\n    \"features\": {\n      \"autoFix\": true,\n      \"jsonValidation\": true,\n      \"schemaCheck\": false\n    }\n  },\n  \"metadata\": {\n    \"createdAt\": \"2026-05-23\",\n    \"environment\": \"local\"\n  }\n}"
+                  "code": "{\n  \"release\": \"component-gallery\",\n  \"owner\": \"docs-platform\",\n  \"riskLevel\": \"low\",\n  \"checks\": {\n    \"schema\": true,\n    \"renderer\": true,\n    \"pages\": true\n  }\n}"
                 }
               ]
             },
             {
               "title": {
-                "en": "Column 2",
-                "zh-CN": "Column 2"
+                "en": "Verification matrix",
+                "zh-CN": "验证矩阵"
               },
               "blocks": [
                 {
                   "type": "table",
                   "headers": [
                     {
-                      "en": "1",
-                      "zh-CN": "1"
+                      "en": "Surface",
+                      "zh-CN": "页面"
                     },
                     {
-                      "en": "2",
-                      "zh-CN": "2"
+                      "en": "Check",
+                      "zh-CN": "检查项"
                     },
                     {
-                      "en": "3",
-                      "zh-CN": "3"
+                      "en": "Result",
+                      "zh-CN": "结果"
                     }
                   ],
                   "rows": [
                     [
                       {
-                        "en": "b",
-                        "zh-CN": "b"
+                        "en": "JSON schema",
+                        "zh-CN": "JSON Schema"
                       },
                       {
-                        "en": "c",
-                        "zh-CN": "c"
+                        "en": "Source validates",
+                        "zh-CN": "源文件可校验"
                       },
                       {
-                        "en": "d",
-                        "zh-CN": "d"
+                        "en": "Pass",
+                        "zh-CN": "通过"
+                      }
+                    ],
+                    [
+                      {
+                        "en": "HTML profile",
+                        "zh-CN": "HTML Profile"
+                      },
+                      {
+                        "en": "Allowed tags and classes",
+                        "zh-CN": "标签与 class 合规"
+                      },
+                      {
+                        "en": "Pass",
+                        "zh-CN": "通过"
+                      }
+                    ],
+                    [
+                      {
+                        "en": "GitHub Pages",
+                        "zh-CN": "GitHub Pages"
+                      },
+                      {
+                        "en": "Published artifact",
+                        "zh-CN": "发布产物"
+                      },
+                      {
+                        "en": "Watch",
+                        "zh-CN": "观察"
                       }
                     ]
                   ]
@@ -924,8 +968,8 @@
                 {
                   "type": "paragraph",
                   "text": {
-                    "en": "This side is intentionally sparse, matching a lightweight Lark-style column layout.",
-                    "zh-CN": "这一侧刻意保持稀疏，用来模拟轻量的 Lark 分栏布局。"
+                    "en": "The second column can stay mostly tabular while the first column carries prose and code.",
+                    "zh-CN": "第二列可以以表格为主，第一列则承载说明和代码。"
                   }
                 }
               ]

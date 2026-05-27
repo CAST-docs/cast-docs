@@ -52,6 +52,7 @@ Read `references/document-types.md` before choosing required sections.
 - Use conservative user-content links only: anchors, relative paths, `http:`, and `https:`.
 - Escape user-provided text.
 - Do not invent critical facts; mark unknowns explicitly.
+- When a document belongs to the CAST Docs site or example set, add `metadata.logo` with `src: "assets/cast-docs-logo.png"` so the renderer can embed the logo in the document chrome.
 
 ## Design Influences
 

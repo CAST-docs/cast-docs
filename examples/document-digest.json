@@ -24,7 +24,15 @@
     "locales": [
       "en",
       "zh-CN"
-    ]
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
   },
   "manifest": {
     "documentType": "research-note",

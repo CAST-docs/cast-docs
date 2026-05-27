@@ -28,6 +28,7 @@
         },
         "updatedAt": {"type": "string", "format": "date"},
         "description": {"$ref": "#/$defs/localizedString"},
+        "logo": {"$ref": "#/$defs/logo"},
         "shellLinks": {
           "type": "array",
           "maxItems": 3,
@@ -185,6 +186,22 @@
           "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
         },
         "placement": {"type": "string", "enum": ["topbar", "footer"], "default": "topbar"}
+      }
+    },
+    "logo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["src", "alt"],
+      "properties": {
+        "src": {
+          "type": "string",
+          "pattern": "^(data:image/(png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=\\s]+|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*\\.(png|jpe?g|gif|webp))$"
+        },
+        "alt": {"$ref": "#/$defs/localizedString"},
+        "href": {
+          "type": "string",
+          "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
+        }
       }
     },
     "section": {

@@ -23,7 +23,10 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .toc a { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 0 8px 10px; border-left: 2px solid transparent; color: var(--muted); font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
 .toc a:hover, .toc a.active { border-left-color: var(--primary); color: var(--text); text-decoration: none; }
 .toc span { color: var(--faint); font: 12px/1.45 var(--mono); }
-.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: var(--topbar-height); display: flex; align-items: center; gap: 18px; padding: 0 36px; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: var(--topbar-height); display: flex; align-items: center; gap: 14px; padding: 0 36px; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+.brand-logo { flex: 0 0 auto; display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center; border-radius: 7px; overflow: hidden; }
+.brand-logo:hover { text-decoration: none; }
+.brand-logo-image { display: block; width: 34px; height: 34px; object-fit: contain; }
 .topbar-title { color: var(--text); font-weight: 600; }
 .topbar-links { display: flex; gap: 12px; align-items: center; }
 .topbar-links:empty { display: none; }
@@ -65,10 +68,11 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .code-shell { margin: 16px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--code); }
 .code-header { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--soft); }
 .code-language { color: var(--muted); font: 700 11px/1 var(--mono); text-transform: uppercase; }
-.code-status { margin-left: auto; color: var(--faint); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.code-status { margin-left: auto; color: var(--faint); font: 700 11px/1 var(--mono); }
 .code-status-ok { color: var(--ok); }
 .code-status-error { color: var(--danger); }
-.code-copy { flex: 0 0 auto; padding: 4px 8px; color: var(--muted); background: transparent; }
+.code-copy { flex: 0 0 auto; margin-left: auto; padding: 4px 8px; color: var(--muted); background: transparent; }
+.code-status + .code-copy { margin-left: 0; }
 .code-copy:hover { color: var(--text); }
 .code-pre { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 12.5px; line-height: 1.6; }
 .code-line { display: grid; grid-template-columns: 42px minmax(max-content, 1fr); min-width: 100%; }
@@ -98,11 +102,12 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .action-card { padding: 20px; }
 .participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
 .source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.prompt-block { margin-top: 18px; }
-.prompt-block .code-header { padding: 10px 12px; }
-.prompt-block .code-pre { padding: 10px 0; font-size: 13px; line-height: 1.75; }
+.prompt-block { margin-top: 20px; }
+.prompt-block .code-header { padding: 12px 14px; }
+.prompt-block .code-pre { padding: 16px 0; font-size: 13.5px; line-height: 1.9; }
 .prompt-block .code-line { grid-template-columns: 46px minmax(0, 1fr); }
-.prompt-block .code-line-content { white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; }
+.prompt-block .code-line-number { padding-right: 12px; }
+.prompt-block .code-line-content { padding: 0 18px; white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; }
 .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
 .media-frame { margin: 0; overflow: hidden; }
 .media-frame img { display: block; width: 100%; min-height: 120px; max-height: 220px; object-fit: cover; background: var(--soft); }
@@ -132,6 +137,7 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 @media (max-width: 760px) {
   body { display: flex; flex-direction: column; }
   .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .brand-logo, .brand-logo-image { width: 30px; height: 30px; }
   .sidebar { position: static; inset: auto; width: auto; padding: 16px 18px; border-bottom: 1px solid var(--border); order: 2; }
   .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }

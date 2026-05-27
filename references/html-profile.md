@@ -21,6 +21,7 @@ Theme tokens and layout shells are configuration-driven. Generated content shoul
 - `<article class="doc">`.
 - Document header.
 - Table of contents.
+- Optional renderer-owned logo in the document chrome.
 - Stable section IDs.
 - Footer with document metadata.
 
@@ -68,6 +69,7 @@ Use stable semantic classes such as:
 
 - `doc`
 - `doc-header`
+- `brand-logo`, `brand-logo-image`
 - `doc-kicker`
 - `doc-summary`
 - `doc-meta`

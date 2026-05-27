@@ -112,6 +112,8 @@
     "doc",
     "sidebar",
     "topbar",
+    "brand-logo",
+    "brand-logo-image",
     "topbar-title",
     "topbar-links",
     "topbar-link",

@@ -96,3 +96,7 @@ Prose-bearing fields (`paragraph`, `list`, `callout` body, table cells, `summary
 ## Shell Links
 
 Optional topbar/footer navigation via `metadata.shellLinks` (component `shell-links`, default off). Add a home link back to a sibling landing page only when the document is part of a multi-page set that has an `index.html`; a standalone document gets none. See Generation Contract → Optional Shell Links.
+
+## Logo Chrome
+
+Optional topbar brand mark via `metadata.logo` (component `logo-chrome`, default off). Use it for the CAST Docs landing and example set, or when the caller explicitly requests branded document chrome. The renderer embeds repository-local image files as data URIs, so generated HTML remains self-contained.

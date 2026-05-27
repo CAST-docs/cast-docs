@@ -46,8 +46,9 @@ Renderer code should consume these registries. Adding a new scenario should usua
 4. Validate section order and required sections.
 5. Render with the shared base template.
 6. Render selected components from structured JSON.
-7. Validate the final HTML profile.
-8. Write the output file.
+7. Embed approved metadata logos as data URIs when `metadata.logo` references a repository-local image.
+8. Validate the final HTML profile.
+9. Write the output file.
 
 Scenario validation should enforce required sections and required components, but it should not reject additional configured components. Extra components are valid when they appear in the manifest and their block payload matches the component schema.
 

@@ -1,5 +1,7 @@
 # CAST Docs
 
+<img src="assets/cast-docs-logo.png" alt="CAST Docs logo" width="128">
+
 **C**omponent **A**ssembly **S**tyled **T**emplates — render engineering documents from JSON to self-contained HTML.
 
 ```bash
@@ -59,6 +61,7 @@ No third-party dependencies. If `python3 --version` reports 3.9 or newer, it run
 config/                       configuration registries (themes, layouts, components, interactions, scenarios, document types, HTML profile)
 schemas/                      doc.schema.json — the JSON contract
 assets/template-modules/      shell HTML, base CSS, interaction scripts, interaction hook HTML
+assets/cast-docs-logo.png     project logo used by README and rendered document chrome
 examples/                     JSON fixtures and rendered HTML samples
 site/                         landing-page source (rendered to index.html)
 scripts/                      render_html.py, validate_doc_json.py, validate_html.py, cast_docs_core.py
@@ -70,6 +73,20 @@ To re-render the landing after editing `site/landing.json`:
 
 ```bash
 python3 scripts/render_html.py --input site/landing.json --output index.html --validate
+```
+
+Documents can opt into logo chrome through `metadata.logo`. Local image paths are resolved from the repository root and embedded as data URIs during render, so the output HTML remains self-contained:
+
+```json
+{
+  "metadata": {
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": "CAST Docs logo",
+      "href": "index.html"
+    }
+  }
+}
 ```
 
 ---

@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import html
 import json
+import mimetypes
 import re
 from dataclasses import dataclass
 from html.parser import HTMLParser
@@ -23,6 +25,7 @@ RAW_SVG_RISK_RE = re.compile(r"<\s*(script|iframe|object|embed)\b|on[a-z]+\s*=",
 UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
 DATA_IMAGE_RE = re.compile(r"^data:image/(?:png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=\s]+$", re.IGNORECASE)
 SUPPORTED_LOCALES = ("en", "zh-CN")
+SUPPORTED_IMAGE_MIME_TYPES = {"image/png", "image/jpeg", "image/gif", "image/webp"}
 
 
 class CastDocsError(Exception):
@@ -227,6 +230,27 @@ def validate_shell_links(metadata: dict[str, Any], errors: list[str]) -> None:
             errors.append(f"{path}.href uses an unsupported URL scheme")
         if placement not in {"topbar", "footer"}:
             errors.append(f"{path}.placement must be topbar or footer")
+
+
+def validate_logo(metadata: dict[str, Any], errors: list[str]) -> None:
+    logo = metadata.get("logo")
+    if logo is None:
+        return
+    if not is_object(logo):
+        errors.append("metadata.logo must be an object")
+        return
+    src = logo.get("src")
+    if not isinstance(src, str) or not src.strip():
+        errors.append("metadata.logo.src must be a non-empty string")
+    elif media_src_kind(src) not in {"data-image", "relative"}:
+        errors.append("metadata.logo.src must be a data image or relative local image path")
+    validate_localized_string(logo.get("alt"), "metadata.logo.alt", errors, non_empty=True)
+    href = logo.get("href")
+    if href is not None:
+        if not isinstance(href, str) or not href.strip():
+            errors.append("metadata.logo.href must be a non-empty string")
+        elif href_kind(href) not in {"anchor", "relative", "http", "https"}:
+            errors.append("metadata.logo.href uses an unsupported URL scheme")
 
 
 def collect_block_types(blocks: list[Any], found: set[str]) -> None:
@@ -706,6 +730,7 @@ def validate_document(doc: Any, config_dir: Path = CONFIG_DIR) -> ValidationResu
                 else:
                     seen_locales.add(locale)
     validate_shell_links(metadata, errors)
+    validate_logo(metadata, errors)
 
     document_types = {item["id"]: item for item in load_config("document-types.json", config_dir)["documentTypes"]}
     scenarios = {item["id"]: item for item in load_config("scenario-skeletons.json", config_dir)["scenarios"]}
@@ -854,31 +879,27 @@ def code_scheme(language: Any, source: Any, ctx: RenderContext | None = None) ->
     lang = text(language).strip().lower()
     source_text = text(source)
     scheme = {
-        "json": {"label": "JSON", "class": "code-scheme-json", "preset": "lint.json"},
-        "javascript": {"label": "JS", "class": "code-scheme-js", "preset": "syntax.js"},
-        "js": {"label": "JS", "class": "code-scheme-js", "preset": "syntax.js"},
-        "typescript": {"label": "TS", "class": "code-scheme-ts", "preset": "syntax.ts"},
-        "ts": {"label": "TS", "class": "code-scheme-ts", "preset": "syntax.ts"},
-        "shell": {"label": "Shell", "class": "code-scheme-shell", "preset": "shell"},
-        "bash": {"label": "Shell", "class": "code-scheme-shell", "preset": "shell"},
-        "python": {"label": "Python", "class": "code-scheme-python", "preset": "syntax.py"},
-        "py": {"label": "Python", "class": "code-scheme-python", "preset": "syntax.py"},
-        "text": {"label": "Text", "class": "code-scheme-text", "preset": "plain"},
-    }.get(lang, {"label": text(language).upper() or tr(ctx, "code.text", "Text"), "class": "code-scheme-text", "preset": "plain"})
-    status = tr(ctx, "code.lintPreset", "Preset")
-    status_class = "code-status-neutral"
+        "json": {"label": "JSON", "class": "code-scheme-json"},
+        "javascript": {"label": "JS", "class": "code-scheme-js"},
+        "js": {"label": "JS", "class": "code-scheme-js"},
+        "typescript": {"label": "TS", "class": "code-scheme-ts"},
+        "ts": {"label": "TS", "class": "code-scheme-ts"},
+        "shell": {"label": "Shell", "class": "code-scheme-shell"},
+        "bash": {"label": "Shell", "class": "code-scheme-shell"},
+        "python": {"label": "Python", "class": "code-scheme-python"},
+        "py": {"label": "Python", "class": "code-scheme-python"},
+        "text": {"label": "Text", "class": "code-scheme-text"},
+    }.get(lang, {"label": text(language).upper() or tr(ctx, "code.text", "Text"), "class": "code-scheme-text"})
+    status = ""
+    status_class = ""
     if lang == "json":
         try:
             json.loads(source_text)
-            status = tr(ctx, "code.lintOk", "Lint OK")
+            status = tr(ctx, "code.jsonValid", "Valid JSON")
             status_class = "code-status-ok"
         except json.JSONDecodeError:
-            status = tr(ctx, "code.lintError", "Lint error")
+            status = tr(ctx, "code.jsonInvalid", "Invalid JSON")
             status_class = "code-status-error"
-    elif lang in {"shell", "bash"}:
-        status = tr(ctx, "code.shellPreset", "Shell preset")
-    elif lang in {"javascript", "js", "typescript", "ts", "python", "py"}:
-        status = tr(ctx, "code.syntaxPreset", "Syntax preset")
     return {**scheme, "status": status, "statusClass": status_class}
 
 
@@ -935,11 +956,15 @@ def render_code_shell(
         rows = "".join(body)
     else:
         rows = render_code_rows(source, scheme["class"])
+    status_html = ""
+    if scheme["status"]:
+        status_class = f" {attr(scheme['statusClass'])}" if scheme["statusClass"] else ""
+        status_html = f"<span class=\"code-status{status_class}\">{esc(scheme['status'])}</span>"
     return (
         f"<section class=\"code-shell {attr(shell_class)} {attr(scheme['class'])}\">"
         "<div class=\"code-header\">"
         f"<span class=\"code-language\">{label}</span>"
-        f"<span class=\"code-status {attr(scheme['statusClass'])}\">{esc(scheme['status'])}</span>"
+        f"{status_html}"
         f"<button class=\"code-copy\" type=\"button\" data-copy-target=\"{attr(code_id)}\" "
         f"data-i18n-key=\"code.copy\">{esc(tr(ctx, 'code.copy', 'Copy'))}</button>"
         "</div>"
@@ -1405,6 +1430,45 @@ def render_footer_links(metadata: dict[str, Any], ctx: RenderContext | None = No
     return " · ".join(links)
 
 
+def image_to_data_uri(src: str) -> str:
+    if DATA_IMAGE_RE.match(src.strip()):
+        return src.strip()
+    if media_src_kind(src) != "relative":
+        raise CastDocsError(f"unsupported logo image source: {src}")
+    path = (ROOT / src).resolve()
+    try:
+        path.relative_to(ROOT)
+    except ValueError as exc:
+        raise CastDocsError(f"logo image must stay inside the repository: {src}") from exc
+    if not path.exists() or not path.is_file():
+        raise CastDocsError(f"logo image not found: {src}")
+    mime_type = mimetypes.guess_type(path.name)[0]
+    if mime_type not in SUPPORTED_IMAGE_MIME_TYPES:
+        raise CastDocsError(f"unsupported logo image type: {src}")
+    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+    return f"data:{mime_type};base64,{encoded}"
+
+
+def render_logo(metadata: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    logo = metadata.get("logo")
+    if not is_object(logo):
+        return ""
+    src = logo.get("src")
+    if not isinstance(src, str) or not src.strip():
+        return ""
+    img = (
+        f"<img class=\"brand-logo-image\" src=\"{attr(image_to_data_uri(src))}\" "
+        f"alt=\"{attr(localized_value(logo.get('alt', ''), default_locale_for_context(ctx), 'en'))}\" "
+        "width=\"44\" height=\"44\" loading=\"eager\">"
+    )
+    href = logo.get("href")
+    if isinstance(href, str) and href.strip():
+        target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
+        label = localized_value(logo.get("alt", ""), default_locale_for_context(ctx), "en")
+        return f"<a class=\"brand-logo\" href=\"{attr(href)}\" aria-label=\"{attr(label)}\"{target}>{img}</a>"
+    return f"<span class=\"brand-logo\">{img}</span>"
+
+
 def render_language_switcher(ctx: RenderContext) -> str:
     if len(ctx.locales) <= 1:
         return ""
@@ -1638,6 +1702,7 @@ def render_html(
         "DESCRIPTION": attr(description or title),
         "TITLE": esc(title),
         "DISPLAY_TITLE": render_text(title_value, ctx),
+        "LOGO": render_logo(metadata, ctx),
         "DOC_JSON": doc_json,
         "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),
         "TOPBAR_LINKS": topbar_links,
@@ -1658,6 +1723,7 @@ class ProfileParser(HTMLParser):
         self.tags: list[tuple[str, list[tuple[str, str | None]]]] = []
         self.ids: set[str] = set()
         self.hrefs: list[str] = []
+        self.srcs: list[str] = []
         self.doctype_seen = False
         self.unresolved = False
 
@@ -1672,6 +1738,8 @@ class ProfileParser(HTMLParser):
                 self.ids.add(value)
             if key == "href" and value:
                 self.hrefs.append(value)
+            if key == "src" and value:
+                self.srcs.append(value)
             if value and UNRESOLVED_RE.search(value):
                 self.unresolved = True
 
@@ -1731,6 +1799,10 @@ def validate_html_profile(html_text: str, profile: dict[str, Any]) -> Validation
     for href in parser.hrefs:
         if href.startswith("#") and href[1:] not in parser.ids:
             errors.append(f"anchor does not resolve: {href}")
+
+    for src in parser.srcs:
+        if media_src_kind(src) not in {"data-image", "relative", "http", "https"}:
+            errors.append(f"unsupported image src scheme: {src}")
 
     if "<script src=" in html_text or "<link" in html_text:
         errors.append("external scripts or stylesheets are not allowed")

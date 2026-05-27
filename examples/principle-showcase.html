@@ -385,7 +385,7 @@
 <section class="doc-section" id="examples">
 <h2><span data-locale="en" data-locale-active="true">Examples</span><span data-locale="zh-CN" data-locale-active="false">示例</span></h2>
 <figure class="diagram" data-download-name="renderer-boundary"><figcaption><span data-locale="en" data-locale-active="true">Renderer boundary</span><span data-locale="zh-CN" data-locale-active="false">渲染器边界</span></figcaption><svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer boundary"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="300" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Document JSON</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">文档 JSON</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Renderer</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">渲染器</text></svg></figure>
-<section class="code-shell code-block"><div class="code-header"><span class="code-language">sh</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="sh"><code id="code-1" data-language="sh"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/render_html.py --input doc.json --output doc.html --validate</span></span></code></pre></section>
+<section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">SH</span><span class="code-status code-status-neutral">Preset</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="sh"><code id="code-1" data-language="sh"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/render_html.py --input doc.json --output doc.html --validate</span></span></code></pre></section>
 </section>
 
 <section class="doc-section" id="application-guidance">
@@ -496,7 +496,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
 .doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .column, .toggle-view { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
@@ -522,14 +522,21 @@ tr:last-child td { border-bottom: 0; }
 .diagram:hover .diagram-toolbar { opacity: 1; }
 button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
 .code-shell { margin: 16px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--code); }
-.code-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--soft); }
+.code-header { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--soft); }
 .code-language { color: var(--muted); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.code-status { margin-left: auto; color: var(--faint); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.code-status-ok { color: var(--ok); }
+.code-status-error { color: var(--danger); }
 .code-copy { flex: 0 0 auto; padding: 4px 8px; color: var(--muted); background: transparent; }
 .code-copy:hover { color: var(--text); }
 .code-pre { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 12.5px; line-height: 1.6; }
 .code-line { display: grid; grid-template-columns: 42px minmax(max-content, 1fr); min-width: 100%; }
 .code-line-number { padding: 0 10px 0 0; color: var(--faint); text-align: right; user-select: none; border-right: 1px solid var(--border); }
 .code-line-content { padding: 0 14px; white-space: pre; }
+.code-token-key { color: var(--primary); }
+.code-token-bool { color: var(--info); }
+.code-token-number { color: var(--warn); }
+.code-token-flag { color: var(--accent); }
 .diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
 .diff-block > h3 { grid-column: 1 / -1; }
 .diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
@@ -560,11 +567,12 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .media-frame img { display: block; width: 100%; min-height: 120px; max-height: 220px; object-fit: cover; background: var(--soft); }
 .media-frame figcaption { display: flex; gap: 8px; align-items: baseline; padding: 10px 12px; color: var(--muted); font-size: 13px; }
 .media-kind { color: var(--primary); font: 700 11px/1 var(--mono); }
-.columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; border: 0; background: transparent; }
-.column { padding: 14px 16px; min-width: 0; }
+.columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 34px; align-items: start; border: 0; background: transparent; }
+.column { min-width: 0; }
 .column h3 { margin-top: 0; }
 .column p:first-child { margin-top: 0; }
 .column p:last-child { margin-bottom: 0; }
+.column > .code-shell, .column > table { margin-top: 12px; }
 .toggle-view { padding: 14px; }
 .toggle-toolbar { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--soft); }
 .toggle-button { border: 0; background: transparent; color: var(--muted); }
@@ -596,7 +604,7 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 }
 </style>
 <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "code.copied": "Copied", "code.copy": "Copy", "code.text": "Text", "diagram.erAria": "Entity relationship diagram", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "code.copied": "已复制", "code.copy": "复制", "code.text": "文本", "diagram.erAria": "实体关系图", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "code.copied": "Copied", "code.copy": "Copy", "code.lintError": "Lint error", "code.lintOk": "Lint OK", "code.lintPreset": "Preset", "code.shellPreset": "Shell preset", "code.syntaxPreset": "Syntax preset", "code.text": "Text", "diagram.erAria": "Entity relationship diagram", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "code.copied": "已复制", "code.copy": "复制", "code.lintError": "Lint 错误", "code.lintOk": "Lint 通过", "code.lintPreset": "预设", "code.shellPreset": "Shell 预设", "code.syntaxPreset": "语法预设", "code.text": "文本", "diagram.erAria": "实体关系图", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {
   const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
   if (!lightbox) return;

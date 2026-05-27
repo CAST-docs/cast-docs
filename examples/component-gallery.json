@@ -41,7 +41,8 @@
       "tables",
       "blocks-view",
       "code-and-diff",
-      "media-and-columns",
+      "media",
+      "columns-lite",
       "interactive-controls",
       "evidence-and-people",
       "diagrams"
@@ -782,17 +783,17 @@
       ]
     },
     {
-      "id": "media-and-columns",
+      "id": "media",
       "title": {
-        "en": "Media And Columns",
-        "zh-CN": "媒体与分栏"
+        "en": "Media",
+        "zh-CN": "媒体"
       },
       "blocks": [
         {
           "type": "paragraph",
           "text": {
-            "en": "Media blocks show real image formats, while columns can be plain visual columns or columns that contain nested blocks.",
-            "zh-CN": "Media block 展示真实图片格式；columns 既可以是单纯视觉分栏，也可以承载嵌套 blocks。"
+            "en": "Media blocks show image assets as their own content, separate from layout experiments.",
+            "zh-CN": "Media block 单独展示图片资源，不再和分栏布局混在一起。"
           }
         },
         {
@@ -835,66 +836,97 @@
               }
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "columns-lite",
+      "title": {
+        "en": "Columns Lite",
+        "zh-CN": "分栏 Lite"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Columns can be a pure visual distribution pattern. They do not need card borders and do not have to wrap child blocks.",
+            "zh-CN": "Columns 可以只是单纯视觉分布；它不需要卡片边框，也不一定包裹子 block。"
+          }
         },
         {
           "type": "columns",
           "columns": [
             {
               "title": {
-                "en": "A",
-                "zh-CN": "A"
-              },
-              "content": {
-                "en": "Pure text can live directly in a column.",
-                "zh-CN": "纯文本可以直接放在分栏里。"
-              }
-            },
-            {
-              "title": {
-                "en": "B",
-                "zh-CN": "B"
-              },
-              "content": {
-                "en": [
-                  {
-                    "text": "Columns are layout primitives, not always block containers. "
-                  },
-                  {
-                    "text": "Inline marks",
-                    "marks": [
-                      "strong"
-                    ]
-                  },
-                  {
-                    "text": " still work."
-                  }
-                ],
-                "zh-CN": [
-                  {
-                    "text": "Columns 是布局原语，不总是 block 容器。"
-                  },
-                  {
-                    "text": "行内标记",
-                    "marks": [
-                      "strong"
-                    ]
-                  },
-                  {
-                    "text": " 依然可用。"
-                  }
-                ]
-              }
-            },
-            {
-              "title": {
-                "en": "C",
-                "zh-CN": "C"
+                "en": "Column 1",
+                "zh-CN": "Column 1"
               },
               "blocks": [
                 {
+                  "type": "list",
+                  "items": [
+                    {
+                      "en": "123",
+                      "zh-CN": "123"
+                    },
+                    {
+                      "en": "222223",
+                      "zh-CN": "222223"
+                    }
+                  ]
+                },
+                {
                   "type": "code",
-                  "language": "text",
-                  "code": "hi"
+                  "language": "json",
+                  "code": "{\n  \"name\": \"KLOOK Product Center\",\n  \"version\": \"1.0.0\",\n  \"enabled\": true,\n  \"owners\": [\n    \"Jin\",\n    \"Backend Team\"\n  ],\n  \"config\": {\n    \"language\": \"Go\",\n    \"maxRetries\": 3,\n    \"timeoutMs\": 5000,\n    \"features\": {\n      \"autoFix\": true,\n      \"jsonValidation\": true,\n      \"schemaCheck\": false\n    }\n  },\n  \"metadata\": {\n    \"createdAt\": \"2026-05-23\",\n    \"environment\": \"local\"\n  }\n}"
+                }
+              ]
+            },
+            {
+              "title": {
+                "en": "Column 2",
+                "zh-CN": "Column 2"
+              },
+              "blocks": [
+                {
+                  "type": "table",
+                  "headers": [
+                    {
+                      "en": "1",
+                      "zh-CN": "1"
+                    },
+                    {
+                      "en": "2",
+                      "zh-CN": "2"
+                    },
+                    {
+                      "en": "3",
+                      "zh-CN": "3"
+                    }
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "en": "b",
+                        "zh-CN": "b"
+                      },
+                      {
+                        "en": "c",
+                        "zh-CN": "c"
+                      },
+                      {
+                        "en": "d",
+                        "zh-CN": "d"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "This side is intentionally sparse, matching a lightweight Lark-style column layout.",
+                    "zh-CN": "这一侧刻意保持稀疏，用来模拟轻量的 Lark 分栏布局。"
+                  }
                 }
               ]
             }

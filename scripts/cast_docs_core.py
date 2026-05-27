@@ -850,17 +850,63 @@ def code_shell_id(ctx: RenderContext | None, language: Any, code: Any, extra: st
     return "code-" + hashlib.sha1(raw).hexdigest()[:12]
 
 
-def render_code_rows(source: Any) -> str:
+def code_scheme(language: Any, source: Any, ctx: RenderContext | None = None) -> dict[str, str]:
+    lang = text(language).strip().lower()
+    source_text = text(source)
+    scheme = {
+        "json": {"label": "JSON", "class": "code-scheme-json", "preset": "lint.json"},
+        "javascript": {"label": "JS", "class": "code-scheme-js", "preset": "syntax.js"},
+        "js": {"label": "JS", "class": "code-scheme-js", "preset": "syntax.js"},
+        "typescript": {"label": "TS", "class": "code-scheme-ts", "preset": "syntax.ts"},
+        "ts": {"label": "TS", "class": "code-scheme-ts", "preset": "syntax.ts"},
+        "shell": {"label": "Shell", "class": "code-scheme-shell", "preset": "shell"},
+        "bash": {"label": "Shell", "class": "code-scheme-shell", "preset": "shell"},
+        "python": {"label": "Python", "class": "code-scheme-python", "preset": "syntax.py"},
+        "py": {"label": "Python", "class": "code-scheme-python", "preset": "syntax.py"},
+        "text": {"label": "Text", "class": "code-scheme-text", "preset": "plain"},
+    }.get(lang, {"label": text(language).upper() or tr(ctx, "code.text", "Text"), "class": "code-scheme-text", "preset": "plain"})
+    status = tr(ctx, "code.lintPreset", "Preset")
+    status_class = "code-status-neutral"
+    if lang == "json":
+        try:
+            json.loads(source_text)
+            status = tr(ctx, "code.lintOk", "Lint OK")
+            status_class = "code-status-ok"
+        except json.JSONDecodeError:
+            status = tr(ctx, "code.lintError", "Lint error")
+            status_class = "code-status-error"
+    elif lang in {"shell", "bash"}:
+        status = tr(ctx, "code.shellPreset", "Shell preset")
+    elif lang in {"javascript", "js", "typescript", "ts", "python", "py"}:
+        status = tr(ctx, "code.syntaxPreset", "Syntax preset")
+    return {**scheme, "status": status, "statusClass": status_class}
+
+
+def render_code_rows(source: Any, scheme_class: str = "code-scheme-text") -> str:
     lines = text(source).splitlines() or [""]
     rows = []
     for index, line in enumerate(lines, start=1):
         rows.append(
             "<span class=\"code-line\">"
             f"<span class=\"code-line-number\" aria-hidden=\"true\">{index}</span>"
-            f"<span class=\"code-line-content\">{esc(line)}</span>"
+            f"<span class=\"code-line-content\">{render_code_tokens(line, scheme_class)}</span>"
             "</span>"
         )
     return "".join(rows)
+
+
+def render_code_tokens(line: str, scheme_class: str) -> str:
+    if scheme_class == "code-scheme-json":
+        escaped = esc(line)
+        escaped = re.sub(r'(&quot;[^&]*?&quot;)(\s*:)', r'<span class="code-token-key">\1</span>\2', escaped)
+        escaped = re.sub(r'\b(true|false|null)\b', r'<span class="code-token-bool">\1</span>', escaped)
+        escaped = re.sub(r'(?<![\w.-])(-?\d+(?:\.\d+)?)\b', r'<span class="code-token-number">\1</span>', escaped)
+        return escaped
+    if scheme_class == "code-scheme-shell":
+        escaped = esc(line)
+        escaped = re.sub(r'(^|\s)(--[A-Za-z0-9][A-Za-z0-9_-]*)', r'\1<span class="code-token-flag">\2</span>', escaped)
+        return escaped
+    return esc(line)
 
 
 def render_code_shell(
@@ -875,23 +921,25 @@ def render_code_shell(
     code_id = code_shell_id(ctx, language, source, extra_id)
     lang = text(language).strip()
     lang_attr = f" data-language=\"{attr(lang)}\"" if lang else ""
-    label = esc(lang or tr(ctx, "code.text", "Text"))
+    scheme = code_scheme(lang, source, ctx)
+    label = esc(scheme["label"])
     if is_localized_object(code) and ctx is not None and len(ctx.locales) > 1:
         body = []
         for locale in ctx.locales:
             active = "true" if locale == ctx.active_locale else "false"
             body.append(
                 f"<span data-locale=\"{attr(locale)}\" data-locale-active=\"{active}\">"
-                f"{render_code_rows(localized_value(code, locale, ctx.active_locale))}"
+                f"{render_code_rows(localized_value(code, locale, ctx.active_locale), scheme['class'])}"
                 "</span>"
             )
         rows = "".join(body)
     else:
-        rows = render_code_rows(source)
+        rows = render_code_rows(source, scheme["class"])
     return (
-        f"<section class=\"code-shell {attr(shell_class)}\">"
+        f"<section class=\"code-shell {attr(shell_class)} {attr(scheme['class'])}\">"
         "<div class=\"code-header\">"
         f"<span class=\"code-language\">{label}</span>"
+        f"<span class=\"code-status {attr(scheme['statusClass'])}\">{esc(scheme['status'])}</span>"
         f"<button class=\"code-copy\" type=\"button\" data-copy-target=\"{attr(code_id)}\" "
         f"data-i18n-key=\"code.copy\">{esc(tr(ctx, 'code.copy', 'Copy'))}</button>"
         "</div>"

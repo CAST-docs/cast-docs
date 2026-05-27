@@ -69,7 +69,7 @@
       "renderer": "code",
       "triggerLevel": "strong",
       "blockTypes": ["code"],
-      "classes": ["code-shell", "code-block", "code-header", "code-language", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content"]
+      "classes": ["code-shell", "code-block", "code-header", "code-language", "code-status", "code-status-neutral", "code-status-ok", "code-status-error", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content", "code-scheme-json", "code-scheme-js", "code-scheme-ts", "code-scheme-shell", "code-scheme-python", "code-scheme-text", "code-token-key", "code-token-bool", "code-token-number", "code-token-flag"]
     },
     {
       "id": "diagram",
@@ -140,7 +140,7 @@
       "renderer": "actionCard",
       "triggerLevel": "strong",
       "blockTypes": ["action"],
-      "classes": ["action-card", "prompt-block", "code-shell", "code-header", "code-language", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content"]
+      "classes": ["action-card", "prompt-block", "code-shell", "code-header", "code-language", "code-status", "code-status-neutral", "code-status-ok", "code-status-error", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content", "code-scheme-shell", "code-token-flag"]
     },
     {
       "id": "values-grid",

@@ -231,6 +231,7 @@
         {"$ref": "#/$defs/mediaBlock"},
         {"$ref": "#/$defs/columnsBlock"},
         {"$ref": "#/$defs/toggleViewBlock"},
+        {"$ref": "#/$defs/sliderBlock"},
         {"$ref": "#/$defs/participantsBlock"},
         {"$ref": "#/$defs/sourceRefsBlock"},
         {"$ref": "#/$defs/filesBlock"},
@@ -567,6 +568,23 @@
             }
           }
         }
+      }
+    },
+    "sliderBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label", "min", "max", "value", "target"],
+      "properties": {
+        "type": {"const": "slider"},
+        "label": {"$ref": "#/$defs/localizedString"},
+        "description": {"$ref": "#/$defs/inlineText"},
+        "min": {"type": "number"},
+        "max": {"type": "number"},
+        "step": {"type": "number", "exclusiveMinimum": 0},
+        "value": {"type": "number"},
+        "unit": {"type": "string"},
+        "target": {"$ref": "#/$defs/inlineText"},
+        "effect": {"type": "string", "enum": ["opacity"], "default": "opacity"}
       }
     },
     "participantsBlock": {

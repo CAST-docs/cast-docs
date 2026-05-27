@@ -115,6 +115,13 @@
       "classes": ["toggle-view", "toggle-toolbar", "toggle-button", "toggle-panel"]
     },
     {
+      "id": "slider-control",
+      "renderer": "slider",
+      "triggerLevel": "strong",
+      "blockTypes": ["slider"],
+      "classes": ["slider-control", "slider-header", "slider-value", "slider-range", "slider-demo", "slider-target"]
+    },
+    {
       "id": "participants",
       "renderer": "participants",
       "triggerLevel": "strong",

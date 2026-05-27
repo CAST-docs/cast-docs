@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.">
+<meta name="description" content="A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, sliders, and document cards.">
 <title>Component gallery</title>
 </head>
 <body>
@@ -26,10 +26,10 @@
       "maintainers",
       "template authors"
     ],
-    "updatedAt": "2026-05-27",
+    "updatedAt": "2026-05-28",
     "description": {
-      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.",
-      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表和文档卡片的紧凑组件大全。"
+      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, sliders, and document cards.",
+      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表、滑块和文档卡片的紧凑组件大全。"
     },
     "shellLinks": [
       {
@@ -85,6 +85,7 @@
         "media-grid",
         "columns",
         "toggle-view",
+        "slider-control",
         "participants",
         "source-refs",
         "files",
@@ -1056,6 +1057,27 @@
             "en": "Interactive behavior is registered through interactions.json and injected as renderer-owned script.",
             "zh-CN": "交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。"
           }
+        },
+        {
+          "type": "slider",
+          "label": {
+            "en": "Text brightness",
+            "zh-CN": "文字明暗"
+          },
+          "description": {
+            "en": "Move the slider to make the sample text brighter or dimmer.",
+            "zh-CN": "拖动滑块，让示例文字变亮或变淡。"
+          },
+          "min": 25,
+          "max": 100,
+          "step": 5,
+          "value": 70,
+          "unit": "%",
+          "effect": "opacity",
+          "target": {
+            "en": "Renderer-owned slider behavior keeps the document self-contained while giving authors a small interactive control.",
+            "zh-CN": "由渲染器托管的滑块行为让文档保持自包含，同时给作者一个轻量交互控件。"
+          }
         }
       ]
     },
@@ -1496,6 +1518,7 @@
 <h2><span data-locale="en" data-locale-active="true">Interactive Controls</span><span data-locale="zh-CN" data-locale-active="false">交互控件</span></h2>
 <section class="toggle-view" data-view-group="view-4"><div class="toggle-toolbar" role="group"><button class="toggle-button" type="button" data-view-target="view-4-overview" aria-pressed="true"><span data-locale="en" data-locale-active="true">Overview</span><span data-locale="zh-CN" data-locale-active="false">概览</span></button><button class="toggle-button" type="button" data-view-target="view-4-json" aria-pressed="false"><span data-locale="en" data-locale-active="true">JSON</span><span data-locale="zh-CN" data-locale-active="false">JSON</span></button></div><div class="toggle-panel" data-view-panel="view-4-overview" data-view-active="true"><p><span data-locale="en" data-locale-active="true">This built-in button switches the visible view without custom inline JavaScript.</span><span data-locale="zh-CN" data-locale-active="false">这个内置按钮无需自定义 inline JavaScript，就能切换可见视图。</span></p><ul><li><span data-locale="en" data-locale-active="true">Renderer owns the behavior.</span><span data-locale="zh-CN" data-locale-active="false">行为由渲染器托管。</span></li><li><span data-locale="en" data-locale-active="true">JSON owns the view content.</span><span data-locale="zh-CN" data-locale-active="false">JSON 承载视图内容。</span></li></ul></div><div class="toggle-panel" data-view-panel="view-4-json" data-view-active="false"><section class="code-shell code-block code-scheme-json"><div class="code-header"><span class="code-language">JSON</span><span class="code-status code-status-ok">Valid JSON</span><button class="code-copy" type="button" data-copy-target="code-5" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="json"><code id="code-5" data-language="json"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">{</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">  <span class="code-token-key">&quot;type&quot;</span>: &quot;toggle-view&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">  <span class="code-token-key">&quot;defaultView&quot;</span>: &quot;overview&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">  <span class="code-token-key">&quot;views&quot;</span>: [&quot;overview&quot;, &quot;json&quot;]</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">}</span></span></code></pre></section></div></section>
 <aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">Controlled JS</span><span data-locale="zh-CN" data-locale-active="false">受控 JS</span></strong><p><span data-locale="en" data-locale-active="true">Interactive behavior is registered through interactions.json and injected as renderer-owned script.</span><span data-locale="zh-CN" data-locale-active="false">交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。</span></p></aside>
+<section class="slider-control" data-slider-demo="slider-6" data-slider-effect="opacity"><div class="slider-header"><label for="slider-6"><span data-locale="en" data-locale-active="true">Text brightness</span><span data-locale="zh-CN" data-locale-active="false">文字明暗</span></label><output class="slider-value" data-slider-output="slider-6">70%</output></div><p><span data-locale="en" data-locale-active="true">Move the slider to make the sample text brighter or dimmer.</span><span data-locale="zh-CN" data-locale-active="false">拖动滑块，让示例文字变亮或变淡。</span></p><input class="slider-range" id="slider-6" type="range" min="25" max="100" step="5" value="70" data-slider-target="slider-6" data-slider-unit="%"><p class="slider-demo slider-target" data-slider-demo="slider-6"><span data-locale="en" data-locale-active="true">Renderer-owned slider behavior keeps the document self-contained while giving authors a small interactive control.</span><span data-locale="zh-CN" data-locale-active="false">由渲染器托管的滑块行为让文档保持自包含，同时给作者一个轻量交互控件。</span></p></section>
 </section>
 
 <section class="doc-section" id="evidence-and-people">
@@ -1609,8 +1632,8 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
-.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view, .open-questions-block { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .open-questions-block { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view, .slider-control, .open-questions-block { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .slider-control, .open-questions-block { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
@@ -1707,6 +1730,12 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .toggle-panel[data-view-active="false"] { display: none; }
 .toggle-panel > :first-child { margin-top: 0; }
 .toggle-panel > :last-child { margin-bottom: 0; }
+.slider-control { padding: 16px; }
+.slider-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.slider-header label { font-weight: 700; }
+.slider-value { color: var(--primary); font: 700 12.5px/1 var(--mono); }
+.slider-range { display: block; width: 100%; accent-color: var(--primary); }
+.slider-demo { margin: 14px 0 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--soft); color: var(--text); transition: opacity .16s ease; }
 .doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
 .lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
 .lightbox.open { display: flex; }
@@ -1927,6 +1956,30 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
     buttons.forEach((button) => {
       button.addEventListener('click', () => activate(button.getAttribute('data-view-target')));
     });
+  });
+})();
+</script><script data-renderer-owned="true" data-interaction="slider-control">(() => {
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+  document.querySelectorAll('.slider-range[data-slider-target]').forEach((slider) => {
+    const id = slider.getAttribute('data-slider-target');
+    const output = document.querySelector(`.slider-value[data-slider-output="${id}"]`);
+    const targets = document.querySelectorAll(`.slider-target[data-slider-demo="${id}"]`);
+    const unit = slider.getAttribute('data-slider-unit') || '';
+    const min = Number(slider.min || 0);
+    const max = Number(slider.max || 100);
+
+    const update = () => {
+      const value = Number(slider.value);
+      const ratio = max === min ? 1 : clamp((value - min) / (max - min), 0, 1);
+      if (output) output.textContent = `${slider.value}${unit}`;
+      targets.forEach((target) => {
+        target.style.opacity = String(clamp(ratio, 0.25, 1));
+      });
+    };
+
+    slider.addEventListener('input', update);
+    update();
   });
 })();
 </script><script data-renderer-owned="true" data-interaction="i18n">(() => {

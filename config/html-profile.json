@@ -57,7 +57,7 @@
       "defs",
       "marker"
     ],
-    "rendererOwned": ["html", "head", "meta", "title", "style", "body", "script", "button"]
+    "rendererOwned": ["html", "head", "meta", "title", "style", "body", "script", "button", "input", "label", "output"]
   },
   "globalAttributes": [
     "id",
@@ -78,6 +78,11 @@
     "data-view-target",
     "data-view-panel",
     "data-view-active",
+    "data-slider-target",
+    "data-slider-output",
+    "data-slider-demo",
+    "data-slider-effect",
+    "data-slider-unit",
     "data-locale",
     "data-locale-active",
     "data-locale-target",
@@ -96,6 +101,8 @@
     "th": ["scope"],
     "td": ["colspan", "rowspan"],
     "button": ["type", "disabled", "aria-pressed"],
+    "input": ["type", "min", "max", "step", "value"],
+    "label": ["for"],
     "script": ["type", "id", "data-interaction"],
     "svg": ["xmlns", "viewBox", "width", "height", "aria-labelledby", "role"],
     "g": ["transform"],
@@ -191,6 +198,12 @@
     "toggle-toolbar",
     "toggle-button",
     "toggle-panel",
+    "slider-control",
+    "slider-header",
+    "slider-value",
+    "slider-range",
+    "slider-demo",
+    "slider-target",
     "participants",
     "participant-card",
     "source-refs",
@@ -213,5 +226,5 @@
     "doc-footer"
   ],
   "forbiddenAttributes": ["onclick", "onload", "onerror", "onmouseover", "style"],
-  "forbiddenTags": ["iframe", "object", "embed", "link", "video", "audio", "canvas", "form", "input", "textarea", "select"]
+  "forbiddenTags": ["iframe", "object", "embed", "link", "video", "audio", "canvas", "form", "textarea", "select"]
 }

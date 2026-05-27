@@ -15,10 +15,10 @@
       "maintainers",
       "template authors"
     ],
-    "updatedAt": "2026-05-27",
+    "updatedAt": "2026-05-28",
     "description": {
-      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.",
-      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表和文档卡片的紧凑组件大全。"
+      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, sliders, and document cards.",
+      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表、滑块和文档卡片的紧凑组件大全。"
     },
     "shellLinks": [
       {
@@ -74,6 +74,7 @@
         "media-grid",
         "columns",
         "toggle-view",
+        "slider-control",
         "participants",
         "source-refs",
         "files",
@@ -1044,6 +1045,27 @@
           "body": {
             "en": "Interactive behavior is registered through interactions.json and injected as renderer-owned script.",
             "zh-CN": "交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。"
+          }
+        },
+        {
+          "type": "slider",
+          "label": {
+            "en": "Text brightness",
+            "zh-CN": "文字明暗"
+          },
+          "description": {
+            "en": "Move the slider to make the sample text brighter or dimmer.",
+            "zh-CN": "拖动滑块，让示例文字变亮或变淡。"
+          },
+          "min": 25,
+          "max": 100,
+          "step": 5,
+          "value": 70,
+          "unit": "%",
+          "effect": "opacity",
+          "target": {
+            "en": "Renderer-owned slider behavior keeps the document self-contained while giving authors a small interactive control.",
+            "zh-CN": "由渲染器托管的滑块行为让文档保持自包含，同时给作者一个轻量交互控件。"
           }
         }
       ]

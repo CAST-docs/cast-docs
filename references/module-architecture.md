@@ -118,6 +118,7 @@ Examples:
 - `finder-open`: local folder opening through installer-managed URL scheme.
 - `copy-code`: copy code or prompt blocks.
 - `toc-scrollspy`: active heading highlight in long document-set pages.
+- `slider-control`: range input with renderer-owned value updates and preview effects.
 
 Generated content must not author scripts. It may only provide semantic hooks such as `data-interaction`, `data-download-name`, or `data-component`.
 
@@ -211,6 +212,7 @@ assets/
     shell.single.html
     styles.base.css
     interactions.diagram-viewer.js
+    interactions.slider-control.js
     hooks.diagram-viewer.html
 scripts/
   cast_docs_core.py

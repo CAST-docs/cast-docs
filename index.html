@@ -172,8 +172,8 @@
               },
               "url": "./examples/component-gallery.html",
               "text": {
-                "en": "Inspect every common block, inline mark, table, diff view, and diagram in one page.",
-                "zh-CN": "在一个页面中查看所有常用 block、富文本标记、表格、diff 视图和图表。"
+                "en": "Inspect every common block, inline mark, table, diff view, diagram, and slider in one page.",
+                "zh-CN": "在一个页面中查看所有常用 block、富文本标记、表格、diff 视图、图表和滑块。"
               }
             }
           ]
@@ -438,7 +438,7 @@
 <section class="doc-section" id="component-gallery">
 <h2><span data-locale="en" data-locale-active="true">Component gallery</span><span data-locale="zh-CN" data-locale-active="false">组件大全</span></h2>
 <p><span data-locale="en" data-locale-active="true">Use the component gallery as a block reference and visual acceptance page, not as a writing scenario.</span><span data-locale="zh-CN" data-locale-active="false">组件大全作为 block 参考和视觉验收页使用，不作为写作场景。</span></p>
-<ul class="source-refs"><li><a href="./examples/component-gallery.html"><span data-locale="en" data-locale-active="true">Open component gallery</span><span data-locale="zh-CN" data-locale-active="false">打开组件大全</span></a> - <span data-locale="en" data-locale-active="true">Inspect every common block, inline mark, table, diff view, and diagram in one page.</span><span data-locale="zh-CN" data-locale-active="false">在一个页面中查看所有常用 block、富文本标记、表格、diff 视图和图表。</span></li></ul>
+<ul class="source-refs"><li><a href="./examples/component-gallery.html"><span data-locale="en" data-locale-active="true">Open component gallery</span><span data-locale="zh-CN" data-locale-active="false">打开组件大全</span></a> - <span data-locale="en" data-locale-active="true">Inspect every common block, inline mark, table, diff view, diagram, and slider in one page.</span><span data-locale="zh-CN" data-locale-active="false">在一个页面中查看所有常用 block、富文本标记、表格、diff 视图、图表和滑块。</span></li></ul>
 </section>
 
 <section class="doc-section" id="scenarios">
@@ -557,8 +557,8 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
-.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view, .open-questions-block { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .open-questions-block { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view, .slider-control, .open-questions-block { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .slider-control, .open-questions-block { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
@@ -655,6 +655,12 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .toggle-panel[data-view-active="false"] { display: none; }
 .toggle-panel > :first-child { margin-top: 0; }
 .toggle-panel > :last-child { margin-bottom: 0; }
+.slider-control { padding: 16px; }
+.slider-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.slider-header label { font-weight: 700; }
+.slider-value { color: var(--primary); font: 700 12.5px/1 var(--mono); }
+.slider-range { display: block; width: 100%; accent-color: var(--primary); }
+.slider-demo { margin: 14px 0 0; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--soft); color: var(--text); transition: opacity .16s ease; }
 .doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
 .lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
 .lightbox.open { display: flex; }

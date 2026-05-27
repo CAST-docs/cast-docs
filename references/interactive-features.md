@@ -2,7 +2,7 @@
 
 CAST Docs is primarily a static, self-contained HTML document system. Interactions are allowed only as renderer-owned progressive enhancements with stable hooks and validation rules.
 
-The built-in interactions are diagram viewer, code copy, language switching, and toggle view. They are renderer-owned scripts selected from `config/interactions.json` based on layout and block types.
+The built-in interactions are diagram viewer, code copy, language switching, toggle view, and slider control. They are renderer-owned scripts selected from `config/interactions.json` based on layout and block types.
 
 ## Principles
 
@@ -63,6 +63,10 @@ The document JSON does not author copy JavaScript. It only provides the code str
 The `toggle-view` block renders a segmented button group and one panel per view. Buttons use `data-view-target`; panels use `data-view-panel` and `data-view-active`.
 
 Use this for controlled view switching such as overview/source, table/chart, or before/after content. Do not add event-handler attributes or custom scripts to generated content.
+
+## Slider Control
+
+The `slider` block renders a renderer-owned range input, output value, and preview target. The control uses `data-slider-target`, `data-slider-output`, and `data-slider-demo`; the shared script updates the output and applies the selected effect to the target. The initial supported effect is `opacity`, useful for examples such as making text brighter or dimmer without content-authored JavaScript.
 
 ## Configuration
 

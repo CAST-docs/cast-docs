@@ -38,6 +38,15 @@
       "supportedBlockTypes": ["toggle-view"]
     },
     {
+      "id": "slider-control",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["slider-control", "data-slider-target", "data-slider-output", "data-slider-demo"],
+      "capabilities": ["adjust-slider"],
+      "supportedBlockTypes": ["slider"]
+    },
+    {
       "id": "i18n",
       "enabledByDefault": false,
       "rendererOwned": true,

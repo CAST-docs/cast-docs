@@ -687,6 +687,36 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 validate_block(child, f"{path}.views[{view_index}].blocks[{block_index}]", errors)
         if isinstance(default_view, str) and ids and default_view not in ids:
             errors.append(f"{path}.defaultView must match a view id")
+    elif block_type == "slider":
+        validate_localized_string(block.get("label"), f"{path}.label", errors, non_empty=True)
+        if block.get("description") is not None:
+            validate_inline(block.get("description"), f"{path}.description", errors)
+        for key in ("min", "max", "value"):
+            number = block.get(key)
+            if not isinstance(number, (int, float)) or isinstance(number, bool):
+                errors.append(f"{path}.{key} must be a number")
+        step = block.get("step", 1)
+        if not isinstance(step, (int, float)) or isinstance(step, bool) or step <= 0:
+            errors.append(f"{path}.step must be a positive number")
+        minimum = block.get("min")
+        maximum = block.get("max")
+        value = block.get("value")
+        if isinstance(minimum, (int, float)) and isinstance(maximum, (int, float)) and minimum >= maximum:
+            errors.append(f"{path}.min must be less than max")
+        if (
+            isinstance(minimum, (int, float))
+            and isinstance(maximum, (int, float))
+            and isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and not minimum <= value <= maximum
+        ):
+            errors.append(f"{path}.value must be between min and max")
+        unit = block.get("unit")
+        if unit is not None and not isinstance(unit, str):
+            errors.append(f"{path}.unit must be a string")
+        validate_inline(block.get("target"), f"{path}.target", errors)
+        if block.get("effect", "opacity") != "opacity":
+            errors.append(f"{path}.effect is unsupported")
     else:
         errors.append(f"{path}.type is unknown: {block_type}")
 
@@ -1303,6 +1333,33 @@ def render_toggle_view(block: dict[str, Any], ctx: RenderContext | None = None) 
     )
 
 
+def render_slider(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    if ctx is not None:
+        ctx.code_index += 1
+        slider_id = f"slider-{ctx.code_index}"
+    else:
+        slider_id = "slider-" + hashlib.sha1(json.dumps(block, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:10]
+    minimum = text(block.get("min", 0))
+    maximum = text(block.get("max", 100))
+    step = text(block.get("step", 1))
+    value = text(block.get("value", block.get("min", 0)))
+    unit = text(block.get("unit", ""))
+    effect = text(block.get("effect", "opacity")) or "opacity"
+    description = f"<p>{render_inline(block.get('description'), ctx)}</p>" if block.get("description") is not None else ""
+    return (
+        f"<section class=\"slider-control\" data-slider-demo=\"{attr(slider_id)}\" data-slider-effect=\"{attr(effect)}\">"
+        "<div class=\"slider-header\">"
+        f"<label for=\"{attr(slider_id)}\">{render_text(block.get('label'), ctx)}</label>"
+        f"<output class=\"slider-value\" data-slider-output=\"{attr(slider_id)}\">{esc(value)}{esc(unit)}</output>"
+        "</div>"
+        f"{description}"
+        f"<input class=\"slider-range\" id=\"{attr(slider_id)}\" type=\"range\" min=\"{attr(minimum)}\" max=\"{attr(maximum)}\" "
+        f"step=\"{attr(step)}\" value=\"{attr(value)}\" data-slider-target=\"{attr(slider_id)}\" data-slider-unit=\"{attr(unit)}\">"
+        f"<p class=\"slider-demo slider-target\" data-slider-demo=\"{attr(slider_id)}\">{render_inline(block.get('target'), ctx)}</p>"
+        "</section>"
+    )
+
+
 RENDERER_REGISTRY: dict[str, Any] = {
     "summary": render_summary_block,
     "paragraph": render_paragraph,
@@ -1323,6 +1380,7 @@ RENDERER_REGISTRY: dict[str, Any] = {
     "media": render_media,
     "columns": render_columns,
     "toggleView": render_toggle_view,
+    "slider": render_slider,
 }
 
 

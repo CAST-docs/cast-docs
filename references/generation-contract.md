@@ -24,6 +24,7 @@ Do not borrow these implementation details by default:
 Allowed adaptation:
 
 - Diagram zoom and download may be supported through renderer-owned inline JavaScript, with no external CDN dependency and no user-authored script blocks.
+- Slider controls may be supported through renderer-owned inline JavaScript when the JSON describes the range, value, and target content.
 
 ## Required Declaration
 

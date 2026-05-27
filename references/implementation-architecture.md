@@ -172,7 +172,6 @@ Implemented P0 scripts:
 Still planned:
 
 - `scripts/build_index.py` for document-set index generation.
-- Full template-module extraction from the current renderer-owned CSS/JS strings.
 - Visual lint gates for saturation, fixed badge dimensions, and large color areas.
 
 The fixtures are the practical guardrail for "cover all scenarios": every scenario in config should have at least one example JSON.

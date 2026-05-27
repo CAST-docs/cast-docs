@@ -6,7 +6,7 @@ All generated documents must share the same base structure, class vocabulary, st
 
 The renderer owns the shared template, style system, and approved progressive-enhancement scripts. Generation should not copy the full template into the prompt context, and should not introduce external scripts, CDNs, fonts, images, or runtime services.
 
-Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download, code copy, language switching, and toggle views.
+Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download, code copy, language switching, toggle views, and slider controls.
 
 Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
 
@@ -32,6 +32,7 @@ Planned allowed tags:
 - `html`, `head`, `meta`, `title`, `style`, `body`
 - renderer-owned `script`
 - renderer-owned `button`
+- renderer-owned `input`, `label`, and `output` for approved slider controls
 - `article`, `header`, `nav`, `main`, `section`, `footer`
 - `h1`, `h2`, `h3`, `p`, `a`, `strong`, `em`, `code`, `pre`, `del`, `u`, `mark`
 - `ul`, `ol`, `li`
@@ -51,7 +52,6 @@ Planned allowed tags:
 - `audio`
 - `canvas`
 - `form`
-- `input`
 - user-content `button`
 - `textarea`
 - `select`
@@ -98,6 +98,7 @@ Use stable semantic classes such as:
 - `media-grid`, `media-frame`
 - `columns`, `column`
 - `toggle-view`, `toggle-toolbar`, `toggle-panel`
+- `slider-control`, `slider-header`, `slider-value`, `slider-range`, `slider-demo`, `slider-target`
 
 Do not generate random utility classes or Tailwind-style class lists.
 

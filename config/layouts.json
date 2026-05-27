@@ -22,7 +22,7 @@
         "pagination": false
       },
       "defaultInteractions": ["finder-open"],
-      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view", "toc-scrollspy"]
+      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view", "slider-control", "toc-scrollspy"]
     },
     {
       "id": "document-set",
@@ -66,7 +66,7 @@
         }
       },
       "defaultInteractions": ["finder-open", "toc-scrollspy"],
-      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view"]
+      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view", "slider-control"]
     }
   ],
   "documentSetManifest": {

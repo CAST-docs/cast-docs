@@ -161,8 +161,8 @@
               },
               "url": "./examples/component-gallery.html",
               "text": {
-                "en": "Inspect every common block, inline mark, table, diff view, and diagram in one page.",
-                "zh-CN": "在一个页面中查看所有常用 block、富文本标记、表格、diff 视图和图表。"
+                "en": "Inspect every common block, inline mark, table, diff view, diagram, and slider in one page.",
+                "zh-CN": "在一个页面中查看所有常用 block、富文本标记、表格、diff 视图、图表和滑块。"
               }
             }
           ]

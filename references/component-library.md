@@ -81,6 +81,10 @@ Use for Lark-style side-by-side content where several peer items should be read 
 
 Use when a document needs a built-in button to switch between two or more views, such as overview/source, table/chart, or before/after explanations. The JSON owns the views and labels; the renderer owns the JavaScript.
 
+## Slider Control
+
+Use when a document needs a controlled numeric adjustment with immediate visual feedback, such as dimming or brightening sample text. The JSON owns the label, range, initial value, and target content; the renderer owns the range input, output value, and progressive enhancement script. The initial supported effect is `opacity`.
+
 ## Acceptance Criteria
 
 Use concise bullet lists with observable outcomes.

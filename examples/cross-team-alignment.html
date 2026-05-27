@@ -184,7 +184,29 @@
           "type": "callout",
           "variant": "warning",
           "title": "Impact",
-          "body": "Consumers cannot distinguish paid from fully settled orders."
+          "body": [
+            {
+              "text": "Consumers cannot distinguish "
+            },
+            {
+              "text": "status: paid",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": " from fully settled orders, because "
+            },
+            {
+              "text": "payment_status",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": " is missing."
+            }
+          ]
         }
       ]
     },
@@ -194,7 +216,42 @@
       "blocks": [
         {
           "type": "paragraph",
-          "text": "The implementation will add the missing field and keep the existing status field unchanged."
+          "text": [
+            {
+              "text": "The implementation will add "
+            },
+            {
+              "text": "payment_status",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": " and keep the existing "
+            },
+            {
+              "text": "status",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": " field unchanged; the change lands in "
+            },
+            {
+              "text": "response.go:42",
+              "marks": [
+                {
+                  "type": "ref",
+                  "path": "api/order/response.go",
+                  "line": 42
+                }
+              ]
+            },
+            {
+              "text": "."
+            }
+          ]
         }
       ]
     },
@@ -255,12 +312,12 @@
 
 <section class="doc-section" id="impact">
 <h2>Impact</h2>
-<aside class="callout callout-warning"><strong>Impact</strong><p>Consumers cannot distinguish paid from fully settled orders.</p></aside>
+<aside class="callout callout-warning"><strong>Impact</strong><p>Consumers cannot distinguish <code>status: paid</code> from fully settled orders, because <code>payment_status</code> is missing.</p></aside>
 </section>
 
 <section class="doc-section" id="decisions">
 <h2>Decisions</h2>
-<p>The implementation will add the missing field and keep the existing status field unchanged.</p>
+<p>The implementation will add <code>payment_status</code> and keep the existing <code>status</code> field unchanged; the change lands in <code data-mark="ref">response.go:42</code>.</p>
 </section>
 
 <section class="doc-section" id="action-items">

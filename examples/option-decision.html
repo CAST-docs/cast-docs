@@ -136,7 +136,29 @@
           "type": "callout",
           "variant": "success",
           "title": "Decision",
-          "body": "Use typed block rendering backed by configuration registries."
+          "body": [
+            {
+              "text": "Use typed block rendering backed by "
+            },
+            {
+              "text": "configuration registries",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": ", not "
+            },
+            {
+              "text": "direct HTML assembly",
+              "marks": [
+                "del"
+              ]
+            },
+            {
+              "text": "."
+            }
+          ]
         }
       ]
     },
@@ -165,7 +187,32 @@
           "type": "action",
           "priority": "p2",
           "title": "Implement schema validation",
-          "description": "Wire doc.schema.json into validate_doc_json.py."
+          "description": [
+            {
+              "text": "Wire "
+            },
+            {
+              "text": "doc.schema.json",
+              "marks": [
+                {
+                  "type": "ref",
+                  "path": "schemas/doc.schema.json"
+                }
+              ]
+            },
+            {
+              "text": " into "
+            },
+            {
+              "text": "validate_doc_json.py",
+              "marks": [
+                "code"
+              ]
+            },
+            {
+              "text": "."
+            }
+          ]
         }
       ]
     }
@@ -202,7 +249,7 @@
 
 <section class="doc-section" id="decision">
 <h2>Decision</h2>
-<aside class="callout callout-success"><strong>Decision</strong><p>Use typed block rendering backed by configuration registries.</p></aside>
+<aside class="callout callout-success"><strong>Decision</strong><p>Use typed block rendering backed by <code>configuration registries</code>, not <del>direct HTML assembly</del>.</p></aside>
 </section>
 
 <section class="doc-section" id="tradeoffs">
@@ -213,7 +260,7 @@
 <section class="doc-section" id="follow-ups">
 <h2>Follow-ups</h2>
 <ol class="acceptance-criteria"><li>Every configured scenario has a fixture.</li><li>Renderer rejects unknown block types.</li></ol>
-<section class="action-card"><h3>Implement schema validation</h3><p>Wire doc.schema.json into validate_doc_json.py.</p></section>
+<section class="action-card"><h3>Implement schema validation</h3><p>Wire <code data-mark="ref">doc.schema.json</code> into <code>validate_doc_json.py</code>.</p></section>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>

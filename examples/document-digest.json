@@ -32,7 +32,7 @@
       "id": "summary",
       "title": "Summary",
       "blocks": [
-        {"type": "summary", "items": [{"label": "Digest", "body": "Two source documents converge on a typed API contract approach."}]}
+        {"type": "summary", "items": [{"label": "Digest", "body": [{"text": "Across "}, {"text": "2 source documents", "marks": ["metric"]}, {"text": ", the notes converge on a typed "}, {"text": "API contract", "marks": ["code"]}, {"text": " approach."}]}]}
       ]
     },
     {
@@ -55,7 +55,7 @@
         {
           "type": "table",
           "headers": ["Finding", "Evidence"],
-          "rows": [["Typed contracts reduce ambiguity", "Both documents mention schema drift"], ["Examples are required", "Review notes ask for fixtures"]]
+          "rows": [["Typed contracts reduce ambiguity", "Both documents mention schema drift"], ["Examples are required", [{"text": "Review notes ask for "}, {"text": "fixtures", "marks": ["code"]}, {"text": " — see the "}, {"text": "review notes", "marks": [{"type": "link", "href": "https://example.com/review-notes"}]}, {"text": "."}]]]
         }
       ]
     },

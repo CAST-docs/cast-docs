@@ -81,7 +81,32 @@
       "blocks": [
         {
           "type": "paragraph",
-          "text": "The renderer should produce consistent documents without copying large templates into model context."
+          "text": [
+            {
+              "text": "The renderer produces "
+            },
+            {
+              "text": "deterministic",
+              "marks": [
+                {
+                  "type": "term",
+                  "definition": "same input yields byte-identical output"
+                }
+              ]
+            },
+            {
+              "text": " documents "
+            },
+            {
+              "text": "without",
+              "marks": [
+                "em"
+              ]
+            },
+            {
+              "text": " copying large templates into model context."
+            }
+          ]
         }
       ]
     },
@@ -94,7 +119,20 @@
           "items": [
             {
               "title": "Consistent output",
-              "body": "Use one shared shell and semantic classes."
+              "body": [
+                {
+                  "text": "Use "
+                },
+                {
+                  "text": "one shared shell",
+                  "marks": [
+                    "mark"
+                  ]
+                },
+                {
+                  "text": " and semantic classes."
+                }
+              ]
             },
             {
               "title": "On-demand composition",
@@ -186,12 +224,12 @@
 
 <section class="doc-section" id="context">
 <h2>Context</h2>
-<p>The renderer should produce consistent documents without copying large templates into model context.</p>
+<p>The renderer produces <span data-mark="term" title="same input yields byte-identical output">deterministic</span> documents <em>without</em> copying large templates into model context.</p>
 </section>
 
 <section class="doc-section" id="principles-or-features">
 <h2>Principles Or Features</h2>
-<section class="values-grid"><div class="value-card"><h3>Consistent output</h3><p>Use one shared shell and semantic classes.</p></div><div class="value-card"><h3>On-demand composition</h3><p>Render only selected components.</p></div><div class="value-card"><h3>Scenario skeletons</h3><p>Use configured section order.</p></div><div class="value-card"><h3>Reuse first</h3><p>Prefer existing components and schema fragments.</p></div></section>
+<section class="values-grid"><div class="value-card"><h3>Consistent output</h3><p>Use <mark>one shared shell</mark> and semantic classes.</p></div><div class="value-card"><h3>On-demand composition</h3><p>Render only selected components.</p></div><div class="value-card"><h3>Scenario skeletons</h3><p>Use configured section order.</p></div><div class="value-card"><h3>Reuse first</h3><p>Prefer existing components and schema fragments.</p></div></section>
 </section>
 
 <section class="doc-section" id="examples">

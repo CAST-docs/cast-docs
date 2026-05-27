@@ -95,14 +95,14 @@
       "id": "impact",
       "title": "Impact",
       "blocks": [
-        {"type": "callout", "variant": "warning", "title": "Impact", "body": "Consumers cannot distinguish paid from fully settled orders."}
+        {"type": "callout", "variant": "warning", "title": "Impact", "body": [{"text": "Consumers cannot distinguish "}, {"text": "status: paid", "marks": ["code"]}, {"text": " from fully settled orders, because "}, {"text": "payment_status", "marks": ["code"]}, {"text": " is missing."}]}
       ]
     },
     {
       "id": "decisions",
       "title": "Decisions",
       "blocks": [
-        {"type": "paragraph", "text": "The implementation will add the missing field and keep the existing status field unchanged."}
+        {"type": "paragraph", "text": [{"text": "The implementation will add "}, {"text": "payment_status", "marks": ["code"]}, {"text": " and keep the existing "}, {"text": "status", "marks": ["code"]}, {"text": " field unchanged; the change lands in "}, {"text": "response.go:42", "marks": [{"type": "ref", "path": "api/order/response.go", "line": 42}]}, {"text": "."}]}
       ]
     },
     {

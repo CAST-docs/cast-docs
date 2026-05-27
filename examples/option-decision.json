@@ -69,7 +69,7 @@
       "id": "decision",
       "title": "Decision",
       "blocks": [
-        {"type": "callout", "variant": "success", "title": "Decision", "body": "Use typed block rendering backed by configuration registries."}
+        {"type": "callout", "variant": "success", "title": "Decision", "body": [{"text": "Use typed block rendering backed by "}, {"text": "configuration registries", "marks": ["code"]}, {"text": ", not "}, {"text": "direct HTML assembly", "marks": ["del"]}, {"text": "."}]}
       ]
     },
     {
@@ -84,7 +84,7 @@
       "title": "Follow-ups",
       "blocks": [
         {"type": "acceptance-criteria", "items": ["Every configured scenario has a fixture.", "Renderer rejects unknown block types."]},
-        {"type": "action", "priority": "p2", "title": "Implement schema validation", "description": "Wire doc.schema.json into validate_doc_json.py."}
+        {"type": "action", "priority": "p2", "title": "Implement schema validation", "description": [{"text": "Wire "}, {"text": "doc.schema.json", "marks": [{"type": "ref", "path": "schemas/doc.schema.json"}]}, {"text": " into "}, {"text": "validate_doc_json.py", "marks": ["code"]}, {"text": "."}]}
       ]
     }
   ]

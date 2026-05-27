@@ -547,9 +547,14 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .line-context { color: var(--text); }
 .participants, .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
 .participant-card, .value-card, .action-card { padding: 14px 16px; }
+.action-card { padding: 20px; }
 .participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
 .source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.prompt-block { margin-top: 12px; }
+.prompt-block { margin-top: 18px; }
+.prompt-block .code-header { padding: 10px 12px; }
+.prompt-block .code-pre { padding: 10px 0; font-size: 13px; line-height: 1.75; }
+.prompt-block .code-line { grid-template-columns: 46px minmax(0, 1fr); }
+.prompt-block .code-line-content { white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; }
 .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
 .media-frame { margin: 0; overflow: hidden; }
 .media-frame img { display: block; width: 100%; min-height: 120px; max-height: 220px; object-fit: cover; background: var(--soft); }

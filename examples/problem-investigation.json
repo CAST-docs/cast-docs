@@ -5,7 +5,10 @@
     "status": "draft",
     "owner": "unknown",
     "audience": ["engineering"],
-    "updatedAt": "2026-05-13"
+    "updatedAt": "2026-05-13",
+    "shellLinks": [
+      {"label": "CAST Docs", "href": "../index.html", "placement": "topbar"}
+    ]
   },
   "manifest": {
     "documentType": "engineering-plan",

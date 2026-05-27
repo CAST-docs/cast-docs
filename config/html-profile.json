@@ -102,7 +102,7 @@
     "path": ["d", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "marker-end"],
     "rect": ["x", "y", "width", "height", "rx", "ry", "fill", "stroke", "stroke-width"],
     "circle": ["cx", "cy", "r", "fill", "stroke", "stroke-width"],
-    "line": ["x1", "y1", "x2", "y2", "stroke", "stroke-width", "stroke-linecap", "marker-end"],
+    "line": ["x1", "y1", "x2", "y2", "stroke", "stroke-width", "stroke-linecap", "stroke-dasharray", "marker-end"],
     "polyline": ["points", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "marker-end"],
     "polygon": ["points", "fill", "stroke", "stroke-width"],
     "text": ["x", "y", "fill", "font-size", "text-anchor", "dominant-baseline"],

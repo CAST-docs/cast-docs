@@ -75,7 +75,7 @@ Use for visual evidence or format support examples. Media items may use self-con
 
 ## Columns
 
-Use for Lark-style side-by-side content where several peer blocks should be read as one row. Columns can contain regular child blocks such as paragraphs, lists, tables, or code.
+Use for Lark-style side-by-side content where several peer items should be read as one row. A column may be pure inline content for visual distribution, or it may contain regular child blocks such as paragraphs, lists, tables, or code.
 
 ## Toggle View
 

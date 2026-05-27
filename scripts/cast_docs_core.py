@@ -635,6 +635,8 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 validate_localized_string(column.get("title"), f"{path}.columns[{column_index}].title", errors)
             for block_index, child in enumerate(as_list(column.get("blocks"))):
                 validate_block(child, f"{path}.columns[{column_index}].blocks[{block_index}]", errors)
+            if column.get("content") is not None:
+                validate_inline(column.get("content"), f"{path}.columns[{column_index}].content", errors)
     elif block_type == "toggle-view":
         views = require_array("views")
         if len(views) < 2:
@@ -908,19 +910,49 @@ def svg_text(value: Any) -> str:
 
 def render_sequence_svg(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     steps = as_list(block.get("source", {}).get("steps"))
-    width = 860
-    row_height = 68
-    height = max(160, 58 + row_height * len(steps))
-    rows = []
+    participants: list[Any] = []
+    participant_keys: set[str] = set()
+    for step in steps:
+        if not is_object(step):
+            continue
+        for key in ("from", "to"):
+            participant = step.get(key)
+            participant_key = text(localized_value(participant, "en"))
+            if participant_key and participant_key not in participant_keys:
+                participant_keys.add(participant_key)
+                participants.append(participant)
+    width = max(620, 180 * max(1, len(participants)) + 120)
+    top = 94
+    row_height = 58
+    height = max(260, top + 44 + row_height * len(steps))
+    lane_by_key = {
+        text(localized_value(participant, "en")): 80 + index * 180
+        for index, participant in enumerate(participants)
+    }
+    defs = (
+        "<defs><marker id=\"seq-arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\">"
+        "<path d=\"M0 0 L10 5 L0 10z\" fill=\"#8a929b\"></path></marker></defs>"
+    )
+    rows = [defs]
+    lifeline_bottom = height - 24
+    for participant in participants:
+        key = text(localized_value(participant, "en"))
+        x = lane_by_key.get(key, 80)
+        rows.append(f"<rect x=\"{x - 56}\" y=\"22\" width=\"112\" height=\"34\" rx=\"7\" fill=\"#f3f4f4\" stroke=\"#9aa1a8\"></rect>")
+        rows.append(render_svg_text_variants(participant, ctx, f"x=\"{x}\" y=\"44\" text-anchor=\"middle\" font-size=\"13\" fill=\"#2f3439\""))
+        rows.append(f"<line x1=\"{x}\" y1=\"56\" x2=\"{x}\" y2=\"{lifeline_bottom}\" stroke=\"#9aa1a8\" stroke-width=\"1\" stroke-dasharray=\"5 5\"></line>")
     for index, step in enumerate(steps):
-        y = 36 + index * row_height
-        rows.append(
-            f"<rect x=\"32\" y=\"{y}\" width=\"796\" height=\"42\" rx=\"7\" fill=\"#f3f4f4\" stroke=\"#9aa1a8\" stroke-width=\"1\"/>"
-            f"{render_svg_text_variants(step.get('from'), ctx, f'x=\"58\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\"')}"
-            f"<text x=\"180\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\">-&gt;</text>"
-            f"{render_svg_text_variants(step.get('to'), ctx, f'x=\"218\" y=\"{y + 26}\" fill=\"#2f3439\" font-size=\"14\"')}"
-            f"{render_svg_text_variants(step.get('label'), ctx, f'x=\"430\" y=\"{y + 26}\" fill=\"#68717b\" font-size=\"13\" text-anchor=\"middle\"')}"
-        )
+        if not is_object(step):
+            continue
+        from_key = text(localized_value(step.get("from"), "en"))
+        to_key = text(localized_value(step.get("to"), "en"))
+        x1 = lane_by_key.get(from_key, 80)
+        x2 = lane_by_key.get(to_key, x1 + 180)
+        y = top + index * row_height
+        label_y = y - 9
+        rows.append(f"<line x1=\"{x1}\" y1=\"{y}\" x2=\"{x2}\" y2=\"{y}\" stroke=\"#8a929b\" stroke-width=\"2\" marker-end=\"url(#seq-arrow)\"></line>")
+        rows.append(render_svg_text_variants(step.get("label"), ctx, f"x=\"{(x1 + x2) / 2:.0f}\" y=\"{label_y}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#68717b\""))
+        rows.append(f"<rect x=\"{x2 - 4}\" y=\"{y - 8}\" width=\"8\" height=\"26\" rx=\"3\" fill=\"#dce8f8\" stroke=\"#9aa1a8\"></rect>")
     aria = localized_value(block.get("title") or tr(ctx, "diagram.sequenceAria", "Sequence diagram"), default_locale_for_context(ctx))
     return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(aria)}\">{''.join(rows)}</svg>"
 
@@ -1128,7 +1160,7 @@ def render_media(block: dict[str, Any], ctx: RenderContext | None = None) -> str
         caption = render_inline(item.get("caption"), ctx) if item.get("caption") is not None else render_text(item.get("alt"), ctx)
         figures.append(
             "<figure class=\"media-frame\">"
-            f"<img src=\"{src}\" alt=\"{alt}\" loading=\"lazy\"/>"
+            f"<img src=\"{src}\" alt=\"{alt}\" loading=\"eager\"/>"
             f"<figcaption>{kind_html}{caption}</figcaption>"
             "</figure>"
         )
@@ -1141,7 +1173,8 @@ def render_columns(block: dict[str, Any], ctx: RenderContext | None = None) -> s
         if not is_object(column):
             continue
         title = f"<h3>{render_text(column.get('title'), ctx)}</h3>" if column.get("title") else ""
-        body = "".join(render_block(child, ctx) for child in as_list(column.get("blocks")) if is_object(child))
+        content = f"<p>{render_inline(column.get('content'), ctx)}</p>" if column.get("content") is not None else ""
+        body = content + "".join(render_block(child, ctx) for child in as_list(column.get("blocks")) if is_object(child))
         columns.append(f"<div class=\"column\">{title}{body}</div>")
     return f"<section class=\"columns\">{''.join(columns)}</section>"
 

@@ -514,9 +514,9 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["blocks"],
             "properties": {
               "title": {"$ref": "#/$defs/localizedString"},
+              "content": {"$ref": "#/$defs/inlineText"},
               "blocks": {
                 "type": "array",
                 "items": {"$ref": "#/$defs/block"}

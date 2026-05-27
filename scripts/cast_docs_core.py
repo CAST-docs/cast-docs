@@ -1219,9 +1219,24 @@ def render_acceptance_criteria(block: dict[str, Any], ctx: RenderContext | None 
 
 
 def render_open_questions(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
-    items = "".join(f"<li>{render_inline(item, ctx)}</li>" for item in as_list(block.get("questions")))
+    items = "".join(
+        f"<li class=\"open-question\"><span class=\"open-question-marker\">Q{index}</span><span class=\"open-question-text\">{render_inline(item, ctx)}</span></li>"
+        for index, item in enumerate(as_list(block.get("questions")), start=1)
+    )
     title = render_text(block.get("title"), ctx) if block.get("title") is not None else render_i18n_text(ctx, "openQuestions.title", "Open questions")
-    return f"<section class=\"open-questions-block\"><h3 class=\"open-questions-title\">{title}</h3><ul class=\"open-questions\">{items}</ul></section>"
+    count = len(as_list(block.get("questions")))
+    return (
+        "<section class=\"open-questions-block\">"
+        "<header class=\"open-questions-header\">"
+        "<div class=\"open-questions-heading\">"
+        f"<span class=\"open-questions-kicker\">{render_i18n_text(ctx, 'openQuestions.kicker', 'Unresolved')}</span>"
+        f"<h3 class=\"open-questions-title\">{title}</h3>"
+        "</div>"
+        f"<span class=\"open-questions-count\">{count} {render_i18n_text(ctx, 'openQuestions.count', 'questions')}</span>"
+        "</header>"
+        f"<ul class=\"open-questions\">{items}</ul>"
+        "</section>"
+    )
 
 
 def render_media(block: dict[str, Any], ctx: RenderContext | None = None) -> str:

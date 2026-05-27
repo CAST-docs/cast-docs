@@ -101,10 +101,18 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .participant-card, .value-card, .action-card { padding: 14px 16px; }
 .action-card { padding: 20px; }
 .participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
-.source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.open-questions-block { padding: 16px 18px; }
-.open-questions-title { margin: 0 0 10px; font-size: 15px; line-height: 1.35; }
-.open-questions-block .open-questions { margin: 0; }
+.source-refs, .files, .acceptance-criteria { padding-left: 22px; }
+.open-questions-block { position: relative; padding: 0; overflow: hidden; border-left: 3px solid var(--warn); }
+.open-questions-block::before { content: "?"; position: absolute; right: 18px; top: 12px; color: var(--warn-soft); font: 800 58px/1 var(--mono); pointer-events: none; }
+.open-questions-header { position: relative; display: flex; align-items: start; justify-content: space-between; gap: 18px; padding: 15px 18px 13px; border-bottom: 1px solid var(--border); background: var(--warn-soft); }
+.open-questions-kicker { display: block; margin-bottom: 5px; color: var(--warn); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.open-questions-title { margin: 0; font-size: 16px; line-height: 1.35; }
+.open-questions-count { flex: 0 0 auto; margin-top: 2px; color: var(--muted); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.open-questions { position: relative; display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.open-question { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 18px; }
+.open-question + .open-question { border-top: 1px solid var(--border); }
+.open-question-marker { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 999px; background: var(--soft); color: var(--warn); font: 700 11px/1 var(--mono); }
+.open-question-text { min-width: 0; }
 .prompt-block { margin-top: 20px; }
 .prompt-block .code-header { padding: 12px 14px; }
 .prompt-block .code-pre { padding: 18px 0; font-size: 13.5px; line-height: 1.9; }

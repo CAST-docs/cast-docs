@@ -13,3 +13,7 @@ AGENTS.md
 *.ai.local.*
 *.prompt.local.*
 *.scratch.*
+assets/cast-docs-icon*.png
+assets/cast-docs-icon*.svg
+assets/cast-docs-logo*.png
+assets/cast-docs-logo*.svg

@@ -2,7 +2,7 @@
 
 CAST Docs is primarily a static, self-contained HTML document system. Interactions are allowed only as renderer-owned progressive enhancements with stable hooks and validation rules.
 
-The MVP ships one interaction: diagram viewer (zoom / pan / SVG / PNG download).
+The built-in interactions are diagram viewer, code copy, language switching, and toggle view. They are renderer-owned scripts selected from `config/interactions.json` based on layout and block types.
 
 ## Principles
 
@@ -51,6 +51,18 @@ Example block shape:
 ```
 
 The final schema may avoid raw SVG strings and use a safer structured diagram format. If raw SVG is allowed, it must pass the SVG subset validator.
+
+## Code Copy
+
+Code and action prompt blocks render a copy button in their header. The script copies the text from `.code-line-content`, ignoring line numbers and using the currently active locale when the code body is localized.
+
+The document JSON does not author copy JavaScript. It only provides the code string and optional language label.
+
+## Toggle View
+
+The `toggle-view` block renders a segmented button group and one panel per view. Buttons use `data-view-target`; panels use `data-view-panel` and `data-view-active`.
+
+Use this for controlled view switching such as overview/source, table/chart, or before/after content. Do not add event-handler attributes or custom scripts to generated content.
 
 ## Configuration
 

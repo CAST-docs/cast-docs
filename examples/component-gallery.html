@@ -52,6 +52,8 @@
       "tables",
       "blocks-view",
       "code-and-diff",
+      "media-and-columns",
+      "interactive-controls",
       "evidence-and-people",
       "diagrams"
     ],
@@ -71,6 +73,9 @@
         "code-block",
         "diagram",
         "diff-block",
+        "media-grid",
+        "columns",
+        "toggle-view",
         "participants",
         "source-refs",
         "files",
@@ -700,7 +705,7 @@
         {
           "type": "code",
           "language": "json",
-          "code": "{\n  \"metadata\": {\n    \"title\": \"Component gallery\",\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"]\n  }\n}"
+          "code": "{\n  \"metadata\": {\n    \"title\": {\n      \"en\": \"Component gallery\",\n      \"zh-CN\": \"组件大全\"\n    },\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"],\n    \"showMeta\": false\n  },\n  \"manifest\": {\n    \"sections\": [\"plain-content\", \"code-and-diff\"],\n    \"components\": {\n      \"optional\": [\"code-block\", \"diff-block\"]\n    }\n  }\n}"
         },
         {
           "type": "diff",
@@ -716,17 +721,32 @@
             "language": "json",
             "lines": [
               {
-                "kind": "remove",
+                "kind": "context",
                 "text": {
-                  "en": "\"title\": \"Component gallery\"",
-                  "zh-CN": "\"title\": \"组件大全\""
+                  "en": "{",
+                  "zh-CN": "{"
+                }
+              },
+              {
+                "kind": "remove",
+                "highlight": true,
+                "text": {
+                  "en": "  \"title\": \"Component gallery\",",
+                  "zh-CN": "  \"title\": \"组件大全\","
                 }
               },
               {
                 "kind": "context",
                 "text": {
-                  "en": "\"language\": \"en\"",
-                  "zh-CN": "\"language\": \"en\""
+                  "en": "  \"language\": \"en\"",
+                  "zh-CN": "  \"language\": \"en\""
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "}",
+                  "zh-CN": "}"
                 }
               }
             ]
@@ -739,20 +759,220 @@
             "language": "json",
             "lines": [
               {
+                "kind": "context",
+                "text": {
+                  "en": "{",
+                  "zh-CN": "{"
+                }
+              },
+              {
+                "kind": "add",
+                "highlight": true,
+                "text": {
+                  "en": "  \"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" },",
+                  "zh-CN": "  \"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" },"
+                }
+              },
+              {
                 "kind": "add",
                 "text": {
-                  "en": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }",
-                  "zh-CN": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }"
+                  "en": "  \"locales\": [\"en\", \"zh-CN\"]",
+                  "zh-CN": "  \"locales\": [\"en\", \"zh-CN\"]"
                 }
               },
               {
                 "kind": "context",
                 "text": {
-                  "en": "\"locales\": [\"en\", \"zh-CN\"]",
-                  "zh-CN": "\"locales\": [\"en\", \"zh-CN\"]"
+                  "en": "}",
+                  "zh-CN": "}"
                 }
               }
             ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "media-and-columns",
+      "title": {
+        "en": "Media And Columns",
+        "zh-CN": "媒体与分栏"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Media blocks accept self-contained data images or safe relative/http sources, and columns group peer content without nesting cards inside cards.",
+            "zh-CN": "Media block 支持自包含 data image，也支持安全的相对路径或 http(s) 来源；分栏用于组织并列内容，不把卡片套进卡片。"
+          }
+        },
+        {
+          "type": "media",
+          "items": [
+            {
+              "kind": "png",
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAIAAAAuKetIAAAAQElEQVR4nO3OQQ0AIBDAsAP/nuGNAvZoFSzZnplKndnZAWDXVSAUKIBQoABCgQIIvfQ6ULlAAaFAAYQCBRAKFEDoFEL9AfIoEppKgAAA",
+              "alt": {
+                "en": "Embedded PNG sample",
+                "zh-CN": "内嵌 PNG 示例"
+              },
+              "caption": {
+                "en": "PNG image source",
+                "zh-CN": "PNG 图片源"
+              }
+            },
+            {
+              "kind": "jpg",
+              "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcrJik0KSEiMEExNDc1Oi4rPz8zQDU4QjgyPzIBCgsLDg0OHBAQHDscIhw7OzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvO//AABEIAAwADAMBIgACEQEDEQH/xAAYAAACAwAAAAAAAAAAAAAAAAAEBQIDBv/EAB8QAAICAgIDAQAAAAAAAAAAAAECAAMRBBIhMRMiQf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A1tZSStt0bQHdxpkbG8NzaX7pCVQfxVx0lmQ5w0GwF9KqgD0H//Z",
+              "alt": {
+                "en": "Embedded JPG sample",
+                "zh-CN": "内嵌 JPG 示例"
+              },
+              "caption": {
+                "en": "JPG image source",
+                "zh-CN": "JPG 图片源"
+              }
+            },
+            {
+              "kind": "gif",
+              "src": "data:image/gif;base64,R0lGODlhQAAwAIABAIqctP///yH5BAEKAAEALAAAAABAAEAAAAJAhI+py+0Po5y02ouz3rz7D4biSJbmiaaqKrbv64pYbTdf3Pfu73zv/8CgcEgsGo/IpHLJbDqf0Kh0Sq1ar9isdsvter/fAAA7",
+              "alt": {
+                "en": "Embedded GIF sample",
+                "zh-CN": "内嵌 GIF 示例"
+              },
+              "caption": {
+                "en": "GIF image source",
+                "zh-CN": "GIF 图片源"
+              }
+            }
+          ]
+        },
+        {
+          "type": "columns",
+          "columns": [
+            {
+              "title": {
+                "en": "A",
+                "zh-CN": "A"
+              },
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": true,
+                  "items": [
+                    {
+                      "en": "Short ordered content",
+                      "zh-CN": "短有序内容"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": {
+                "en": "B",
+                "zh-CN": "B"
+              },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "Columns keep repeated explanatory text aligned across a row.",
+                    "zh-CN": "分栏让同一行里的并列说明保持对齐。"
+                  }
+                },
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "They can hold prose, lists, tables, or code.",
+                    "zh-CN": "它们可以包含段落、列表、表格或代码。"
+                  }
+                }
+              ]
+            },
+            {
+              "title": {
+                "en": "C",
+                "zh-CN": "C"
+              },
+              "blocks": [
+                {
+                  "type": "code",
+                  "language": "text",
+                  "code": "hi"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interactive-controls",
+      "title": {
+        "en": "Interactive Controls",
+        "zh-CN": "交互控件"
+      },
+      "blocks": [
+        {
+          "type": "toggle-view",
+          "defaultView": "overview",
+          "views": [
+            {
+              "id": "overview",
+              "label": {
+                "en": "Overview",
+                "zh-CN": "概览"
+              },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "This built-in button switches the visible view without custom inline JavaScript.",
+                    "zh-CN": "这个内置按钮无需自定义 inline JavaScript，就能切换可见视图。"
+                  }
+                },
+                {
+                  "type": "list",
+                  "items": [
+                    {
+                      "en": "Renderer owns the behavior.",
+                      "zh-CN": "行为由渲染器托管。"
+                    },
+                    {
+                      "en": "JSON owns the view content.",
+                      "zh-CN": "JSON 承载视图内容。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "json",
+              "label": {
+                "en": "JSON",
+                "zh-CN": "JSON"
+              },
+              "blocks": [
+                {
+                  "type": "code",
+                  "language": "json",
+                  "code": "{\n  \"type\": \"toggle-view\",\n  \"defaultView\": \"overview\",\n  \"views\": [\"overview\", \"json\"]\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Controlled JS",
+            "zh-CN": "受控 JS"
+          },
+          "body": {
+            "en": "Interactive behavior is registered through interactions.json and injected as renderer-owned script.",
+            "zh-CN": "交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。"
           }
         }
       ]
@@ -950,6 +1170,154 @@
           }
         },
         {
+          "type": "diagram",
+          "kind": "er",
+          "title": {
+            "en": "Document model ER",
+            "zh-CN": "文档模型 ER"
+          },
+          "downloadName": "document-model-er",
+          "source": {
+            "format": "structured-er",
+            "entities": [
+              {
+                "id": "document",
+                "name": {
+                  "en": "Document",
+                  "zh-CN": "文档"
+                },
+                "fields": [
+                  {
+                    "en": "metadata",
+                    "zh-CN": "metadata"
+                  },
+                  {
+                    "en": "manifest",
+                    "zh-CN": "manifest"
+                  },
+                  {
+                    "en": "sections[]",
+                    "zh-CN": "sections[]"
+                  }
+                ]
+              },
+              {
+                "id": "section",
+                "name": {
+                  "en": "Section",
+                  "zh-CN": "章节"
+                },
+                "fields": [
+                  {
+                    "en": "id",
+                    "zh-CN": "id"
+                  },
+                  {
+                    "en": "title",
+                    "zh-CN": "title"
+                  },
+                  {
+                    "en": "blocks[]",
+                    "zh-CN": "blocks[]"
+                  }
+                ]
+              },
+              {
+                "id": "block",
+                "name": {
+                  "en": "Block",
+                  "zh-CN": "Block"
+                },
+                "fields": [
+                  {
+                    "en": "type",
+                    "zh-CN": "type"
+                  },
+                  {
+                    "en": "payload",
+                    "zh-CN": "payload"
+                  },
+                  {
+                    "en": "renderer",
+                    "zh-CN": "renderer"
+                  }
+                ]
+              }
+            ],
+            "relationships": [
+              {
+                "from": "document",
+                "to": "section",
+                "label": {
+                  "en": "contains",
+                  "zh-CN": "包含"
+                }
+              },
+              {
+                "from": "section",
+                "to": "block",
+                "label": {
+                  "en": "renders",
+                  "zh-CN": "渲染"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Validation path",
+            "zh-CN": "校验路径"
+          },
+          "downloadName": "validation-path",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "schema",
+                "label": {
+                  "en": "Schema",
+                  "zh-CN": "Schema"
+                }
+              },
+              {
+                "id": "profile",
+                "label": {
+                  "en": "HTML profile",
+                  "zh-CN": "HTML profile"
+                }
+              },
+              {
+                "id": "pages",
+                "label": {
+                  "en": "Pages",
+                  "zh-CN": "Pages"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "schema",
+                "to": "profile",
+                "label": {
+                  "en": "validate",
+                  "zh-CN": "校验"
+                }
+              },
+              {
+                "from": "profile",
+                "to": "pages",
+                "label": {
+                  "en": "publish",
+                  "zh-CN": "发布"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "open-questions",
           "questions": [
             {
@@ -1012,21 +1380,26 @@
 <aside class="callout callout-success"><strong><span data-locale="en" data-locale-active="true">Success callout</span><span data-locale="zh-CN" data-locale-active="false">成功提示</span></strong><p><span data-locale="en" data-locale-active="true">A success callout records a decision or completed validation.</span><span data-locale="zh-CN" data-locale-active="false">成功提示用于记录决策或已完成的验证。</span></p></aside>
 <aside class="callout callout-warning"><strong><span data-locale="en" data-locale-active="true">Warning callout</span><span data-locale="zh-CN" data-locale-active="false">警告提示</span></strong><p><span data-locale="en" data-locale-active="true">A warning callout calls out risk without stopping the document flow.</span><span data-locale="zh-CN" data-locale-active="false">警告提示用于标出风险，但不打断文档流。</span></p></aside>
 <details class="details-block"><summary><span data-locale="en" data-locale-active="true">Open a details block</span><span data-locale="zh-CN" data-locale-active="false">展开 details block</span></summary><p><span data-locale="en" data-locale-active="true">Details blocks can contain nested paragraphs, lists, and code.</span><span data-locale="zh-CN" data-locale-active="false">Details block 可以包含嵌套段落、列表和代码。</span></p><ul><li><span data-locale="en" data-locale-active="true">Keep optional evidence close to its claim.</span><span data-locale="zh-CN" data-locale-active="false">让可选证据靠近它支撑的结论。</span></li><li><span data-locale="en" data-locale-active="true">Avoid hiding the main decision inside details.</span><span data-locale="zh-CN" data-locale-active="false">避免把主决策藏在 details 里。</span></li></ul></details>
-<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Regenerate the gallery</span><span data-locale="zh-CN" data-locale-active="false">重新生成组件大全</span></h3><p><span data-locale="en" data-locale-active="true">When component CSS changes, regenerate this page and compare it visually.</span><span data-locale="zh-CN" data-locale-active="false">当组件 CSS 变化时，重新生成本页并做视觉对比。</span></p><pre class="prompt-block"><code><span data-locale="en" data-locale-active="true">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span><span data-locale="zh-CN" data-locale-active="false">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span></code></pre></section>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Regenerate the gallery</span><span data-locale="zh-CN" data-locale-active="false">重新生成组件大全</span></h3><p><span data-locale="en" data-locale-active="true">When component CSS changes, regenerate this page and compare it visually.</span><span data-locale="zh-CN" data-locale-active="false">当组件 CSS 变化时，重新生成本页并做视觉对比。</span></p><section class="code-shell prompt-block"><div class="code-header"><span class="code-language">shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-1" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span></span></span></code></pre></section></section>
 </section>
 
 <section class="doc-section" id="code-and-diff">
 <h2><span data-locale="en" data-locale-active="true">Code And Diff</span><span data-locale="zh-CN" data-locale-active="false">代码与 Diff</span></h2>
-<pre class="code-block" data-language="json"><code data-language="json">{
-  &quot;metadata&quot;: {
-    &quot;title&quot;: &quot;Component gallery&quot;,
-    &quot;language&quot;: &quot;en&quot;,
-    &quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]
-  }
-}</code></pre>
-<section class="diff-block"><h3><span data-locale="en" data-locale-active="true">Localized title diff</span><span data-locale="zh-CN" data-locale-active="false">本地化标题 Diff</span></h3><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">Before</span><span data-locale="zh-CN" data-locale-active="false">之前</span></h3><pre><code><span class="line-remove"><span data-locale="en" data-locale-active="true">&quot;title&quot;: &quot;Component gallery&quot;</span><span data-locale="zh-CN" data-locale-active="false">&quot;title&quot;: &quot;组件大全&quot;</span></span>
-<span class="line-context"><span data-locale="en" data-locale-active="true">&quot;language&quot;: &quot;en&quot;</span><span data-locale="zh-CN" data-locale-active="false">&quot;language&quot;: &quot;en&quot;</span></span></code></pre></div><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">After</span><span data-locale="zh-CN" data-locale-active="false">之后</span></h3><pre><code><span class="line-add"><span data-locale="en" data-locale-active="true">&quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; }</span><span data-locale="zh-CN" data-locale-active="false">&quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; }</span></span>
-<span class="line-context"><span data-locale="en" data-locale-active="true">&quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span><span data-locale="zh-CN" data-locale-active="false">&quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span></span></code></pre></div></section>
+<section class="code-shell code-block"><div class="code-header"><span class="code-language">json</span><button class="code-copy" type="button" data-copy-target="code-2" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="json"><code id="code-2" data-language="json"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">{</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">  &quot;metadata&quot;: {</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">    &quot;title&quot;: {</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">      &quot;en&quot;: &quot;Component gallery&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">      &quot;zh-CN&quot;: &quot;组件大全&quot;</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">6</span><span class="code-line-content">    },</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">7</span><span class="code-line-content">    &quot;language&quot;: &quot;en&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">8</span><span class="code-line-content">    &quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;],</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">9</span><span class="code-line-content">    &quot;showMeta&quot;: false</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">10</span><span class="code-line-content">  },</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">11</span><span class="code-line-content">  &quot;manifest&quot;: {</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">12</span><span class="code-line-content">    &quot;sections&quot;: [&quot;plain-content&quot;, &quot;code-and-diff&quot;],</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">13</span><span class="code-line-content">    &quot;components&quot;: {</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">14</span><span class="code-line-content">      &quot;optional&quot;: [&quot;code-block&quot;, &quot;diff-block&quot;]</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">15</span><span class="code-line-content">    }</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">16</span><span class="code-line-content">  }</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">17</span><span class="code-line-content">}</span></span></code></pre></section>
+<section class="diff-block"><h3><span data-locale="en" data-locale-active="true">Localized title diff</span><span data-locale="zh-CN" data-locale-active="false">本地化标题 Diff</span></h3><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">Before</span><span data-locale="zh-CN" data-locale-active="false">之前</span></h3><div class="diff-code" data-language="json"><div class="diff-line line-context"><span class="diff-line-number" aria-hidden="true">1</span><span class="diff-line-marker" aria-hidden="true"> </span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">{</span><span data-locale="zh-CN" data-locale-active="false">{</span></span></div><div class="diff-line line-remove line-highlight"><span class="diff-line-number" aria-hidden="true">2</span><span class="diff-line-marker" aria-hidden="true">-</span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">  &quot;title&quot;: &quot;Component gallery&quot;,</span><span data-locale="zh-CN" data-locale-active="false">  &quot;title&quot;: &quot;组件大全&quot;,</span></span></div><div class="diff-line line-context"><span class="diff-line-number" aria-hidden="true">3</span><span class="diff-line-marker" aria-hidden="true"> </span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">  &quot;language&quot;: &quot;en&quot;</span><span data-locale="zh-CN" data-locale-active="false">  &quot;language&quot;: &quot;en&quot;</span></span></div><div class="diff-line line-context"><span class="diff-line-number" aria-hidden="true">4</span><span class="diff-line-marker" aria-hidden="true"> </span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">}</span><span data-locale="zh-CN" data-locale-active="false">}</span></span></div></div></div><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">After</span><span data-locale="zh-CN" data-locale-active="false">之后</span></h3><div class="diff-code" data-language="json"><div class="diff-line line-context"><span class="diff-line-number" aria-hidden="true">1</span><span class="diff-line-marker" aria-hidden="true"> </span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">{</span><span data-locale="zh-CN" data-locale-active="false">{</span></span></div><div class="diff-line line-add line-highlight"><span class="diff-line-number" aria-hidden="true">2</span><span class="diff-line-marker" aria-hidden="true">+</span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">  &quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; },</span><span data-locale="zh-CN" data-locale-active="false">  &quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; },</span></span></div><div class="diff-line line-add"><span class="diff-line-number" aria-hidden="true">3</span><span class="diff-line-marker" aria-hidden="true">+</span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">  &quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span><span data-locale="zh-CN" data-locale-active="false">  &quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span></span></div><div class="diff-line line-context"><span class="diff-line-number" aria-hidden="true">4</span><span class="diff-line-marker" aria-hidden="true"> </span><span class="diff-line-content"><span data-locale="en" data-locale-active="true">}</span><span data-locale="zh-CN" data-locale-active="false">}</span></span></div></div></div></section>
+</section>
+
+<section class="doc-section" id="media-and-columns">
+<h2><span data-locale="en" data-locale-active="true">Media And Columns</span><span data-locale="zh-CN" data-locale-active="false">媒体与分栏</span></h2>
+<p><span data-locale="en" data-locale-active="true">Media blocks accept self-contained data images or safe relative/http sources, and columns group peer content without nesting cards inside cards.</span><span data-locale="zh-CN" data-locale-active="false">Media block 支持自包含 data image，也支持安全的相对路径或 http(s) 来源；分栏用于组织并列内容，不把卡片套进卡片。</span></p>
+<section class="media-grid"><figure class="media-frame"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAIAAAAuKetIAAAAQElEQVR4nO3OQQ0AIBDAsAP/nuGNAvZoFSzZnplKndnZAWDXVSAUKIBQoABCgQIIvfQ6ULlAAaFAAYQCBRAKFEDoFEL9AfIoEppKgAAA" alt="Embedded PNG sample" loading="lazy"/><figcaption><span class="media-kind">PNG</span><span data-locale="en" data-locale-active="true">PNG image source</span><span data-locale="zh-CN" data-locale-active="false">PNG 图片源</span></figcaption></figure><figure class="media-frame"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcrJik0KSEiMEExNDc1Oi4rPz8zQDU4QjgyPzIBCgsLDg0OHBAQHDscIhw7OzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvO//AABEIAAwADAMBIgACEQEDEQH/xAAYAAACAwAAAAAAAAAAAAAAAAAEBQIDBv/EAB8QAAICAgIDAQAAAAAAAAAAAAECAAMRBBIhMRMiQf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A1tZSStt0bQHdxpkbG8NzaX7pCVQfxVx0lmQ5w0GwF9KqgD0H//Z" alt="Embedded JPG sample" loading="lazy"/><figcaption><span class="media-kind">JPG</span><span data-locale="en" data-locale-active="true">JPG image source</span><span data-locale="zh-CN" data-locale-active="false">JPG 图片源</span></figcaption></figure><figure class="media-frame"><img src="data:image/gif;base64,R0lGODlhQAAwAIABAIqctP///yH5BAEKAAEALAAAAABAAEAAAAJAhI+py+0Po5y02ouz3rz7D4biSJbmiaaqKrbv64pYbTdf3Pfu73zv/8CgcEgsGo/IpHLJbDqf0Kh0Sq1ar9isdsvter/fAAA7" alt="Embedded GIF sample" loading="lazy"/><figcaption><span class="media-kind">GIF</span><span data-locale="en" data-locale-active="true">GIF image source</span><span data-locale="zh-CN" data-locale-active="false">GIF 图片源</span></figcaption></figure></section>
+<section class="columns"><div class="column"><h3><span data-locale="en" data-locale-active="true">A</span><span data-locale="zh-CN" data-locale-active="false">A</span></h3><ol><li><span data-locale="en" data-locale-active="true">Short ordered content</span><span data-locale="zh-CN" data-locale-active="false">短有序内容</span></li></ol></div><div class="column"><h3><span data-locale="en" data-locale-active="true">B</span><span data-locale="zh-CN" data-locale-active="false">B</span></h3><p><span data-locale="en" data-locale-active="true">Columns keep repeated explanatory text aligned across a row.</span><span data-locale="zh-CN" data-locale-active="false">分栏让同一行里的并列说明保持对齐。</span></p><p><span data-locale="en" data-locale-active="true">They can hold prose, lists, tables, or code.</span><span data-locale="zh-CN" data-locale-active="false">它们可以包含段落、列表、表格或代码。</span></p></div><div class="column"><h3><span data-locale="en" data-locale-active="true">C</span><span data-locale="zh-CN" data-locale-active="false">C</span></h3><section class="code-shell code-block"><div class="code-header"><span class="code-language">text</span><button class="code-copy" type="button" data-copy-target="code-3" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="text"><code id="code-3" data-language="text"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">hi</span></span></code></pre></section></div></section>
+</section>
+
+<section class="doc-section" id="interactive-controls">
+<h2><span data-locale="en" data-locale-active="true">Interactive Controls</span><span data-locale="zh-CN" data-locale-active="false">交互控件</span></h2>
+<section class="toggle-view" data-view-group="view-4"><div class="toggle-toolbar" role="group"><button class="toggle-button" type="button" data-view-target="view-4-overview" aria-pressed="true"><span data-locale="en" data-locale-active="true">Overview</span><span data-locale="zh-CN" data-locale-active="false">概览</span></button><button class="toggle-button" type="button" data-view-target="view-4-json" aria-pressed="false"><span data-locale="en" data-locale-active="true">JSON</span><span data-locale="zh-CN" data-locale-active="false">JSON</span></button></div><div class="toggle-panel" data-view-panel="view-4-overview" data-view-active="true"><p><span data-locale="en" data-locale-active="true">This built-in button switches the visible view without custom inline JavaScript.</span><span data-locale="zh-CN" data-locale-active="false">这个内置按钮无需自定义 inline JavaScript，就能切换可见视图。</span></p><ul><li><span data-locale="en" data-locale-active="true">Renderer owns the behavior.</span><span data-locale="zh-CN" data-locale-active="false">行为由渲染器托管。</span></li><li><span data-locale="en" data-locale-active="true">JSON owns the view content.</span><span data-locale="zh-CN" data-locale-active="false">JSON 承载视图内容。</span></li></ul></div><div class="toggle-panel" data-view-panel="view-4-json" data-view-active="false"><section class="code-shell code-block"><div class="code-header"><span class="code-language">json</span><button class="code-copy" type="button" data-copy-target="code-5" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="json"><code id="code-5" data-language="json"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">{</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">  &quot;type&quot;: &quot;toggle-view&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">  &quot;defaultView&quot;: &quot;overview&quot;,</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">  &quot;views&quot;: [&quot;overview&quot;, &quot;json&quot;]</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">}</span></span></code></pre></section></div></section>
+<aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">Controlled JS</span><span data-locale="zh-CN" data-locale-active="false">受控 JS</span></strong><p><span data-locale="en" data-locale-active="true">Interactive behavior is registered through interactions.json and injected as renderer-owned script.</span><span data-locale="zh-CN" data-locale-active="false">交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。</span></p></aside>
 </section>
 
 <section class="doc-section" id="evidence-and-people">
@@ -1040,13 +1413,15 @@
 <h2><span data-locale="en" data-locale-active="true">Diagrams And Icons</span><span data-locale="zh-CN" data-locale-active="false">图表与图标</span></h2>
 <figure class="diagram" data-download-name="renderer-flow"><figcaption><span data-locale="en" data-locale-active="true">Renderer flow</span><span data-locale="zh-CN" data-locale-active="false">渲染流程</span></figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer flow"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="300" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">parse</text><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">解析</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">render</text><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">渲染</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">JSON</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">JSON</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Blocks</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Blocks</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">HTML</text><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">HTML</text></svg></figure>
 <figure class="diagram" data-download-name="interaction-sequence"><figcaption><span data-locale="en" data-locale-active="true">Interaction sequence</span><span data-locale="zh-CN" data-locale-active="false">交互时序</span></figcaption><svg viewBox="0 0 860 194" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interaction sequence"><rect x="32" y="36" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="62" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Reader</text><text x="58" y="62" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">读者</text><text x="180" y="62" fill="#2f3439" font-size="14">-&gt;</text><text x="218" y="62" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Switcher</text><text x="218" y="62" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">切换器</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle" data-locale="en" data-locale-active="true">choose locale</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle" data-locale="zh-CN" data-locale-active="false">选择语言</text><rect x="32" y="104" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="130" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Switcher</text><text x="58" y="130" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">切换器</text><text x="180" y="130" fill="#2f3439" font-size="14">-&gt;</text><text x="218" y="130" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Document</text><text x="218" y="130" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">文档</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle" data-locale="en" data-locale-active="true">toggle visible nodes</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle" data-locale="zh-CN" data-locale-active="false">切换可见节点</text></svg></figure>
+<figure class="diagram" data-download-name="document-model-er"><figcaption><span data-locale="en" data-locale-active="true">Document model ER</span><span data-locale="zh-CN" data-locale-active="false">文档模型 ER</span></figcaption><svg viewBox="0 0 860 234" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Document model ER"><defs><marker id="er-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><rect x="44" y="46" width="210" height="138" rx="8" fill="#f3f4f4" stroke="#9aa1a8"></rect><rect x="44" y="46" width="210" height="38" rx="8" fill="#dce8f8" stroke="#9aa1a8"></rect><text x="60" y="71" font-size="14" fill="#2f3439" data-locale="en" data-locale-active="true">Document</text><text x="60" y="71" font-size="14" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">文档</text><text x="60" y="106" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">metadata</text><text x="60" y="106" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">metadata</text><text x="60" y="130" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">manifest</text><text x="60" y="130" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">manifest</text><text x="60" y="154" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">sections[]</text><text x="60" y="154" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">sections[]</text><rect x="304" y="46" width="210" height="138" rx="8" fill="#f3f4f4" stroke="#9aa1a8"></rect><rect x="304" y="46" width="210" height="38" rx="8" fill="#dce8f8" stroke="#9aa1a8"></rect><text x="320" y="71" font-size="14" fill="#2f3439" data-locale="en" data-locale-active="true">Section</text><text x="320" y="71" font-size="14" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">章节</text><text x="320" y="106" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">id</text><text x="320" y="106" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">id</text><text x="320" y="130" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">title</text><text x="320" y="130" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">title</text><text x="320" y="154" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">blocks[]</text><text x="320" y="154" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">blocks[]</text><rect x="564" y="46" width="210" height="138" rx="8" fill="#f3f4f4" stroke="#9aa1a8"></rect><rect x="564" y="46" width="210" height="38" rx="8" fill="#dce8f8" stroke="#9aa1a8"></rect><text x="580" y="71" font-size="14" fill="#2f3439" data-locale="en" data-locale-active="true">Block</text><text x="580" y="71" font-size="14" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Block</text><text x="580" y="106" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">type</text><text x="580" y="106" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">type</text><text x="580" y="130" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">payload</text><text x="580" y="130" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">payload</text><text x="580" y="154" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">renderer</text><text x="580" y="154" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">renderer</text><polyline points="254,214 254,232 304,232 304,214" fill="none" stroke="#8a929b" stroke-width="2" marker-end="url(#er-arrow)"></polyline><text x="279" y="224" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">contains</text><text x="279" y="224" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">包含</text><polyline points="514,214 514,232 564,232 564,214" fill="none" stroke="#8a929b" stroke-width="2" marker-end="url(#er-arrow)"></polyline><text x="539" y="224" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">renders</text><text x="539" y="224" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">渲染</text></svg></figure>
+<figure class="diagram" data-download-name="validation-path"><figcaption><span data-locale="en" data-locale-active="true">Validation path</span><span data-locale="zh-CN" data-locale-active="false">校验路径</span></figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Validation path"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="300" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">validate</text><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">校验</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">publish</text><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">发布</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Schema</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Schema</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">HTML profile</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">HTML profile</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Pages</text><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Pages</text></svg></figure>
 <ul class="open-questions"><li><span data-locale="en" data-locale-active="true">Should future icon components become first-class JSON blocks?</span><span data-locale="zh-CN" data-locale-active="false">未来的图标组件是否应该成为一等 JSON block？</span></li><li><span data-locale="en" data-locale-active="true">Should the gallery include visual snapshots for every theme?</span><span data-locale="zh-CN" data-locale-active="false">组件大全是否应该为每个主题包含视觉快照？</span></li></ul>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
 </article>
 
-<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#plain-content"><span>01</span><span data-locale="en" data-locale-active="true">Plain Content</span><span data-locale="zh-CN" data-locale-active="false">基础内容</span></a></li><li><a href="#rich-text"><span>02</span><span data-locale="en" data-locale-active="true">Rich Text Marks</span><span data-locale="zh-CN" data-locale-active="false">富文本标记</span></a></li><li><a href="#lists-and-criteria"><span>03</span><span data-locale="en" data-locale-active="true">Lists And Criteria</span><span data-locale="zh-CN" data-locale-active="false">列表与验收标准</span></a></li><li><a href="#tables"><span>04</span><span data-locale="en" data-locale-active="true">Tables</span><span data-locale="zh-CN" data-locale-active="false">表格</span></a></li><li><a href="#blocks-view"><span>05</span><span data-locale="en" data-locale-active="true">Blocks View</span><span data-locale="zh-CN" data-locale-active="false">Blocks 视图</span></a></li><li><a href="#code-and-diff"><span>06</span><span data-locale="en" data-locale-active="true">Code And Diff</span><span data-locale="zh-CN" data-locale-active="false">代码与 Diff</span></a></li><li><a href="#evidence-and-people"><span>07</span><span data-locale="en" data-locale-active="true">Evidence And People</span><span data-locale="zh-CN" data-locale-active="false">证据与参与者</span></a></li><li><a href="#diagrams"><span>08</span><span data-locale="en" data-locale-active="true">Diagrams And Icons</span><span data-locale="zh-CN" data-locale-active="false">图表与图标</span></a></li></ol></nav></aside>
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#plain-content"><span>01</span><span data-locale="en" data-locale-active="true">Plain Content</span><span data-locale="zh-CN" data-locale-active="false">基础内容</span></a></li><li><a href="#rich-text"><span>02</span><span data-locale="en" data-locale-active="true">Rich Text Marks</span><span data-locale="zh-CN" data-locale-active="false">富文本标记</span></a></li><li><a href="#lists-and-criteria"><span>03</span><span data-locale="en" data-locale-active="true">Lists And Criteria</span><span data-locale="zh-CN" data-locale-active="false">列表与验收标准</span></a></li><li><a href="#tables"><span>04</span><span data-locale="en" data-locale-active="true">Tables</span><span data-locale="zh-CN" data-locale-active="false">表格</span></a></li><li><a href="#blocks-view"><span>05</span><span data-locale="en" data-locale-active="true">Blocks View</span><span data-locale="zh-CN" data-locale-active="false">Blocks 视图</span></a></li><li><a href="#code-and-diff"><span>06</span><span data-locale="en" data-locale-active="true">Code And Diff</span><span data-locale="zh-CN" data-locale-active="false">代码与 Diff</span></a></li><li><a href="#media-and-columns"><span>07</span><span data-locale="en" data-locale-active="true">Media And Columns</span><span data-locale="zh-CN" data-locale-active="false">媒体与分栏</span></a></li><li><a href="#interactive-controls"><span>08</span><span data-locale="en" data-locale-active="true">Interactive Controls</span><span data-locale="zh-CN" data-locale-active="false">交互控件</span></a></li><li><a href="#evidence-and-people"><span>09</span><span data-locale="en" data-locale-active="true">Evidence And People</span><span data-locale="zh-CN" data-locale-active="false">证据与参与者</span></a></li><li><a href="#diagrams"><span>10</span><span data-locale="en" data-locale-active="true">Diagrams And Icons</span><span data-locale="zh-CN" data-locale-active="false">图表与图标</span></a></li></ol></nav></aside>
 <header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">Component gallery</span><span data-locale="zh-CN" data-locale-active="false">组件大全</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
 
 <style>
@@ -1106,6 +1481,7 @@ a:hover { text-decoration: underline; }
 code, pre { font-family: var(--mono); }
 code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
 pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
+pre code { display: block; padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; font-size: inherit; }
 mark { background: var(--warn-soft); color: var(--text); padding: .02em .22em; border-radius: 3px; }
 del { color: var(--muted); text-decoration: line-through; }
 u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
@@ -1134,8 +1510,8 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
-.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .column, .toggle-view { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
@@ -1160,12 +1536,25 @@ tr:last-child td { border-bottom: 0; }
 .diagram-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity .16s ease; }
 .diagram:hover .diagram-toolbar { opacity: 1; }
 button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
+.code-shell { margin: 16px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--code); }
+.code-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--soft); }
+.code-language { color: var(--muted); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.code-copy { flex: 0 0 auto; padding: 4px 8px; color: var(--muted); background: transparent; }
+.code-copy:hover { color: var(--text); }
+.code-pre { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 12.5px; line-height: 1.6; }
+.code-line { display: grid; grid-template-columns: 42px minmax(max-content, 1fr); min-width: 100%; }
+.code-line-number { padding: 0 10px 0 0; color: var(--faint); text-align: right; user-select: none; border-right: 1px solid var(--border); }
+.code-line-content { padding: 0 14px; white-space: pre; }
 .diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .diff-block > h3 { grid-column: 1 / -1; }
 .diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
 .diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: 14px; }
-.diff-side pre { margin: 0; border: 0; border-radius: 0; }
-.diff-side span { display: block; }
+.diff-code { overflow: auto; background: var(--code); font: 12.5px/1.6 var(--mono); }
+.diff-line { display: grid; grid-template-columns: 42px 24px minmax(max-content, 1fr); min-width: 100%; }
+.diff-line-number { padding-right: 10px; color: var(--faint); text-align: right; user-select: none; border-right: 1px solid var(--border); }
+.diff-line-marker { color: var(--faint); text-align: center; user-select: none; }
+.diff-line-content { padding-right: 14px; white-space: pre; }
+.line-highlight { background: color-mix(in srgb, var(--primary-soft) 68%, transparent); }
 .line-add { color: var(--ok); }
 .line-remove { color: var(--danger); }
 .line-warning { color: var(--warn); }
@@ -1174,7 +1563,22 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .participant-card, .value-card, .action-card { padding: 14px 16px; }
 .participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
 .source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.prompt-block { margin-top: 10px; }
+.prompt-block { margin-top: 12px; }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.media-frame { margin: 0; overflow: hidden; }
+.media-frame img { display: block; width: 100%; min-height: 120px; max-height: 220px; object-fit: cover; background: var(--soft); }
+.media-frame figcaption { display: flex; gap: 8px; align-items: baseline; padding: 10px 12px; color: var(--muted); font-size: 13px; }
+.media-kind { color: var(--primary); font: 700 11px/1 var(--mono); }
+.columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; border: 0; background: transparent; }
+.column { padding: 14px 16px; min-width: 0; }
+.column h3 { margin-top: 0; }
+.toggle-view { padding: 14px; }
+.toggle-toolbar { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--soft); }
+.toggle-button { border: 0; background: transparent; color: var(--muted); }
+.toggle-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
+.toggle-panel[data-view-active="false"] { display: none; }
+.toggle-panel > :first-child { margin-top: 0; }
+.toggle-panel > :last-child { margin-bottom: 0; }
 .doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
 .lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
 .lightbox.open { display: flex; }
@@ -1190,6 +1594,8 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
+  .code-line { grid-template-columns: 34px minmax(max-content, 1fr); }
+  .diff-line { grid-template-columns: 34px 22px minmax(max-content, 1fr); }
 }
 @media print {
   .sidebar, .topbar, .diagram-toolbar, .lightbox { display: none !important; }
@@ -1197,7 +1603,7 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 }
 </style>
 <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "code.copied": "Copied", "code.copy": "Copy", "code.text": "Text", "diagram.erAria": "Entity relationship diagram", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "code.copied": "已复制", "code.copy": "复制", "code.text": "文本", "diagram.erAria": "实体关系图", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {
   const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
   if (!lightbox) return;
@@ -1333,6 +1739,65 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
       makeI18nButton('diagram.png', 'PNG', () => downloadPng(svg))
     );
     figure.appendChild(tools);
+  });
+})();
+</script><script data-renderer-owned="true" data-interaction="copy-code">(() => {
+  function label(key, fallback) {
+    const config = window.CAST_DOCS_I18N || {};
+    const locale = config.activeLocale || document.documentElement.lang || 'en';
+    const strings = (config.strings && config.strings[locale]) || {};
+    const fallbackStrings = (config.strings && config.strings.en) || {};
+    return strings[key] || fallbackStrings[key] || fallback;
+  }
+  function textFrom(code) {
+    const activeLocale = code.querySelector('[data-locale-active="true"]');
+    const scope = activeLocale || code;
+    return Array.from(scope.querySelectorAll('.code-line-content')).map((node) => node.textContent || '').join('\n');
+  }
+  async function copy(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('aria-hidden', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  }
+  document.querySelectorAll('[data-copy-target]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const id = button.getAttribute('data-copy-target');
+      const code = id ? document.getElementById(id) : null;
+      if (!code) return;
+      await copy(textFrom(code));
+      const previous = button.textContent;
+      button.textContent = label('code.copied', 'Copied');
+      setTimeout(() => {
+        button.textContent = label('code.copy', previous || 'Copy');
+      }, 1200);
+    });
+  });
+})();
+</script><script data-renderer-owned="true" data-interaction="toggle-view">(() => {
+  document.querySelectorAll('.toggle-view[data-view-group]').forEach((group) => {
+    const buttons = Array.from(group.querySelectorAll('[data-view-target]'));
+    const panels = Array.from(group.querySelectorAll('[data-view-panel]'));
+    function activate(target) {
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', button.getAttribute('data-view-target') === target ? 'true' : 'false');
+      });
+      panels.forEach((panel) => {
+        panel.setAttribute('data-view-active', panel.getAttribute('data-view-panel') === target ? 'true' : 'false');
+      });
+    }
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => activate(button.getAttribute('data-view-target')));
+    });
   });
 })();
 </script><script data-renderer-owned="true" data-interaction="i18n">(() => {

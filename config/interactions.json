@@ -20,6 +20,24 @@
       "supportedBlockTypes": []
     },
     {
+      "id": "copy-code",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["code-copy", "data-copy-target"],
+      "capabilities": ["copy-code"],
+      "supportedBlockTypes": ["code", "action"]
+    },
+    {
+      "id": "toggle-view",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["toggle-view", "data-view-target", "data-view-panel"],
+      "capabilities": ["toggle-view"],
+      "supportedBlockTypes": ["toggle-view"]
+    },
+    {
       "id": "i18n",
       "enabledByDefault": false,
       "rendererOwned": true,

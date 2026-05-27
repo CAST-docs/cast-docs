@@ -473,6 +473,7 @@ a:hover { text-decoration: underline; }
 code, pre { font-family: var(--mono); }
 code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
 pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
+pre code { display: block; padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; font-size: inherit; }
 mark { background: var(--warn-soft); color: var(--text); padding: .02em .22em; border-radius: 3px; }
 del { color: var(--muted); text-decoration: line-through; }
 u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
@@ -501,8 +502,8 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
 .doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
-.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .column, .toggle-view { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
@@ -527,12 +528,25 @@ tr:last-child td { border-bottom: 0; }
 .diagram-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity .16s ease; }
 .diagram:hover .diagram-toolbar { opacity: 1; }
 button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
+.code-shell { margin: 16px 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--code); }
+.code-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--soft); }
+.code-language { color: var(--muted); font: 700 11px/1 var(--mono); text-transform: uppercase; }
+.code-copy { flex: 0 0 auto; padding: 4px 8px; color: var(--muted); background: transparent; }
+.code-copy:hover { color: var(--text); }
+.code-pre { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; font-size: 12.5px; line-height: 1.6; }
+.code-line { display: grid; grid-template-columns: 42px minmax(max-content, 1fr); min-width: 100%; }
+.code-line-number { padding: 0 10px 0 0; color: var(--faint); text-align: right; user-select: none; border-right: 1px solid var(--border); }
+.code-line-content { padding: 0 14px; white-space: pre; }
 .diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .diff-block > h3 { grid-column: 1 / -1; }
 .diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
 .diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: 14px; }
-.diff-side pre { margin: 0; border: 0; border-radius: 0; }
-.diff-side span { display: block; }
+.diff-code { overflow: auto; background: var(--code); font: 12.5px/1.6 var(--mono); }
+.diff-line { display: grid; grid-template-columns: 42px 24px minmax(max-content, 1fr); min-width: 100%; }
+.diff-line-number { padding-right: 10px; color: var(--faint); text-align: right; user-select: none; border-right: 1px solid var(--border); }
+.diff-line-marker { color: var(--faint); text-align: center; user-select: none; }
+.diff-line-content { padding-right: 14px; white-space: pre; }
+.line-highlight { background: color-mix(in srgb, var(--primary-soft) 68%, transparent); }
 .line-add { color: var(--ok); }
 .line-remove { color: var(--danger); }
 .line-warning { color: var(--warn); }
@@ -541,7 +555,22 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 .participant-card, .value-card, .action-card { padding: 14px 16px; }
 .participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
 .source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
-.prompt-block { margin-top: 10px; }
+.prompt-block { margin-top: 12px; }
+.media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.media-frame { margin: 0; overflow: hidden; }
+.media-frame img { display: block; width: 100%; min-height: 120px; max-height: 220px; object-fit: cover; background: var(--soft); }
+.media-frame figcaption { display: flex; gap: 8px; align-items: baseline; padding: 10px 12px; color: var(--muted); font-size: 13px; }
+.media-kind { color: var(--primary); font: 700 11px/1 var(--mono); }
+.columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; border: 0; background: transparent; }
+.column { padding: 14px 16px; min-width: 0; }
+.column h3 { margin-top: 0; }
+.toggle-view { padding: 14px; }
+.toggle-toolbar { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--soft); }
+.toggle-button { border: 0; background: transparent; color: var(--muted); }
+.toggle-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
+.toggle-panel[data-view-active="false"] { display: none; }
+.toggle-panel > :first-child { margin-top: 0; }
+.toggle-panel > :last-child { margin-bottom: 0; }
 .doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
 .lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
 .lightbox.open { display: flex; }
@@ -557,6 +586,8 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
   .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }
+  .code-line { grid-template-columns: 34px minmax(max-content, 1fr); }
+  .diff-line { grid-template-columns: 34px 22px minmax(max-content, 1fr); }
 }
 @media print {
   .sidebar, .topbar, .diagram-toolbar, .lightbox { display: none !important; }
@@ -564,7 +595,7 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 }
 </style>
 <div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
-<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "code.copied": "Copied", "code.copy": "Copy", "code.text": "Text", "diagram.erAria": "Entity relationship diagram", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "code.copied": "已复制", "code.copy": "复制", "code.text": "文本", "diagram.erAria": "实体关系图", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
 (() => {
   const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
   if (!lightbox) return;

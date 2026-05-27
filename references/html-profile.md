@@ -6,7 +6,7 @@ All generated documents must share the same base structure, class vocabulary, st
 
 The renderer owns the shared template, style system, and approved progressive-enhancement scripts. Generation should not copy the full template into the prompt context, and should not introduce external scripts, CDNs, fonts, images, or runtime services.
 
-Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download.
+Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download, code copy, language switching, and toggle views.
 
 Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
 
@@ -36,7 +36,7 @@ Planned allowed tags:
 - `ul`, `ol`, `li`
 - `table`, `thead`, `tbody`, `tr`, `th`, `td`
 - `dl`, `dt`, `dd`
-- `aside`, `details`, `summary`, `figure`, `figcaption`
+- `aside`, `details`, `summary`, `figure`, `figcaption`, `img`
 - `svg`, `g`, `path`, `rect`, `circle`, `line`, `polyline`, `polygon`, `text`, `defs`, `marker`
 
 ## Disallowed Tags
@@ -59,7 +59,7 @@ Planned allowed tags:
 
 - Event handlers such as `onclick`, `onload`, `onerror`, and `onmouseover`.
 - Inline `style`.
-- Remote resource attributes by default.
+- Remote resource attributes by default, except approved media `src` values (`data:image`, relative paths, or http(s) sources) validated by the media block contract.
 - `href` values starting with `javascript:`.
 
 ## Class Naming
@@ -91,6 +91,11 @@ Use stable semantic classes such as:
 - `lightbox-body`
 - `lightbox-toolbar`
 - `lightbox-close`
+- `code-shell`, `code-header`, `code-copy`, `code-line`
+- `diff-code`, `diff-line`, `line-highlight`
+- `media-grid`, `media-frame`
+- `columns`, `column`
+- `toggle-view`, `toggle-toolbar`, `toggle-panel`
 
 Do not generate random utility classes or Tailwind-style class lists.
 

@@ -59,13 +59,27 @@ Use for optional background, alternatives, or supporting notes that should not d
 
 ## Code Block
 
-Use for small configuration, schema, API, or command examples when necessary.
+Use for configuration, schema, API, or command examples when necessary. Rendered code blocks include line numbers, horizontal scrolling for long lines, and a renderer-owned copy button. The copy behavior must preserve the active locale when the code string is localized.
+
+Diff blocks use the same controlled monospace language, with line numbers, add/remove/warning/context states, and an optional line-level `highlight` flag for the exact line under discussion.
 
 ## Inline SVG Figure
 
 Use only for simple self-contained diagrams. SVG must follow the controlled HTML profile.
 
-Diagram components should support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction.
+Diagram components should support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction. Supported structured diagram sources include flow, sequence, and ER-style entity relationship diagrams.
+
+## Media Grid
+
+Use for visual evidence or format support examples. Media items may use self-contained `data:image` sources for PNG, JPG/JPEG, GIF, and WebP, or safe relative/http(s) sources when the document is allowed to reference external files. Each item requires alt text and may include a caption.
+
+## Columns
+
+Use for Lark-style side-by-side content where several peer blocks should be read as one row. Columns can contain regular child blocks such as paragraphs, lists, tables, or code.
+
+## Toggle View
+
+Use when a document needs a built-in button to switch between two or more views, such as overview/source, table/chart, or before/after explanations. The JSON owns the views and labels; the renderer owns the JavaScript.
 
 ## Acceptance Criteria
 

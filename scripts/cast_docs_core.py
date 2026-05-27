@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import re
@@ -20,6 +21,7 @@ SECTION_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 RAW_SVG_RISK_RE = re.compile(r"<\s*(script|iframe|object|embed)\b|on[a-z]+\s*=", re.IGNORECASE)
 UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
+DATA_IMAGE_RE = re.compile(r"^data:image/(?:png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=\s]+$", re.IGNORECASE)
 SUPPORTED_LOCALES = ("en", "zh-CN")
 
 
@@ -43,6 +45,7 @@ class RenderContext:
     locales: list[str]
     i18n: dict[str, Any]
     config_dir: Path
+    code_index: int = 0
 
 
 def load_json(path: Path) -> Any:
@@ -194,6 +197,12 @@ def href_kind(href: str) -> str | None:
     return None
 
 
+def media_src_kind(src: str) -> str | None:
+    if DATA_IMAGE_RE.match(src.strip()):
+        return "data-image"
+    return href_kind(src)
+
+
 def validate_shell_links(metadata: dict[str, Any], errors: list[str]) -> None:
     links = metadata.get("shellLinks", [])
     if links is None:
@@ -228,6 +237,12 @@ def collect_block_types(blocks: list[Any], found: set[str]) -> None:
         if isinstance(block_type, str):
             found.add(block_type)
         collect_block_types(as_list(block.get("blocks")), found)
+        for column in as_list(block.get("columns")):
+            if is_object(column):
+                collect_block_types(as_list(column.get("blocks")), found)
+        for view in as_list(block.get("views")):
+            if is_object(view):
+                collect_block_types(as_list(view.get("blocks")), found)
 
 
 INLINE_MARK_CATEGORIES: dict[str, str] = {
@@ -497,6 +512,24 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 for index, edge in enumerate(as_list(source.get("edges"))):
                     if not is_object(edge) or not isinstance(edge.get("from"), str) or not isinstance(edge.get("to"), str):
                         errors.append(f"{path}.source.edges[{index}] must include string from and to")
+            elif fmt == "structured-er":
+                for index, entity in enumerate(as_list(source.get("entities"))):
+                    if not is_object(entity) or not isinstance(entity.get("id"), str):
+                        errors.append(f"{path}.source.entities[{index}] must include string id and name")
+                        continue
+                    validate_localized_string(entity.get("name"), f"{path}.source.entities[{index}].name", errors, non_empty=True)
+                    for field_index, field in enumerate(as_list(entity.get("fields"))):
+                        validate_localized_string(field, f"{path}.source.entities[{index}].fields[{field_index}]", errors, non_empty=True)
+                for index, relationship in enumerate(as_list(source.get("relationships"))):
+                    if (
+                        not is_object(relationship)
+                        or not isinstance(relationship.get("from"), str)
+                        or not isinstance(relationship.get("to"), str)
+                    ):
+                        errors.append(f"{path}.source.relationships[{index}] must include string from and to")
+                        continue
+                    if relationship.get("label") is not None:
+                        validate_localized_string(relationship.get("label"), f"{path}.source.relationships[{index}].label", errors)
             elif fmt == "svg":
                 content = source.get("content")
                 if not isinstance(content, str) or not content.strip():
@@ -526,6 +559,8 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 if line.get("kind") not in {"add", "remove", "warning", "context"}:
                     errors.append(f"{path}.{side_key}.lines[{index}].kind is unsupported")
                 validate_localized_string(line.get("text"), f"{path}.{side_key}.lines[{index}].text", errors)
+                if line.get("highlight") is not None and not isinstance(line.get("highlight"), bool):
+                    errors.append(f"{path}.{side_key}.lines[{index}].highlight must be boolean")
     elif block_type == "participants":
         for index, item in enumerate(require_array("items")):
             if not is_object(item):
@@ -572,6 +607,58 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
     elif block_type == "open-questions":
         for index, item in enumerate(require_array("questions")):
             validate_inline(item, f"{path}.questions[{index}]", errors)
+    elif block_type == "media":
+        for index, item in enumerate(require_array("items")):
+            if not is_object(item):
+                errors.append(f"{path}.items[{index}] must be an object")
+                continue
+            src = item.get("src")
+            if not isinstance(src, str) or not src.strip():
+                errors.append(f"{path}.items[{index}].src must be a non-empty string")
+            elif media_src_kind(src) not in {"data-image", "relative", "http", "https"}:
+                errors.append(f"{path}.items[{index}].src uses an unsupported image source")
+            validate_localized_string(item.get("alt"), f"{path}.items[{index}].alt", errors, non_empty=True)
+            if item.get("caption") is not None:
+                validate_inline(item.get("caption"), f"{path}.items[{index}].caption", errors)
+            kind = item.get("kind")
+            if kind is not None and kind not in {"png", "jpg", "jpeg", "gif", "webp"}:
+                errors.append(f"{path}.items[{index}].kind is unsupported")
+    elif block_type == "columns":
+        columns = require_array("columns")
+        if len(columns) < 2:
+            errors.append(f"{path}.columns must contain at least 2 columns")
+        for column_index, column in enumerate(columns):
+            if not is_object(column):
+                errors.append(f"{path}.columns[{column_index}] must be an object")
+                continue
+            if column.get("title") is not None:
+                validate_localized_string(column.get("title"), f"{path}.columns[{column_index}].title", errors)
+            for block_index, child in enumerate(as_list(column.get("blocks"))):
+                validate_block(child, f"{path}.columns[{column_index}].blocks[{block_index}]", errors)
+    elif block_type == "toggle-view":
+        views = require_array("views")
+        if len(views) < 2:
+            errors.append(f"{path}.views must contain at least 2 views")
+        ids: set[str] = set()
+        default_view = block.get("defaultView")
+        if default_view is not None and (not isinstance(default_view, str) or not SAFE_NAME_RE.match(default_view)):
+            errors.append(f"{path}.defaultView must be a safe kebab-case id")
+        for view_index, view in enumerate(views):
+            if not is_object(view):
+                errors.append(f"{path}.views[{view_index}] must be an object")
+                continue
+            view_id = view.get("id")
+            if not isinstance(view_id, str) or not SAFE_NAME_RE.match(view_id):
+                errors.append(f"{path}.views[{view_index}].id must be safe kebab-case")
+            elif view_id in ids:
+                errors.append(f"{path}.views[{view_index}].id is duplicated")
+            else:
+                ids.add(view_id)
+            validate_localized_string(view.get("label"), f"{path}.views[{view_index}].label", errors, non_empty=True)
+            for block_index, child in enumerate(as_list(view.get("blocks"))):
+                validate_block(child, f"{path}.views[{view_index}].blocks[{block_index}]", errors)
+        if isinstance(default_view, str) and ids and default_view not in ids:
+            errors.append(f"{path}.defaultView must match a view id")
     else:
         errors.append(f"{path}.type is unknown: {block_type}")
 
@@ -753,10 +840,66 @@ def render_details(block: dict[str, Any], ctx: RenderContext | None = None) -> s
     return f"<details class=\"details-block\"{open_attr}><summary>{render_text(block.get('summary'), ctx)}</summary>{body}</details>"
 
 
+def code_shell_id(ctx: RenderContext | None, language: Any, code: Any, extra: str = "") -> str:
+    if ctx is not None:
+        ctx.code_index += 1
+        return f"code-{ctx.code_index}"
+    raw = f"{text(language)}\0{text(code)}\0{extra}".encode("utf-8")
+    return "code-" + hashlib.sha1(raw).hexdigest()[:12]
+
+
+def render_code_rows(source: Any) -> str:
+    lines = text(source).splitlines() or [""]
+    rows = []
+    for index, line in enumerate(lines, start=1):
+        rows.append(
+            "<span class=\"code-line\">"
+            f"<span class=\"code-line-number\" aria-hidden=\"true\">{index}</span>"
+            f"<span class=\"code-line-content\">{esc(line)}</span>"
+            "</span>"
+        )
+    return "".join(rows)
+
+
+def render_code_shell(
+    code: Any,
+    ctx: RenderContext | None = None,
+    *,
+    language: Any = "",
+    shell_class: str = "code-block",
+    extra_id: str = "",
+) -> str:
+    source = localized_value(code, default_locale_for_context(ctx))
+    code_id = code_shell_id(ctx, language, source, extra_id)
+    lang = text(language).strip()
+    lang_attr = f" data-language=\"{attr(lang)}\"" if lang else ""
+    label = esc(lang or tr(ctx, "code.text", "Text"))
+    if is_localized_object(code) and ctx is not None and len(ctx.locales) > 1:
+        body = []
+        for locale in ctx.locales:
+            active = "true" if locale == ctx.active_locale else "false"
+            body.append(
+                f"<span data-locale=\"{attr(locale)}\" data-locale-active=\"{active}\">"
+                f"{render_code_rows(localized_value(code, locale, ctx.active_locale))}"
+                "</span>"
+            )
+        rows = "".join(body)
+    else:
+        rows = render_code_rows(source)
+    return (
+        f"<section class=\"code-shell {attr(shell_class)}\">"
+        "<div class=\"code-header\">"
+        f"<span class=\"code-language\">{label}</span>"
+        f"<button class=\"code-copy\" type=\"button\" data-copy-target=\"{attr(code_id)}\" "
+        f"data-i18n-key=\"code.copy\">{esc(tr(ctx, 'code.copy', 'Copy'))}</button>"
+        "</div>"
+        f"<pre class=\"code-pre\"{lang_attr}><code id=\"{attr(code_id)}\"{lang_attr}>{rows}</code></pre>"
+        "</section>"
+    )
+
+
 def render_code(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
-    language = block.get("language", "")
-    lang_attr = f" data-language=\"{attr(language)}\"" if language else ""
-    return f"<pre class=\"code-block\"{lang_attr}><code{lang_attr}>{esc(block.get('code'))}</code></pre>"
+    return render_code_shell(block.get("code"), ctx, language=block.get("language", ""), shell_class="code-block")
 
 
 def svg_text(value: Any) -> str:
@@ -815,6 +958,53 @@ def render_flow_svg(block: dict[str, Any], ctx: RenderContext | None = None) -> 
     return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(aria)}\">{''.join(parts)}</svg>"
 
 
+def render_er_svg(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    source = block.get("source", {})
+    entities = [entity for entity in as_list(source.get("entities")) if is_object(entity)]
+    width = max(760, 260 * len(entities) + 80)
+    entity_width = 210
+    card_tops: dict[str, tuple[int, int, int]] = {}
+    heights = []
+    for entity in entities:
+        heights.append(66 + 24 * len(as_list(entity.get("fields"))))
+    height = max(220, max(heights, default=120) + 96)
+    defs = (
+        "<defs><marker id=\"er-arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\">"
+        "<path d=\"M0 0 L10 5 L0 10z\" fill=\"#8a929b\"></path></marker></defs>"
+    )
+    parts = [defs]
+    for index, entity in enumerate(entities):
+        x = 44 + index * 260
+        y = 46
+        entity_height = 66 + 24 * len(as_list(entity.get("fields")))
+        entity_id = text(entity.get("id"))
+        card_tops[entity_id] = (x, y, entity_height)
+        parts.append(f"<rect x=\"{x}\" y=\"{y}\" width=\"{entity_width}\" height=\"{entity_height}\" rx=\"8\" fill=\"#f3f4f4\" stroke=\"#9aa1a8\"></rect>")
+        parts.append(f"<rect x=\"{x}\" y=\"{y}\" width=\"{entity_width}\" height=\"38\" rx=\"8\" fill=\"#dce8f8\" stroke=\"#9aa1a8\"></rect>")
+        parts.append(render_svg_text_variants(entity.get("name"), ctx, f"x=\"{x + 16}\" y=\"{y + 25}\" font-size=\"14\" fill=\"#2f3439\""))
+        for field_index, field in enumerate(as_list(entity.get("fields"))):
+            parts.append(render_svg_text_variants(field, ctx, f"x=\"{x + 16}\" y=\"{y + 60 + field_index * 24}\" font-size=\"12\" fill=\"#68717b\""))
+    for relationship in as_list(source.get("relationships")):
+        if not is_object(relationship):
+            continue
+        start = card_tops.get(text(relationship.get("from")))
+        end = card_tops.get(text(relationship.get("to")))
+        if not start or not end:
+            continue
+        x1, y1, h1 = start
+        x2, y2, h2 = end
+        sx = x1 + entity_width
+        ex = x2
+        sy = y1 + h1 + 30
+        ey = y2 + h2 + 30
+        bend_y = max(sy, ey) + 18
+        parts.append(f"<polyline points=\"{sx},{sy} {sx},{bend_y} {ex},{bend_y} {ex},{ey}\" fill=\"none\" stroke=\"#8a929b\" stroke-width=\"2\" marker-end=\"url(#er-arrow)\"></polyline>")
+        if relationship.get("label"):
+            parts.append(render_svg_text_variants(relationship.get("label"), ctx, f"x=\"{(sx + ex) / 2:.0f}\" y=\"{bend_y - 8}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#68717b\""))
+    aria = localized_value(block.get("title") or tr(ctx, "diagram.erAria", "Entity relationship diagram"), default_locale_for_context(ctx))
+    return f"<svg viewBox=\"0 0 {width} {height}\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"{attr(aria)}\">{''.join(parts)}</svg>"
+
+
 def render_diagram(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     source = block.get("source", {})
     fmt = source.get("format")
@@ -822,6 +1012,8 @@ def render_diagram(block: dict[str, Any], ctx: RenderContext | None = None) -> s
         svg = render_sequence_svg(block, ctx)
     elif fmt == "structured-flow":
         svg = render_flow_svg(block, ctx)
+    elif fmt == "structured-er":
+        svg = render_er_svg(block, ctx)
     elif fmt == "svg":
         svg = text(source.get("content"))
     else:
@@ -834,12 +1026,22 @@ def render_diagram(block: dict[str, Any], ctx: RenderContext | None = None) -> s
 
 def render_diff(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
     def side_html(side: dict[str, Any]) -> str:
-        lines = []
-        for line in as_list(side.get("lines")):
+        rows = []
+        marker_by_kind = {"add": "+", "remove": "-", "warning": "!", "context": " "}
+        for index, line in enumerate(as_list(side.get("lines")), start=1):
             if is_object(line):
                 kind = line.get("kind", "context")
-                lines.append(f"<span class=\"line-{attr(kind)}\">{render_text(line.get('text'), ctx)}</span>")
-        return f"<div class=\"diff-side\"><h3>{render_text(side.get('label'), ctx)}</h3><pre><code>{chr(10).join(lines)}</code></pre></div>"
+                highlight = " line-highlight" if line.get("highlight") else ""
+                rows.append(
+                    f"<div class=\"diff-line line-{attr(kind)}{highlight}\">"
+                    f"<span class=\"diff-line-number\" aria-hidden=\"true\">{index}</span>"
+                    f"<span class=\"diff-line-marker\" aria-hidden=\"true\">{marker_by_kind.get(kind, ' ')}</span>"
+                    f"<span class=\"diff-line-content\">{render_text(line.get('text'), ctx)}</span>"
+                    "</div>"
+                )
+        lang = text(side.get("language")).strip()
+        lang_attr = f" data-language=\"{attr(lang)}\"" if lang else ""
+        return f"<div class=\"diff-side\"><h3>{render_text(side.get('label'), ctx)}</h3><div class=\"diff-code\"{lang_attr}>{''.join(rows)}</div></div>"
 
     left = side_html(block.get("left", {}))
     right = side_html(block.get("right", {}))
@@ -886,7 +1088,13 @@ def render_files(block: dict[str, Any], ctx: RenderContext | None = None) -> str
 
 
 def render_action(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
-    prompt = f"<pre class=\"prompt-block\"><code>{render_text(block.get('prompt'), ctx)}</code></pre>" if block.get("prompt") else ""
+    prompt = render_code_shell(
+        block.get("prompt"),
+        ctx,
+        language="shell",
+        shell_class="prompt-block",
+        extra_id=text(block.get("title")),
+    ) if block.get("prompt") else ""
     return f"<section class=\"action-card\"><h3>{render_text(block.get('title'), ctx)}</h3><p>{render_inline(block.get('description'), ctx)}</p>{prompt}</section>"
 
 
@@ -908,6 +1116,69 @@ def render_open_questions(block: dict[str, Any], ctx: RenderContext | None = Non
     return f"<ul class=\"open-questions\">{items}</ul>"
 
 
+def render_media(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    figures = []
+    for item in as_list(block.get("items")):
+        if not is_object(item):
+            continue
+        src = attr(item.get("src"))
+        alt = attr(localized_value(item.get("alt"), default_locale_for_context(ctx)))
+        kind = text(item.get("kind")).upper()
+        kind_html = f"<span class=\"media-kind\">{esc(kind)}</span>" if kind else ""
+        caption = render_inline(item.get("caption"), ctx) if item.get("caption") is not None else render_text(item.get("alt"), ctx)
+        figures.append(
+            "<figure class=\"media-frame\">"
+            f"<img src=\"{src}\" alt=\"{alt}\" loading=\"lazy\"/>"
+            f"<figcaption>{kind_html}{caption}</figcaption>"
+            "</figure>"
+        )
+    return f"<section class=\"media-grid\">{''.join(figures)}</section>"
+
+
+def render_columns(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    columns = []
+    for column in as_list(block.get("columns")):
+        if not is_object(column):
+            continue
+        title = f"<h3>{render_text(column.get('title'), ctx)}</h3>" if column.get("title") else ""
+        body = "".join(render_block(child, ctx) for child in as_list(column.get("blocks")) if is_object(child))
+        columns.append(f"<div class=\"column\">{title}{body}</div>")
+    return f"<section class=\"columns\">{''.join(columns)}</section>"
+
+
+def render_toggle_view(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    views = [view for view in as_list(block.get("views")) if is_object(view)]
+    if not views:
+        return ""
+    default_view = text(block.get("defaultView") or views[0].get("id"))
+    if ctx is not None:
+        ctx.code_index += 1
+        group_id = f"view-{ctx.code_index}"
+    else:
+        group_id = "view-" + hashlib.sha1(json.dumps(block, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:10]
+    buttons = []
+    panels = []
+    for view in views:
+        view_id = text(view.get("id"))
+        target_id = f"{group_id}-{view_id}"
+        active = view_id == default_view
+        buttons.append(
+            f"<button class=\"toggle-button\" type=\"button\" data-view-target=\"{attr(target_id)}\" "
+            f"aria-pressed=\"{'true' if active else 'false'}\">{render_text(view.get('label'), ctx)}</button>"
+        )
+        body = "".join(render_block(child, ctx) for child in as_list(view.get("blocks")) if is_object(child))
+        panels.append(
+            f"<div class=\"toggle-panel\" data-view-panel=\"{attr(target_id)}\" data-view-active=\"{'true' if active else 'false'}\">"
+            f"{body}</div>"
+        )
+    return (
+        f"<section class=\"toggle-view\" data-view-group=\"{attr(group_id)}\">"
+        f"<div class=\"toggle-toolbar\" role=\"group\">{''.join(buttons)}</div>"
+        f"{''.join(panels)}"
+        "</section>"
+    )
+
+
 RENDERER_REGISTRY: dict[str, Any] = {
     "summary": render_summary_block,
     "paragraph": render_paragraph,
@@ -925,6 +1196,9 @@ RENDERER_REGISTRY: dict[str, Any] = {
     "valuesGrid": render_values_grid,
     "acceptanceCriteria": render_acceptance_criteria,
     "openQuestions": render_open_questions,
+    "media": render_media,
+    "columns": render_columns,
+    "toggleView": render_toggle_view,
 }
 
 

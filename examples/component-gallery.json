@@ -5,10 +5,16 @@
       "zh-CN": "组件大全"
     },
     "language": "en",
-    "locales": ["en", "zh-CN"],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
     "status": "draft",
     "owner": "CAST-docs",
-    "audience": ["maintainers", "template authors"],
+    "audience": [
+      "maintainers",
+      "template authors"
+    ],
     "updatedAt": "2026-05-27",
     "description": {
       "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.",
@@ -35,13 +41,41 @@
       "tables",
       "blocks-view",
       "code-and-diff",
+      "media-and-columns",
+      "interactive-controls",
       "evidence-and-people",
       "diagrams"
     ],
     "components": {
-      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph"],
-      "optional": ["list", "callout", "table", "details-block", "code-block", "diagram", "diff-block", "participants", "source-refs", "files", "action-card", "values-grid", "acceptance-criteria", "open-questions"],
-      "omitted": ["inline-svg-figure"]
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph"
+      ],
+      "optional": [
+        "list",
+        "callout",
+        "table",
+        "details-block",
+        "code-block",
+        "diagram",
+        "diff-block",
+        "media-grid",
+        "columns",
+        "toggle-view",
+        "participants",
+        "source-refs",
+        "files",
+        "action-card",
+        "values-grid",
+        "acceptance-criteria",
+        "open-questions"
+      ],
+      "omitted": [
+        "inline-svg-figure"
+      ]
     }
   },
   "sections": [
@@ -109,34 +143,122 @@
           "type": "paragraph",
           "text": {
             "en": [
-              {"text": "Inline marks include "},
-              {"text": "strong", "marks": ["strong"]},
-              {"text": ", "},
-              {"text": "italic", "marks": ["em"]},
-              {"text": ", "},
-              {"text": "code", "marks": ["code"]},
-              {"text": ", "},
-              {"text": "underline", "marks": ["u"]},
-              {"text": ", "},
-              {"text": "highlight", "marks": ["mark"]},
-              {"text": ", and "},
-              {"text": "strikethrough", "marks": ["del"]},
-              {"text": "."}
+              {
+                "text": "Inline marks include "
+              },
+              {
+                "text": "strong",
+                "marks": [
+                  "strong"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "italic",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "code",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "underline",
+                "marks": [
+                  "u"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "highlight",
+                "marks": [
+                  "mark"
+                ]
+              },
+              {
+                "text": ", and "
+              },
+              {
+                "text": "strikethrough",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "."
+              }
             ],
             "zh-CN": [
-              {"text": "行内标记包括 "},
-              {"text": "加粗", "marks": ["strong"]},
-              {"text": "、"},
-              {"text": "斜体", "marks": ["em"]},
-              {"text": "、"},
-              {"text": "代码", "marks": ["code"]},
-              {"text": "、"},
-              {"text": "下划线", "marks": ["u"]},
-              {"text": "、"},
-              {"text": "高亮", "marks": ["mark"]},
-              {"text": " 和 "},
-              {"text": "删除线", "marks": ["del"]},
-              {"text": "。"}
+              {
+                "text": "行内标记包括 "
+              },
+              {
+                "text": "加粗",
+                "marks": [
+                  "strong"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "斜体",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "代码",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "下划线",
+                "marks": [
+                  "u"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "高亮",
+                "marks": [
+                  "mark"
+                ]
+              },
+              {
+                "text": " 和 "
+              },
+              {
+                "text": "删除线",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "。"
+              }
             ]
           }
         },
@@ -144,26 +266,108 @@
           "type": "paragraph",
           "text": {
             "en": [
-              {"text": "Semantic marks carry meaning: "},
-              {"text": "legacy field", "marks": ["deprecated"]},
-              {"text": ", "},
-              {"text": "P95 latency", "marks": [{"type": "metric", "unit": "ms", "value": 420}]},
-              {"text": ", "},
-              {"text": "bounded context", "marks": [{"type": "term", "definition": "a domain boundary with its own vocabulary"}]},
-              {"text": ", and "},
-              {"text": "schema reference", "marks": [{"type": "ref", "path": "schemas/doc.schema.json", "line": 1}]},
-              {"text": "."}
+              {
+                "text": "Semantic marks carry meaning: "
+              },
+              {
+                "text": "legacy field",
+                "marks": [
+                  "deprecated"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "P95 latency",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 420
+                  }
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "bounded context",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "a domain boundary with its own vocabulary"
+                  }
+                ]
+              },
+              {
+                "text": ", and "
+              },
+              {
+                "text": "schema reference",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json",
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
             ],
             "zh-CN": [
-              {"text": "语义标记会携带含义："},
-              {"text": "旧字段", "marks": ["deprecated"]},
-              {"text": "、"},
-              {"text": "P95 延迟", "marks": [{"type": "metric", "unit": "ms", "value": 420}]},
-              {"text": "、"},
-              {"text": "有界上下文", "marks": [{"type": "term", "definition": "拥有独立词汇体系的领域边界"}]},
-              {"text": "，以及 "},
-              {"text": "schema 引用", "marks": [{"type": "ref", "path": "schemas/doc.schema.json", "line": 1}]},
-              {"text": "。"}
+              {
+                "text": "语义标记会携带含义："
+              },
+              {
+                "text": "旧字段",
+                "marks": [
+                  "deprecated"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "P95 延迟",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 420
+                  }
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "有界上下文",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "拥有独立词汇体系的领域边界"
+                  }
+                ]
+              },
+              {
+                "text": "，以及 "
+              },
+              {
+                "text": "schema 引用",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json",
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "text": "。"
+              }
             ]
           }
         }
@@ -185,14 +389,32 @@
             },
             {
               "en": [
-                {"text": "Items can include "},
-                {"text": "inline code", "marks": ["code"]},
-                {"text": " and semantic marks."}
+                {
+                  "text": "Items can include "
+                },
+                {
+                  "text": "inline code",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " and semantic marks."
+                }
               ],
               "zh-CN": [
-                {"text": "列表项可以包含 "},
-                {"text": "行内代码", "marks": ["code"]},
-                {"text": " 和语义标记。"}
+                {
+                  "text": "列表项可以包含 "
+                },
+                {
+                  "text": "行内代码",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 和语义标记。"
+                }
               ]
             }
           ]
@@ -472,7 +694,7 @@
         {
           "type": "code",
           "language": "json",
-          "code": "{\n  \"metadata\": {\n    \"title\": \"Component gallery\",\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"]\n  }\n}"
+          "code": "{\n  \"metadata\": {\n    \"title\": {\n      \"en\": \"Component gallery\",\n      \"zh-CN\": \"组件大全\"\n    },\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"],\n    \"showMeta\": false\n  },\n  \"manifest\": {\n    \"sections\": [\"plain-content\", \"code-and-diff\"],\n    \"components\": {\n      \"optional\": [\"code-block\", \"diff-block\"]\n    }\n  }\n}"
         },
         {
           "type": "diff",
@@ -488,17 +710,32 @@
             "language": "json",
             "lines": [
               {
-                "kind": "remove",
+                "kind": "context",
                 "text": {
-                  "en": "\"title\": \"Component gallery\"",
-                  "zh-CN": "\"title\": \"组件大全\""
+                  "en": "{",
+                  "zh-CN": "{"
+                }
+              },
+              {
+                "kind": "remove",
+                "highlight": true,
+                "text": {
+                  "en": "  \"title\": \"Component gallery\",",
+                  "zh-CN": "  \"title\": \"组件大全\","
                 }
               },
               {
                 "kind": "context",
                 "text": {
-                  "en": "\"language\": \"en\"",
-                  "zh-CN": "\"language\": \"en\""
+                  "en": "  \"language\": \"en\"",
+                  "zh-CN": "  \"language\": \"en\""
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "}",
+                  "zh-CN": "}"
                 }
               }
             ]
@@ -511,20 +748,220 @@
             "language": "json",
             "lines": [
               {
+                "kind": "context",
+                "text": {
+                  "en": "{",
+                  "zh-CN": "{"
+                }
+              },
+              {
+                "kind": "add",
+                "highlight": true,
+                "text": {
+                  "en": "  \"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" },",
+                  "zh-CN": "  \"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" },"
+                }
+              },
+              {
                 "kind": "add",
                 "text": {
-                  "en": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }",
-                  "zh-CN": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }"
+                  "en": "  \"locales\": [\"en\", \"zh-CN\"]",
+                  "zh-CN": "  \"locales\": [\"en\", \"zh-CN\"]"
                 }
               },
               {
                 "kind": "context",
                 "text": {
-                  "en": "\"locales\": [\"en\", \"zh-CN\"]",
-                  "zh-CN": "\"locales\": [\"en\", \"zh-CN\"]"
+                  "en": "}",
+                  "zh-CN": "}"
                 }
               }
             ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "media-and-columns",
+      "title": {
+        "en": "Media And Columns",
+        "zh-CN": "媒体与分栏"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Media blocks accept self-contained data images or safe relative/http sources, and columns group peer content without nesting cards inside cards.",
+            "zh-CN": "Media block 支持自包含 data image，也支持安全的相对路径或 http(s) 来源；分栏用于组织并列内容，不把卡片套进卡片。"
+          }
+        },
+        {
+          "type": "media",
+          "items": [
+            {
+              "kind": "png",
+              "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAwCAIAAAAuKetIAAAAQElEQVR4nO3OQQ0AIBDAsAP/nuGNAvZoFSzZnplKndnZAWDXVSAUKIBQoABCgQIIvfQ6ULlAAaFAAYQCBRAKFEDoFEL9AfIoEppKgAAA",
+              "alt": {
+                "en": "Embedded PNG sample",
+                "zh-CN": "内嵌 PNG 示例"
+              },
+              "caption": {
+                "en": "PNG image source",
+                "zh-CN": "PNG 图片源"
+              }
+            },
+            {
+              "kind": "jpg",
+              "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcrJik0KSEiMEExNDc1Oi4rPz8zQDU4QjgyPzIBCgsLDg0OHBAQHDscIhw7OzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvOzsvO//AABEIAAwADAMBIgACEQEDEQH/xAAYAAACAwAAAAAAAAAAAAAAAAAEBQIDBv/EAB8QAAICAgIDAQAAAAAAAAAAAAECAAMRBBIhMRMiQf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAwDAQACEQMRAD8A1tZSStt0bQHdxpkbG8NzaX7pCVQfxVx0lmQ5w0GwF9KqgD0H//Z",
+              "alt": {
+                "en": "Embedded JPG sample",
+                "zh-CN": "内嵌 JPG 示例"
+              },
+              "caption": {
+                "en": "JPG image source",
+                "zh-CN": "JPG 图片源"
+              }
+            },
+            {
+              "kind": "gif",
+              "src": "data:image/gif;base64,R0lGODlhQAAwAIABAIqctP///yH5BAEKAAEALAAAAABAAEAAAAJAhI+py+0Po5y02ouz3rz7D4biSJbmiaaqKrbv64pYbTdf3Pfu73zv/8CgcEgsGo/IpHLJbDqf0Kh0Sq1ar9isdsvter/fAAA7",
+              "alt": {
+                "en": "Embedded GIF sample",
+                "zh-CN": "内嵌 GIF 示例"
+              },
+              "caption": {
+                "en": "GIF image source",
+                "zh-CN": "GIF 图片源"
+              }
+            }
+          ]
+        },
+        {
+          "type": "columns",
+          "columns": [
+            {
+              "title": {
+                "en": "A",
+                "zh-CN": "A"
+              },
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": true,
+                  "items": [
+                    {
+                      "en": "Short ordered content",
+                      "zh-CN": "短有序内容"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "title": {
+                "en": "B",
+                "zh-CN": "B"
+              },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "Columns keep repeated explanatory text aligned across a row.",
+                    "zh-CN": "分栏让同一行里的并列说明保持对齐。"
+                  }
+                },
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "They can hold prose, lists, tables, or code.",
+                    "zh-CN": "它们可以包含段落、列表、表格或代码。"
+                  }
+                }
+              ]
+            },
+            {
+              "title": {
+                "en": "C",
+                "zh-CN": "C"
+              },
+              "blocks": [
+                {
+                  "type": "code",
+                  "language": "text",
+                  "code": "hi"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interactive-controls",
+      "title": {
+        "en": "Interactive Controls",
+        "zh-CN": "交互控件"
+      },
+      "blocks": [
+        {
+          "type": "toggle-view",
+          "defaultView": "overview",
+          "views": [
+            {
+              "id": "overview",
+              "label": {
+                "en": "Overview",
+                "zh-CN": "概览"
+              },
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": {
+                    "en": "This built-in button switches the visible view without custom inline JavaScript.",
+                    "zh-CN": "这个内置按钮无需自定义 inline JavaScript，就能切换可见视图。"
+                  }
+                },
+                {
+                  "type": "list",
+                  "items": [
+                    {
+                      "en": "Renderer owns the behavior.",
+                      "zh-CN": "行为由渲染器托管。"
+                    },
+                    {
+                      "en": "JSON owns the view content.",
+                      "zh-CN": "JSON 承载视图内容。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "json",
+              "label": {
+                "en": "JSON",
+                "zh-CN": "JSON"
+              },
+              "blocks": [
+                {
+                  "type": "code",
+                  "language": "json",
+                  "code": "{\n  \"type\": \"toggle-view\",\n  \"defaultView\": \"overview\",\n  \"views\": [\"overview\", \"json\"]\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Controlled JS",
+            "zh-CN": "受控 JS"
+          },
+          "body": {
+            "en": "Interactive behavior is registered through interactions.json and injected as renderer-owned script.",
+            "zh-CN": "交互行为通过 interactions.json 注册，并以内置 renderer-owned script 注入。"
           }
         }
       ]
@@ -716,6 +1153,154 @@
                 "label": {
                   "en": "toggle visible nodes",
                   "zh-CN": "切换可见节点"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "er",
+          "title": {
+            "en": "Document model ER",
+            "zh-CN": "文档模型 ER"
+          },
+          "downloadName": "document-model-er",
+          "source": {
+            "format": "structured-er",
+            "entities": [
+              {
+                "id": "document",
+                "name": {
+                  "en": "Document",
+                  "zh-CN": "文档"
+                },
+                "fields": [
+                  {
+                    "en": "metadata",
+                    "zh-CN": "metadata"
+                  },
+                  {
+                    "en": "manifest",
+                    "zh-CN": "manifest"
+                  },
+                  {
+                    "en": "sections[]",
+                    "zh-CN": "sections[]"
+                  }
+                ]
+              },
+              {
+                "id": "section",
+                "name": {
+                  "en": "Section",
+                  "zh-CN": "章节"
+                },
+                "fields": [
+                  {
+                    "en": "id",
+                    "zh-CN": "id"
+                  },
+                  {
+                    "en": "title",
+                    "zh-CN": "title"
+                  },
+                  {
+                    "en": "blocks[]",
+                    "zh-CN": "blocks[]"
+                  }
+                ]
+              },
+              {
+                "id": "block",
+                "name": {
+                  "en": "Block",
+                  "zh-CN": "Block"
+                },
+                "fields": [
+                  {
+                    "en": "type",
+                    "zh-CN": "type"
+                  },
+                  {
+                    "en": "payload",
+                    "zh-CN": "payload"
+                  },
+                  {
+                    "en": "renderer",
+                    "zh-CN": "renderer"
+                  }
+                ]
+              }
+            ],
+            "relationships": [
+              {
+                "from": "document",
+                "to": "section",
+                "label": {
+                  "en": "contains",
+                  "zh-CN": "包含"
+                }
+              },
+              {
+                "from": "section",
+                "to": "block",
+                "label": {
+                  "en": "renders",
+                  "zh-CN": "渲染"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Validation path",
+            "zh-CN": "校验路径"
+          },
+          "downloadName": "validation-path",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "schema",
+                "label": {
+                  "en": "Schema",
+                  "zh-CN": "Schema"
+                }
+              },
+              {
+                "id": "profile",
+                "label": {
+                  "en": "HTML profile",
+                  "zh-CN": "HTML profile"
+                }
+              },
+              {
+                "id": "pages",
+                "label": {
+                  "en": "Pages",
+                  "zh-CN": "Pages"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "schema",
+                "to": "profile",
+                "label": {
+                  "en": "validate",
+                  "zh-CN": "校验"
+                }
+              },
+              {
+                "from": "profile",
+                "to": "pages",
+                "label": {
+                  "en": "publish",
+                  "zh-CN": "发布"
                 }
               }
             ]

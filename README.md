@@ -18,10 +18,7 @@ Treat the rendered HTML as the artifact. Treat the JSON as the source.
 Requires Python 3.9+. Standard library only — no `pip install` step.
 
 ```bash
-python3 scripts/render_html.py \
-  --input examples/problem-investigation.json \
-  --output out.html \
-  --validate
+scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 
 The `--validate` flag runs the JSON schema check before rendering and the HTML profile check after. The validators can also run on their own:
@@ -36,24 +33,30 @@ python3 scripts/validate_html.py     --input out.html
 ### As a Claude Code skill
 
 ```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/CAST-docs/cast-docs.git ~/.claude/skills/cast-docs
+scripts/install_claude_skill.sh
 ```
 
 The skill registers as `cast-docs` and activates when you ask Claude for a self-contained HTML document, an engineering spec, a decision record, and similar requests. The skill manifest is `SKILL.md`; the references in `references/` are loaded on demand.
+
+### As a Codex skill
+
+```bash
+scripts/install_codex_skill.sh
+```
+
+This installs or updates the skill at `~/.codex/skills/cast-docs`, so Codex can load the same `SKILL.md` and references.
 
 ### As a local renderer
 
 ```bash
 git clone https://github.com/CAST-docs/cast-docs.git
 cd cast-docs
-python3 scripts/render_html.py \
-  --input examples/problem-investigation.json \
-  --output out.html \
-  --validate
+scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 
 No third-party dependencies. If `python3 --version` reports 3.9 or newer, it runs.
+
+For coding agents, hand them [INSTALL_AGENT.md](INSTALL_AGENT.md). It contains copy-ready install and smoke-test commands.
 
 ## Repository layout
 
@@ -65,8 +68,12 @@ assets/cast-docs-logo.png     project logo used by README and rendered document 
 examples/                     JSON fixtures and rendered HTML samples
 site/                         landing-page source (rendered to index.html)
 scripts/                      render_html.py, validate_doc_json.py, validate_html.py, cast_docs_core.py
+scripts/install_codex_skill.sh install/update CAST Docs for Codex
+scripts/install_claude_skill.sh install/update CAST Docs for Claude Code
+scripts/render_example.sh      render one source JSON with validation
 references/                   design laws, generation contract, module architecture, etc.
 SKILL.md                      Claude skill manifest
+INSTALL_AGENT.md              copy-ready installation instructions for coding agents
 ```
 
 To re-render the landing after editing `site/landing.json`:

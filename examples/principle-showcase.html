@@ -365,7 +365,7 @@
 </script>
 
 <article class="doc">
-<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">CAST Docs design principles</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs 设计原则</span></h1><div class="doc-meta"><span data-i18n-key="metadata.updated">Updated</span> 2026-05-13</div></header>
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">CAST Docs design principles</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs 设计原则</span></h1></header>
 <main>
 <section class="doc-section" id="summary">
 <h2><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></h2>
@@ -457,7 +457,7 @@
     --code: #202328;
   }
 }
-:root { --toc-width: 248px; --topbar-height: 56px; }
+:root { --toc-width: clamp(220px, 16vw, 300px); --topbar-height: 56px; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
@@ -473,14 +473,14 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 [data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
 [data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
 [data-locale][data-locale-active="false"] { display: none; }
-.sidebar { position: fixed; inset: var(--topbar-height) auto 0 0; width: var(--toc-width); padding: 30px 24px 60px 28px; overflow-y: auto; background: var(--surface); border-right: 1px solid var(--border); box-shadow: 1px 0 0 color-mix(in srgb, var(--bg) 70%, transparent); }
+.sidebar { position: fixed; inset: var(--topbar-height) auto 0 0; width: var(--toc-width); padding: 30px 28px 60px 30px; overflow-y: auto; background: var(--bg); }
 .nav-title { margin: 0 0 16px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
 .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc li { margin: 0; }
-.toc a { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; align-items: start; padding: 7px 0 7px 10px; border-left: 2px solid transparent; color: var(--muted); font-size: 12.5px; line-height: 1.45; overflow-wrap: anywhere; }
+.toc a { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 0 8px 10px; border-left: 2px solid transparent; color: var(--muted); font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
 .toc a:hover, .toc a.active { border-left-color: var(--primary); color: var(--text); text-decoration: none; }
-.toc span { color: var(--faint); font: 11px/1.45 var(--mono); }
+.toc span { color: var(--faint); font: 12px/1.45 var(--mono); }
 .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: var(--topbar-height); display: flex; align-items: center; gap: 18px; padding: 0 36px; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
 .topbar-title { color: var(--text); font-weight: 600; }
 .topbar-links { display: flex; gap: 12px; align-items: center; }
@@ -546,7 +546,7 @@ button { border: 1px solid var(--border); border-radius: 5px; background: var(--
 @media (max-width: 760px) {
   body { display: flex; flex-direction: column; }
   .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
-  .sidebar { position: static; inset: auto; width: auto; padding: 16px 18px; border-right: 0; border-bottom: 1px solid var(--border); box-shadow: none; order: 2; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 16px 18px; border-bottom: 1px solid var(--border); order: 2; }
   .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
   .doc-header h1 { font-size: 28px; }
   .diff-block { grid-template-columns: 1fr; }

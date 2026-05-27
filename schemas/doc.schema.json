@@ -21,6 +21,7 @@
         },
         "status": {"type": "string", "enum": ["draft", "review", "final", "unknown"]},
         "owner": {"type": "string"},
+        "showMeta": {"type": "boolean", "default": false},
         "audience": {
           "type": "array",
           "items": {"type": "string"}

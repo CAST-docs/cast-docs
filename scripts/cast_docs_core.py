@@ -1264,7 +1264,7 @@ def render_html(
     title_value = metadata.get("title", tr(ctx, "state.untitled", "Untitled"))
     title = localized_value(title_value, active_locale, "en")
     description = localized_value(metadata.get("description", ""), active_locale, "en")
-    meta = metadata_line(metadata, ctx)
+    meta = metadata_line(metadata, ctx) if metadata.get("showMeta") is True else ""
     meta_html = f"<div class=\"doc-meta\">{meta}</div>" if meta else ""
     topbar_links = render_shell_links(metadata, "topbar", ctx)
     footer_links = render_footer_links(metadata, ctx)

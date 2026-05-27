@@ -1,0 +1,740 @@
+{
+  "metadata": {
+    "title": {
+      "en": "Component gallery",
+      "zh-CN": "组件大全"
+    },
+    "language": "en",
+    "locales": ["en", "zh-CN"],
+    "status": "draft",
+    "owner": "CAST-docs",
+    "audience": ["maintainers", "template authors"],
+    "updatedAt": "2026-05-27",
+    "description": {
+      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.",
+      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表和文档卡片的紧凑组件大全。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ]
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "plain-content",
+      "rich-text",
+      "lists-and-criteria",
+      "tables",
+      "blocks-view",
+      "code-and-diff",
+      "evidence-and-people",
+      "diagrams"
+    ],
+    "components": {
+      "required": ["summary-block", "metadata-block", "toc", "section", "paragraph"],
+      "optional": ["list", "callout", "table", "details-block", "code-block", "diagram", "diff-block", "participants", "source-refs", "files", "action-card", "values-grid", "acceptance-criteria", "open-questions"],
+      "omitted": ["inline-svg-figure"]
+    }
+  },
+  "sections": [
+    {
+      "id": "plain-content",
+      "title": {
+        "en": "Plain Content",
+        "zh-CN": "基础内容"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Purpose",
+                "zh-CN": "用途"
+              },
+              "body": {
+                "en": "Use this page to inspect the visual language and regression-test every common block.",
+                "zh-CN": "使用本页检查视觉语言，并回归测试所有常用 block。"
+              }
+            },
+            {
+              "label": {
+                "en": "Order",
+                "zh-CN": "顺序"
+              },
+              "body": {
+                "en": "The gallery starts with simple prose and ends with interactive diagrams.",
+                "zh-CN": "组件大全从简单 prose 开始，逐步到交互式图表。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "A paragraph is the smallest prose block. It should read comfortably, preserve links, and keep spacing stable around richer components.",
+            "zh-CN": "段落是最小的 prose block。它应该易读，保留链接，并在复杂组件周围保持稳定间距。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Info callout",
+            "zh-CN": "信息提示"
+          },
+          "body": {
+            "en": "Callouts highlight context without replacing the surrounding explanation.",
+            "zh-CN": "Callout 用于强调上下文，但不替代周围说明。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rich-text",
+      "title": {
+        "en": "Rich Text Marks",
+        "zh-CN": "富文本标记"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {"text": "Inline marks include "},
+              {"text": "strong", "marks": ["strong"]},
+              {"text": ", "},
+              {"text": "italic", "marks": ["em"]},
+              {"text": ", "},
+              {"text": "code", "marks": ["code"]},
+              {"text": ", "},
+              {"text": "underline", "marks": ["u"]},
+              {"text": ", "},
+              {"text": "highlight", "marks": ["mark"]},
+              {"text": ", and "},
+              {"text": "strikethrough", "marks": ["del"]},
+              {"text": "."}
+            ],
+            "zh-CN": [
+              {"text": "行内标记包括 "},
+              {"text": "加粗", "marks": ["strong"]},
+              {"text": "、"},
+              {"text": "斜体", "marks": ["em"]},
+              {"text": "、"},
+              {"text": "代码", "marks": ["code"]},
+              {"text": "、"},
+              {"text": "下划线", "marks": ["u"]},
+              {"text": "、"},
+              {"text": "高亮", "marks": ["mark"]},
+              {"text": " 和 "},
+              {"text": "删除线", "marks": ["del"]},
+              {"text": "。"}
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {"text": "Semantic marks carry meaning: "},
+              {"text": "legacy field", "marks": ["deprecated"]},
+              {"text": ", "},
+              {"text": "P95 latency", "marks": [{"type": "metric", "unit": "ms", "value": 420}]},
+              {"text": ", "},
+              {"text": "bounded context", "marks": [{"type": "term", "definition": "a domain boundary with its own vocabulary"}]},
+              {"text": ", and "},
+              {"text": "schema reference", "marks": [{"type": "ref", "path": "schemas/doc.schema.json", "line": 1}]},
+              {"text": "."}
+            ],
+            "zh-CN": [
+              {"text": "语义标记会携带含义："},
+              {"text": "旧字段", "marks": ["deprecated"]},
+              {"text": "、"},
+              {"text": "P95 延迟", "marks": [{"type": "metric", "unit": "ms", "value": 420}]},
+              {"text": "、"},
+              {"text": "有界上下文", "marks": [{"type": "term", "definition": "拥有独立词汇体系的领域边界"}]},
+              {"text": "，以及 "},
+              {"text": "schema 引用", "marks": [{"type": "ref", "path": "schemas/doc.schema.json", "line": 1}]},
+              {"text": "。"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "lists-and-criteria",
+      "title": {
+        "en": "Lists And Criteria",
+        "zh-CN": "列表与验收标准"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Unordered lists are good for scannable facts.",
+              "zh-CN": "无序列表适合可扫描的事实。"
+            },
+            {
+              "en": [
+                {"text": "Items can include "},
+                {"text": "inline code", "marks": ["code"]},
+                {"text": " and semantic marks."}
+              ],
+              "zh-CN": [
+                {"text": "列表项可以包含 "},
+                {"text": "行内代码", "marks": ["code"]},
+                {"text": " 和语义标记。"}
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            {
+              "en": "First decide the document type.",
+              "zh-CN": "先决定文档类型。"
+            },
+            {
+              "en": "Then choose the scenario skeleton.",
+              "zh-CN": "再选择场景骨架。"
+            },
+            {
+              "en": "Finally render and validate.",
+              "zh-CN": "最后渲染并校验。"
+            }
+          ]
+        },
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": "Every visible component is generated from JSON.",
+              "zh-CN": "每个可见组件都由 JSON 生成。"
+            },
+            {
+              "en": "Both English and Chinese content switch in place.",
+              "zh-CN": "英文和中文内容可以原地切换。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tables",
+      "title": {
+        "en": "Tables",
+        "zh-CN": "表格"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Component",
+              "zh-CN": "组件"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "用途"
+            },
+            {
+              "en": "Signal",
+              "zh-CN": "信号"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Summary",
+                "zh-CN": "摘要"
+              },
+              {
+                "en": "Surface the core facts first.",
+                "zh-CN": "先展示核心事实。"
+              },
+              {
+                "en": "Document has two or more key takeaways.",
+                "zh-CN": "文档有两个或更多关键结论。"
+              }
+            ],
+            [
+              {
+                "en": "Callout",
+                "zh-CN": "提示块"
+              },
+              {
+                "en": "Highlight warning, success, or decision context.",
+                "zh-CN": "强调警告、成功或决策上下文。"
+              },
+              {
+                "en": "Reader should notice it before continuing.",
+                "zh-CN": "读者继续阅读前应先注意到它。"
+              }
+            ],
+            [
+              {
+                "en": "Table",
+                "zh-CN": "表格"
+              },
+              {
+                "en": "Compare structured facts.",
+                "zh-CN": "比较结构化事实。"
+              },
+              {
+                "en": "Rows share the same fields.",
+                "zh-CN": "多行共享同一组字段。"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "tableType": "risk",
+          "headers": [
+            {
+              "en": "Risk",
+              "zh-CN": "风险"
+            },
+            {
+              "en": "Likelihood",
+              "zh-CN": "可能性"
+            },
+            {
+              "en": "Mitigation",
+              "zh-CN": "缓解方式"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Long headings wrap poorly",
+                "zh-CN": "长标题换行不佳"
+              },
+              {
+                "en": "Medium",
+                "zh-CN": "中"
+              },
+              {
+                "en": "Use dynamic sidebar width and larger TOC text.",
+                "zh-CN": "使用动态侧栏宽度和更大的目录字体。"
+              }
+            ],
+            [
+              {
+                "en": "Optional blocks become decoration",
+                "zh-CN": "可选 block 变成装饰"
+              },
+              {
+                "en": "Low",
+                "zh-CN": "低"
+              },
+              {
+                "en": "Require each block to carry new information.",
+                "zh-CN": "要求每个 block 承载新的信息。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blocks-view",
+      "title": {
+        "en": "Blocks View",
+        "zh-CN": "Blocks 视图"
+      },
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {
+              "title": {
+                "en": "Value card",
+                "zh-CN": "价值卡片"
+              },
+              "body": {
+                "en": "Use values-grid for peer ideas with equal weight.",
+                "zh-CN": "使用 values-grid 展示同等权重的并列观点。"
+              }
+            },
+            {
+              "title": {
+                "en": "Action card",
+                "zh-CN": "行动卡片"
+              },
+              "body": {
+                "en": "Use action blocks for concrete follow-up work.",
+                "zh-CN": "使用 action block 表示明确的后续工作。"
+              }
+            },
+            {
+              "title": {
+                "en": "Details",
+                "zh-CN": "折叠详情"
+              },
+              "body": {
+                "en": "Use details for optional evidence or implementation notes.",
+                "zh-CN": "使用 details 承载可选证据或实现说明。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": {
+            "en": "Success callout",
+            "zh-CN": "成功提示"
+          },
+          "body": {
+            "en": "A success callout records a decision or completed validation.",
+            "zh-CN": "成功提示用于记录决策或已完成的验证。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Warning callout",
+            "zh-CN": "警告提示"
+          },
+          "body": {
+            "en": "A warning callout calls out risk without stopping the document flow.",
+            "zh-CN": "警告提示用于标出风险，但不打断文档流。"
+          }
+        },
+        {
+          "type": "details",
+          "summary": {
+            "en": "Open a details block",
+            "zh-CN": "展开 details block"
+          },
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "en": "Details blocks can contain nested paragraphs, lists, and code.",
+                "zh-CN": "Details block 可以包含嵌套段落、列表和代码。"
+              }
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "en": "Keep optional evidence close to its claim.",
+                  "zh-CN": "让可选证据靠近它支撑的结论。"
+                },
+                {
+                  "en": "Avoid hiding the main decision inside details.",
+                  "zh-CN": "避免把主决策藏在 details 里。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": {
+            "en": "Regenerate the gallery",
+            "zh-CN": "重新生成组件大全"
+          },
+          "description": {
+            "en": "When component CSS changes, regenerate this page and compare it visually.",
+            "zh-CN": "当组件 CSS 变化时，重新生成本页并做视觉对比。"
+          },
+          "prompt": {
+            "en": "python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate",
+            "zh-CN": "python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "code-and-diff",
+      "title": {
+        "en": "Code And Diff",
+        "zh-CN": "代码与 Diff"
+      },
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "code": "{\n  \"metadata\": {\n    \"title\": \"Component gallery\",\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"]\n  }\n}"
+        },
+        {
+          "type": "diff",
+          "title": {
+            "en": "Localized title diff",
+            "zh-CN": "本地化标题 Diff"
+          },
+          "left": {
+            "label": {
+              "en": "Before",
+              "zh-CN": "之前"
+            },
+            "language": "json",
+            "lines": [
+              {
+                "kind": "remove",
+                "text": {
+                  "en": "\"title\": \"Component gallery\"",
+                  "zh-CN": "\"title\": \"组件大全\""
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "\"language\": \"en\"",
+                  "zh-CN": "\"language\": \"en\""
+                }
+              }
+            ]
+          },
+          "right": {
+            "label": {
+              "en": "After",
+              "zh-CN": "之后"
+            },
+            "language": "json",
+            "lines": [
+              {
+                "kind": "add",
+                "text": {
+                  "en": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }",
+                  "zh-CN": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }"
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "\"locales\": [\"en\", \"zh-CN\"]",
+                  "zh-CN": "\"locales\": [\"en\", \"zh-CN\"]"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "evidence-and-people",
+      "title": {
+        "en": "Evidence And People",
+        "zh-CN": "证据与参与者"
+      },
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Component registry",
+                "zh-CN": "组件注册表"
+              },
+              "url": "../config/components.json",
+              "text": {
+                "en": "Configured component ids, renderers, and classes.",
+                "zh-CN": "配置组件 id、渲染器和 class。"
+              }
+            },
+            {
+              "label": {
+                "en": "Document schema",
+                "zh-CN": "文档 Schema"
+              },
+              "url": "../schemas/doc.schema.json",
+              "text": {
+                "en": "The JSON contract for every source document.",
+                "zh-CN": "所有源文档都遵循的 JSON 契约。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "files",
+          "items": [
+            {
+              "path": "scripts/cast_docs_core.py",
+              "lineStart": 1,
+              "note": {
+                "en": "Renderer hub and block implementations.",
+                "zh-CN": "渲染器枢纽和 block 实现。"
+              }
+            },
+            {
+              "path": "assets/template-modules/styles.base.css",
+              "lineStart": 1,
+              "note": {
+                "en": "Shared document chrome and component styles.",
+                "zh-CN": "共享文档框架和组件样式。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "participants",
+          "items": [
+            {
+              "name": {
+                "en": "Document author",
+                "zh-CN": "文档作者"
+              },
+              "role": {
+                "en": "writer",
+                "zh-CN": "作者"
+              },
+              "responsibility": {
+                "en": "Provide structured JSON and meaningful component choices.",
+                "zh-CN": "提供结构化 JSON 和有意义的组件选择。"
+              }
+            },
+            {
+              "name": {
+                "en": "Renderer",
+                "zh-CN": "渲染器"
+              },
+              "role": {
+                "en": "system",
+                "zh-CN": "系统"
+              },
+              "responsibility": {
+                "en": "Own HTML, CSS, validation, and approved interactions.",
+                "zh-CN": "负责 HTML、CSS、校验和受控交互。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diagrams",
+      "title": {
+        "en": "Diagrams And Icons",
+        "zh-CN": "图表与图标"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Renderer flow",
+            "zh-CN": "渲染流程"
+          },
+          "downloadName": "renderer-flow",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "JSON",
+                  "zh-CN": "JSON"
+                }
+              },
+              {
+                "id": "blocks",
+                "label": {
+                  "en": "Blocks",
+                  "zh-CN": "Blocks"
+                }
+              },
+              {
+                "id": "html",
+                "label": {
+                  "en": "HTML",
+                  "zh-CN": "HTML"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "blocks",
+                "label": {
+                  "en": "parse",
+                  "zh-CN": "解析"
+                }
+              },
+              {
+                "from": "blocks",
+                "to": "html",
+                "label": {
+                  "en": "render",
+                  "zh-CN": "渲染"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "sequence",
+          "title": {
+            "en": "Interaction sequence",
+            "zh-CN": "交互时序"
+          },
+          "downloadName": "interaction-sequence",
+          "source": {
+            "format": "structured-sequence",
+            "steps": [
+              {
+                "from": {
+                  "en": "Reader",
+                  "zh-CN": "读者"
+                },
+                "to": {
+                  "en": "Switcher",
+                  "zh-CN": "切换器"
+                },
+                "label": {
+                  "en": "choose locale",
+                  "zh-CN": "选择语言"
+                }
+              },
+              {
+                "from": {
+                  "en": "Switcher",
+                  "zh-CN": "切换器"
+                },
+                "to": {
+                  "en": "Document",
+                  "zh-CN": "文档"
+                },
+                "label": {
+                  "en": "toggle visible nodes",
+                  "zh-CN": "切换可见节点"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "open-questions",
+          "questions": [
+            {
+              "en": "Should future icon components become first-class JSON blocks?",
+              "zh-CN": "未来的图标组件是否应该成为一等 JSON block？"
+            },
+            {
+              "en": "Should the gallery include visual snapshots for every theme?",
+              "zh-CN": "组件大全是否应该为每个主题包含视觉快照？"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

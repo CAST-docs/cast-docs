@@ -200,6 +200,17 @@
                 "en": "Curating principles or guidelines for reuse.",
                 "zh-CN": "整理可复用的原则或指南。"
               }
+            },
+            {
+              "label": {
+                "en": "Component gallery",
+                "zh-CN": "组件大全"
+              },
+              "url": "./examples/component-gallery.html",
+              "text": {
+                "en": "Inspect every common block, inline mark, table, diff view, and diagram in one page.",
+                "zh-CN": "在一个页面中查看所有常用 block、富文本标记、表格、diff 视图和图表。"
+              }
             }
           ]
         }

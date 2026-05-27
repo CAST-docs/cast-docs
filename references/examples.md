@@ -10,6 +10,7 @@ Current fixtures:
 - `examples/document-digest.json`
 - `examples/principle-showcase.json`
 - `examples/bilingual-decision.json`
+- `examples/component-gallery.json`
 
 Current rendered HTML previews (regenerated from the JSON fixtures above):
 
@@ -18,6 +19,8 @@ Current rendered HTML previews (regenerated from the JSON fixtures above):
 - `examples/option-decision.html`
 - `examples/document-digest.html`
 - `examples/principle-showcase.html`
+- `examples/bilingual-decision.html`
+- `examples/component-gallery.html`
 
 Each fixture should include:
 

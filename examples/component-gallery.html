@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.">
+<title>Component gallery</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{
+  "metadata": {
+    "title": {
+      "en": "Component gallery",
+      "zh-CN": "组件大全"
+    },
+    "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "status": "draft",
+    "owner": "CAST-docs",
+    "audience": [
+      "maintainers",
+      "template authors"
+    ],
+    "updatedAt": "2026-05-27",
+    "description": {
+      "en": "A compact gallery of CAST Docs blocks, inline marks, tables, diff views, diagrams, and document cards.",
+      "zh-CN": "CAST Docs blocks、富文本标记、表格、diff 视图、图表和文档卡片的紧凑组件大全。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ]
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "plain-content",
+      "rich-text",
+      "lists-and-criteria",
+      "tables",
+      "blocks-view",
+      "code-and-diff",
+      "evidence-and-people",
+      "diagrams"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph"
+      ],
+      "optional": [
+        "list",
+        "callout",
+        "table",
+        "details-block",
+        "code-block",
+        "diagram",
+        "diff-block",
+        "participants",
+        "source-refs",
+        "files",
+        "action-card",
+        "values-grid",
+        "acceptance-criteria",
+        "open-questions"
+      ],
+      "omitted": [
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "plain-content",
+      "title": {
+        "en": "Plain Content",
+        "zh-CN": "基础内容"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Purpose",
+                "zh-CN": "用途"
+              },
+              "body": {
+                "en": "Use this page to inspect the visual language and regression-test every common block.",
+                "zh-CN": "使用本页检查视觉语言，并回归测试所有常用 block。"
+              }
+            },
+            {
+              "label": {
+                "en": "Order",
+                "zh-CN": "顺序"
+              },
+              "body": {
+                "en": "The gallery starts with simple prose and ends with interactive diagrams.",
+                "zh-CN": "组件大全从简单 prose 开始，逐步到交互式图表。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "A paragraph is the smallest prose block. It should read comfortably, preserve links, and keep spacing stable around richer components.",
+            "zh-CN": "段落是最小的 prose block。它应该易读，保留链接，并在复杂组件周围保持稳定间距。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Info callout",
+            "zh-CN": "信息提示"
+          },
+          "body": {
+            "en": "Callouts highlight context without replacing the surrounding explanation.",
+            "zh-CN": "Callout 用于强调上下文，但不替代周围说明。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rich-text",
+      "title": {
+        "en": "Rich Text Marks",
+        "zh-CN": "富文本标记"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {
+                "text": "Inline marks include "
+              },
+              {
+                "text": "strong",
+                "marks": [
+                  "strong"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "italic",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "code",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "underline",
+                "marks": [
+                  "u"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "highlight",
+                "marks": [
+                  "mark"
+                ]
+              },
+              {
+                "text": ", and "
+              },
+              {
+                "text": "strikethrough",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "行内标记包括 "
+              },
+              {
+                "text": "加粗",
+                "marks": [
+                  "strong"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "斜体",
+                "marks": [
+                  "em"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "代码",
+                "marks": [
+                  "code"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "下划线",
+                "marks": [
+                  "u"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "高亮",
+                "marks": [
+                  "mark"
+                ]
+              },
+              {
+                "text": " 和 "
+              },
+              {
+                "text": "删除线",
+                "marks": [
+                  "del"
+                ]
+              },
+              {
+                "text": "。"
+              }
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": [
+              {
+                "text": "Semantic marks carry meaning: "
+              },
+              {
+                "text": "legacy field",
+                "marks": [
+                  "deprecated"
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "P95 latency",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 420
+                  }
+                ]
+              },
+              {
+                "text": ", "
+              },
+              {
+                "text": "bounded context",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "a domain boundary with its own vocabulary"
+                  }
+                ]
+              },
+              {
+                "text": ", and "
+              },
+              {
+                "text": "schema reference",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json",
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "语义标记会携带含义："
+              },
+              {
+                "text": "旧字段",
+                "marks": [
+                  "deprecated"
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "P95 延迟",
+                "marks": [
+                  {
+                    "type": "metric",
+                    "unit": "ms",
+                    "value": 420
+                  }
+                ]
+              },
+              {
+                "text": "、"
+              },
+              {
+                "text": "有界上下文",
+                "marks": [
+                  {
+                    "type": "term",
+                    "definition": "拥有独立词汇体系的领域边界"
+                  }
+                ]
+              },
+              {
+                "text": "，以及 "
+              },
+              {
+                "text": "schema 引用",
+                "marks": [
+                  {
+                    "type": "ref",
+                    "path": "schemas/doc.schema.json",
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "text": "。"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "lists-and-criteria",
+      "title": {
+        "en": "Lists And Criteria",
+        "zh-CN": "列表与验收标准"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Unordered lists are good for scannable facts.",
+              "zh-CN": "无序列表适合可扫描的事实。"
+            },
+            {
+              "en": [
+                {
+                  "text": "Items can include "
+                },
+                {
+                  "text": "inline code",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " and semantic marks."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "列表项可以包含 "
+                },
+                {
+                  "text": "行内代码",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 和语义标记。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            {
+              "en": "First decide the document type.",
+              "zh-CN": "先决定文档类型。"
+            },
+            {
+              "en": "Then choose the scenario skeleton.",
+              "zh-CN": "再选择场景骨架。"
+            },
+            {
+              "en": "Finally render and validate.",
+              "zh-CN": "最后渲染并校验。"
+            }
+          ]
+        },
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": "Every visible component is generated from JSON.",
+              "zh-CN": "每个可见组件都由 JSON 生成。"
+            },
+            {
+              "en": "Both English and Chinese content switch in place.",
+              "zh-CN": "英文和中文内容可以原地切换。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tables",
+      "title": {
+        "en": "Tables",
+        "zh-CN": "表格"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Component",
+              "zh-CN": "组件"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "用途"
+            },
+            {
+              "en": "Signal",
+              "zh-CN": "信号"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Summary",
+                "zh-CN": "摘要"
+              },
+              {
+                "en": "Surface the core facts first.",
+                "zh-CN": "先展示核心事实。"
+              },
+              {
+                "en": "Document has two or more key takeaways.",
+                "zh-CN": "文档有两个或更多关键结论。"
+              }
+            ],
+            [
+              {
+                "en": "Callout",
+                "zh-CN": "提示块"
+              },
+              {
+                "en": "Highlight warning, success, or decision context.",
+                "zh-CN": "强调警告、成功或决策上下文。"
+              },
+              {
+                "en": "Reader should notice it before continuing.",
+                "zh-CN": "读者继续阅读前应先注意到它。"
+              }
+            ],
+            [
+              {
+                "en": "Table",
+                "zh-CN": "表格"
+              },
+              {
+                "en": "Compare structured facts.",
+                "zh-CN": "比较结构化事实。"
+              },
+              {
+                "en": "Rows share the same fields.",
+                "zh-CN": "多行共享同一组字段。"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "tableType": "risk",
+          "headers": [
+            {
+              "en": "Risk",
+              "zh-CN": "风险"
+            },
+            {
+              "en": "Likelihood",
+              "zh-CN": "可能性"
+            },
+            {
+              "en": "Mitigation",
+              "zh-CN": "缓解方式"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Long headings wrap poorly",
+                "zh-CN": "长标题换行不佳"
+              },
+              {
+                "en": "Medium",
+                "zh-CN": "中"
+              },
+              {
+                "en": "Use dynamic sidebar width and larger TOC text.",
+                "zh-CN": "使用动态侧栏宽度和更大的目录字体。"
+              }
+            ],
+            [
+              {
+                "en": "Optional blocks become decoration",
+                "zh-CN": "可选 block 变成装饰"
+              },
+              {
+                "en": "Low",
+                "zh-CN": "低"
+              },
+              {
+                "en": "Require each block to carry new information.",
+                "zh-CN": "要求每个 block 承载新的信息。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blocks-view",
+      "title": {
+        "en": "Blocks View",
+        "zh-CN": "Blocks 视图"
+      },
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {
+              "title": {
+                "en": "Value card",
+                "zh-CN": "价值卡片"
+              },
+              "body": {
+                "en": "Use values-grid for peer ideas with equal weight.",
+                "zh-CN": "使用 values-grid 展示同等权重的并列观点。"
+              }
+            },
+            {
+              "title": {
+                "en": "Action card",
+                "zh-CN": "行动卡片"
+              },
+              "body": {
+                "en": "Use action blocks for concrete follow-up work.",
+                "zh-CN": "使用 action block 表示明确的后续工作。"
+              }
+            },
+            {
+              "title": {
+                "en": "Details",
+                "zh-CN": "折叠详情"
+              },
+              "body": {
+                "en": "Use details for optional evidence or implementation notes.",
+                "zh-CN": "使用 details 承载可选证据或实现说明。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": {
+            "en": "Success callout",
+            "zh-CN": "成功提示"
+          },
+          "body": {
+            "en": "A success callout records a decision or completed validation.",
+            "zh-CN": "成功提示用于记录决策或已完成的验证。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Warning callout",
+            "zh-CN": "警告提示"
+          },
+          "body": {
+            "en": "A warning callout calls out risk without stopping the document flow.",
+            "zh-CN": "警告提示用于标出风险，但不打断文档流。"
+          }
+        },
+        {
+          "type": "details",
+          "summary": {
+            "en": "Open a details block",
+            "zh-CN": "展开 details block"
+          },
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "en": "Details blocks can contain nested paragraphs, lists, and code.",
+                "zh-CN": "Details block 可以包含嵌套段落、列表和代码。"
+              }
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "en": "Keep optional evidence close to its claim.",
+                  "zh-CN": "让可选证据靠近它支撑的结论。"
+                },
+                {
+                  "en": "Avoid hiding the main decision inside details.",
+                  "zh-CN": "避免把主决策藏在 details 里。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "action",
+          "priority": "p1",
+          "title": {
+            "en": "Regenerate the gallery",
+            "zh-CN": "重新生成组件大全"
+          },
+          "description": {
+            "en": "When component CSS changes, regenerate this page and compare it visually.",
+            "zh-CN": "当组件 CSS 变化时，重新生成本页并做视觉对比。"
+          },
+          "prompt": {
+            "en": "python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate",
+            "zh-CN": "python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "code-and-diff",
+      "title": {
+        "en": "Code And Diff",
+        "zh-CN": "代码与 Diff"
+      },
+      "blocks": [
+        {
+          "type": "code",
+          "language": "json",
+          "code": "{\n  \"metadata\": {\n    \"title\": \"Component gallery\",\n    \"language\": \"en\",\n    \"locales\": [\"en\", \"zh-CN\"]\n  }\n}"
+        },
+        {
+          "type": "diff",
+          "title": {
+            "en": "Localized title diff",
+            "zh-CN": "本地化标题 Diff"
+          },
+          "left": {
+            "label": {
+              "en": "Before",
+              "zh-CN": "之前"
+            },
+            "language": "json",
+            "lines": [
+              {
+                "kind": "remove",
+                "text": {
+                  "en": "\"title\": \"Component gallery\"",
+                  "zh-CN": "\"title\": \"组件大全\""
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "\"language\": \"en\"",
+                  "zh-CN": "\"language\": \"en\""
+                }
+              }
+            ]
+          },
+          "right": {
+            "label": {
+              "en": "After",
+              "zh-CN": "之后"
+            },
+            "language": "json",
+            "lines": [
+              {
+                "kind": "add",
+                "text": {
+                  "en": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }",
+                  "zh-CN": "\"title\": { \"en\": \"Component gallery\", \"zh-CN\": \"组件大全\" }"
+                }
+              },
+              {
+                "kind": "context",
+                "text": {
+                  "en": "\"locales\": [\"en\", \"zh-CN\"]",
+                  "zh-CN": "\"locales\": [\"en\", \"zh-CN\"]"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "evidence-and-people",
+      "title": {
+        "en": "Evidence And People",
+        "zh-CN": "证据与参与者"
+      },
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Component registry",
+                "zh-CN": "组件注册表"
+              },
+              "url": "../config/components.json",
+              "text": {
+                "en": "Configured component ids, renderers, and classes.",
+                "zh-CN": "配置组件 id、渲染器和 class。"
+              }
+            },
+            {
+              "label": {
+                "en": "Document schema",
+                "zh-CN": "文档 Schema"
+              },
+              "url": "../schemas/doc.schema.json",
+              "text": {
+                "en": "The JSON contract for every source document.",
+                "zh-CN": "所有源文档都遵循的 JSON 契约。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "files",
+          "items": [
+            {
+              "path": "scripts/cast_docs_core.py",
+              "lineStart": 1,
+              "note": {
+                "en": "Renderer hub and block implementations.",
+                "zh-CN": "渲染器枢纽和 block 实现。"
+              }
+            },
+            {
+              "path": "assets/template-modules/styles.base.css",
+              "lineStart": 1,
+              "note": {
+                "en": "Shared document chrome and component styles.",
+                "zh-CN": "共享文档框架和组件样式。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "participants",
+          "items": [
+            {
+              "name": {
+                "en": "Document author",
+                "zh-CN": "文档作者"
+              },
+              "role": {
+                "en": "writer",
+                "zh-CN": "作者"
+              },
+              "responsibility": {
+                "en": "Provide structured JSON and meaningful component choices.",
+                "zh-CN": "提供结构化 JSON 和有意义的组件选择。"
+              }
+            },
+            {
+              "name": {
+                "en": "Renderer",
+                "zh-CN": "渲染器"
+              },
+              "role": {
+                "en": "system",
+                "zh-CN": "系统"
+              },
+              "responsibility": {
+                "en": "Own HTML, CSS, validation, and approved interactions.",
+                "zh-CN": "负责 HTML、CSS、校验和受控交互。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diagrams",
+      "title": {
+        "en": "Diagrams And Icons",
+        "zh-CN": "图表与图标"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Renderer flow",
+            "zh-CN": "渲染流程"
+          },
+          "downloadName": "renderer-flow",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "JSON",
+                  "zh-CN": "JSON"
+                }
+              },
+              {
+                "id": "blocks",
+                "label": {
+                  "en": "Blocks",
+                  "zh-CN": "Blocks"
+                }
+              },
+              {
+                "id": "html",
+                "label": {
+                  "en": "HTML",
+                  "zh-CN": "HTML"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "blocks",
+                "label": {
+                  "en": "parse",
+                  "zh-CN": "解析"
+                }
+              },
+              {
+                "from": "blocks",
+                "to": "html",
+                "label": {
+                  "en": "render",
+                  "zh-CN": "渲染"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "sequence",
+          "title": {
+            "en": "Interaction sequence",
+            "zh-CN": "交互时序"
+          },
+          "downloadName": "interaction-sequence",
+          "source": {
+            "format": "structured-sequence",
+            "steps": [
+              {
+                "from": {
+                  "en": "Reader",
+                  "zh-CN": "读者"
+                },
+                "to": {
+                  "en": "Switcher",
+                  "zh-CN": "切换器"
+                },
+                "label": {
+                  "en": "choose locale",
+                  "zh-CN": "选择语言"
+                }
+              },
+              {
+                "from": {
+                  "en": "Switcher",
+                  "zh-CN": "切换器"
+                },
+                "to": {
+                  "en": "Document",
+                  "zh-CN": "文档"
+                },
+                "label": {
+                  "en": "toggle visible nodes",
+                  "zh-CN": "切换可见节点"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "open-questions",
+          "questions": [
+            {
+              "en": "Should future icon components become first-class JSON blocks?",
+              "zh-CN": "未来的图标组件是否应该成为一等 JSON block？"
+            },
+            {
+              "en": "Should the gallery include visual snapshots for every theme?",
+              "zh-CN": "组件大全是否应该为每个主题包含视觉快照？"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<article class="doc">
+<header class="doc-header"><h1><span data-locale="en" data-locale-active="true">Component gallery</span><span data-locale="zh-CN" data-locale-active="false">组件大全</span></h1></header>
+<main>
+<section class="doc-section" id="plain-content">
+<h2><span data-locale="en" data-locale-active="true">Plain Content</span><span data-locale="zh-CN" data-locale-active="false">基础内容</span></h2>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Purpose</span><span data-locale="zh-CN" data-locale-active="false">用途</span>:</strong> <span data-locale="en" data-locale-active="true">Use this page to inspect the visual language and regression-test every common block.</span><span data-locale="zh-CN" data-locale-active="false">使用本页检查视觉语言，并回归测试所有常用 block。</span></li><li><strong><span data-locale="en" data-locale-active="true">Order</span><span data-locale="zh-CN" data-locale-active="false">顺序</span>:</strong> <span data-locale="en" data-locale-active="true">The gallery starts with simple prose and ends with interactive diagrams.</span><span data-locale="zh-CN" data-locale-active="false">组件大全从简单 prose 开始，逐步到交互式图表。</span></li></ul></section>
+<p><span data-locale="en" data-locale-active="true">A paragraph is the smallest prose block. It should read comfortably, preserve links, and keep spacing stable around richer components.</span><span data-locale="zh-CN" data-locale-active="false">段落是最小的 prose block。它应该易读，保留链接，并在复杂组件周围保持稳定间距。</span></p>
+<aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">Info callout</span><span data-locale="zh-CN" data-locale-active="false">信息提示</span></strong><p><span data-locale="en" data-locale-active="true">Callouts highlight context without replacing the surrounding explanation.</span><span data-locale="zh-CN" data-locale-active="false">Callout 用于强调上下文，但不替代周围说明。</span></p></aside>
+</section>
+
+<section class="doc-section" id="rich-text">
+<h2><span data-locale="en" data-locale-active="true">Rich Text Marks</span><span data-locale="zh-CN" data-locale-active="false">富文本标记</span></h2>
+<p><span data-locale="en" data-locale-active="true">Inline marks include <strong>strong</strong>, <em>italic</em>, <code>code</code>, <u>underline</u>, <mark>highlight</mark>, and <del>strikethrough</del>.</span><span data-locale="zh-CN" data-locale-active="false">行内标记包括 <strong>加粗</strong>、<em>斜体</em>、<code>代码</code>、<u>下划线</u>、<mark>高亮</mark> 和 <del>删除线</del>。</span></p>
+<p><span data-locale="en" data-locale-active="true">Semantic marks carry meaning: <span data-mark="deprecated">legacy field</span>, <span data-mark="metric">P95 latency</span>, <span data-mark="term" title="a domain boundary with its own vocabulary">bounded context</span>, and <code data-mark="ref">schema reference</code>.</span><span data-locale="zh-CN" data-locale-active="false">语义标记会携带含义：<span data-mark="deprecated">旧字段</span>、<span data-mark="metric">P95 延迟</span>、<span data-mark="term" title="拥有独立词汇体系的领域边界">有界上下文</span>，以及 <code data-mark="ref">schema 引用</code>。</span></p>
+</section>
+
+<section class="doc-section" id="lists-and-criteria">
+<h2><span data-locale="en" data-locale-active="true">Lists And Criteria</span><span data-locale="zh-CN" data-locale-active="false">列表与验收标准</span></h2>
+<ul><li><span data-locale="en" data-locale-active="true">Unordered lists are good for scannable facts.</span><span data-locale="zh-CN" data-locale-active="false">无序列表适合可扫描的事实。</span></li><li><span data-locale="en" data-locale-active="true">Items can include <code>inline code</code> and semantic marks.</span><span data-locale="zh-CN" data-locale-active="false">列表项可以包含 <code>行内代码</code> 和语义标记。</span></li></ul>
+<ol><li><span data-locale="en" data-locale-active="true">First decide the document type.</span><span data-locale="zh-CN" data-locale-active="false">先决定文档类型。</span></li><li><span data-locale="en" data-locale-active="true">Then choose the scenario skeleton.</span><span data-locale="zh-CN" data-locale-active="false">再选择场景骨架。</span></li><li><span data-locale="en" data-locale-active="true">Finally render and validate.</span><span data-locale="zh-CN" data-locale-active="false">最后渲染并校验。</span></li></ol>
+<ol class="acceptance-criteria"><li><span data-locale="en" data-locale-active="true">Every visible component is generated from JSON.</span><span data-locale="zh-CN" data-locale-active="false">每个可见组件都由 JSON 生成。</span></li><li><span data-locale="en" data-locale-active="true">Both English and Chinese content switch in place.</span><span data-locale="zh-CN" data-locale-active="false">英文和中文内容可以原地切换。</span></li></ol>
+</section>
+
+<section class="doc-section" id="tables">
+<h2><span data-locale="en" data-locale-active="true">Tables</span><span data-locale="zh-CN" data-locale-active="false">表格</span></h2>
+<table>
+<tr><th><span data-locale="en" data-locale-active="true">Component</span><span data-locale="zh-CN" data-locale-active="false">组件</span></th><th><span data-locale="en" data-locale-active="true">Use</span><span data-locale="zh-CN" data-locale-active="false">用途</span></th><th><span data-locale="en" data-locale-active="true">Signal</span><span data-locale="zh-CN" data-locale-active="false">信号</span></th></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Summary</span><span data-locale="zh-CN" data-locale-active="false">摘要</span></td><td><span data-locale="en" data-locale-active="true">Surface the core facts first.</span><span data-locale="zh-CN" data-locale-active="false">先展示核心事实。</span></td><td><span data-locale="en" data-locale-active="true">Document has two or more key takeaways.</span><span data-locale="zh-CN" data-locale-active="false">文档有两个或更多关键结论。</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Callout</span><span data-locale="zh-CN" data-locale-active="false">提示块</span></td><td><span data-locale="en" data-locale-active="true">Highlight warning, success, or decision context.</span><span data-locale="zh-CN" data-locale-active="false">强调警告、成功或决策上下文。</span></td><td><span data-locale="en" data-locale-active="true">Reader should notice it before continuing.</span><span data-locale="zh-CN" data-locale-active="false">读者继续阅读前应先注意到它。</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Table</span><span data-locale="zh-CN" data-locale-active="false">表格</span></td><td><span data-locale="en" data-locale-active="true">Compare structured facts.</span><span data-locale="zh-CN" data-locale-active="false">比较结构化事实。</span></td><td><span data-locale="en" data-locale-active="true">Rows share the same fields.</span><span data-locale="zh-CN" data-locale-active="false">多行共享同一组字段。</span></td></tr>
+</table>
+<table>
+<tr><th><span data-locale="en" data-locale-active="true">Risk</span><span data-locale="zh-CN" data-locale-active="false">风险</span></th><th><span data-locale="en" data-locale-active="true">Likelihood</span><span data-locale="zh-CN" data-locale-active="false">可能性</span></th><th><span data-locale="en" data-locale-active="true">Mitigation</span><span data-locale="zh-CN" data-locale-active="false">缓解方式</span></th></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Long headings wrap poorly</span><span data-locale="zh-CN" data-locale-active="false">长标题换行不佳</span></td><td><span data-locale="en" data-locale-active="true">Medium</span><span data-locale="zh-CN" data-locale-active="false">中</span></td><td><span data-locale="en" data-locale-active="true">Use dynamic sidebar width and larger TOC text.</span><span data-locale="zh-CN" data-locale-active="false">使用动态侧栏宽度和更大的目录字体。</span></td></tr>
+<tr><td><span data-locale="en" data-locale-active="true">Optional blocks become decoration</span><span data-locale="zh-CN" data-locale-active="false">可选 block 变成装饰</span></td><td><span data-locale="en" data-locale-active="true">Low</span><span data-locale="zh-CN" data-locale-active="false">低</span></td><td><span data-locale="en" data-locale-active="true">Require each block to carry new information.</span><span data-locale="zh-CN" data-locale-active="false">要求每个 block 承载新的信息。</span></td></tr>
+</table>
+</section>
+
+<section class="doc-section" id="blocks-view">
+<h2><span data-locale="en" data-locale-active="true">Blocks View</span><span data-locale="zh-CN" data-locale-active="false">Blocks 视图</span></h2>
+<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Value card</span><span data-locale="zh-CN" data-locale-active="false">价值卡片</span></h3><p><span data-locale="en" data-locale-active="true">Use values-grid for peer ideas with equal weight.</span><span data-locale="zh-CN" data-locale-active="false">使用 values-grid 展示同等权重的并列观点。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Action card</span><span data-locale="zh-CN" data-locale-active="false">行动卡片</span></h3><p><span data-locale="en" data-locale-active="true">Use action blocks for concrete follow-up work.</span><span data-locale="zh-CN" data-locale-active="false">使用 action block 表示明确的后续工作。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Details</span><span data-locale="zh-CN" data-locale-active="false">折叠详情</span></h3><p><span data-locale="en" data-locale-active="true">Use details for optional evidence or implementation notes.</span><span data-locale="zh-CN" data-locale-active="false">使用 details 承载可选证据或实现说明。</span></p></div></section>
+<aside class="callout callout-success"><strong><span data-locale="en" data-locale-active="true">Success callout</span><span data-locale="zh-CN" data-locale-active="false">成功提示</span></strong><p><span data-locale="en" data-locale-active="true">A success callout records a decision or completed validation.</span><span data-locale="zh-CN" data-locale-active="false">成功提示用于记录决策或已完成的验证。</span></p></aside>
+<aside class="callout callout-warning"><strong><span data-locale="en" data-locale-active="true">Warning callout</span><span data-locale="zh-CN" data-locale-active="false">警告提示</span></strong><p><span data-locale="en" data-locale-active="true">A warning callout calls out risk without stopping the document flow.</span><span data-locale="zh-CN" data-locale-active="false">警告提示用于标出风险，但不打断文档流。</span></p></aside>
+<details class="details-block"><summary><span data-locale="en" data-locale-active="true">Open a details block</span><span data-locale="zh-CN" data-locale-active="false">展开 details block</span></summary><p><span data-locale="en" data-locale-active="true">Details blocks can contain nested paragraphs, lists, and code.</span><span data-locale="zh-CN" data-locale-active="false">Details block 可以包含嵌套段落、列表和代码。</span></p><ul><li><span data-locale="en" data-locale-active="true">Keep optional evidence close to its claim.</span><span data-locale="zh-CN" data-locale-active="false">让可选证据靠近它支撑的结论。</span></li><li><span data-locale="en" data-locale-active="true">Avoid hiding the main decision inside details.</span><span data-locale="zh-CN" data-locale-active="false">避免把主决策藏在 details 里。</span></li></ul></details>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Regenerate the gallery</span><span data-locale="zh-CN" data-locale-active="false">重新生成组件大全</span></h3><p><span data-locale="en" data-locale-active="true">When component CSS changes, regenerate this page and compare it visually.</span><span data-locale="zh-CN" data-locale-active="false">当组件 CSS 变化时，重新生成本页并做视觉对比。</span></p><pre class="prompt-block"><code><span data-locale="en" data-locale-active="true">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span><span data-locale="zh-CN" data-locale-active="false">python3 scripts/render_html.py --input examples/component-gallery.json --output examples/component-gallery.html --validate</span></code></pre></section>
+</section>
+
+<section class="doc-section" id="code-and-diff">
+<h2><span data-locale="en" data-locale-active="true">Code And Diff</span><span data-locale="zh-CN" data-locale-active="false">代码与 Diff</span></h2>
+<pre class="code-block" data-language="json"><code data-language="json">{
+  &quot;metadata&quot;: {
+    &quot;title&quot;: &quot;Component gallery&quot;,
+    &quot;language&quot;: &quot;en&quot;,
+    &quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]
+  }
+}</code></pre>
+<section class="diff-block"><h3><span data-locale="en" data-locale-active="true">Localized title diff</span><span data-locale="zh-CN" data-locale-active="false">本地化标题 Diff</span></h3><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">Before</span><span data-locale="zh-CN" data-locale-active="false">之前</span></h3><pre><code><span class="line-remove"><span data-locale="en" data-locale-active="true">&quot;title&quot;: &quot;Component gallery&quot;</span><span data-locale="zh-CN" data-locale-active="false">&quot;title&quot;: &quot;组件大全&quot;</span></span>
+<span class="line-context"><span data-locale="en" data-locale-active="true">&quot;language&quot;: &quot;en&quot;</span><span data-locale="zh-CN" data-locale-active="false">&quot;language&quot;: &quot;en&quot;</span></span></code></pre></div><div class="diff-side"><h3><span data-locale="en" data-locale-active="true">After</span><span data-locale="zh-CN" data-locale-active="false">之后</span></h3><pre><code><span class="line-add"><span data-locale="en" data-locale-active="true">&quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; }</span><span data-locale="zh-CN" data-locale-active="false">&quot;title&quot;: { &quot;en&quot;: &quot;Component gallery&quot;, &quot;zh-CN&quot;: &quot;组件大全&quot; }</span></span>
+<span class="line-context"><span data-locale="en" data-locale-active="true">&quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span><span data-locale="zh-CN" data-locale-active="false">&quot;locales&quot;: [&quot;en&quot;, &quot;zh-CN&quot;]</span></span></code></pre></div></section>
+</section>
+
+<section class="doc-section" id="evidence-and-people">
+<h2><span data-locale="en" data-locale-active="true">Evidence And People</span><span data-locale="zh-CN" data-locale-active="false">证据与参与者</span></h2>
+<ul class="source-refs"><li><a href="../config/components.json"><span data-locale="en" data-locale-active="true">Component registry</span><span data-locale="zh-CN" data-locale-active="false">组件注册表</span></a> - <span data-locale="en" data-locale-active="true">Configured component ids, renderers, and classes.</span><span data-locale="zh-CN" data-locale-active="false">配置组件 id、渲染器和 class。</span></li><li><a href="../schemas/doc.schema.json"><span data-locale="en" data-locale-active="true">Document schema</span><span data-locale="zh-CN" data-locale-active="false">文档 Schema</span></a> - <span data-locale="en" data-locale-active="true">The JSON contract for every source document.</span><span data-locale="zh-CN" data-locale-active="false">所有源文档都遵循的 JSON 契约。</span></li></ul>
+<ul class="files"><li><code>scripts/cast_docs_core.py:1</code> - <span data-locale="en" data-locale-active="true">Renderer hub and block implementations.</span><span data-locale="zh-CN" data-locale-active="false">渲染器枢纽和 block 实现。</span></li><li><code>assets/template-modules/styles.base.css:1</code> - <span data-locale="en" data-locale-active="true">Shared document chrome and component styles.</span><span data-locale="zh-CN" data-locale-active="false">共享文档框架和组件样式。</span></li></ul>
+<section class="participants"><div class="participant-card"><h3><span data-locale="en" data-locale-active="true">Document author</span><span data-locale="zh-CN" data-locale-active="false">文档作者</span></h3><p><em><span data-locale="en" data-locale-active="true">writer</span><span data-locale="zh-CN" data-locale-active="false">作者</span></em></p><p><span data-locale="en" data-locale-active="true">Provide structured JSON and meaningful component choices.</span><span data-locale="zh-CN" data-locale-active="false">提供结构化 JSON 和有意义的组件选择。</span></p></div><div class="participant-card"><h3><span data-locale="en" data-locale-active="true">Renderer</span><span data-locale="zh-CN" data-locale-active="false">渲染器</span></h3><p><em><span data-locale="en" data-locale-active="true">system</span><span data-locale="zh-CN" data-locale-active="false">系统</span></em></p><p><span data-locale="en" data-locale-active="true">Own HTML, CSS, validation, and approved interactions.</span><span data-locale="zh-CN" data-locale-active="false">负责 HTML、CSS、校验和受控交互。</span></p></div></section>
+</section>
+
+<section class="doc-section" id="diagrams">
+<h2><span data-locale="en" data-locale-active="true">Diagrams And Icons</span><span data-locale="zh-CN" data-locale-active="false">图表与图标</span></h2>
+<figure class="diagram" data-download-name="renderer-flow"><figcaption><span data-locale="en" data-locale-active="true">Renderer flow</span><span data-locale="zh-CN" data-locale-active="false">渲染流程</span></figcaption><svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Renderer flow"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a929b"></path></marker></defs><line x1="200" y1="82" x2="300" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">parse</text><text x="250" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">解析</text><line x1="420" y1="82" x2="520" y2="82" stroke="#8a929b" stroke-width="2" marker-end="url(#arrow)"></line><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="en" data-locale-active="true">render</text><text x="470" y="66" text-anchor="middle" font-size="12" fill="#68717b" data-locale="zh-CN" data-locale-active="false">渲染</text><rect x="80" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">JSON</text><text x="140" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">JSON</text><rect x="300" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">Blocks</text><text x="360" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">Blocks</text><rect x="520" y="54" width="120" height="56" rx="7" fill="#f3f4f4" stroke="#9aa1a8"></rect><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="en" data-locale-active="true">HTML</text><text x="580" y="87" text-anchor="middle" font-size="13" fill="#2f3439" data-locale="zh-CN" data-locale-active="false">HTML</text></svg></figure>
+<figure class="diagram" data-download-name="interaction-sequence"><figcaption><span data-locale="en" data-locale-active="true">Interaction sequence</span><span data-locale="zh-CN" data-locale-active="false">交互时序</span></figcaption><svg viewBox="0 0 860 194" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interaction sequence"><rect x="32" y="36" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="62" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Reader</text><text x="58" y="62" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">读者</text><text x="180" y="62" fill="#2f3439" font-size="14">-&gt;</text><text x="218" y="62" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Switcher</text><text x="218" y="62" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">切换器</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle" data-locale="en" data-locale-active="true">choose locale</text><text x="430" y="62" fill="#68717b" font-size="13" text-anchor="middle" data-locale="zh-CN" data-locale-active="false">选择语言</text><rect x="32" y="104" width="796" height="42" rx="7" fill="#f3f4f4" stroke="#9aa1a8" stroke-width="1"/><text x="58" y="130" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Switcher</text><text x="58" y="130" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">切换器</text><text x="180" y="130" fill="#2f3439" font-size="14">-&gt;</text><text x="218" y="130" fill="#2f3439" font-size="14" data-locale="en" data-locale-active="true">Document</text><text x="218" y="130" fill="#2f3439" font-size="14" data-locale="zh-CN" data-locale-active="false">文档</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle" data-locale="en" data-locale-active="true">toggle visible nodes</text><text x="430" y="130" fill="#68717b" font-size="13" text-anchor="middle" data-locale="zh-CN" data-locale-active="false">切换可见节点</text></svg></figure>
+<ul class="open-questions"><li><span data-locale="en" data-locale-active="true">Should future icon components become first-class JSON blocks?</span><span data-locale="zh-CN" data-locale-active="false">未来的图标组件是否应该成为一等 JSON block？</span></li><li><span data-locale="en" data-locale-active="true">Should the gallery include visual snapshots for every theme?</span><span data-locale="zh-CN" data-locale-active="false">组件大全是否应该为每个主题包含视觉快照？</span></li></ul>
+</section>
+</main>
+<footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-docs" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>
+</article>
+
+<aside class="sidebar"><p class="nav-title"><span data-i18n-key="chrome.contents">Contents</span></p><nav class="toc" aria-label="Table of contents"><ol><li><a href="#plain-content"><span>01</span><span data-locale="en" data-locale-active="true">Plain Content</span><span data-locale="zh-CN" data-locale-active="false">基础内容</span></a></li><li><a href="#rich-text"><span>02</span><span data-locale="en" data-locale-active="true">Rich Text Marks</span><span data-locale="zh-CN" data-locale-active="false">富文本标记</span></a></li><li><a href="#lists-and-criteria"><span>03</span><span data-locale="en" data-locale-active="true">Lists And Criteria</span><span data-locale="zh-CN" data-locale-active="false">列表与验收标准</span></a></li><li><a href="#tables"><span>04</span><span data-locale="en" data-locale-active="true">Tables</span><span data-locale="zh-CN" data-locale-active="false">表格</span></a></li><li><a href="#blocks-view"><span>05</span><span data-locale="en" data-locale-active="true">Blocks View</span><span data-locale="zh-CN" data-locale-active="false">Blocks 视图</span></a></li><li><a href="#code-and-diff"><span>06</span><span data-locale="en" data-locale-active="true">Code And Diff</span><span data-locale="zh-CN" data-locale-active="false">代码与 Diff</span></a></li><li><a href="#evidence-and-people"><span>07</span><span data-locale="en" data-locale-active="true">Evidence And People</span><span data-locale="zh-CN" data-locale-active="false">证据与参与者</span></a></li><li><a href="#diagrams"><span>08</span><span data-locale="en" data-locale-active="true">Diagrams And Icons</span><span data-locale="zh-CN" data-locale-active="false">图表与图标</span></a></li></ol></nav></aside>
+<header class="topbar"><span class="topbar-title"><span data-locale="en" data-locale-active="true">Component gallery</span><span data-locale="zh-CN" data-locale-active="false">组件大全</span></span><nav class="topbar-links" data-slot="topbar-links" aria-label="Document links"><a class="topbar-link" href="../index.html"><span data-locale="en" data-locale-active="true">CAST Docs</span><span data-locale="zh-CN" data-locale-active="false">CAST Docs</span></a></nav><span class="topbar-spacer"></span><div class="locale-switcher" data-renderer-owned="true" role="group" aria-label="Language"><button class="locale-button" type="button" data-locale-target="en" aria-pressed="true">EN</button><button class="locale-button" type="button" data-locale-target="zh-CN" aria-pressed="false">中文</button></div></header>
+
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #f8f8f7;
+  --surface: #ffffff;
+  --soft: #f2f3f3;
+  --text: #24272b;
+  --muted: #68717b;
+  --faint: #9aa1a8;
+  --border: #dedede;
+  --primary: #566f99;
+  --primary-soft: #f1f3f6;
+  --accent: #52686a;
+  --info: #566f99;
+  --info-soft: #f4f5f7;
+  --warn: #8a6d3b;
+  --warn-soft: #f8f4ea;
+  --danger: #9b4d49;
+  --danger-soft: #faf0ef;
+  --ok: #55745f;
+  --ok-soft: #eef4ef;
+  --code: #f1f2f2;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111315;
+    --surface: #17191c;
+    --soft: #202328;
+    --text: #e2e5e8;
+    --muted: #a1a7ad;
+    --faint: #767d84;
+    --border: #30343a;
+    --primary: #9aaeca;
+    --primary-soft: #1b2027;
+    --accent: #9ab4b1;
+    --info: #9aaeca;
+    --info-soft: #1b2027;
+    --warn: #c7b27e;
+    --warn-soft: #242117;
+    --danger: #d09a95;
+    --danger-soft: #271b1a;
+    --ok: #9ebaa5;
+    --ok-soft: #1a241d;
+    --code: #202328;
+  }
+}
+:root { --toc-width: clamp(220px, 16vw, 300px); --topbar-height: 56px; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre { font-family: var(--mono); }
+code { background: var(--code); color: var(--accent); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: .88em; }
+pre { margin: 14px 0; padding: 14px 16px; overflow: auto; background: var(--code); border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; line-height: 1.55; }
+mark { background: var(--warn-soft); color: var(--text); padding: .02em .22em; border-radius: 3px; }
+del { color: var(--muted); text-decoration: line-through; }
+u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+[data-mark="deprecated"] { color: var(--muted); text-decoration: line-through; }
+[data-mark="term"] { border-bottom: 1px dotted var(--faint); cursor: help; }
+[data-mark="metric"] { font-variant-numeric: tabular-nums; font-weight: 600; }
+[data-locale][data-locale-active="false"] { display: none; }
+.sidebar { position: fixed; inset: var(--topbar-height) auto 0 0; width: var(--toc-width); padding: 30px 28px 60px 30px; overflow-y: auto; background: var(--bg); }
+.nav-title { margin: 0 0 16px; color: var(--faint); font: 700 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.toc { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0; }
+.toc a { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 0 8px 10px; border-left: 2px solid transparent; color: var(--muted); font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+.toc a:hover, .toc a.active { border-left-color: var(--primary); color: var(--text); text-decoration: none; }
+.toc span { color: var(--faint); font: 12px/1.45 var(--mono); }
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: var(--topbar-height); display: flex; align-items: center; gap: 18px; padding: 0 36px; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+.topbar-title { color: var(--text); font-weight: 600; }
+.topbar-links { display: flex; gap: 12px; align-items: center; }
+.topbar-links:empty { display: none; }
+.topbar-link { color: var(--muted); font-size: 12.5px; }
+.topbar-spacer { flex: 1; }
+.locale-switcher { display: inline-flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.locale-button { min-width: 44px; border: 0; background: transparent; color: var(--muted); padding: 5px 8px; }
+.locale-button[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); font-weight: 700; }
+.doc { margin-left: var(--toc-width); max-width: 960px; padding: 96px 52px 84px; }
+.doc-header { margin-bottom: 32px; padding-bottom: 26px; border-bottom: 1px solid var(--border); }
+.doc-header h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
+.doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
+.doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card { margin: 18px 0; }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.doc-summary { padding: 16px 18px; }
+.doc-summary ul { margin: 0; }
+.doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
+.doc-section h2 { margin: 0 0 16px; padding: 4px 0 5px 14px; border-left: 3px solid var(--primary); font-size: 22px; line-height: 1.25; }
+.doc-section h3 { margin: 0 0 8px; font-size: 16px; }
+.section-empty { color: var(--muted); font-style: italic; }
+.callout { padding: 13px 16px; border: 1px solid var(--border); border-left: 3px solid var(--info); border-radius: 8px; background: var(--info-soft); }
+.callout p { margin: 6px 0 0; }
+.callout-info { border-left-color: var(--info); background: var(--info-soft); }
+.callout-warning { border-left-color: var(--warn); background: var(--warn-soft); }
+.callout-danger { border-left-color: var(--danger); background: var(--danger-soft); }
+.callout-success { border-left-color: var(--ok); background: var(--ok-soft); }
+table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 13.5px; }
+th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { background: var(--soft); color: var(--muted); font-size: 12.5px; font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.details-block { padding: 0 14px; }
+.details-block summary { cursor: pointer; padding: 12px 0; font-weight: 700; }
+.diagram { position: relative; padding: 16px; overflow: auto; }
+.diagram figcaption { margin-bottom: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.diagram svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.diagram-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity .16s ease; }
+.diagram:hover .diagram-toolbar { opacity: 1; }
+button { border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); cursor: pointer; font: 12px/1.2 var(--sans); padding: 5px 9px; }
+.diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.diff-block > h3 { grid-column: 1 / -1; }
+.diff-side { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: 14px; }
+.diff-side pre { margin: 0; border: 0; border-radius: 0; }
+.diff-side span { display: block; }
+.line-add { color: var(--ok); }
+.line-remove { color: var(--danger); }
+.line-warning { color: var(--warn); }
+.line-context { color: var(--text); }
+.participants, .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.participant-card, .value-card, .action-card { padding: 14px 16px; }
+.participant-card p, .value-card p, .action-card p { margin: 0; color: var(--muted); }
+.source-refs, .files, .acceptance-criteria, .open-questions { padding-left: 22px; }
+.prompt-block { margin-top: 10px; }
+.doc-footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; }
+.lightbox { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 32px; background: rgba(8, 13, 20, .82); }
+.lightbox.open { display: flex; }
+.lightbox-panel { position: relative; width: min(1120px, 96vw); height: min(760px, 88vh); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.lightbox-body { width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; cursor: grab; }
+.lightbox-body svg { max-width: 92%; max-height: 82%; transform-origin: center; }
+.lightbox-toolbar { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 8px; }
+.lightbox-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+@media (max-width: 760px) {
+  body { display: flex; flex-direction: column; }
+  .topbar { position: sticky; top: 0; left: 0; right: auto; padding: 12px 18px; height: auto; flex-wrap: wrap; order: 1; }
+  .sidebar { position: static; inset: auto; width: auto; padding: 16px 18px; border-bottom: 1px solid var(--border); order: 2; }
+  .doc { margin-left: 0; max-width: none; padding: 32px 20px 56px; order: 3; }
+  .doc-header h1 { font-size: 28px; }
+  .diff-block { grid-template-columns: 1fr; }
+}
+@media print {
+  .sidebar, .topbar, .diagram-toolbar, .lightbox { display: none !important; }
+  .doc { margin-left: 0; max-width: none; padding: 0; }
+}
+</style>
+<div class="lightbox" data-renderer-owned="true" data-interaction="diagram-viewer" role="dialog" aria-modal="true" aria-label="Diagram viewer"><div class="lightbox-panel"><button class="lightbox-close" type="button" data-renderer-owned="true" aria-label="Close"><span data-i18n-key="diagram.close">Close</span></button><div class="lightbox-body"></div><div class="lightbox-toolbar"></div></div></div>
+<script data-renderer-owned="true" data-interaction="i18n">window.CAST_DOCS_I18N = {"activeLocale": "en", "locales": ["en", "zh-CN"], "strings": {"en": {"chrome.contents": "Contents", "chrome.documentLinksAria": "Document links", "chrome.languageAria": "Language", "chrome.tocAria": "Table of contents", "diagram.close": "Close", "diagram.flowAria": "Flow diagram", "diagram.open": "Open", "diagram.png": "PNG", "diagram.reset": "Reset", "diagram.sequenceAria": "Sequence diagram", "diagram.svg": "SVG", "diagram.unsupported": "Unsupported diagram", "diagram.viewerAria": "Diagram viewer", "diagram.zoomIn": "Zoom +", "diagram.zoomOut": "Zoom -", "metadata.owner": "Owner", "metadata.updated": "Updated", "state.noContent": "No content.", "state.unsupportedBlock": "Unsupported block", "state.untitled": "Untitled"}, "zh-CN": {"chrome.contents": "目录", "chrome.documentLinksAria": "文档链接", "chrome.languageAria": "语言", "chrome.tocAria": "目录", "diagram.close": "关闭", "diagram.flowAria": "流程图", "diagram.open": "打开", "diagram.png": "PNG", "diagram.reset": "重置", "diagram.sequenceAria": "时序图", "diagram.svg": "SVG", "diagram.unsupported": "不支持的图表", "diagram.viewerAria": "图表查看器", "diagram.zoomIn": "放大", "diagram.zoomOut": "缩小", "metadata.owner": "负责人", "metadata.updated": "更新于", "state.noContent": "暂无内容。", "state.unsupportedBlock": "不支持的内容块", "state.untitled": "未命名"}}};</script><script data-renderer-owned="true" data-interaction="diagram-viewer">
+(() => {
+  const lightbox = document.querySelector('.lightbox[data-interaction="diagram-viewer"]');
+  if (!lightbox) return;
+  const body = lightbox.querySelector('.lightbox-body');
+  const toolbar = lightbox.querySelector('.lightbox-toolbar');
+  const closeButton = lightbox.querySelector('.lightbox-close');
+  let sourceSvg = null;
+  let cloneSvg = null;
+  let zoom = 1;
+  let panX = 0;
+  let panY = 0;
+  function label(key, fallback) {
+    const config = window.CAST_DOCS_I18N || {};
+    const locale = config.activeLocale || document.documentElement.lang || 'en';
+    const strings = (config.strings && config.strings[locale]) || {};
+    const fallbackStrings = (config.strings && config.strings.en) || {};
+    return strings[key] || fallbackStrings[key] || fallback;
+  }
+  function fileBase(svg) {
+    return svg.closest('[data-download-name]')?.getAttribute('data-download-name') || 'diagram';
+  }
+  function serialize(svg) {
+    const clone = svg.cloneNode(true);
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    return new XMLSerializer().serializeToString(clone);
+  }
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 250);
+  }
+  function downloadSvg(svg) {
+    downloadBlob(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }), `${fileBase(svg)}.svg`);
+  }
+  function downloadPng(svg) {
+    const url = URL.createObjectURL(new Blob([serialize(svg)], { type: 'image/svg+xml;charset=utf-8' }));
+    const img = new Image();
+    img.onload = () => {
+      const box = svg.viewBox && svg.viewBox.baseVal;
+      const width = box && box.width ? box.width : 900;
+      const height = box && box.height ? box.height : 520;
+      const canvas = document.createElement('canvas');
+      canvas.width = width * 2;
+      canvas.height = height * 2;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(2, 2);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob((blob) => blob && downloadBlob(blob, `${fileBase(svg)}.png`), 'image/png');
+    };
+    img.src = url;
+  }
+  function setTransform() {
+    if (cloneSvg) cloneSvg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+  }
+  function makeButton(label, action) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = label;
+    button.setAttribute('data-renderer-owned', 'true');
+    button.addEventListener('click', action);
+    return button;
+  }
+  function makeI18nButton(key, fallback, action) {
+    const button = makeButton(label(key, fallback), action);
+    button.setAttribute('data-i18n-key', key);
+    return button;
+  }
+  function open(svg) {
+    sourceSvg = svg;
+    cloneSvg = svg.cloneNode(true);
+    cloneSvg.removeAttribute('width');
+    cloneSvg.removeAttribute('height');
+    cloneSvg.style.transformOrigin = 'center';
+    zoom = 1;
+    panX = 0;
+    panY = 0;
+    body.replaceChildren(cloneSvg);
+    toolbar.replaceChildren(
+      makeI18nButton('diagram.zoomOut', 'Zoom -', () => { zoom = Math.max(0.25, zoom * 0.8); setTransform(); }),
+      makeI18nButton('diagram.zoomIn', 'Zoom +', () => { zoom = Math.min(8, zoom * 1.25); setTransform(); }),
+      makeI18nButton('diagram.reset', 'Reset', () => { zoom = 1; panX = 0; panY = 0; setTransform(); }),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(sourceSvg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(sourceSvg))
+    );
+    lightbox.classList.add('open');
+    setTransform();
+  }
+  function close() {
+    lightbox.classList.remove('open');
+    body.replaceChildren();
+    toolbar.replaceChildren();
+    sourceSvg = null;
+    cloneSvg = null;
+  }
+  closeButton.addEventListener('click', close);
+  lightbox.addEventListener('click', (event) => { if (event.target === lightbox) close(); });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
+  body.addEventListener('wheel', (event) => {
+    if (!cloneSvg) return;
+    event.preventDefault();
+    zoom = Math.max(0.25, Math.min(8, zoom * Math.exp(-event.deltaY * 0.0015)));
+    setTransform();
+  }, { passive: false });
+  let drag = null;
+  body.addEventListener('mousedown', (event) => {
+    if (!cloneSvg) return;
+    drag = { x: event.clientX, y: event.clientY, panX, panY };
+  });
+  window.addEventListener('mousemove', (event) => {
+    if (!drag) return;
+    panX = drag.panX + event.clientX - drag.x;
+    panY = drag.panY + event.clientY - drag.y;
+    setTransform();
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+  document.querySelectorAll('.diagram').forEach((figure) => {
+    const svg = figure.querySelector('svg');
+    if (!svg) return;
+    const tools = document.createElement('div');
+    tools.className = 'diagram-toolbar';
+    tools.setAttribute('data-renderer-owned', 'true');
+    tools.append(
+      makeI18nButton('diagram.open', 'Open', () => open(svg)),
+      makeI18nButton('diagram.svg', 'SVG', () => downloadSvg(svg)),
+      makeI18nButton('diagram.png', 'PNG', () => downloadPng(svg))
+    );
+    figure.appendChild(tools);
+  });
+})();
+</script><script data-renderer-owned="true" data-interaction="i18n">(() => {
+  const config = window.CAST_DOCS_I18N;
+  if (!config || !Array.isArray(config.locales) || config.locales.length < 2) return;
+  const root = document.documentElement;
+  const stringsFor = (locale) => (config.strings && config.strings[locale]) || {};
+  const label = (locale, key, fallback) => stringsFor(locale)[key] || stringsFor(config.activeLocale)[key] || fallback;
+  function apply(locale) {
+    if (!config.locales.includes(locale)) return;
+    root.lang = locale;
+    root.setAttribute('data-active-locale', locale);
+    config.activeLocale = locale;
+    document.querySelectorAll('[data-locale]').forEach((node) => {
+      const active = node.getAttribute('data-locale') === locale;
+      node.setAttribute('data-locale-active', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-locale-target]').forEach((button) => {
+      const active = button.getAttribute('data-locale-target') === locale;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-i18n-key]').forEach((node) => {
+      const key = node.getAttribute('data-i18n-key');
+      if (key) node.textContent = label(locale, key, node.textContent);
+    });
+  }
+  document.querySelectorAll('[data-locale-target]').forEach((button) => {
+    button.addEventListener('click', () => apply(button.getAttribute('data-locale-target')));
+  });
+  apply(config.activeLocale);
+})();
+</script>
+</body>
+</html>

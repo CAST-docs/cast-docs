@@ -125,6 +125,8 @@ Rules:
 - Allow only anchor, relative, HTTP, and HTTPS hrefs.
 - Use the layout-owned `topbar-links` slot rather than embedding links inside generated prose.
 
+Home navigation is an optional capability (`shell-links`, default off). When the document is one of a multi-page set that has a sibling landing or index page — for example an `examples/*.html` page next to `index.html` — add a single topbar link back to it, such as `{"label": "CAST Docs", "href": "../index.html"}`. A standalone document gets none. This is the only shell link the generator may add on its own; all others must come from the caller.
+
 ## CLI Boundary
 
 The renderer should expose a small CLI surface:

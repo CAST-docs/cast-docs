@@ -141,6 +141,13 @@
       "triggerLevel": "required",
       "blockTypes": ["open-questions"],
       "classes": ["open-questions"]
+    },
+    {
+      "id": "shell-links",
+      "renderer": "shellLinks",
+      "triggerLevel": "optional",
+      "blockTypes": [],
+      "classes": ["topbar-links", "topbar-link"]
     }
   ]
 }

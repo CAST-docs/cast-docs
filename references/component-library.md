@@ -78,3 +78,7 @@ Use explicit questions. Do not hide unknowns in vague prose.
 ## Inline Text Formatting
 
 Prose-bearing fields (`paragraph`, `list`, `callout` body, table cells, `summary` body, `participants` responsibility, `action` description, `values-grid` body, `acceptance-criteria`, `open-questions`) accept inline runs in addition to plain strings. Runs carry typed marks — visual (`strong`, `em`, `code`, `del`, `u`, `mark`), semantic (`deprecated`, `term`, `metric`), and reference (`link`, `ref`). See Generation Contract → Inline Text Formatting for the full shape and rules.
+
+## Shell Links
+
+Optional topbar/footer navigation via `metadata.shellLinks` (component `shell-links`, default off). Add a home link back to a sibling landing page only when the document is part of a multi-page set that has an `index.html`; a standalone document gets none. See Generation Contract → Optional Shell Links.

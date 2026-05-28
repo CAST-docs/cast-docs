@@ -1636,6 +1636,14 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .slider-control, .open-questions-block { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
+.set-grid { display: grid; gap: 22px; }
+.set-section { margin: 0; }
+.chapter-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.chapter-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.chapter-card a { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 15px 16px; color: var(--text); }
+.chapter-card a:hover { text-decoration: none; border-color: var(--primary); }
+.chapter-number { color: var(--faint); font: 700 12px/1.4 var(--mono); }
+.chapter-title { overflow-wrap: anywhere; font-weight: 700; }
 .doc-section { margin: 46px 0 0; scroll-margin-top: 70px; }
 .doc-section h2 { margin: 0 0 16px; padding: 4px 0 5px 14px; border-left: 3px solid var(--primary); font-size: 22px; line-height: 1.25; }
 .doc-section h3 { margin: 0 0 8px; font-size: 16px; }

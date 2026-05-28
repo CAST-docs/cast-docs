@@ -121,11 +121,6 @@ Implemented options:
 ```text
 --config-dir config
 --validate
-```
-
-Planned profile-aware options:
-
-```text
 --repo-root <path>
 --profile-dir <path>
 --output-policy explicit|shareable|local
@@ -194,11 +189,14 @@ Implemented P0 scripts:
 - `scripts/validate_doc_json.py`
 - `scripts/render_html.py`
 - `scripts/validate_html.py`
+- `scripts/validate_project_profile.py`
+- `scripts/check_fixtures.py`
+- `scripts/build_index.py`
 
 Still planned:
 
-- `scripts/build_index.py` for document-set index generation.
-- Project profile discovery, validation, and output policy support.
+- Full document-set chapter rendering with previous/next pagination.
+- Project template application as a first-class authoring command.
 - Visual lint gates for saturation, fixed badge dimensions, and large color areas.
 
 The fixtures are the practical guardrail for "cover all scenarios": every scenario in config should have at least one example JSON.

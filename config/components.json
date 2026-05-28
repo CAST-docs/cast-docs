@@ -171,6 +171,13 @@
       "classes": ["open-questions"]
     },
     {
+      "id": "chapter-list",
+      "renderer": "chapterList",
+      "triggerLevel": "required",
+      "blockTypes": ["chapter-list"],
+      "classes": ["chapter-list", "chapter-card", "chapter-number", "chapter-title"]
+    },
+    {
       "id": "shell-links",
       "renderer": "shellLinks",
       "triggerLevel": "optional",

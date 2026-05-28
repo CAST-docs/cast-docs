@@ -263,10 +263,13 @@ Done:
 2. Compile `config/theme-tokens.json` into the `:root` CSS variables; static layout CSS lives in `assets/template-modules/styles.base.css`.
 3. Map `block.type` to renderer functions through a registry built from `config/components.json`.
 4. Inject interaction hooks and scripts only when the selected layout and document content trigger them.
+5. Discover and validate `.cast-docs/` project profiles for CLI rendering.
+6. Select profile-controlled output paths for shareable and local draft artifacts.
+7. Check fixture JSON, regenerated HTML, and committed artifact freshness.
+8. Build static document-set index pages from `cast-docs-set.json` manifests.
 
 Planned:
 
-5. Add `shell.document-set.html`, `document-set` generation, and index building.
-6. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.
-7. Replace hand-authored example HTML with renderer-generated example HTML.
-8. Add project profile discovery, validation, and output policy support.
+9. Add full document-set chapter rendering with previous/next pagination.
+10. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.
+11. Add first-class project template application during authoring.

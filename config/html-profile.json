@@ -117,6 +117,13 @@
   },
   "allowedClasses": [
     "doc",
+    "set-index",
+    "set-grid",
+    "set-section",
+    "chapter-list",
+    "chapter-card",
+    "chapter-number",
+    "chapter-title",
     "sidebar",
     "topbar",
     "brand-logo",

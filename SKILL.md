@@ -83,18 +83,21 @@ Borrow principles, not product scope:
 - `references/html-profile.md`: allowed HTML profile and safety rules.
 - `references/component-library.md`: reusable document components.
 - `references/writing-style.md`: writing and editing rules.
-- `references/examples.md`: JSON fixtures and generated/hand-authored HTML examples.
+- `references/examples.md`: JSON fixtures and generated HTML examples.
 - `assets/template-modules/`: shell template, base layout CSS, interaction scripts, and interaction hook HTML loaded by the renderer.
-- `scripts/`: renderer, document JSON validator, HTML profile validator, shared core helpers, and planned index builder.
+- `scripts/`: renderer, validators, fixture freshness checks, document-set index builder, and shared core helpers.
 
 ## Implementation Status
 
 P0 generation is implemented:
 
 - `scripts/validate_doc_json.py` validates document JSON against the configured document types, scenario skeletons, components, shell links, and typed block payloads.
-- `scripts/render_html.py` renders document JSON to a self-contained HTML file with inline CSS and only the interaction modules needed by the document.
+- `scripts/render_html.py` renders document JSON to a self-contained HTML file with inline CSS and only the interaction modules needed by the document. It supports `--repo-root`, `--profile-dir`, and `--output-policy explicit|shareable|local` for profile-aware rendering.
 - `scripts/validate_html.py` validates rendered HTML against `config/html-profile.json`.
+- `scripts/validate_project_profile.py` validates `.cast-docs/` profile JSON, locales, paths, templates, and assets.
+- `scripts/check_fixtures.py` validates fixture JSON, regenerated HTML, and checked-in artifact freshness.
+- `scripts/build_index.py` builds a document-set index from `cast-docs-set.json` or an explicit manifest path.
 
-`scripts/build_index.py` is still planned for document-set index generation.
+Document-set index generation is implemented for static index pages. Rendering every chapter as a full document-set page with previous/next pagination remains planned.
 
-Project Profile support is designed in `references/project-profile.md` but not yet implemented as automatic CLI discovery or validation.
+Project Profile support is implemented for automatic CLI discovery, validation, default metadata/logo merging, and profile-selected output paths. Template application remains an authoring-time responsibility.

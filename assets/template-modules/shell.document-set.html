@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ LANG }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{ DESCRIPTION }}">
+<title>{{ TITLE }}</title>
+</head>
+<body>
+
+<script type="application/json" id="cast-doc-source" data-renderer-owned="true">
+{{ DOC_JSON }}
+</script>
+
+<article class="doc set-index">
+<header class="doc-header"><h1>{{ DISPLAY_TITLE }}</h1>{{ DOC_META }}</header>
+<main>
+{{ SECTIONS }}
+</main>
+<footer class="doc-footer">{{ FOOTER }}</footer>
+</article>
+
+<aside class="sidebar">{{ SIDEBAR }}</aside>
+<header class="topbar">{{ LOGO }}<span class="topbar-title">{{ DISPLAY_TITLE }}</span>{{ TOPBAR_LINKS }}<span class="topbar-spacer"></span>{{ LANGUAGE_SWITCHER }}</header>
+
+<style>{{ STYLE }}</style>
+{{ INTERACTION_HOOKS }}
+{{ INTERACTION_SCRIPTS }}
+</body>
+</html>

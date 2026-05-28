@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import copy
+import datetime as dt
 import hashlib
 import html
 import json
@@ -48,7 +50,20 @@ class RenderContext:
     locales: list[str]
     i18n: dict[str, Any]
     config_dir: Path
+    repo_root: Path = ROOT
     code_index: int = 0
+
+
+@dataclass
+class ProjectProfile:
+    repo_root: Path
+    profile_dir: Path
+    project: dict[str, Any]
+    preferences: dict[str, Any]
+    i18n: dict[str, Any]
+    glossary: dict[str, Any]
+    writing_style: str
+    present: bool = False
 
 
 def load_json(path: Path) -> Any:
@@ -62,11 +77,42 @@ def load_config(name: str, config_dir: Path = CONFIG_DIR) -> Any:
     return load_json(config_dir / name)
 
 
+def load_optional_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    value = load_json(path)
+    if not is_object(value):
+        raise CastDocsError(f"{path}: expected a JSON object")
+    return value
+
+
 def load_template_module(name: str, template_dir: Path = TEMPLATE_DIR) -> str:
     path = template_dir / name
     if not path.exists():
         raise CastDocsError(f"template module not found: {path}")
     return path.read_text(encoding="utf-8")
+
+
+def resolve_inside_root(root: Path, relative_path: str, label: str) -> Path:
+    if not isinstance(relative_path, str) or not relative_path.strip():
+        raise CastDocsError(f"{label} must be a non-empty repository-relative path")
+    path = Path(relative_path)
+    if path.is_absolute():
+        raise CastDocsError(f"{label} must be repository-relative: {relative_path}")
+    resolved = (root / path).resolve()
+    try:
+        resolved.relative_to(root.resolve())
+    except ValueError as exc:
+        raise CastDocsError(f"{label} must stay inside the repository: {relative_path}") from exc
+    return resolved
+
+
+def path_inside_root(root: Path, relative_path: str, label: str, errors: list[str]) -> Path | None:
+    try:
+        return resolve_inside_root(root, relative_path, label)
+    except CastDocsError as exc:
+        errors.append(str(exc))
+        return None
 
 
 def as_list(value: Any) -> list[Any]:
@@ -116,6 +162,16 @@ def localized_value(value: Any, locale: str, fallback: str = "en") -> Any:
         if supported_locale in value:
             return value[supported_locale]
     return ""
+
+
+def merge_dicts(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    merged = copy.deepcopy(base)
+    for key, value in override.items():
+        if is_object(value) and is_object(merged.get(key)):
+            merged[key] = merge_dicts(merged[key], value)
+        else:
+            merged[key] = copy.deepcopy(value)
+    return merged
 
 
 def collect_locales_from_value(value: Any, found: set[str]) -> None:
@@ -251,6 +307,234 @@ def validate_logo(metadata: dict[str, Any], errors: list[str]) -> None:
             errors.append("metadata.logo.href must be a non-empty string")
         elif href_kind(href) not in {"anchor", "relative", "http", "https"}:
             errors.append("metadata.logo.href uses an unsupported URL scheme")
+
+
+def discover_project_profile(
+    repo_root: Path | None = None,
+    profile_dir: Path | None = None,
+) -> ProjectProfile | None:
+    if repo_root is None and profile_dir is None:
+        return None
+    root = (repo_root or Path.cwd()).resolve()
+    directory = (profile_dir or (root / ".cast-docs")).resolve()
+    if not directory.exists():
+        return None
+    if not directory.is_dir():
+        raise CastDocsError(f"profile path is not a directory: {directory}")
+    try:
+        directory.relative_to(root)
+    except ValueError as exc:
+        raise CastDocsError(f"profile directory must stay inside repo root: {directory}") from exc
+    writing_style_path = directory / "writing-style.md"
+    return ProjectProfile(
+        repo_root=root,
+        profile_dir=directory,
+        project=load_optional_json(directory / "project.json"),
+        preferences=load_optional_json(directory / "preferences.json"),
+        i18n=load_optional_json(directory / "i18n.json"),
+        glossary=load_optional_json(directory / "glossary.json"),
+        writing_style=writing_style_path.read_text(encoding="utf-8") if writing_style_path.exists() else "",
+        present=True,
+    )
+
+
+def validate_project_profile(profile: ProjectProfile, config_dir: Path = CONFIG_DIR) -> ValidationResult:
+    errors: list[str] = []
+    warnings: list[str] = []
+    root = profile.repo_root
+
+    if not profile.project:
+        warnings.append("profile project.json is missing")
+    elif profile.project.get("version") != 1:
+        errors.append("project.json version must be 1")
+
+    if profile.preferences and profile.preferences.get("version") != 1:
+        errors.append("preferences.json version must be 1")
+    if profile.i18n and profile.i18n.get("version") != 1:
+        errors.append("i18n.json version must be 1")
+    if profile.glossary and profile.glossary.get("version") != 1:
+        errors.append("glossary.json version must be 1")
+
+    document_types = {item["id"] for item in load_config("document-types.json", config_dir)["documentTypes"]}
+    scenarios = {item["id"] for item in load_config("scenario-skeletons.json", config_dir)["scenarios"]}
+    components = {item["id"] for item in load_config("components.json", config_dir)["components"]}
+
+    default_locale = profile.project.get("defaultLocale")
+    if default_locale is not None and default_locale not in SUPPORTED_LOCALES:
+        errors.append("project.json defaultLocale must be zh-CN or en")
+    default_type = profile.project.get("defaultDocumentType")
+    if default_type is not None and default_type not in document_types:
+        errors.append(f"project.json defaultDocumentType is unknown: {default_type}")
+    default_scenario = profile.project.get("defaultScenario")
+    if default_scenario is not None and default_scenario not in scenarios and default_scenario != "none":
+        errors.append(f"project.json defaultScenario is unknown: {default_scenario}")
+
+    output = profile.project.get("output")
+    if output is not None:
+        if not is_object(output):
+            errors.append("project.json output must be an object")
+        else:
+            for key in ("defaultDir", "localDir"):
+                if output.get(key) is not None:
+                    path_inside_root(root, output[key], f"project.json output.{key}", errors)
+            pattern = output.get("filenamePattern")
+            if pattern is not None and (not isinstance(pattern, str) or "{slug}" not in pattern):
+                errors.append("project.json output.filenamePattern must be a string containing {slug}")
+
+    brand = profile.project.get("brand")
+    if brand is not None:
+        if not is_object(brand):
+            errors.append("project.json brand must be an object")
+        else:
+            logo = brand.get("logo")
+            if logo is not None:
+                if not is_object(logo):
+                    errors.append("project.json brand.logo must be an object")
+                else:
+                    src = logo.get("src")
+                    metadata_errors: list[str] = []
+                    validate_logo({"logo": logo}, metadata_errors)
+                    errors.extend(f"project.json brand.logo: {error}" for error in metadata_errors)
+                    if isinstance(src, str) and media_src_kind(src) == "relative":
+                        asset = path_inside_root(root, src, "project.json brand.logo.src", errors)
+                        if asset is not None and not asset.is_file():
+                            errors.append(f"project.json brand.logo.src not found: {src}")
+
+    locales = profile.i18n.get("locales") if profile.i18n else None
+    if locales is not None:
+        if not isinstance(locales, list) or not locales:
+            errors.append("i18n.json locales must be a non-empty array")
+        else:
+            unsupported = [locale for locale in locales if locale not in SUPPORTED_LOCALES]
+            if unsupported:
+                errors.append(f"i18n.json locales contains unsupported locales: {', '.join(map(str, unsupported))}")
+            if default_locale is not None and default_locale not in locales:
+                errors.append("project.json defaultLocale must be present in i18n.json locales")
+            i18n_default = profile.i18n.get("defaultLocale")
+            if i18n_default is not None and i18n_default not in locales:
+                errors.append("i18n.json defaultLocale must be present in i18n.json locales")
+            fallback = profile.i18n.get("fallbackLocale")
+            if fallback is not None and fallback not in locales:
+                errors.append("i18n.json fallbackLocale must be present in i18n.json locales")
+
+    scenario_defaults = profile.preferences.get("scenarioDefaults") if profile.preferences else None
+    if scenario_defaults is not None:
+        if not is_object(scenario_defaults):
+            errors.append("preferences.json scenarioDefaults must be an object")
+        else:
+            for scenario_id, defaults in scenario_defaults.items():
+                if scenario_id not in scenarios and scenario_id != "none":
+                    errors.append(f"preferences.json scenarioDefaults contains unknown scenario: {scenario_id}")
+                    continue
+                if not is_object(defaults):
+                    errors.append(f"preferences.json scenarioDefaults.{scenario_id} must be an object")
+                    continue
+                document_type = defaults.get("documentType")
+                if document_type is not None and document_type not in document_types:
+                    errors.append(f"preferences.json scenarioDefaults.{scenario_id}.documentType is unknown: {document_type}")
+                template = defaults.get("template")
+                if template is not None:
+                    template_path = path_inside_root(root, template, f"preferences.json scenarioDefaults.{scenario_id}.template", errors)
+                    if template_path is not None:
+                        if not template_path.is_file():
+                            errors.append(f"preferences.json scenarioDefaults.{scenario_id}.template not found: {template}")
+                        else:
+                            try:
+                                template_doc = load_json(template_path)
+                                result = validate_document(template_doc, config_dir)
+                                errors.extend(f"{template}: {error}" for error in result.errors)
+                            except CastDocsError as exc:
+                                errors.append(str(exc))
+                for component_key in ("preferredComponents", "omitWhenEmpty"):
+                    values = defaults.get(component_key)
+                    if values is not None:
+                        if not isinstance(values, list):
+                            errors.append(f"preferences.json scenarioDefaults.{scenario_id}.{component_key} must be an array")
+                        else:
+                            for component_id in values:
+                                if component_id not in components:
+                                    errors.append(
+                                        f"preferences.json scenarioDefaults.{scenario_id}.{component_key} contains unknown component: {component_id}"
+                                    )
+
+    return ValidationResult(errors, warnings)
+
+
+def profile_default_metadata(profile: ProjectProfile | None) -> dict[str, Any]:
+    if profile is None:
+        return {}
+    metadata: dict[str, Any] = {}
+    project = profile.project
+    if isinstance(project.get("defaultLocale"), str):
+        metadata["language"] = project["defaultLocale"]
+    if isinstance(project.get("owner"), str):
+        metadata["owner"] = project["owner"]
+    brand = project.get("brand")
+    if is_object(brand) and is_object(brand.get("logo")):
+        metadata["logo"] = brand["logo"]
+    return metadata
+
+
+def apply_project_profile(doc: dict[str, Any], profile: ProjectProfile | None) -> dict[str, Any]:
+    if profile is None:
+        return doc
+    merged = copy.deepcopy(doc)
+    metadata = merged.get("metadata")
+    if not is_object(metadata):
+        metadata = {}
+    merged["metadata"] = merge_dicts(profile_default_metadata(profile), metadata)
+
+    manifest = merged.get("manifest")
+    if is_object(manifest):
+        scenario = manifest.get("scenario") or profile.project.get("defaultScenario")
+        defaults = {}
+        scenario_defaults = profile.preferences.get("scenarioDefaults")
+        if isinstance(scenario, str) and is_object(scenario_defaults):
+            scenario_entry = scenario_defaults.get(scenario)
+            if is_object(scenario_entry):
+                defaults = scenario_entry
+        if not manifest.get("documentType"):
+            document_type = defaults.get("documentType") or profile.project.get("defaultDocumentType")
+            if isinstance(document_type, str):
+                manifest["documentType"] = document_type
+        if not manifest.get("scenario") and isinstance(profile.project.get("defaultScenario"), str):
+            manifest["scenario"] = profile.project["defaultScenario"]
+    return merged
+
+
+def slugify_filename(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return slug or "document"
+
+
+def output_path_from_policy(
+    explicit_output: Path | None,
+    doc: dict[str, Any],
+    profile: ProjectProfile | None,
+    policy: str,
+) -> Path:
+    if explicit_output is not None:
+        return explicit_output
+    if profile is None:
+        raise CastDocsError("--output is required when no project profile is loaded")
+    if policy == "explicit":
+        raise CastDocsError("--output is required when --output-policy explicit is used")
+
+    output = profile.project.get("output")
+    if not is_object(output):
+        output = {}
+    directory_key = "localDir" if policy == "local" else "defaultDir"
+    fallback_dir = ".cast-docs/out" if policy == "local" else "docs/cast-docs"
+    directory = text(output.get(directory_key) or fallback_dir)
+    output_dir = resolve_inside_root(profile.repo_root, directory, f"project.json output.{directory_key}")
+
+    title = localized_value(doc.get("metadata", {}).get("title", ""), doc.get("metadata", {}).get("language", "en"), "en")
+    pattern = text(output.get("filenamePattern") or "{date}-{slug}.html")
+    slug = slugify_filename(text(title))
+    filename = pattern.replace("{date}", dt.date.today().isoformat()).replace("{slug}", slug)
+    if "/" in filename or "\\" in filename or not filename.endswith(".html"):
+        raise CastDocsError("project.json output.filenamePattern must produce an .html filename")
+    return output_dir / filename
 
 
 def collect_block_types(blocks: list[Any], found: set[str]) -> None:
@@ -717,6 +1001,16 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
         validate_inline(block.get("target"), f"{path}.target", errors)
         if block.get("effect", "opacity") != "opacity":
             errors.append(f"{path}.effect is unsupported")
+    elif block_type == "chapter-list":
+        for index, item in enumerate(require_array("items")):
+            if not is_object(item):
+                errors.append(f"{path}.items[{index}] must be an object")
+                continue
+            if not isinstance(item.get("href"), str) or href_kind(item.get("href")) != "relative":
+                errors.append(f"{path}.items[{index}].href must be a relative path")
+            if item.get("number") is not None:
+                validate_localized_string(item.get("number"), f"{path}.items[{index}].number", errors)
+            validate_localized_string(item.get("title"), f"{path}.items[{index}].title", errors, non_empty=True)
     else:
         errors.append(f"{path}.type is unknown: {block_type}")
 
@@ -1360,6 +1654,23 @@ def render_slider(block: dict[str, Any], ctx: RenderContext | None = None) -> st
     )
 
 
+def render_chapter_list(block: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    items = []
+    for item in as_list(block.get("items")):
+        if not is_object(item):
+            continue
+        number = item.get("number") or item.get("id")
+        items.append(
+            "<li class=\"chapter-card\">"
+            f"<a href=\"{attr(item.get('href'))}\">"
+            f"<span class=\"chapter-number\">{render_text(number, ctx)}</span>"
+            f"<span class=\"chapter-title\">{render_text(item.get('title'), ctx)}</span>"
+            "</a>"
+            "</li>"
+        )
+    return f"<ul class=\"chapter-list\">{''.join(items)}</ul>"
+
+
 RENDERER_REGISTRY: dict[str, Any] = {
     "summary": render_summary_block,
     "paragraph": render_paragraph,
@@ -1381,6 +1692,7 @@ RENDERER_REGISTRY: dict[str, Any] = {
     "columns": render_columns,
     "toggleView": render_toggle_view,
     "slider": render_slider,
+    "chapterList": render_chapter_list,
 }
 
 
@@ -1506,14 +1818,14 @@ def render_footer_links(metadata: dict[str, Any], ctx: RenderContext | None = No
     return " · ".join(links)
 
 
-def image_to_data_uri(src: str) -> str:
+def image_to_data_uri(src: str, repo_root: Path = ROOT) -> str:
     if DATA_IMAGE_RE.match(src.strip()):
         return src.strip()
     if media_src_kind(src) != "relative":
         raise CastDocsError(f"unsupported logo image source: {src}")
-    path = (ROOT / src).resolve()
+    path = (repo_root / src).resolve()
     try:
-        path.relative_to(ROOT)
+        path.relative_to(repo_root.resolve())
     except ValueError as exc:
         raise CastDocsError(f"logo image must stay inside the repository: {src}") from exc
     if not path.exists() or not path.is_file():
@@ -1533,7 +1845,7 @@ def render_logo(metadata: dict[str, Any], ctx: RenderContext | None = None) -> s
     if not isinstance(src, str) or not src.strip():
         return ""
     img = (
-        f"<img class=\"brand-logo-image\" src=\"{attr(image_to_data_uri(src))}\" "
+        f"<img class=\"brand-logo-image\" src=\"{attr(image_to_data_uri(src, ctx.repo_root if ctx else ROOT))}\" "
         f"alt=\"{attr(localized_value(logo.get('alt', ''), default_locale_for_context(ctx), 'en'))}\" "
         "width=\"44\" height=\"44\" loading=\"eager\">"
     )
@@ -1747,14 +2059,22 @@ def render_html(
     layout_id: str = "single-doc",
     config_dir: Path = CONFIG_DIR,
     template_dir: Path = TEMPLATE_DIR,
+    profile: ProjectProfile | None = None,
 ) -> str:
+    doc = apply_project_profile(doc, profile)
     metadata = doc["metadata"]
     i18n = load_config("i18n.json", config_dir)
     locales = document_locales(doc)
     active_locale = normalize_locale(metadata.get("language"), "en")
     if active_locale not in locales:
         locales.insert(0, active_locale)
-    ctx = RenderContext(active_locale=active_locale, locales=locales, i18n=i18n, config_dir=config_dir)
+    ctx = RenderContext(
+        active_locale=active_locale,
+        locales=locales,
+        i18n=i18n,
+        config_dir=config_dir,
+        repo_root=profile.repo_root if profile else ROOT,
+    )
     sections = as_list(doc.get("sections"))
     title_value = metadata.get("title", tr(ctx, "state.untitled", "Untitled"))
     title = localized_value(title_value, active_locale, "en")

@@ -46,11 +46,19 @@ python3 scripts/render_html.py --input examples/option-decision.json --output ou
 python3 scripts/validate_html.py --input out.html
 ```
 
+Validate project profile defaults and checked-in fixtures:
+
+```bash
+python3 scripts/validate_project_profile.py --repo-root .
+python3 scripts/check_fixtures.py
+```
+
 ## What It Provides
 
 - A JSON document contract in `schemas/doc.schema.json`.
 - A deterministic renderer in `scripts/render_html.py`.
 - Validation for source JSON and generated HTML.
+- Project profile discovery, validation, and profile-selected output paths.
 - Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.
 - Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
 - Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
@@ -78,6 +86,12 @@ The renderer intentionally avoids external scripts, CDNs, and viewer-specific Ma
 
 When a user does not provide an output path, skill-driven generation should use the repository profile default if one exists. Otherwise it should ask whether the output is a shareable document under `docs/cast-docs/` or a local draft under `.cast-docs/out/`.
 
+Build a document-set index from a manifest:
+
+```bash
+python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate
+```
+
 ## Repository Layout
 
 ```text
@@ -91,6 +105,9 @@ scripts/cast_docs_core.py     shared renderer and validator implementation
 scripts/render_html.py        render JSON to self-contained HTML
 scripts/validate_doc_json.py  validate source JSON
 scripts/validate_html.py      validate rendered HTML against the controlled HTML profile
+scripts/validate_project_profile.py validate repository .cast-docs profile defaults
+scripts/check_fixtures.py      validate fixture JSON, generated HTML, and artifact freshness
+scripts/build_index.py        build a document-set index from cast-docs-set.json
 scripts/render_example.sh     render one bundled example with validation
 scripts/install_codex_skill.sh install or update the Codex skill from a local checkout
 scripts/install_claude_skill.sh install or update the Claude Code skill from a local checkout
@@ -108,6 +125,7 @@ SKILL.md                      agent skill manifest
 ```bash
 python3 scripts/render_html.py --input site/landing.json --output index.html --validate
 python3 scripts/render_html.py --input site/install.json --output install.html --validate
+python3 scripts/check_fixtures.py --update
 ```
 
 ## License

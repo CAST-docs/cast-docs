@@ -266,10 +266,8 @@ Done:
 5. Discover and validate `.cast-docs/` project profiles for CLI rendering.
 6. Select profile-controlled output paths for shareable and local draft artifacts.
 7. Check fixture JSON, regenerated HTML, and committed artifact freshness.
-8. Build static document-set index pages from `cast-docs-set.json` manifests.
-
-Planned:
-
-9. Add full document-set chapter rendering with previous/next pagination.
-10. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.
-11. Add first-class project template application during authoring.
+8. Build document-set index and chapter pages from `cast-docs-set.json` manifests.
+9. Add shared document-set navigation and previous/next pagination.
+10. Apply explicit or profile-declared templates during authoring.
+11. Run visual lint gates for saturation, fixed badge dimensions, and large color areas.
+12. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.

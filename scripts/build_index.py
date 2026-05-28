@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,21 @@ from cast_docs_core import (
     validate_html_profile,
     validate_project_profile,
 )
+
+
+def relative_href(from_path: Path, to_path: Path) -> str:
+    return Path(os.path.relpath(to_path.resolve(), from_path.resolve().parent)).as_posix()
+
+
+def flatten_chapters(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    chapters = []
+    for section in manifest["sections"]:
+        for chapter in section["chapters"]:
+            item = dict(chapter)
+            item["sectionId"] = section["id"]
+            item["sectionLabel"] = section["label"]
+            chapters.append(item)
+    return chapters
 
 
 def validate_chapter(chapter: Any, section_path: str, root: Path, errors: list[str]) -> dict[str, Any] | None:
@@ -155,11 +171,77 @@ def index_doc_from_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def document_set_nav(manifest: dict[str, Any], output: Path, output_dir: Path) -> dict[str, Any]:
+    return {
+        "title": manifest["title"],
+        "sections": [
+            {
+                "id": section["id"],
+                "label": section["label"],
+                "href": relative_href(output, output_dir / "index.html"),
+                "chapters": [
+                    {
+                        "id": chapter["id"],
+                        "number": chapter.get("number") or chapter["id"],
+                        "title": chapter["title"],
+                        "href": relative_href(output, output_dir / chapter["href"]),
+                    }
+                    for chapter in section["chapters"]
+                ],
+            }
+            for section in manifest["sections"]
+        ],
+    }
+
+
+def apply_chapter_navigation(
+    doc: dict[str, Any],
+    manifest: dict[str, Any],
+    chapter_index: int,
+    output: Path,
+    output_dir: Path,
+) -> dict[str, Any]:
+    chapters = flatten_chapters(manifest)
+    chapter = chapters[chapter_index]
+    previous_chapter = chapters[chapter_index - 1] if chapter_index > 0 else None
+    next_chapter = chapters[chapter_index + 1] if chapter_index + 1 < len(chapters) else None
+    metadata = doc.setdefault("metadata", {})
+    metadata["documentSet"] = document_set_nav(manifest, output, output_dir)
+    metadata["shellLinks"] = [
+        {
+            "label": manifest.get("title", "Document set"),
+            "href": relative_href(output, output_dir / "index.html"),
+            "placement": "topbar",
+        },
+        *[item for item in metadata.get("shellLinks", []) if is_object(item)],
+    ][:3]
+    pagination: dict[str, Any] = {}
+    if previous_chapter is not None:
+        pagination["prev"] = {
+            "title": previous_chapter["title"],
+            "href": relative_href(output, output_dir / previous_chapter["href"]),
+        }
+    if next_chapter is not None:
+        pagination["next"] = {
+            "title": next_chapter["title"],
+            "href": relative_href(output, output_dir / next_chapter["href"]),
+        }
+    if pagination:
+        metadata["pagination"] = pagination
+    metadata.setdefault("description", chapter.get("title", metadata.get("title", "")))
+    return doc
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build a CAST Docs document-set index from a manifest.")
     parser.add_argument("--manifest", type=Path, help="Document-set manifest JSON.")
     parser.add_argument("--input-dir", type=Path, help="Directory containing cast-docs-set.json.")
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--index-only",
+        action="store_true",
+        help="Only render the document-set index, not chapter pages.",
+    )
     parser.add_argument("--config-dir", type=Path, default=CONFIG_DIR)
     parser.add_argument("--validate", action="store_true")
     parser.add_argument("--repo-root", type=Path)
@@ -207,6 +289,7 @@ def main() -> int:
 
         doc = index_doc_from_manifest(manifest)
         output = output_path_from_policy(args.output, doc, profile, args.output_policy)
+        output_dir = output.parent.resolve()
         doc_result = validate_document(doc, args.config_dir)
         if not doc_result.ok:
             print_result(doc_result)
@@ -223,6 +306,28 @@ def main() -> int:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(html_text, encoding="utf-8")
         print(f"rendered: {output}")
+
+        if not args.index_only:
+            chapters = flatten_chapters(manifest)
+            for chapter_index, chapter in enumerate(chapters):
+                source_path = (input_dir / chapter["source"]).resolve()
+                chapter_output = (output_dir / chapter["href"]).resolve()
+                chapter_doc = load_json(source_path)
+                chapter_doc = apply_chapter_navigation(chapter_doc, manifest, chapter_index, chapter_output, output_dir)
+                chapter_result = validate_document(chapter_doc, args.config_dir)
+                if not chapter_result.ok:
+                    for error in chapter_result.errors:
+                        print(f"ERROR: {chapter['source']}: {error}", file=sys.stderr)
+                    return 1
+                chapter_html = render_html(chapter_doc, layout_id="document-set", config_dir=args.config_dir, profile=profile)
+                if args.validate:
+                    chapter_html_result = validate_html_profile(chapter_html, load_config("html-profile.json", args.config_dir))
+                    if not chapter_html_result.ok:
+                        print_result(chapter_html_result)
+                        return 1
+                chapter_output.parent.mkdir(parents=True, exist_ok=True)
+                chapter_output.write_text(chapter_html, encoding="utf-8")
+                print(f"rendered: {chapter_output}")
         return 0
     except CastDocsError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

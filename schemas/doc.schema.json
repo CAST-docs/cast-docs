@@ -29,6 +29,8 @@
         "updatedAt": {"type": "string", "format": "date"},
         "description": {"$ref": "#/$defs/localizedString"},
         "logo": {"$ref": "#/$defs/logo"},
+        "documentSet": {"$ref": "#/$defs/documentSet"},
+        "pagination": {"$ref": "#/$defs/pagination"},
         "shellLinks": {
           "type": "array",
           "maxItems": 3,
@@ -238,8 +240,53 @@
         {"$ref": "#/$defs/actionBlock"},
         {"$ref": "#/$defs/valuesGridBlock"},
         {"$ref": "#/$defs/acceptanceCriteriaBlock"},
-        {"$ref": "#/$defs/openQuestionsBlock"}
+        {"$ref": "#/$defs/openQuestionsBlock"},
+        {"$ref": "#/$defs/chapterListBlock"}
       ]
+    },
+    "documentSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "sections"],
+      "properties": {
+        "title": {"$ref": "#/$defs/localizedString"},
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "chapters"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"},
+              "href": {"type": "string"},
+              "chapters": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/chapterLink"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prev": {"$ref": "#/$defs/chapterLink"},
+        "next": {"$ref": "#/$defs/chapterLink"}
+      }
+    },
+    "chapterLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "href"],
+      "properties": {
+        "id": {"type": "string"},
+        "number": {"$ref": "#/$defs/localizedString"},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "href": {"type": "string"}
+      }
     },
     "summaryBlock": {
       "type": "object",
@@ -711,6 +758,19 @@
           "type": "array",
           "minItems": 1,
           "items": {"$ref": "#/$defs/inlineText"}
+        }
+      }
+    },
+    "chapterListBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "chapter-list"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/chapterLink"}
         }
       }
     }

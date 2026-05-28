@@ -51,6 +51,7 @@ class RenderContext:
     i18n: dict[str, Any]
     config_dir: Path
     repo_root: Path = ROOT
+    metadata: dict[str, Any] | None = None
     code_index: int = 0
 
 
@@ -1789,7 +1790,42 @@ def render_toc(sections: list[dict[str, Any]], ctx: RenderContext | None = None)
     return f"<nav class=\"toc\" aria-label=\"{attr(tr(ctx, 'chrome.tocAria', 'Table of contents'))}\"><ol>{''.join(items)}</ol></nav>"
 
 
+def render_document_set_sidebar(metadata: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    document_set = metadata.get("documentSet")
+    if not is_object(document_set):
+        return ""
+    groups = []
+    for group in as_list(document_set.get("sections")):
+        if not is_object(group):
+            continue
+        chapters = []
+        for chapter in as_list(group.get("chapters")):
+            if not is_object(chapter):
+                continue
+            number = chapter.get("number") or chapter.get("id")
+            chapters.append(
+                f"<li><a href=\"{attr(chapter.get('href'))}\">"
+                f"<span>{render_text(number, ctx)}</span>{render_text(chapter.get('title'), ctx)}</a></li>"
+            )
+        if chapters:
+            groups.append(
+                f"<li><a href=\"{attr(group.get('href') or '#')}\"><span></span>{render_text(group.get('label'), ctx)}</a>"
+                f"<ol>{''.join(chapters)}</ol></li>"
+            )
+    if not groups:
+        return ""
+    title = document_set.get("title") or tr(ctx, "chrome.contents", "Contents")
+    return (
+        f"<p class=\"nav-title\">{render_text(title, ctx)}</p>"
+        f"<nav class=\"toc\" aria-label=\"{attr(tr(ctx, 'chrome.tocAria', 'Table of contents'))}\"><ol>{''.join(groups)}</ol></nav>"
+    )
+
+
 def render_sidebar(sections: list[dict[str, Any]], ctx: RenderContext | None = None) -> str:
+    if ctx is not None and ctx.metadata is not None:
+        set_sidebar = render_document_set_sidebar(ctx.metadata, ctx)
+        if set_sidebar:
+            return set_sidebar
     toc = render_toc(sections, ctx)
     return f"<p class=\"nav-title\">{render_i18n_text(ctx, 'chrome.contents', 'Contents')}</p>{toc}"
 
@@ -1816,6 +1852,29 @@ def render_footer_links(metadata: dict[str, Any], ctx: RenderContext | None = No
         target = " target=\"_blank\" rel=\"noopener noreferrer\"" if href.startswith(("http://", "https://")) else ""
         links.append(f"<a href=\"{attr(href)}\"{target}>{render_text(item.get('label'), ctx)}</a>")
     return " · ".join(links)
+
+
+def render_set_pagination(metadata: dict[str, Any], ctx: RenderContext | None = None) -> str:
+    pagination = metadata.get("pagination")
+    if not is_object(pagination):
+        return ""
+
+    def render_link(kind: str, label: str) -> str:
+        item = pagination.get(kind)
+        if not is_object(item):
+            return "<span></span>"
+        return (
+            f"<a class=\"set-pagination-link set-pagination-{attr(kind)}\" href=\"{attr(item.get('href'))}\">"
+            f"<span class=\"set-pagination-label\">{esc(label)}</span>"
+            f"<span class=\"set-pagination-title\">{render_text(item.get('title'), ctx)}</span>"
+            "</a>"
+        )
+
+    previous = render_link("prev", "Previous")
+    next_item = render_link("next", "Next")
+    if previous == "<span></span>" and next_item == "<span></span>":
+        return ""
+    return f"<nav class=\"set-pagination\" aria-label=\"Pagination\">{previous}{next_item}</nav>"
 
 
 def image_to_data_uri(src: str, repo_root: Path = ROOT) -> str:
@@ -1963,6 +2022,30 @@ def compile_theme_root_css(theme: dict[str, Any]) -> str:
         light_body.append(f"  --sans: {sans};")
     if mono:
         light_body.append(f"  --mono: {mono};")
+    size = typography.get("size")
+    if is_object(size):
+        for key, value in size.items():
+            light_body.append(f"  --font-{key}: {value};")
+    line_height = typography.get("lineHeight")
+    if is_object(line_height):
+        for key, value in line_height.items():
+            light_body.append(f"  --line-{key}: {value};")
+    weight = typography.get("weight")
+    if is_object(weight):
+        for key, value in weight.items():
+            light_body.append(f"  --weight-{key}: {value};")
+    space = theme.get("space")
+    if is_object(space):
+        for key, value in space.items():
+            light_body.append(f"  --space-{key}: {value};")
+    radius = theme.get("radius")
+    if is_object(radius):
+        for key, value in radius.items():
+            light_body.append(f"  --radius-{key}: {value};")
+    motion = theme.get("motion")
+    if is_object(motion):
+        for key, value in motion.items():
+            light_body.append(f"  --motion-{key}: {value};")
     light_block = ":root {\n" + "\n".join(light_body) + "\n}"
 
     dark_body = color_lines(dark_color, "    ")
@@ -2074,6 +2157,7 @@ def render_html(
         i18n=i18n,
         config_dir=config_dir,
         repo_root=profile.repo_root if profile else ROOT,
+        metadata=metadata,
     )
     sections = as_list(doc.get("sections"))
     title_value = metadata.get("title", tr(ctx, "state.untitled", "Untitled"))
@@ -2106,6 +2190,7 @@ def render_html(
         "DOC_META": meta_html,
         "SIDEBAR": render_sidebar([section for section in sections if is_object(section)], ctx),
         "SECTIONS": render_sections(sections, ctx),
+        "PAGINATION": render_set_pagination(metadata, ctx),
         "FOOTER": footer,
         "INTERACTION_HOOKS": lightbox,
         "INTERACTION_SCRIPTS": f"{i18n_bootstrap}{script}{i18n_script}",

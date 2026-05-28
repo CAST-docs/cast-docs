@@ -50,6 +50,7 @@ Validate project profile defaults and checked-in fixtures:
 
 ```bash
 python3 scripts/validate_project_profile.py --repo-root .
+python3 scripts/visual_lint.py --input-dir examples --input index.html --input install.html
 python3 scripts/check_fixtures.py
 ```
 
@@ -59,6 +60,8 @@ python3 scripts/check_fixtures.py
 - A deterministic renderer in `scripts/render_html.py`.
 - Validation for source JSON and generated HTML.
 - Project profile discovery, validation, and profile-selected output paths.
+- Project template application for authoring-time JSON composition.
+- Document-set index and chapter page generation with shared navigation and pagination.
 - Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.
 - Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
 - Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
@@ -86,9 +89,10 @@ The renderer intentionally avoids external scripts, CDNs, and viewer-specific Ma
 
 When a user does not provide an output path, skill-driven generation should use the repository profile default if one exists. Otherwise it should ask whether the output is a shareable document under `docs/cast-docs/` or a local draft under `.cast-docs/out/`.
 
-Build a document-set index from a manifest:
+Apply a template and build a document-set from a manifest:
 
 ```bash
+python3 scripts/apply_template.py --input draft.json --template .cast-docs/templates/plan.json --output doc.json --validate
 python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate
 ```
 
@@ -107,7 +111,9 @@ scripts/validate_doc_json.py  validate source JSON
 scripts/validate_html.py      validate rendered HTML against the controlled HTML profile
 scripts/validate_project_profile.py validate repository .cast-docs profile defaults
 scripts/check_fixtures.py      validate fixture JSON, generated HTML, and artifact freshness
-scripts/build_index.py        build a document-set index from cast-docs-set.json
+scripts/visual_lint.py        enforce lightweight visual lint gates on generated HTML
+scripts/apply_template.py     apply project or explicit templates to document JSON
+scripts/build_index.py        build document-set index and chapter pages from cast-docs-set.json
 scripts/render_example.sh     render one bundled example with validation
 scripts/install_codex_skill.sh install or update the Codex skill from a local checkout
 scripts/install_claude_skill.sh install or update the Claude Code skill from a local checkout

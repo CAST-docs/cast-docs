@@ -192,11 +192,7 @@ Implemented P0 scripts:
 - `scripts/validate_project_profile.py`
 - `scripts/check_fixtures.py`
 - `scripts/build_index.py`
-
-Still planned:
-
-- Full document-set chapter rendering with previous/next pagination.
-- Project template application as a first-class authoring command.
-- Visual lint gates for saturation, fixed badge dimensions, and large color areas.
+- `scripts/apply_template.py`
+- `scripts/visual_lint.py`
 
 The fixtures are the practical guardrail for "cover all scenarios": every scenario in config should have at least one example JSON.

@@ -15,6 +15,7 @@ from cast_docs_core import (
     validate_document,
     validate_html_profile,
 )
+from visual_lint import StyleParser, lint_css
 
 
 def expected_html_path(source: Path) -> Path:
@@ -30,6 +31,14 @@ def collect_sources() -> list[Path]:
     sources = sorted((ROOT / "examples").glob("*.json"))
     sources.extend(sorted((ROOT / "site").glob("*.json")))
     return sources
+
+
+def lint_rendered_html(html_text: str, path: Path) -> list[str]:
+    parser = StyleParser()
+    parser.feed(html_text)
+    if not parser.styles:
+        return [f"{path}: no inline style block found"]
+    return lint_css("\n".join(parser.styles), path)
 
 
 def main() -> int:
@@ -61,8 +70,12 @@ def main() -> int:
                 if not html_result.ok:
                     errors.extend(f"{source}: rendered HTML: {error}" for error in html_result.errors)
                     continue
-
                 target = expected_html_path(source)
+                visual_errors = lint_rendered_html(rendered, target)
+                if visual_errors:
+                    errors.extend(visual_errors)
+                    continue
+
                 if args.update:
                     target.write_text(rendered, encoding="utf-8")
                     continue

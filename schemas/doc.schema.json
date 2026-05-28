@@ -285,6 +285,7 @@
         "id": {"type": "string"},
         "number": {"$ref": "#/$defs/localizedString"},
         "title": {"$ref": "#/$defs/localizedString"},
+        "description": {"$ref": "#/$defs/inlineText"},
         "href": {"type": "string"}
       }
     },

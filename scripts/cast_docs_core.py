@@ -613,11 +613,35 @@ def render_run(run: Any) -> str:
     return out
 
 
+def render_inline_plain_text(value: Any) -> str:
+    raw = text(value)
+    if "`" not in raw:
+        return esc(raw)
+    parts = raw.split("`")
+    out: list[str] = []
+    index = 0
+    while index < len(parts):
+        out.append(esc(parts[index]))
+        if index + 1 >= len(parts):
+            break
+        code_part = parts[index + 1]
+        if index + 2 >= len(parts):
+            out.append("`")
+            out.append(esc(code_part))
+            break
+        if code_part:
+            out.append(f"<code>{esc(code_part)}</code>")
+        else:
+            out.append("``")
+        index += 2
+    return "".join(out)
+
+
 def render_inline_for_locale(value: Any, locale: str, fallback: str = "en") -> str:
     selected = localized_value(value, locale, fallback)
     if isinstance(selected, list):
         return "".join(render_run(run) for run in selected)
-    return esc(selected)
+    return render_inline_plain_text(selected)
 
 
 def render_localized_spans(value: Any, renderer: Any, ctx: RenderContext | None) -> str:
@@ -647,7 +671,7 @@ def render_inline(value: Any, ctx: RenderContext | None = None) -> str:
         )
     if isinstance(value, list):
         return "".join(render_run(run) for run in value)
-    return esc(localized_value(value, default_locale_for_context(ctx)))
+    return render_inline_plain_text(localized_value(value, default_locale_for_context(ctx)))
 
 
 def svg_text_for_locale(value: Any, locale: str, fallback: str = "en") -> str:
@@ -1012,6 +1036,8 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
             if item.get("number") is not None:
                 validate_localized_string(item.get("number"), f"{path}.items[{index}].number", errors)
             validate_localized_string(item.get("title"), f"{path}.items[{index}].title", errors, non_empty=True)
+            if item.get("description") is not None:
+                validate_inline(item.get("description"), f"{path}.items[{index}].description", errors)
     else:
         errors.append(f"{path}.type is unknown: {block_type}")
 
@@ -1661,11 +1687,20 @@ def render_chapter_list(block: dict[str, Any], ctx: RenderContext | None = None)
         if not is_object(item):
             continue
         number = item.get("number") or item.get("id")
+        number_html = f"<span class=\"chapter-number\">{render_text(number, ctx)}</span>" if number else ""
+        description_html = (
+            f"<span class=\"chapter-description\">{render_inline(item.get('description'), ctx)}</span>"
+            if item.get("description") is not None
+            else ""
+        )
         items.append(
             "<li class=\"chapter-card\">"
             f"<a href=\"{attr(item.get('href'))}\">"
-            f"<span class=\"chapter-number\">{render_text(number, ctx)}</span>"
+            f"{number_html}"
+            "<span class=\"chapter-content\">"
             f"<span class=\"chapter-title\">{render_text(item.get('title'), ctx)}</span>"
+            f"{description_html}"
+            "</span>"
             "</a>"
             "</li>"
         )

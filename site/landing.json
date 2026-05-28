@@ -1,12 +1,12 @@
 {
   "metadata": {
     "title": {
-      "en": "cast-a-doc",
-      "zh-CN": "cast-a-doc"
+      "en": "Home",
+      "zh-CN": "首页"
     },
     "language": "en",
     "status": "draft",
-    "owner": "cast-a-doc",
+    "owner": "CAST-Docs",
     "audience": [
       "everyone"
     ],

@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "name": "cast-docs",
-  "displayName": "CAST Docs",
+  "name": "cast-a-doc",
+  "displayName": "cast-a-doc",
   "description": "Component Assembly Styled Templates: render structured JSON engineering documents to self-contained HTML artifacts.",
   "defaultLocale": "en",
   "defaultDocumentType": "engineering-spec",
   "defaultScenario": "none",
-  "owner": "CAST-docs",
+  "owner": "CAST-Docs",
   "audience": [
     "engineering",
     "coding agents",
@@ -22,5 +22,6 @@
       "src": "assets/cast-docs-logo.png",
       "alt": "CAST Docs logo"
     }
-  }
+  },
+  "displayOwner": "CAST-Docs"
 }

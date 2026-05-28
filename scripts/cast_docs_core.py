@@ -363,6 +363,9 @@ def validate_project_profile(profile: ProjectProfile, config_dir: Path = CONFIG_
     default_locale = profile.project.get("defaultLocale")
     if default_locale is not None and default_locale not in SUPPORTED_LOCALES:
         errors.append("project.json defaultLocale must be zh-CN or en")
+    display_owner = profile.project.get("displayOwner")
+    if display_owner is not None and (not isinstance(display_owner, str) or not display_owner.strip()):
+        errors.append("project.json displayOwner must be a non-empty string")
     default_type = profile.project.get("defaultDocumentType")
     if default_type is not None and default_type not in document_types:
         errors.append(f"project.json defaultDocumentType is unknown: {default_type}")
@@ -474,6 +477,28 @@ def profile_default_metadata(profile: ProjectProfile | None) -> dict[str, Any]:
     if is_object(brand) and is_object(brand.get("logo")):
         metadata["logo"] = brand["logo"]
     return metadata
+
+
+def project_display_name(profile: ProjectProfile | None) -> str:
+    if profile is None:
+        return ""
+    project = profile.project
+    for key in ("displayName", "name"):
+        value = project.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return ""
+
+
+def project_owner_display_name(metadata: dict[str, Any], profile: ProjectProfile | None) -> str:
+    if profile is not None:
+        display_owner = profile.project.get("displayOwner")
+        if isinstance(display_owner, str) and display_owner.strip():
+            return display_owner.strip()
+    owner = metadata.get("owner")
+    if isinstance(owner, str) and owner.strip():
+        return owner.strip()
+    return ""
 
 
 def apply_project_profile(doc: dict[str, Any], profile: ProjectProfile | None) -> dict[str, Any]:
@@ -1968,6 +1993,28 @@ def render_language_switcher(ctx: RenderContext) -> str:
     )
 
 
+def same_localized_text(left: Any, right: Any, ctx: RenderContext) -> bool:
+    for locale in ctx.locales:
+        if localized_value(left, locale, ctx.active_locale) != localized_value(right, locale, ctx.active_locale):
+            return False
+    return True
+
+
+def render_topbar_title(metadata: dict[str, Any], title_value: Any, ctx: RenderContext, profile: ProjectProfile | None) -> str:
+    parts: list[str] = []
+    owner_name = project_owner_display_name(metadata, profile)
+    if owner_name:
+        parts.append(f"<span class=\"topbar-org\">{esc(owner_name)}</span>")
+    project_name = project_display_name(profile)
+    if project_name:
+        parts.append(f"<span class=\"topbar-project\">{esc(project_name)}</span>")
+    if not project_name or not same_localized_text(title_value, project_name, ctx):
+        parts.append(f"<span class=\"topbar-doc\">{render_text(title_value, ctx)}</span>")
+    if not parts:
+        return render_text(title_value, ctx)
+    return "<span class=\"topbar-breadcrumb\">" + "<span class=\"topbar-separator\" aria-hidden=\"true\">/</span>".join(parts) + "</span>"
+
+
 def render_sections(sections: list[Any], ctx: RenderContext | None = None) -> str:
     rendered = []
     for section in sections:
@@ -2217,6 +2264,7 @@ def render_html(
         "DESCRIPTION": attr(description or title),
         "TITLE": esc(title),
         "DISPLAY_TITLE": render_text(title_value, ctx),
+        "TOPBAR_TITLE": render_topbar_title(metadata, title_value, ctx, profile),
         "LOGO": render_logo(metadata, ctx),
         "DOC_JSON": doc_json,
         "STYLE": base_css(config_dir=config_dir, template_dir=template_dir),

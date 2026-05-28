@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "terms": [
+    {
+      "term": "CAST Docs",
+      "meaning": "Component Assembly Styled Templates, this repository and renderer.",
+      "translation": {
+        "zh-CN": "CAST Docs"
+      },
+      "notes": "Keep the product name untranslated."
+    },
+    {
+      "term": "Component Assembly Styled Templates",
+      "meaning": "The expanded form of CAST.",
+      "translation": {
+        "zh-CN": "Component Assembly Styled Templates"
+      },
+      "notes": "Use the English expansion when explaining the acronym."
+    },
+    {
+      "term": "artifact",
+      "meaning": "The rendered self-contained HTML output.",
+      "translation": {
+        "zh-CN": "产物"
+      },
+      "notes": "Prefer artifact for generated HTML, source for JSON."
+    },
+    {
+      "term": "manifest",
+      "meaning": "The document JSON field that declares document type, scenario, sections, and components.",
+      "translation": {
+        "zh-CN": "manifest"
+      },
+      "notes": "Keep the machine field name untranslated."
+    },
+    {
+      "term": "project profile",
+      "meaning": "A repository-level .cast-docs/ configuration directory.",
+      "translation": {
+        "zh-CN": "project profile"
+      },
+      "notes": "Use the English term when referring to the feature."
+    },
+    {
+      "term": "one-line install",
+      "meaning": "The curl-based installer command served from GitHub Pages.",
+      "translation": {
+        "zh-CN": "一键安装"
+      },
+      "notes": "Use this for the install.sh flow."
+    }
+  ]
+}

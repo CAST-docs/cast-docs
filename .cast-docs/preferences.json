@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "scenarioDefaults": {
+    "problem-investigation": {
+      "documentType": "engineering-plan",
+      "preferredComponents": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "callout",
+        "table",
+        "code-block",
+        "open-questions"
+      ],
+      "omitWhenEmpty": [
+        "diagram",
+        "media-grid",
+        "diff-block"
+      ]
+    },
+    "option-decision": {
+      "documentType": "decision-record",
+      "preferredComponents": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "table",
+        "callout",
+        "action-card"
+      ],
+      "omitWhenEmpty": [
+        "diagram",
+        "diff-block"
+      ]
+    },
+    "document-digest": {
+      "documentType": "research-note",
+      "preferredComponents": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "source-refs",
+        "callout"
+      ],
+      "omitWhenEmpty": [
+        "diagram",
+        "table",
+        "media-grid"
+      ]
+    }
+  },
+  "writing": {
+    "summaryStyle": "direct-and-actionable",
+    "unknownPolicy": "mark-explicitly",
+    "evidencePolicy": "cite-source-or-mark-missing",
+    "artifactPolicy": "treat-json-as-source-and-html-as-artifact"
+  },
+  "outputPolicy": {
+    "shareableDir": "docs/cast-docs",
+    "localDraftDir": ".cast-docs/out",
+    "askWhenAmbiguous": true
+  }
+}

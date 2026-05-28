@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "locales": [
+    "en",
+    "zh-CN"
+  ],
+  "defaultLocale": "en",
+  "fallbackLocale": "en",
+  "titlePolicy": "preserve-source-language",
+  "terminologyPolicy": "use-glossary-first",
+  "machineFieldPolicy": "keep-ids-paths-urls-code-and-component-names-single-valued"
+}

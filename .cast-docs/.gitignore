@@ -1,0 +1,6 @@
+out/
+local/
+cache/
+*.tmp
+*.log
+.DS_Store

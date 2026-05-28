@@ -555,8 +555,11 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .chapter-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); transition: border-color var(--motion-base) var(--motion-ease); }
 .chapter-card:hover, .chapter-card:focus-within { border-color: var(--primary); }
 .chapter-card a { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 15px 16px; color: var(--text); }
-.chapter-card a:has(.chapter-number) { grid-template-columns: 48px minmax(0, 1fr); }
+.chapter-card a:has(.chapter-number), .chapter-card a:has(.chapter-icon) { grid-template-columns: 48px minmax(0, 1fr); }
+.chapter-card a:has(.chapter-icon):has(.chapter-number) { grid-template-columns: 42px 48px minmax(0, 1fr); }
 .chapter-card a:hover { text-decoration: none; }
+.chapter-icon { display: inline-grid; width: 32px; height: 32px; place-items: center; align-self: center; border: 1px solid var(--border); border-radius: var(--radius-md); background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); font: 700 12px/1 var(--mono); }
+.chapter-icon-svg { display: block; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .chapter-number { color: var(--faint); font: 700 12px/1.4 var(--mono); }
 .chapter-content { display: grid; gap: 5px; min-width: 0; }
 .chapter-title { overflow-wrap: anywhere; font-weight: 700; }

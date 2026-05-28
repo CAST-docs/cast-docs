@@ -122,6 +122,8 @@
     "set-section",
     "chapter-list",
     "chapter-card",
+    "chapter-icon",
+    "chapter-icon-svg",
     "chapter-number",
     "chapter-content",
     "chapter-title",

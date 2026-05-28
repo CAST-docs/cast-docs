@@ -175,7 +175,7 @@
       "renderer": "chapterList",
       "triggerLevel": "required",
       "blockTypes": ["chapter-list"],
-      "classes": ["chapter-list", "chapter-card", "chapter-number", "chapter-content", "chapter-title", "chapter-description"]
+      "classes": ["chapter-list", "chapter-card", "chapter-icon", "chapter-icon-svg", "chapter-number", "chapter-content", "chapter-title", "chapter-description"]
     },
     {
       "id": "shell-links",

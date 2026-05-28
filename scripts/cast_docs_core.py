@@ -593,6 +593,19 @@ INLINE_MARK_CATEGORIES: dict[str, str] = {
     "ref": "ref",
 }
 INLINE_LINK_SCHEMES = {"anchor", "relative", "http", "https"}
+CHAPTER_ICON_PATHS = {
+    "overview": '<path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h13"></path>',
+    "features": '<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.2 6.4 20.2 7.5 14 3 9.6l6.2-.9L12 3z"></path>',
+    "interaction": '<path d="M5 6h14v9H8l-3 3V6z"></path><path d="M9 10h6"></path>',
+    "stack": '<path d="M12 3l8 4-8 4-8-4 8-4z"></path><path d="M4 12l8 4 8-4"></path><path d="M4 17l8 4 8-4"></path>',
+    "quality": '<path d="M12 3l7 4v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V7l7-4z"></path><path d="M9 12l2 2 4-4"></path>',
+    "architecture": '<rect x="4" y="4" width="6" height="6" rx="1"></rect><rect x="14" y="4" width="6" height="6" rx="1"></rect><rect x="9" y="14" width="6" height="6" rx="1"></rect><path d="M10 7h4"></path><path d="M12 10v4"></path>',
+    "gate": '<path d="M5 20V9a7 7 0 0 1 14 0v11"></path><path d="M3 20h18"></path><path d="M9 14h6"></path>',
+    "model": '<path d="M6 4h9l3 3v13H6z"></path><path d="M14 4v4h4"></path><path d="M9 12h6"></path><path d="M9 16h4"></path>',
+    "release": '<path d="M12 3v12"></path><path d="M8 7l4-4 4 4"></path><path d="M5 15v4h14v-4"></path>',
+    "verification": '<path d="M20 6L9 17l-5-5"></path>',
+    "decisions": '<path d="M12 3v13"></path><circle cx="12" cy="20" r="1"></circle>',
+}
 
 
 def inline_anchor(href: Any, inner: str) -> str | None:
@@ -636,6 +649,22 @@ def render_run(run: Any) -> str:
     for mark in as_list(run.get("marks")):
         out = apply_inline_mark(mark, out)
     return out
+
+
+def render_chapter_icon(icon: Any) -> str:
+    if not isinstance(icon, str) or not icon.strip():
+        return ""
+    icon_name = icon.strip()
+    path = CHAPTER_ICON_PATHS.get(icon_name)
+    if path:
+        inner = (
+            '<svg class="chapter-icon-svg" viewBox="0 0 24 24" width="18" height="18" '
+            'xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+            f"{path}</svg>"
+        )
+    else:
+        inner = esc(icon_name[:2])
+    return f"<span class=\"chapter-icon\" aria-hidden=\"true\">{inner}</span>"
 
 
 def render_inline_plain_text(value: Any) -> str:
@@ -1060,6 +1089,8 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 errors.append(f"{path}.items[{index}].href must be a relative path")
             if item.get("number") is not None:
                 validate_localized_string(item.get("number"), f"{path}.items[{index}].number", errors)
+            if item.get("icon") is not None and (not isinstance(item.get("icon"), str) or not item.get("icon").strip()):
+                errors.append(f"{path}.items[{index}].icon must be a non-empty string")
             validate_localized_string(item.get("title"), f"{path}.items[{index}].title", errors, non_empty=True)
             if item.get("description") is not None:
                 validate_inline(item.get("description"), f"{path}.items[{index}].description", errors)
@@ -1713,6 +1744,7 @@ def render_chapter_list(block: dict[str, Any], ctx: RenderContext | None = None)
             continue
         number = item.get("number") or item.get("id")
         number_html = f"<span class=\"chapter-number\">{render_text(number, ctx)}</span>" if number else ""
+        icon_html = render_chapter_icon(item.get("icon"))
         description_html = (
             f"<span class=\"chapter-description\">{render_inline(item.get('description'), ctx)}</span>"
             if item.get("description") is not None
@@ -1721,6 +1753,7 @@ def render_chapter_list(block: dict[str, Any], ctx: RenderContext | None = None)
         items.append(
             "<li class=\"chapter-card\">"
             f"<a href=\"{attr(item.get('href'))}\">"
+            f"{icon_html}"
             f"{number_html}"
             "<span class=\"chapter-content\">"
             f"<span class=\"chapter-title\">{render_text(item.get('title'), ctx)}</span>"

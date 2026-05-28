@@ -183,16 +183,16 @@
             ],
             [
               {
-                "en": "Keep TODO and CHANGELIST as Markdown.",
-                "zh-CN": "保留 TODO 和 CHANGELIST 为 Markdown。"
+                "en": "Publish TODO and CHANGELIST as CAST Docs HTML.",
+                "zh-CN": "将 TODO 和 CHANGELIST 发布为 CAST Docs HTML。"
               },
               {
-                "en": "They are lightweight operational files and easy to diff.",
-                "zh-CN": "它们是轻量操作文件，易于 diff。"
+                "en": "They remain lightweight JSON sources while sharing the same public HTML surface as the rest of the site.",
+                "zh-CN": "它们仍以轻量 JSON 源维护，同时与站点其他页面共享公开 HTML 形态。"
               },
               {
-                "en": "The generated pages link to them as supporting records.",
-                "zh-CN": "生成页面将它们作为辅助记录链接。"
+                "en": "Homepage navigation and topbar links can point to generated HTML instead of raw Markdown files.",
+                "zh-CN": "首页导览和顶栏链接可以指向生成 HTML，而不是原始 Markdown 文件。"
               }
             ]
           ]
@@ -214,8 +214,8 @@
             "zh-CN": "需要后续处理"
           },
           "body": {
-            "en": "Schema versioning, CLI wrapper shape, and visual regression strategy are intentionally deferred to TODO.md.",
-            "zh-CN": "schema 版本管理、CLI 包装形态和视觉回归策略暂时延后到 TODO.md。"
+            "en": "Schema versioning, CLI wrapper shape, and visual regression strategy are intentionally deferred to the TODO page.",
+            "zh-CN": "schema 版本管理、CLI 包装形态和视觉回归策略暂时延后到 TODO 页面。"
           }
         }
       ]

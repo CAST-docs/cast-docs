@@ -1,0 +1,431 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc README",
+      "zh-CN": "cast-a-doc README"
+    },
+    "breadcrumbTitle": {
+      "en": "README",
+      "zh-CN": "README"
+    },
+    "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "status": "draft",
+    "owner": "CAST-Docs",
+    "audience": [
+      "engineering",
+      "coding agents",
+      "documentation maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Repository overview, install commands, authoring model, and regeneration commands for cast-a-doc.",
+      "zh-CN": "cast-a-doc 的仓库概览、安装命令、创作模型和重新生成命令。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Install",
+          "zh-CN": "安装"
+        },
+        "href": "install.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "TODO",
+          "zh-CN": "TODO"
+        },
+        "href": "todo.html",
+        "placement": "topbar"
+      }
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "overview",
+      "install",
+      "quick-start",
+      "provides",
+      "important-documents",
+      "authoring-model",
+      "regenerate-pages",
+      "license"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "list",
+        "code-block",
+        "source-refs"
+      ],
+      "optional": [
+        "callout"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "table",
+        "open-questions"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "overview",
+      "title": {
+        "en": "Overview",
+        "zh-CN": "概览"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Role",
+                "zh-CN": "定位"
+              },
+              "body": {
+                "en": "A CAST Docs skill for turning notes, outlines, drafts, and instructions into structured engineering documents.",
+                "zh-CN": "一个 CAST Docs skill，用于把笔记、提纲、草稿和指令转换为结构化工程文档。"
+              }
+            },
+            {
+              "label": {
+                "en": "Source",
+                "zh-CN": "源文件"
+              },
+              "body": {
+                "en": "The JSON document is the source of truth for generated pages.",
+                "zh-CN": "JSON 文档是生成页面的事实源。"
+              }
+            },
+            {
+              "label": {
+                "en": "Artifact",
+                "zh-CN": "产物"
+              },
+              "body": {
+                "en": "The self-contained HTML file is the shareable, publishable, and archivable artifact.",
+                "zh-CN": "自包含 HTML 是可分享、可发布、可归档的产物。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "CAST Docs means Component Assembly Styled Templates. In this repository, the skill casts source material into structured JSON and renders it as a self-contained HTML artifact.",
+            "zh-CN": "CAST Docs 指 Component Assembly Styled Templates。在这个仓库中，skill 会把源材料 cast 成结构化 JSON，再渲染为自包含 HTML 产物。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "install",
+      "title": {
+        "en": "Install",
+        "zh-CN": "安装"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Install or update the cast-a-doc skill for Codex, Claude Code, or both agents.",
+            "zh-CN": "为 Codex、Claude Code 或双 agent 安装或更新 cast-a-doc skill。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both"
+        },
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Install guide",
+                "zh-CN": "安装指南"
+              },
+              "url": "./install.html",
+              "text": {
+                "en": "Options, safety checks, local renderer setup, and troubleshooting.",
+                "zh-CN": "安装选项、安全检查、本地渲染器设置和故障排查。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quick-start",
+      "title": {
+        "en": "Quick Start",
+        "zh-CN": "快速开始"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Requires Python 3.9 or newer. cast-a-doc uses only the Python standard library.",
+            "zh-CN": "需要 Python 3.9 或更新版本。cast-a-doc 只使用 Python 标准库。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "git clone https://github.com/CAST-docs/cast-a-doc.git\ncd cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/validate_doc_json.py --input examples/option-decision.json\npython3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate\npython3 scripts/validate_html.py --input out.html\npython3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/visual_lint.py --input-dir examples --input index.html --input install.html\npython3 scripts/check_fixtures.py"
+        }
+      ]
+    },
+    {
+      "id": "provides",
+      "title": {
+        "en": "What It Provides",
+        "zh-CN": "提供什么"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "A JSON document contract in `schemas/doc.schema.json`.",
+              "zh-CN": "`schemas/doc.schema.json` 中的 JSON 文档契约。"
+            },
+            {
+              "en": "A deterministic renderer in `scripts/render_html.py`.",
+              "zh-CN": "`scripts/render_html.py` 中的确定性渲染器。"
+            },
+            {
+              "en": "Validation for source JSON, generated HTML, project profiles, and checked-in fixtures.",
+              "zh-CN": "对源 JSON、生成 HTML、项目 profile 和已提交 fixture 的校验。"
+            },
+            {
+              "en": "Project profile discovery, template application, and profile-selected output paths.",
+              "zh-CN": "项目 profile 发现、模板应用和基于 profile 的输出路径选择。"
+            },
+            {
+              "en": "Document-set index and chapter page generation with shared navigation and pagination.",
+              "zh-CN": "带共享导航和翻页的文档集索引与章节页生成。"
+            },
+            {
+              "en": "Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.",
+              "zh-CN": "内置调查、决策、摘要、跨团队对齐和原则展示等场景骨架。"
+            },
+            {
+              "en": "Reusable blocks such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.",
+              "zh-CN": "可复用的 summary、callout、table、diagram、diff、action card、source refs 和 code block。"
+            },
+            {
+              "en": "Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.",
+              "zh-CN": "带内联 CSS 的自包含 HTML，以及渲染器托管的复制代码、语言切换和图表控制。"
+            },
+            {
+              "en": "A designed repository-level `.cast-docs/` profile for team templates, i18n, writing rules, reusable assets, style profiles, and output defaults.",
+              "zh-CN": "仓库级 `.cast-docs/` profile，用于团队模板、多语言、写作规则、复用资源、样式 profile 和输出默认值。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "important-documents",
+      "title": {
+        "en": "Important Documents",
+        "zh-CN": "重要文档"
+      },
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Home",
+                "zh-CN": "首页"
+              },
+              "url": "./index.html",
+              "text": {
+                "en": "Skill overview, examples, and design rationale.",
+                "zh-CN": "skill 概览、示例和设计理由。"
+              }
+            },
+            {
+              "label": {
+                "en": "Install",
+                "zh-CN": "安装"
+              },
+              "url": "./install.html",
+              "text": {
+                "en": "One-line install commands, environment overrides, and troubleshooting.",
+                "zh-CN": "一行安装命令、环境覆盖和故障排查。"
+              }
+            },
+            {
+              "label": {
+                "en": "Component gallery",
+                "zh-CN": "组件大全"
+              },
+              "url": "./examples/component-gallery.html",
+              "text": {
+                "en": "Visual reference for common blocks and inline marks.",
+                "zh-CN": "常用块和行内标记的视觉参考。"
+              }
+            },
+            {
+              "label": {
+                "en": "Product plan",
+                "zh-CN": "产品规划"
+              },
+              "url": "./plan/index.html",
+              "text": {
+                "en": "Product plan produced through cast-a-start guided migration.",
+                "zh-CN": "通过 cast-a-start guided migration 生成的产品规划。"
+              }
+            },
+            {
+              "label": {
+                "en": "Technical spec",
+                "zh-CN": "技术方案"
+              },
+              "url": "./spec/index.html",
+              "text": {
+                "en": "Technical spec produced through cast-a-start guided migration.",
+                "zh-CN": "通过 cast-a-start guided migration 生成的技术方案。"
+              }
+            },
+            {
+              "label": {
+                "en": "TODO",
+                "zh-CN": "TODO"
+              },
+              "url": "./todo.html",
+              "text": {
+                "en": "Project-level uncertainty and deferred work.",
+                "zh-CN": "项目级不确定事项和延后工作。"
+              }
+            },
+            {
+              "label": {
+                "en": "CHANGELIST",
+                "zh-CN": "CHANGELIST"
+              },
+              "url": "./changelist.html",
+              "text": {
+                "en": "Planning and documentation change history.",
+                "zh-CN": "规划和文档变化历史。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "authoring-model",
+      "title": {
+        "en": "Authoring Model",
+        "zh-CN": "创作模型"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Choose a document type and scenario skeleton.",
+              "zh-CN": "选择文档类型和场景骨架。"
+            },
+            {
+              "en": "Read `.cast-docs/` project profile defaults when the target repository provides them.",
+              "zh-CN": "当目标仓库提供 `.cast-docs/` project profile 时读取默认值。"
+            },
+            {
+              "en": "Produce JSON that matches the schema and manifest contract.",
+              "zh-CN": "产出符合 schema 和 manifest contract 的 JSON。"
+            },
+            {
+              "en": "Run `render_html.py --validate`.",
+              "zh-CN": "运行 `render_html.py --validate`。"
+            },
+            {
+              "en": "Share the generated HTML as the artifact.",
+              "zh-CN": "把生成的 HTML 作为产物分享。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.",
+            "zh-CN": "渲染器刻意避免外部脚本、CDN 和依赖特定 viewer 的 Markdown 扩展。输出应能在浏览器、邮件附件、S3 bucket 或 GitHub Pages 中工作。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/apply_template.py --input draft.json --template .cast-docs/templates/plan.json --output doc.json --validate\npython3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate"
+        }
+      ]
+    },
+    {
+      "id": "regenerate-pages",
+      "title": {
+        "en": "Regenerate Pages",
+        "zh-CN": "重新生成页面"
+      },
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/render_html.py --input site/landing.json --output index.html --validate\npython3 scripts/render_html.py --input site/install.json --output install.html --validate\npython3 scripts/render_html.py --input site/readme.json --output readme.html --validate\npython3 scripts/render_html.py --input site/todo.json --output todo.html --validate\npython3 scripts/render_html.py --input site/changelist.json --output changelist.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/index.json --output plan/index.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/00_overview.json --output plan/00_overview.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/01_features.json --output plan/01_features.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/02_interaction.json --output plan/02_interaction.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/index.json --output spec/index.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/00_architecture.json --output spec/00_architecture.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/01_document_model.json --output spec/01_document_model.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/02_verification.json --output spec/02_verification.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/decisions.json --output spec/decisions.html --validate\npython3 scripts/check_fixtures.py --update"
+        }
+      ]
+    },
+    {
+      "id": "license",
+      "title": {
+        "en": "License",
+        "zh-CN": "许可证"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "cast-a-doc is licensed under the Apache License 2.0, except as noted in NOTICE. CAST Docs names, logos, and other project branding assets are not licensed for modified versions, derived products, or services without prior written permission.",
+            "zh-CN": "cast-a-doc 采用 Apache License 2.0 授权，NOTICE 中另有说明的除外。未经事先书面许可，CAST Docs 名称、标志和其他项目品牌资产不得用于修改版本、衍生产品或服务。"
+          }
+        }
+      ]
+    }
+  ]
+}

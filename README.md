@@ -73,13 +73,14 @@ python3 scripts/check_fixtures.py
 
 - [index.html](index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/) - skill overview, examples, and design rationale.
 - [install.html](install.html) / [Pages](https://cast-docs.github.io/cast-a-doc/install.html) - one-line install commands, environment overrides, and troubleshooting.
+- [readme.html](readme.html) / [Pages](https://cast-docs.github.io/cast-a-doc/readme.html) - CAST Docs HTML view of this repository overview.
 - [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-a-doc/examples/component-gallery.html) - visual reference for common blocks and inline marks.
 - [INSTALL_AGENT.md](INSTALL_AGENT.md) - compact copy-ready install handoff for coding agents.
 - [SKILL.md](SKILL.md) - agent skill manifest and loading instructions.
 - [plan/index.html](plan/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/plan/) - product plan produced through `cast-a-start` guided migration.
 - [spec/index.html](spec/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/spec/) - technical spec produced through `cast-a-start` guided migration.
-- [TODO.md](TODO.md) - project-level uncertainty and deferred work.
-- [CHANGELIST.md](CHANGELIST.md) - planning and documentation change history.
+- [todo.html](todo.html) / [site/todo.json](site/todo.json) - project-level uncertainty and deferred work.
+- [changelist.html](changelist.html) / [site/changelist.json](site/changelist.json) - planning and documentation change history.
 - [references/project-profile.md](references/project-profile.md) - `.cast-docs/` project profile design for repository-specific defaults.
 
 ## Authoring Model
@@ -106,6 +107,9 @@ python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --ou
 ```bash
 python3 scripts/render_html.py --input site/landing.json --output index.html --validate
 python3 scripts/render_html.py --input site/install.json --output install.html --validate
+python3 scripts/render_html.py --input site/readme.json --output readme.html --validate
+python3 scripts/render_html.py --input site/todo.json --output todo.html --validate
+python3 scripts/render_html.py --input site/changelist.json --output changelist.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/index.json --output plan/index.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/00_overview.json --output plan/00_overview.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/01_features.json --output plan/01_features.html --validate

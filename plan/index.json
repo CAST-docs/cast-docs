@@ -283,7 +283,7 @@
                 "en": "TODO",
                 "zh-CN": "TODO"
               },
-              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/TODO.md",
+              "url": "../todo.html",
               "text": {
                 "en": "Current uncertainty and deferred work.",
                 "zh-CN": "当前不确定事项和延后工作。"
@@ -294,7 +294,7 @@
                 "en": "CHANGELIST",
                 "zh-CN": "CHANGELIST"
               },
-              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/CHANGELIST.md",
+              "url": "../changelist.html",
               "text": {
                 "en": "History of planning and documentation changes.",
                 "zh-CN": "规划与文档变化历史。"

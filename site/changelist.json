@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc CHANGELIST",
+      "zh-CN": "cast-a-doc CHANGELIST"
+    },
+    "breadcrumbTitle": {
+      "en": "CHANGELIST",
+      "zh-CN": "CHANGELIST"
+    },
+    "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "status": "draft",
+    "owner": "CAST-Docs",
+    "audience": [
+      "engineering",
+      "coding agents",
+      "documentation maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Public change history for cast-a-doc product scope, planning documents, and release surface.",
+      "zh-CN": "cast-a-doc 产品范围、规划文档和发布界面的公开变更历史。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "README",
+          "zh-CN": "README"
+        },
+        "href": "readme.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "TODO",
+          "zh-CN": "TODO"
+        },
+        "href": "todo.html",
+        "placement": "topbar"
+      }
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "latest",
+      "rewrite-policy"
+    ],
+    "components": {
+      "required": [
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "list",
+        "values-grid"
+      ],
+      "optional": [
+        "summary-block"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "table",
+        "open-questions"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "latest",
+      "title": {
+        "en": "Latest Changes",
+        "zh-CN": "最近变化"
+      },
+      "blocks": [
+        {
+          "type": "values-grid",
+          "items": [
+            {
+              "title": {
+                "en": "Public navigation added",
+                "zh-CN": "补充公开导览"
+              },
+              "body": {
+                "en": "Added a homepage navigation section that points to install, README, product plan, technical spec, TODO, CHANGELIST, and examples.",
+                "zh-CN": "为首页增加导览区，指向安装、README、产品规划、技术方案、TODO、CHANGELIST 和示例。"
+              }
+            },
+            {
+              "title": {
+                "en": "README, TODO, and CHANGELIST published as HTML",
+                "zh-CN": "README、TODO 与 CHANGELIST 发布为 HTML"
+              },
+              "body": {
+                "en": "Added `site/readme.json`, `site/todo.json`, and `site/changelist.json` as agent-readable sources, then generated `readme.html`, `todo.html`, and `changelist.html` for GitHub Pages.",
+                "zh-CN": "新增 `site/readme.json`、`site/todo.json` 和 `site/changelist.json` 作为 agent 可读源，并生成 `readme.html`、`todo.html` 和 `changelist.html` 发布到 GitHub Pages。"
+              }
+            },
+            {
+              "title": {
+                "en": "Markdown TODO and CHANGELIST retired",
+                "zh-CN": "停用 Markdown TODO 与 CHANGELIST"
+              },
+              "body": {
+                "en": "Removed obsolete root Markdown backlog/history files so the public status source is JSON plus generated HTML.",
+                "zh-CN": "移除根目录中过时的 Markdown 待办与变更历史文件，让公开状态源统一为 JSON 加生成 HTML。"
+              }
+            },
+            {
+              "title": {
+                "en": "Landing breadcrumb clarified",
+                "zh-CN": "首页面包屑澄清"
+              },
+              "body": {
+                "en": "Kept the landing H1 as `cast-a-doc` while the topbar breadcrumb reads `CAST-Docs / cast-a-doc / Home` or `CAST-Docs / cast-a-doc / 首页`.",
+                "zh-CN": "首页 H1 保持为 `cast-a-doc`，同时顶栏面包屑显示为 `CAST-Docs / cast-a-doc / Home` 或 `CAST-Docs / cast-a-doc / 首页`。"
+              }
+            },
+            {
+              "title": {
+                "en": "Architecture explanation expanded",
+                "zh-CN": "扩展架构说明"
+              },
+              "body": {
+                "en": "Expanded the architecture spec with artifact evolution, token-saving mechanics, standardization, speed, coding-agent readability, diagrams, and small code examples.",
+                "zh-CN": "扩展技术方案，补充文件产物演变、省 token 机制、标准化、速度、coding agent 可读性、图表和小型代码示例。"
+              }
+            },
+            {
+              "title": {
+                "en": "Project style profiles adopted",
+                "zh-CN": "接入项目样式配置"
+              },
+              "body": {
+                "en": "Added `.cast-docs/project.json` styleProfile guidance so project startup can preserve standardized theme, density, surface, accent, and token override choices without arbitrary CSS.",
+                "zh-CN": "补充 `.cast-docs/project.json` styleProfile 指引，让项目启动流程能保留标准化主题、密度、表面、强调色和 token 覆盖选择，而不引入任意 CSS。"
+              }
+            },
+            {
+              "title": {
+                "en": "Planning workspace added",
+                "zh-CN": "新增规划工作区"
+              },
+              "body": {
+                "en": "Added `plan/` as product planning, `spec/` as technical design, and linked the new workspace from README and the landing page.",
+                "zh-CN": "新增 `plan/` 作为产品规划、`spec/` 作为技术方案，并从 README 和首页链接到新的工作区。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rewrite-policy",
+      "title": {
+        "en": "Rewrite Policy Used",
+        "zh-CN": "本次使用的重写策略"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The rewrite used guided migration mode: keep working implementation artifacts intact, add explicit planning and specification documents beside them, and modify entry points only to expose the new documentation.",
+            "zh-CN": "本次重写使用 guided migration 模式：保留可工作的实现产物，在旁边补充显式规划与技术方案文档，并只修改入口以暴露新的文档结构。"
+          }
+        }
+      ]
+    }
+  ]
+}

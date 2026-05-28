@@ -1,0 +1,213 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc TODO",
+      "zh-CN": "cast-a-doc TODO"
+    },
+    "breadcrumbTitle": {
+      "en": "TODO",
+      "zh-CN": "TODO"
+    },
+    "language": "en",
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "status": "draft",
+    "owner": "CAST-Docs",
+    "audience": [
+      "engineering",
+      "coding agents",
+      "documentation maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Project-level uncertainty, deferred work, and readiness criteria for cast-a-doc.",
+      "zh-CN": "cast-a-doc 的项目级不确定事项、延后工作和就绪标准。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "README",
+          "zh-CN": "README"
+        },
+        "href": "readme.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "CHANGELIST",
+          "zh-CN": "CHANGELIST"
+        },
+        "href": "changelist.html",
+        "placement": "topbar"
+      }
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "rewrite-follow-ups",
+      "product-follow-ups",
+      "documentation-follow-ups",
+      "ready-criteria"
+    ],
+    "components": {
+      "required": [
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "list",
+        "acceptance-criteria"
+      ],
+      "optional": [
+        "summary-block",
+        "open-questions"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "table"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "rewrite-follow-ups",
+      "title": {
+        "en": "Rewrite Follow-Ups",
+        "zh-CN": "重写模式后续事项"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "This list was created by a cast-a-start guided rewrite pass on 2026-05-28 and is maintained as a JSON source plus generated HTML.",
+            "zh-CN": "这份列表由 2026-05-28 的 cast-a-start guided rewrite 生成，并以 JSON 源文件和生成 HTML 维护。"
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Decide how much of an existing repository cast-a-start may rewrite by default: links only, planning workspace, implementation docs, or full documentation replacement.",
+              "zh-CN": "决定 cast-a-start 默认可以重写已有仓库的多少内容：仅链接、规划工作区、实现文档，还是完整文档替换。"
+            },
+            {
+              "en": "Add an explicit rewrite questionnaire for target repositories that already contain README, skill files, examples, or generated documentation.",
+              "zh-CN": "为已经包含 README、skill 文件、示例或生成文档的目标仓库增加明确的重写问卷。"
+            },
+            {
+              "en": "Define how cast-a-start should summarize preserved files, rewritten files, and deferred files after a migration.",
+              "zh-CN": "定义 cast-a-start 在迁移后如何总结保留文件、重写文件和延后文件。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "product-follow-ups",
+      "title": {
+        "en": "Product Follow-Ups",
+        "zh-CN": "产品后续事项"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Add a schema versioning policy for generated CAST Docs JSON documents.",
+              "zh-CN": "为生成的 CAST Docs JSON 文档增加 schema 版本策略。"
+            },
+            {
+              "en": "Decide whether the renderer should expose a small CLI wrapper in addition to direct Python script usage.",
+              "zh-CN": "决定渲染器是否除了直接使用 Python 脚本外，还应暴露一个小型 CLI 包装器。"
+            },
+            {
+              "en": "Add a visual regression workflow for representative generated pages.",
+              "zh-CN": "为代表性生成页面增加视觉回归流程。"
+            },
+            {
+              "en": "Expand project profile examples for real repositories with multiple document sets and style profiles.",
+              "zh-CN": "为包含多个文档集和样式 profile 的真实仓库扩展 project profile 示例。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "documentation-follow-ups",
+      "title": {
+        "en": "Documentation Follow-Ups",
+        "zh-CN": "文档后续事项"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Keep `plan/` and `spec/` in sync with renderer changes that affect authoring behavior.",
+              "zh-CN": "当渲染器变化影响创作行为时，同步更新 `plan/` 和 `spec/`。"
+            },
+            {
+              "en": "Add a short comparison of when to use cast-a-doc versus cast-a-start once both skills stabilize.",
+              "zh-CN": "当两个 skill 稳定后，增加一段何时使用 cast-a-doc、何时使用 cast-a-start 的简短对比。"
+            },
+            {
+              "en": "Capture compatibility notes for Codex, Claude Code, local browser viewing, and GitHub Pages publishing.",
+              "zh-CN": "记录 Codex、Claude Code、本地浏览器查看和 GitHub Pages 发布的兼容性说明。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ready-criteria",
+      "title": {
+        "en": "Ready Criteria",
+        "zh-CN": "就绪标准"
+      },
+      "blocks": [
+        {
+          "type": "acceptance-criteria",
+          "items": [
+            {
+              "en": "Homepage navigation links only to generated HTML pages that exist in the public site.",
+              "zh-CN": "首页导览只链接到公开站点中真实存在的生成 HTML 页面。"
+            },
+            {
+              "en": "TODO and CHANGELIST are maintained as JSON sources under `site/` and published as HTML.",
+              "zh-CN": "TODO 和 CHANGELIST 以 `site/` 下的 JSON 源文件维护，并发布为 HTML。"
+            },
+            {
+              "en": "README remains available for GitHub repository rendering and also has a generated HTML page for CAST Docs navigation.",
+              "zh-CN": "README 继续用于 GitHub 仓库渲染，同时也有用于 CAST Docs 导览的生成 HTML 页面。"
+            },
+            {
+              "en": "Pages are regenerated with `render_html.py --validate` after source JSON changes.",
+              "zh-CN": "源 JSON 变化后使用 `render_html.py --validate` 重新生成页面。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

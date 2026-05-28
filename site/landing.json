@@ -29,7 +29,7 @@
           "en": "README",
           "zh-CN": "README"
         },
-        "href": "https://github.com/CAST-docs/cast-a-doc#readme",
+        "href": "readme.html",
         "placement": "topbar"
       },
       {
@@ -63,6 +63,7 @@
     "scenario": "none",
     "sections": [
       "overview",
+      "navigation",
       "install",
       "component-gallery",
       "scenarios",
@@ -80,7 +81,8 @@
         "source-refs",
         "values-grid",
         "code-block",
-        "callout"
+        "callout",
+        "chapter-list"
       ],
       "optional": [
         "list"
@@ -148,6 +150,104 @@
             "en": "CAST Docs is the document system and brand. cast-a-doc is the skill in this repository: it casts notes, outlines, drafts, and instructions into controlled engineering documents. The JSON is the source. The HTML is the artifact.",
             "zh-CN": "CAST Docs 是文档系统与品牌。cast-a-doc 是当前仓库里的 skill：它把笔记、提纲、草稿和指令 cast 成受控工程文档。JSON 是源文件，HTML 是产物。"
           }
+        }
+      ]
+    },
+    {
+      "id": "navigation",
+      "title": {
+        "en": "Navigation",
+        "zh-CN": "导览"
+      },
+      "blocks": [
+        {
+          "type": "chapter-list",
+          "items": [
+            {
+              "icon": "release",
+              "title": {
+                "en": "Install",
+                "zh-CN": "安装"
+              },
+              "href": "install.html",
+              "description": {
+                "en": "One-line install commands for Codex, Claude Code, or both agents.",
+                "zh-CN": "面向 Codex、Claude Code 或双 agent 的一行安装入口。"
+              }
+            },
+            {
+              "icon": "model",
+              "title": {
+                "en": "README",
+                "zh-CN": "README"
+              },
+              "href": "readme.html",
+              "description": {
+                "en": "Repository overview, local commands, regeneration notes, and contributor entrypoint.",
+                "zh-CN": "仓库概览、本地命令、重新生成说明和贡献入口。"
+              }
+            },
+            {
+              "icon": "features",
+              "title": {
+                "en": "Product Plan",
+                "zh-CN": "产品规划"
+              },
+              "href": "plan/index.html",
+              "description": {
+                "en": "Product boundary, feature model, interaction flow, project profile, and planning workspace.",
+                "zh-CN": "产品边界、功能模型、交互流程、项目 profile 和规划工作区。"
+              }
+            },
+            {
+              "icon": "architecture",
+              "title": {
+                "en": "Technical Spec",
+                "zh-CN": "技术方案"
+              },
+              "href": "spec/index.html",
+              "description": {
+                "en": "Architecture, artifact evolution, document model, verification plan, and decision log.",
+                "zh-CN": "架构、文件产物演变、文档模型、验证方案和决策记录。"
+              }
+            },
+            {
+              "icon": "gate",
+              "title": {
+                "en": "TODO",
+                "zh-CN": "TODO"
+              },
+              "href": "todo.html",
+              "description": {
+                "en": "Project-level uncertainty, deferred work, and implementation readiness.",
+                "zh-CN": "项目级不确定事项、延后工作和进入实现前的准备标准。"
+              }
+            },
+            {
+              "icon": "decisions",
+              "title": {
+                "en": "CHANGELIST",
+                "zh-CN": "CHANGELIST"
+              },
+              "href": "changelist.html",
+              "description": {
+                "en": "History of product, planning, technical design, and documentation changes.",
+                "zh-CN": "产品范围、规划、技术方案和文档变化历史。"
+              }
+            },
+            {
+              "icon": "examples",
+              "title": {
+                "en": "Examples",
+                "zh-CN": "示例"
+              },
+              "href": "examples/component-gallery.html",
+              "description": {
+                "en": "Rendered component gallery and scenario examples for document authors.",
+                "zh-CN": "面向文档作者的组件大全和场景示例。"
+              }
+            }
+          ]
         }
       ]
     },
@@ -401,7 +501,7 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "This repository now carries a cast-a-start planning workspace alongside the renderer implementation. The workspace makes product intent, technical design, TODOs, and change history explicit without replacing the existing README, SKILL, examples, or references.",
+            "en": "This repository now carries a cast-a-start planning workspace alongside the renderer implementation. The workspace makes product intent, technical design, TODO, and change history explicit without replacing the existing README, SKILL, examples, or references.",
             "zh-CN": "这个仓库现在在渲染器实现旁边保留了一套 cast-a-start 规划工作区。该工作区显式记录产品意图、技术设计、TODO 和变化历史，同时不替代现有 README、SKILL、示例或 references。"
           }
         },
@@ -435,7 +535,7 @@
                 "en": "TODO",
                 "zh-CN": "TODO"
               },
-              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/TODO.md",
+              "url": "./todo.html",
               "text": {
                 "en": "Project-level uncertainty and deferred work.",
                 "zh-CN": "项目级不确定事项和延后工作。"
@@ -446,7 +546,7 @@
                 "en": "CHANGELIST",
                 "zh-CN": "CHANGELIST"
               },
-              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/CHANGELIST.md",
+              "url": "./changelist.html",
               "text": {
                 "en": "Planning and documentation change history.",
                 "zh-CN": "规划和文档变化历史。"

@@ -1,0 +1,273 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc document model",
+      "zh-CN": "cast-a-doc 文档模型"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "coding agents"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "The source JSON structure that agents write and the renderer validates.",
+      "zh-CN": "agent 编写、渲染器校验的源 JSON 结构。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "../plan/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "top-level-contract",
+      "localized-content",
+      "blocks",
+      "project-profile"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "code-block",
+        "callout"
+      ],
+      "optional": [
+        "list"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "top-level-contract",
+      "title": {
+        "en": "Top-Level Contract",
+        "zh-CN": "顶层契约"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "metadata",
+                "zh-CN": "metadata"
+              },
+              "body": {
+                "en": "Reader-facing identity, language, owner, audience, links, logo, and publication metadata.",
+                "zh-CN": "面向读者的身份、语言、负责人、读者、链接、logo 和发布元信息。"
+              }
+            },
+            {
+              "label": {
+                "en": "manifest",
+                "zh-CN": "manifest"
+              },
+              "body": {
+                "en": "Document type, scenario, section order, and component inventory.",
+                "zh-CN": "文档类型、场景、章节顺序和组件清单。"
+              }
+            },
+            {
+              "label": {
+                "en": "sections",
+                "zh-CN": "sections"
+              },
+              "body": {
+                "en": "Ordered content sections containing typed blocks.",
+                "zh-CN": "包含类型化 blocks 的有序内容章节。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "code": "{\n  \"metadata\": { \"title\": \"...\", \"language\": \"en\" },\n  \"manifest\": { \"documentType\": \"...\", \"scenario\": \"...\" },\n  \"sections\": []\n}"
+        }
+      ]
+    },
+    {
+      "id": "localized-content",
+      "title": {
+        "en": "Localized Content",
+        "zh-CN": "多语言内容"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Most reader-facing text can be either a plain string or a localized object with English and Chinese variants. Inline text can also be an array of runs with marks for links, code, emphasis, terms, metrics, and references.",
+            "zh-CN": "大多数读者可见文本既可以是普通字符串，也可以是带英文和中文变体的多语言对象。行内文本还可以是 run 数组，用 marks 表示链接、代码、强调、术语、指标和引用。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Language switching",
+            "zh-CN": "语言切换"
+          },
+          "body": {
+            "en": "Generated HTML can switch visible localized content in place and may remember the reader's CAST Docs language preference in browser storage.",
+            "zh-CN": "生成的 HTML 可以原地切换可见多语言内容，并可在浏览器存储中记住读者的 CAST Docs 语言偏好。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "blocks",
+      "title": {
+        "en": "Blocks",
+        "zh-CN": "Blocks"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Block",
+              "zh-CN": "Block"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "用途"
+            },
+            {
+              "en": "Typical source",
+              "zh-CN": "典型来源"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "summary",
+                "zh-CN": "summary"
+              },
+              {
+                "en": "Expose the key facts first.",
+                "zh-CN": "先呈现关键事实。"
+              },
+              {
+                "en": "Problem statement or migration result.",
+                "zh-CN": "问题陈述或迁移结果。"
+              }
+            ],
+            [
+              {
+                "en": "paragraph",
+                "zh-CN": "paragraph"
+              },
+              {
+                "en": "Carry prose and inline marks.",
+                "zh-CN": "承载正文和行内标记。"
+              },
+              {
+                "en": "Design explanation.",
+                "zh-CN": "设计说明。"
+              }
+            ],
+            [
+              {
+                "en": "table",
+                "zh-CN": "table"
+              },
+              {
+                "en": "Compare structured choices or data.",
+                "zh-CN": "比较结构化选择或数据。"
+              },
+              {
+                "en": "Decision matrix or capability map.",
+                "zh-CN": "决策矩阵或能力地图。"
+              }
+            ],
+            [
+              {
+                "en": "source-refs",
+                "zh-CN": "source-refs"
+              },
+              {
+                "en": "Link source files, generated pages, and references.",
+                "zh-CN": "链接源文件、生成页面和参考资料。"
+              },
+              {
+                "en": "Repository inventory.",
+                "zh-CN": "仓库清单。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-profile",
+      "title": {
+        "en": "Project Profile",
+        "zh-CN": "项目配置"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "A repository can keep .cast-docs/ files to make authoring defaults reviewable. The profile can guide output paths, language preference, templates, glossary, style rules, and assets without becoming hidden memory.",
+            "zh-CN": "仓库可以保留 .cast-docs/ 文件，让写作默认值可审查。profile 可指导输出路径、语言偏好、模板、术语表、风格规则和资源，但不成为隐藏记忆。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "code": ".cast-docs/\n  project.json\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/"
+        }
+      ]
+    }
+  ]
+}

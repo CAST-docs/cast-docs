@@ -1,0 +1,224 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc decisions",
+      "zh-CN": "cast-a-doc 决策记录"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Decisions made or preserved by the cast-a-start guided rewrite pass.",
+      "zh-CN": "cast-a-start guided rewrite 做出或保留的决策。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "../plan/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "decision-record",
+    "scenario": "none",
+    "sections": [
+      "decision-summary",
+      "decisions",
+      "deferred-decisions"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "source-refs"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "decision-summary",
+      "title": {
+        "en": "Decision Summary",
+        "zh-CN": "决策摘要"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Rewrite mode",
+                "zh-CN": "重写模式"
+              },
+              "body": {
+                "en": "Use guided migration for the first cast-a-start run over cast-a-doc.",
+                "zh-CN": "首次对 cast-a-doc 执行 cast-a-start 时使用 guided migration。"
+              }
+            },
+            {
+              "label": {
+                "en": "Implementation",
+                "zh-CN": "实现"
+              },
+              "body": {
+                "en": "Do not rewrite renderer code or skill instructions in this pass.",
+                "zh-CN": "本轮不重写渲染器代码或 skill 指令。"
+              }
+            },
+            {
+              "label": {
+                "en": "Publication",
+                "zh-CN": "发布"
+              },
+              "body": {
+                "en": "Render generated plan and spec pages so Pages can show the result immediately.",
+                "zh-CN": "渲染生成的 plan 与 spec 页面，使 Pages 能立即展示结果。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": {
+        "en": "Decisions",
+        "zh-CN": "决策"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "decision",
+          "headers": [
+            {
+              "en": "Decision",
+              "zh-CN": "决策"
+            },
+            {
+              "en": "Reason",
+              "zh-CN": "原因"
+            },
+            {
+              "en": "Effect",
+              "zh-CN": "影响"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Add plan/ and spec/ beside existing docs.",
+                "zh-CN": "在现有文档旁新增 plan/ 和 spec/。"
+              },
+              {
+                "en": "Existing docs are already useful and should remain stable.",
+                "zh-CN": "现有文档已经可用，应保持稳定。"
+              },
+              {
+                "en": "Users can compare current implementation docs with rewrite-generated planning docs.",
+                "zh-CN": "用户可以对比当前实现文档和重写生成的规划文档。"
+              }
+            ],
+            [
+              {
+                "en": "Check in generated HTML for new workspace pages.",
+                "zh-CN": "提交新工作区页面的生成 HTML。"
+              },
+              {
+                "en": "GitHub Pages should display the result without a build step.",
+                "zh-CN": "GitHub Pages 应无需构建步骤即可展示结果。"
+              },
+              {
+                "en": "Source JSON and rendered artifacts are reviewed together.",
+                "zh-CN": "源 JSON 和渲染产物一起审查。"
+              }
+            ],
+            [
+              {
+                "en": "Keep TODO and CHANGELIST as Markdown.",
+                "zh-CN": "保留 TODO 和 CHANGELIST 为 Markdown。"
+              },
+              {
+                "en": "They are lightweight operational files and easy to diff.",
+                "zh-CN": "它们是轻量操作文件，易于 diff。"
+              },
+              {
+                "en": "The generated pages link to them as supporting records.",
+                "zh-CN": "生成页面将它们作为辅助记录链接。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deferred-decisions",
+      "title": {
+        "en": "Deferred Decisions",
+        "zh-CN": "延后决策"
+      },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Needs follow-up",
+            "zh-CN": "需要后续处理"
+          },
+          "body": {
+            "en": "Schema versioning, CLI wrapper shape, and visual regression strategy are intentionally deferred to TODO.md.",
+            "zh-CN": "schema 版本管理、CLI 包装形态和视觉回归策略暂时延后到 TODO.md。"
+          }
+        }
+      ]
+    }
+  ]
+}

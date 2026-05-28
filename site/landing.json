@@ -63,6 +63,7 @@
       "component-gallery",
       "scenarios",
       "project-profile",
+      "planning-workspace",
       "design-principles"
     ],
     "components": {
@@ -380,6 +381,71 @@
               "text": {
                 "en": "Repository-level configuration for templates, i18n, glossary, writing rules, assets, and output path policy.",
                 "zh-CN": "面向仓库级模板、多语言、术语表、写作规则、资源和输出路径策略的配置设计。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "planning-workspace",
+      "title": {
+        "en": "Planning workspace",
+        "zh-CN": "规划工作区"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "This repository now carries a cast-a-start planning workspace alongside the renderer implementation. The workspace makes product intent, technical design, TODOs, and change history explicit without replacing the existing README, SKILL, examples, or references.",
+            "zh-CN": "这个仓库现在在渲染器实现旁边保留了一套 cast-a-start 规划工作区。该工作区显式记录产品意图、技术设计、TODO 和变化历史，同时不替代现有 README、SKILL、示例或 references。"
+          }
+        },
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Product plan",
+                "zh-CN": "产品规划"
+              },
+              "url": "./plan/index.html",
+              "text": {
+                "en": "Product boundary, users, feature plan, interaction model, and open questions.",
+                "zh-CN": "产品边界、用户、功能规划、交互模型和未决问题。"
+              }
+            },
+            {
+              "label": {
+                "en": "Technical spec",
+                "zh-CN": "技术方案"
+              },
+              "url": "./spec/index.html",
+              "text": {
+                "en": "Architecture, document model, verification plan, and decision log.",
+                "zh-CN": "架构、文档模型、验证计划和决策日志。"
+              }
+            },
+            {
+              "label": {
+                "en": "TODO",
+                "zh-CN": "TODO"
+              },
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/TODO.md",
+              "text": {
+                "en": "Project-level uncertainty and deferred work.",
+                "zh-CN": "项目级不确定事项和延后工作。"
+              }
+            },
+            {
+              "label": {
+                "en": "CHANGELIST",
+                "zh-CN": "CHANGELIST"
+              },
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/CHANGELIST.md",
+              "text": {
+                "en": "Planning and documentation change history.",
+                "zh-CN": "规划和文档变化历史。"
               }
             }
           ]

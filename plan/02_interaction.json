@@ -1,0 +1,287 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc interaction plan",
+      "zh-CN": "cast-a-doc 交互规划"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "coding agents",
+      "maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Expected workflows for users, agents, maintainers, and rewrite migrations.",
+      "zh-CN": "用户、agent、维护者和重写迁移的预期工作流。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "../spec/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "none",
+    "sections": [
+      "happy-path",
+      "agent-workflow",
+      "rewrite-workflow",
+      "maintainer-workflow"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "list",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "code-block"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "happy-path",
+      "title": {
+        "en": "Happy Path",
+        "zh-CN": "主路径"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Input",
+                "zh-CN": "输入"
+              },
+              "body": {
+                "en": "A user request, existing notes, or a project profile.",
+                "zh-CN": "用户请求、已有笔记或项目配置。"
+              }
+            },
+            {
+              "label": {
+                "en": "Source",
+                "zh-CN": "源文件"
+              },
+              "body": {
+                "en": "A JSON document matching schemas/doc.schema.json.",
+                "zh-CN": "符合 schemas/doc.schema.json 的 JSON 文档。"
+              }
+            },
+            {
+              "label": {
+                "en": "Artifact",
+                "zh-CN": "产物"
+              },
+              "body": {
+                "en": "One self-contained HTML file that can be opened or published directly.",
+                "zh-CN": "一个可直接打开或发布的自包含 HTML 文件。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            {
+              "en": "Choose the document purpose and audience.",
+              "zh-CN": "选择文档目的和读者。"
+            },
+            {
+              "en": "Create or update JSON using the schema, examples, and project profile.",
+              "zh-CN": "使用 schema、示例和 project profile 创建或更新 JSON。"
+            },
+            {
+              "en": "Render with validation enabled.",
+              "zh-CN": "开启校验并渲染。"
+            },
+            {
+              "en": "Share the HTML or publish it through repository Pages.",
+              "zh-CN": "分享 HTML，或通过仓库 Pages 发布。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agent-workflow",
+      "title": {
+        "en": "Agent Workflow",
+        "zh-CN": "Agent 工作流"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "When loaded as a skill, cast-a-doc should guide the agent to inspect only the relevant repository profile, produce JSON first, run validation, render HTML, and summarize output paths and verification results.",
+            "zh-CN": "作为 skill 加载时，cast-a-doc 应引导 agent 只检查相关 project profile，先产出 JSON，再校验、渲染 HTML，并汇总输出路径和验证结果。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/render_html.py --input doc.json --output doc.html --validate\npython3 scripts/validate_html.py --input doc.html"
+        }
+      ]
+    },
+    {
+      "id": "rewrite-workflow",
+      "title": {
+        "en": "Rewrite Workflow",
+        "zh-CN": "重写工作流"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "decision",
+          "headers": [
+            {
+              "en": "Step",
+              "zh-CN": "步骤"
+            },
+            {
+              "en": "Agent behavior",
+              "zh-CN": "Agent 行为"
+            },
+            {
+              "en": "User-visible result",
+              "zh-CN": "用户可见结果"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Discover",
+                "zh-CN": "发现"
+              },
+              {
+                "en": "Read targeted docs, profile, and public entry points.",
+                "zh-CN": "精准读取文档、profile 和公开入口。"
+              },
+              {
+                "en": "A short inventory of existing material.",
+                "zh-CN": "已有材料清单。"
+              }
+            ],
+            [
+              {
+                "en": "Decide",
+                "zh-CN": "决策"
+              },
+              {
+                "en": "Ask or infer rewrite scope when safe.",
+                "zh-CN": "在安全时询问或推断重写范围。"
+              },
+              {
+                "en": "A chosen migration mode.",
+                "zh-CN": "选定迁移模式。"
+              }
+            ],
+            [
+              {
+                "en": "Apply",
+                "zh-CN": "执行"
+              },
+              {
+                "en": "Add or update plan, spec, TODO, changelist, and navigation.",
+                "zh-CN": "新增或更新 plan、spec、TODO、changelist 和导航。"
+              },
+              {
+                "en": "Reviewable docs plus generated pages.",
+                "zh-CN": "可审查文档和生成页面。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maintainer-workflow",
+      "title": {
+        "en": "Maintainer Workflow",
+        "zh-CN": "维护者工作流"
+      },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Check source and artifact together",
+            "zh-CN": "一起检查源文件和产物"
+          },
+          "body": {
+            "en": "For documentation changes, review both the JSON source and generated HTML. The JSON explains intent; the HTML proves the reader experience.",
+            "zh-CN": "文档变更需要同时审查 JSON 源文件和生成 HTML。JSON 说明意图，HTML 证明阅读体验。"
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Run render_html.py with --validate after editing source JSON.",
+              "zh-CN": "编辑 JSON 源文件后运行带 --validate 的 render_html.py。"
+            },
+            {
+              "en": "Run fixture checks when renderer behavior changes.",
+              "zh-CN": "渲染器行为变化时运行 fixture 检查。"
+            },
+            {
+              "en": "Keep README and landing links aligned with public Pages paths.",
+              "zh-CN": "保持 README 与首页链接和公开 Pages 路径一致。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

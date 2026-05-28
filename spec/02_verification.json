@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc verification",
+      "zh-CN": "cast-a-doc 验证"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Validation, fixture, and publishing checks for cast-a-doc documentation changes.",
+      "zh-CN": "cast-a-doc 文档变更的校验、fixture 和发布检查。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "../plan/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "local-validation",
+      "generated-artifacts",
+      "fixture-policy",
+      "publishing-smoke"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "code-block",
+        "table",
+        "callout"
+      ],
+      "optional": [
+        "list"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "local-validation",
+      "title": {
+        "en": "Local Validation",
+        "zh-CN": "本地校验"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "JSON",
+                "zh-CN": "JSON"
+              },
+              "body": {
+                "en": "Every source document must parse as JSON and pass schema validation.",
+                "zh-CN": "每个源文档都必须能解析为 JSON 并通过 schema 校验。"
+              }
+            },
+            {
+              "label": {
+                "en": "HTML",
+                "zh-CN": "HTML"
+              },
+              "body": {
+                "en": "Generated pages must pass the local HTML validator.",
+                "zh-CN": "生成页面必须通过本地 HTML 校验器。"
+              }
+            },
+            {
+              "label": {
+                "en": "Profile",
+                "zh-CN": "Profile"
+              },
+              "body": {
+                "en": "Repository profile defaults must validate before they are used in generation.",
+                "zh-CN": "仓库 profile 默认值必须在用于生成前通过校验。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html"
+        }
+      ]
+    },
+    {
+      "id": "generated-artifacts",
+      "title": {
+        "en": "Generated Artifacts",
+        "zh-CN": "生成产物"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Artifact",
+              "zh-CN": "产物"
+            },
+            {
+              "en": "Source",
+              "zh-CN": "源文件"
+            },
+            {
+              "en": "Why checked in",
+              "zh-CN": "为什么纳入仓库"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "index.html",
+                "zh-CN": "index.html"
+              },
+              {
+                "en": "site/landing.json",
+                "zh-CN": "site/landing.json"
+              },
+              {
+                "en": "Public landing page and Pages entry point.",
+                "zh-CN": "公开首页和 Pages 入口。"
+              }
+            ],
+            [
+              {
+                "en": "plan/*.html",
+                "zh-CN": "plan/*.html"
+              },
+              {
+                "en": "plan/*.json",
+                "zh-CN": "plan/*.json"
+              },
+              {
+                "en": "Reviewable product planning workspace.",
+                "zh-CN": "可审查的产品规划工作区。"
+              }
+            ],
+            [
+              {
+                "en": "spec/*.html",
+                "zh-CN": "spec/*.html"
+              },
+              {
+                "en": "spec/*.json",
+                "zh-CN": "spec/*.json"
+              },
+              {
+                "en": "Reviewable technical design workspace.",
+                "zh-CN": "可审查的技术方案工作区。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-policy",
+      "title": {
+        "en": "Fixture Policy",
+        "zh-CN": "Fixture 策略"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Generated HTML changes should be intentional. When renderer behavior changes, update fixtures with a clear changelist entry. When only source content changes, render the affected pages and avoid unrelated fixture churn.",
+            "zh-CN": "生成 HTML 的变化应是有意的。渲染器行为变化时，用明确的 changelist 更新 fixture。仅源内容变化时，只渲染受影响页面，避免无关 fixture 抖动。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Avoid broad rewrites",
+            "zh-CN": "避免大范围重写"
+          },
+          "body": {
+            "en": "For existing repositories, cast-a-start should make overwrite scope explicit before replacing documentation. This run used an additive guided migration.",
+            "zh-CN": "对已有仓库，cast-a-start 应在替换文档前明确覆盖范围。本次使用的是增量式 guided migration。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "publishing-smoke",
+      "title": {
+        "en": "Publishing Smoke",
+        "zh-CN": "发布冒烟"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "After pushing, verify the Pages landing page returns HTTP 200.",
+              "zh-CN": "push 后确认 Pages 首页返回 HTTP 200。"
+            },
+            {
+              "en": "Verify /plan/ and /spec/ resolve to their index pages.",
+              "zh-CN": "确认 /plan/ 和 /spec/ 能解析到各自 index 页面。"
+            },
+            {
+              "en": "Open at least one nested page from each workspace when doing visual review.",
+              "zh-CN": "视觉审查时至少打开每个工作区下的一个子页面。"
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "curl -I -L https://cast-docs.github.io/cast-a-doc/\ncurl -I -L https://cast-docs.github.io/cast-a-doc/plan/\ncurl -I -L https://cast-docs.github.io/cast-a-doc/spec/"
+        }
+      ]
+    }
+  ]
+}

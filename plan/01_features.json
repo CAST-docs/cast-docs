@@ -1,0 +1,277 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc feature plan",
+      "zh-CN": "cast-a-doc 功能规划"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "documentation maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Capability map for renderer, validation, project profiles, examples, and publishing.",
+      "zh-CN": "渲染、校验、项目配置、示例和发布能力地图。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "../spec/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "none",
+    "sections": [
+      "capability-map",
+      "core-features",
+      "rewrite-aware-docs",
+      "future-candidates"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "list",
+        "callout"
+      ],
+      "optional": [
+        "source-refs"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "capability-map",
+      "title": {
+        "en": "Capability Map",
+        "zh-CN": "能力地图"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Renderer",
+                "zh-CN": "渲染"
+              },
+              "body": {
+                "en": "Convert validated JSON documents into self-contained HTML.",
+                "zh-CN": "把校验通过的 JSON 文档转换为自包含 HTML。"
+              }
+            },
+            {
+              "label": {
+                "en": "Contract",
+                "zh-CN": "契约"
+              },
+              "body": {
+                "en": "Keep document structure explicit through schema, manifest, components, examples, and fixtures.",
+                "zh-CN": "通过 schema、manifest、组件、示例和 fixture 保持文档结构显式。"
+              }
+            },
+            {
+              "label": {
+                "en": "Skill",
+                "zh-CN": "Skill"
+              },
+              "body": {
+                "en": "Guide agents to produce documents that can be reviewed, rendered, and published.",
+                "zh-CN": "引导 agent 产出可审查、可渲染、可发布的文档。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-features",
+      "title": {
+        "en": "Core Features",
+        "zh-CN": "核心功能"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Feature",
+              "zh-CN": "功能"
+            },
+            {
+              "en": "Current behavior",
+              "zh-CN": "当前行为"
+            },
+            {
+              "en": "Plan",
+              "zh-CN": "规划"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Document schema",
+                "zh-CN": "文档 schema"
+              },
+              {
+                "en": "Defines metadata, manifest, localized strings, sections, and block variants.",
+                "zh-CN": "定义 metadata、manifest、多语言文本、章节和 block 变体。"
+              },
+              {
+                "en": "Keep it strict and version intentional changes.",
+                "zh-CN": "保持严格，并对有意变更做版本管理。"
+              }
+            ],
+            [
+              {
+                "en": "HTML renderer",
+                "zh-CN": "HTML 渲染器"
+              },
+              {
+                "en": "Builds a portable HTML artifact with inline CSS and renderer-owned interactions.",
+                "zh-CN": "生成内联 CSS 和渲染器自有交互的可携带 HTML。"
+              },
+              {
+                "en": "Prefer deterministic output over visual novelty.",
+                "zh-CN": "优先确定性输出，而不是视觉新奇度。"
+              }
+            ],
+            [
+              {
+                "en": "Project profile",
+                "zh-CN": "项目配置"
+              },
+              {
+                "en": "Stores repository defaults for writing style, locale, templates, assets, and output paths.",
+                "zh-CN": "存储写作风格、多语言、模板、资源和输出路径等仓库默认值。"
+              },
+              {
+                "en": "Make profile use visible in generated handoffs.",
+                "zh-CN": "让生成交付中能看出 profile 被使用。"
+              }
+            ],
+            [
+              {
+                "en": "Fixtures",
+                "zh-CN": "Fixtures"
+              },
+              {
+                "en": "Examples and generated pages can be checked for drift.",
+                "zh-CN": "示例与生成页面可用于检查漂移。"
+              },
+              {
+                "en": "Expand coverage when adding new block types.",
+                "zh-CN": "新增 block 类型时扩展覆盖。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rewrite-aware-docs",
+      "title": {
+        "en": "Rewrite-Aware Docs",
+        "zh-CN": "面向重写的文档"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "cast-a-doc should make rewrite outcomes easy to inspect. When cast-a-start rewrites a repository, generated CAST Docs pages should separate preserved source material, new planning decisions, technical specifications, TODOs, and change history.",
+            "zh-CN": "cast-a-doc 应让重写结果容易检查。当 cast-a-start 重写一个仓库时，生成的 CAST Docs 页面应区分被保留的源材料、新规划决策、技术方案、TODO 和变更历史。"
+          }
+        },
+        {
+          "type": "callout",
+          "variant": "success",
+          "title": {
+            "en": "This repository now demonstrates that pattern",
+            "zh-CN": "当前仓库已演示该模式"
+          },
+          "body": {
+            "en": "The guided rewrite added plan and spec pages without deleting existing renderer documentation.",
+            "zh-CN": "这次 guided rewrite 添加了 plan 与 spec 页面，同时没有删除既有渲染器文档。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "future-candidates",
+      "title": {
+        "en": "Future Candidates",
+        "zh-CN": "后续候选项"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Add a schema version field once compatibility policy is explicit.",
+              "zh-CN": "兼容策略明确后添加 schema version 字段。"
+            },
+            {
+              "en": "Expose a friendlier CLI wrapper for common render and validate commands.",
+              "zh-CN": "为常见渲染和校验命令提供更友好的 CLI 包装。"
+            },
+            {
+              "en": "Add visual regression coverage for landing, install, gallery, plan, and spec pages.",
+              "zh-CN": "为首页、安装页、组件页、plan 和 spec 页面添加视觉回归覆盖。"
+            },
+            {
+              "en": "Document how project profiles compose with cast-a-start rewrite choices.",
+              "zh-CN": "记录 project profile 如何与 cast-a-start 重写选项组合。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

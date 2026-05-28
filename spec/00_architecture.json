@@ -1,0 +1,306 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc architecture",
+      "zh-CN": "cast-a-doc 架构"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "maintainers"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Runtime modules, data flow, and repository boundaries for cast-a-doc.",
+      "zh-CN": "cast-a-doc 的运行时模块、数据流和仓库边界。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "../plan/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "runtime-shape",
+      "data-flow",
+      "repository-boundaries",
+      "extension-points"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "table",
+        "list",
+        "source-refs"
+      ],
+      "optional": [
+        "callout"
+      ],
+      "omitted": [
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "runtime-shape",
+      "title": {
+        "en": "Runtime Shape",
+        "zh-CN": "运行时形态"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Language",
+                "zh-CN": "语言"
+              },
+              "body": {
+                "en": "Python 3.9+ with standard-library dependencies.",
+                "zh-CN": "Python 3.9+，仅依赖标准库。"
+              }
+            },
+            {
+              "label": {
+                "en": "Input",
+                "zh-CN": "输入"
+              },
+              "body": {
+                "en": "A CAST Docs JSON document plus optional repository profile defaults.",
+                "zh-CN": "CAST Docs JSON 文档，以及可选的仓库 profile 默认值。"
+              }
+            },
+            {
+              "label": {
+                "en": "Output",
+                "zh-CN": "输出"
+              },
+              "body": {
+                "en": "A self-contained HTML artifact.",
+                "zh-CN": "一个自包含 HTML 产物。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Module",
+              "zh-CN": "模块"
+            },
+            {
+              "en": "Responsibility",
+              "zh-CN": "职责"
+            },
+            {
+              "en": "Boundary",
+              "zh-CN": "边界"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "render_html.py",
+                "zh-CN": "render_html.py"
+              },
+              {
+                "en": "Load JSON, validate when requested, render document shell and blocks.",
+                "zh-CN": "加载 JSON，按需校验，并渲染文档外壳与 blocks。"
+              },
+              {
+                "en": "Does not fetch remote assets.",
+                "zh-CN": "不拉取远程资源。"
+              }
+            ],
+            [
+              {
+                "en": "validate_doc_json.py",
+                "zh-CN": "validate_doc_json.py"
+              },
+              {
+                "en": "Check source JSON against the document schema.",
+                "zh-CN": "按文档 schema 校验源 JSON。"
+              },
+              {
+                "en": "Does not mutate documents.",
+                "zh-CN": "不修改文档。"
+              }
+            ],
+            [
+              {
+                "en": "project profile scripts",
+                "zh-CN": "project profile scripts"
+              },
+              {
+                "en": "Validate and apply repository-level preferences.",
+                "zh-CN": "校验并应用仓库级偏好。"
+              },
+              {
+                "en": "User request overrides defaults.",
+                "zh-CN": "用户当前请求优先于默认值。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-flow",
+      "title": {
+        "en": "Data Flow",
+        "zh-CN": "数据流"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            {
+              "en": "An agent or maintainer writes JSON that matches schemas/doc.schema.json.",
+              "zh-CN": "agent 或维护者编写符合 schemas/doc.schema.json 的 JSON。"
+            },
+            {
+              "en": "Optional profile data fills in repository defaults such as language, assets, and output paths.",
+              "zh-CN": "可选 profile 数据补充语言、资源和输出路径等仓库默认值。"
+            },
+            {
+              "en": "The renderer converts metadata, manifest, sections, and blocks into HTML.",
+              "zh-CN": "渲染器把 metadata、manifest、sections 和 blocks 转换为 HTML。"
+            },
+            {
+              "en": "Generated HTML is validated and then committed or published when needed.",
+              "zh-CN": "生成的 HTML 经过校验后，按需要提交或发布。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repository-boundaries",
+      "title": {
+        "en": "Repository Boundaries",
+        "zh-CN": "仓库边界"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "cast-a-doc owns the renderer, schema, examples, install flow, skill manifest, and project profile reference. It should not own repository-discovery heuristics for arbitrary projects; those belong in cast-a-start.",
+            "zh-CN": "cast-a-doc 负责渲染器、schema、示例、安装流程、skill manifest 和 project profile 参考。不应负责任意项目的仓库发现启发式逻辑；这属于 cast-a-start。"
+          }
+        },
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Renderer",
+                "zh-CN": "渲染器"
+              },
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/scripts/render_html.py",
+              "text": {
+                "en": "Main HTML renderer.",
+                "zh-CN": "主 HTML 渲染器。"
+              }
+            },
+            {
+              "label": {
+                "en": "Schema",
+                "zh-CN": "Schema"
+              },
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/schemas/doc.schema.json",
+              "text": {
+                "en": "Document contract.",
+                "zh-CN": "文档契约。"
+              }
+            },
+            {
+              "label": {
+                "en": "Project profile reference",
+                "zh-CN": "Project profile 参考"
+              },
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/references/project-profile.md",
+              "text": {
+                "en": "Repository-level defaults and authoring behavior.",
+                "zh-CN": "仓库级默认值和写作行为。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "extension-points",
+      "title": {
+        "en": "Extension Points",
+        "zh-CN": "扩展点"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "New block types require schema support, renderer support, example coverage, and generated fixture updates.",
+              "zh-CN": "新增 block 类型需要 schema 支持、渲染器支持、示例覆盖和生成 fixture 更新。"
+            },
+            {
+              "en": "New document scenarios should be expressed as examples or templates before becoming skill defaults.",
+              "zh-CN": "新的文档场景应先以示例或模板表达，再成为 skill 默认行为。"
+            },
+            {
+              "en": "New project profile fields should preserve the rule that user instructions override repository defaults.",
+              "zh-CN": "新的 project profile 字段必须保留用户指令优先于仓库默认值的规则。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

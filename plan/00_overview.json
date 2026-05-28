@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "title": {
+      "en": "cast-a-doc overview",
+      "zh-CN": "cast-a-doc 概览"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "cast-a-doc",
+    "audience": [
+      "engineering",
+      "coding agents"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "Product boundary, audience, and current state for cast-a-doc.",
+      "zh-CN": "cast-a-doc 的产品边界、用户和当前状态。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Plan",
+          "zh-CN": "规划"
+        },
+        "href": "./index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Spec",
+          "zh-CN": "技术方案"
+        },
+        "href": "../spec/index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-plan",
+    "scenario": "none",
+    "sections": [
+      "product-boundary",
+      "users",
+      "current-state",
+      "non-goals"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "list",
+        "callout"
+      ],
+      "optional": [
+        "table"
+      ],
+      "omitted": [
+        "diagram",
+        "diff-block",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "product-boundary",
+      "title": {
+        "en": "Product Boundary",
+        "zh-CN": "产品边界"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Core job",
+                "zh-CN": "核心任务"
+              },
+              "body": {
+                "en": "Turn structured document JSON into portable, self-contained HTML artifacts.",
+                "zh-CN": "把结构化文档 JSON 转成可携带、自包含的 HTML 产物。"
+              }
+            },
+            {
+              "label": {
+                "en": "Authoring role",
+                "zh-CN": "写作角色"
+              },
+              "body": {
+                "en": "Give coding agents a stable contract for producing engineering documents with predictable layout and validation.",
+                "zh-CN": "给 coding agent 一份稳定契约，用于生成布局和校验都可预期的工程文档。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "cast-a-doc is the rendering and document-contract skill in CAST Docs. It should stay focused on JSON shape, reusable document components, local validation, and generated HTML. cast-a-start should own repository onboarding, rewrite strategy, and project planning decisions.",
+            "zh-CN": "cast-a-doc 是 CAST Docs 中负责渲染与文档契约的 skill。它应聚焦 JSON 形态、可复用文档组件、本地校验和 HTML 生成。cast-a-start 应负责仓库启动、重写策略和项目规划决策。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "title": {
+        "en": "Users",
+        "zh-CN": "用户"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "User",
+              "zh-CN": "用户"
+            },
+            {
+              "en": "Need",
+              "zh-CN": "需求"
+            },
+            {
+              "en": "Success signal",
+              "zh-CN": "成功信号"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Coding agent",
+                "zh-CN": "Coding agent"
+              },
+              {
+                "en": "A compact source format and renderer that can be used without extra packages.",
+                "zh-CN": "无需额外依赖即可使用的紧凑源格式和渲染器。"
+              },
+              {
+                "en": "JSON validates and HTML renders deterministically.",
+                "zh-CN": "JSON 可校验，HTML 可确定性渲染。"
+              }
+            ],
+            [
+              {
+                "en": "Maintainer",
+                "zh-CN": "维护者"
+              },
+              {
+                "en": "Stable examples, fixtures, and tests when changing the renderer.",
+                "zh-CN": "修改渲染器时有稳定示例、fixture 和测试。"
+              },
+              {
+                "en": "Fixture checks catch behavior drift.",
+                "zh-CN": "fixture 检查能捕捉行为漂移。"
+              }
+            ],
+            [
+              {
+                "en": "Reader",
+                "zh-CN": "读者"
+              },
+              {
+                "en": "A readable artifact that works from a browser, email attachment, archive, or Pages site.",
+                "zh-CN": "能在浏览器、邮件附件、归档或 Pages 站点中阅读的产物。"
+              },
+              {
+                "en": "No local setup is needed to view the document.",
+                "zh-CN": "查看文档不需要本地配置。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "current-state",
+      "title": {
+        "en": "Current State",
+        "zh-CN": "当前状态"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "The renderer is implemented in Python and uses only the standard library.",
+              "zh-CN": "渲染器由 Python 实现，并且只使用标准库。"
+            },
+            {
+              "en": "The schema controls metadata, manifest, sections, localized text, and reusable blocks.",
+              "zh-CN": "schema 控制 metadata、manifest、sections、多语言文本和可复用 block。"
+            },
+            {
+              "en": "Examples and generated HTML pages double as fixture coverage and public documentation.",
+              "zh-CN": "示例与生成 HTML 同时承担 fixture 覆盖和公开文档角色。"
+            },
+            {
+              "en": "The project profile under .cast-docs records repository-level defaults for output paths, writing style, templates, and assets.",
+              "zh-CN": ".cast-docs 下的 project profile 记录输出路径、写作风格、模板和资源等仓库级默认值。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "non-goals",
+      "title": {
+        "en": "Non-Goals",
+        "zh-CN": "非目标"
+      },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Keep the renderer boring",
+            "zh-CN": "让渲染器保持朴素"
+          },
+          "body": {
+            "en": "cast-a-doc should not become a web app, a markdown dialect, a live collaboration platform, or a hidden agent memory system.",
+            "zh-CN": "cast-a-doc 不应变成 Web 应用、Markdown 方言、实时协作平台或隐藏 agent 记忆系统。"
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Do not require external CDNs or runtime JavaScript frameworks.",
+              "zh-CN": "不要求外部 CDN 或运行时 JavaScript 框架。"
+            },
+            {
+              "en": "Do not silently overwrite repository documents during a rewrite.",
+              "zh-CN": "重写时不静默覆盖仓库文档。"
+            },
+            {
+              "en": "Do not move project planning responsibility out of cast-a-start.",
+              "zh-CN": "不把项目规划职责从 cast-a-start 挪走。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

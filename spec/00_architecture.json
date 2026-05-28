@@ -13,8 +13,8 @@
     ],
     "updatedAt": "2026-05-28",
     "description": {
-      "en": "Runtime modules, data flow, and repository boundaries for cast-a-doc.",
-      "zh-CN": "cast-a-doc 的运行时模块、数据流和仓库边界。"
+      "en": "Runtime modules, data flow, agent readability, token discipline, and repository boundaries for cast-a-doc.",
+      "zh-CN": "cast-a-doc 的运行时模块、数据流、agent 可读性、token 约束和仓库边界。"
     },
     "shellLinks": [
       {
@@ -60,7 +60,10 @@
     "scenario": "none",
     "sections": [
       "runtime-shape",
+      "agent-readable-contract",
       "data-flow",
+      "efficiency-mechanisms",
+      "standardization-loop",
       "repository-boundaries",
       "extension-points"
     ],
@@ -73,14 +76,15 @@
         "paragraph",
         "table",
         "list",
+        "diagram",
         "source-refs"
       ],
       "optional": [
-        "callout"
+        "callout",
+        "code-block"
       ],
       "omitted": [
-        "diff-block",
-        "inline-svg-figure"
+        "diff-block"
       ]
     }
   },
@@ -188,6 +192,251 @@
               }
             ]
           ]
+        },
+        {
+          "type": "diagram",
+          "kind": "architecture",
+          "title": {
+            "en": "Runtime Boundary Map",
+            "zh-CN": "运行时边界图"
+          },
+          "downloadName": "runtime-boundary-map",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "source",
+                "label": {
+                  "en": "Source JSON",
+                  "zh-CN": "源 JSON"
+                }
+              },
+              {
+                "id": "profile",
+                "label": {
+                  "en": "Project Profile",
+                  "zh-CN": "项目 Profile"
+                }
+              },
+              {
+                "id": "renderer",
+                "label": {
+                  "en": "Renderer",
+                  "zh-CN": "渲染器"
+                }
+              },
+              {
+                "id": "html",
+                "label": {
+                  "en": "Self-contained HTML",
+                  "zh-CN": "自包含 HTML"
+                }
+              },
+              {
+                "id": "validators",
+                "label": {
+                  "en": "Validators",
+                  "zh-CN": "校验器"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "source",
+                "to": "profile",
+                "label": {
+                  "en": "defaults merge",
+                  "zh-CN": "默认值合并"
+                }
+              },
+              {
+                "from": "profile",
+                "to": "renderer",
+                "label": {
+                  "en": "effective document",
+                  "zh-CN": "有效文档"
+                }
+              },
+              {
+                "from": "renderer",
+                "to": "html",
+                "label": {
+                  "en": "deterministic render",
+                  "zh-CN": "确定性渲染"
+                }
+              },
+              {
+                "from": "html",
+                "to": "validators",
+                "label": {
+                  "en": "HTML/profile checks",
+                  "zh-CN": "HTML/profile 校验"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent-readable-contract",
+      "title": {
+        "en": "Agent-Readable Contract",
+        "zh-CN": "Agent 可读契约"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "cast-a-doc treats JSON as the primary authoring surface and HTML as a generated artifact. Coding agents can inspect metadata, manifest, section ids, block types, and localized fields without parsing layout CSS, visual decoration, or browser-only state.",
+            "zh-CN": "cast-a-doc 把 JSON 作为主要写作界面，把 HTML 作为生成产物。coding agent 可以直接检查 metadata、manifest、section id、block type 和多语言字段，而不需要解析布局 CSS、视觉装饰或浏览器状态。"
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "sequence",
+          "title": {
+            "en": "Agent Read Path",
+            "zh-CN": "Agent 读取路径"
+          },
+          "downloadName": "agent-read-path",
+          "source": {
+            "format": "structured-sequence",
+            "steps": [
+              {
+                "from": {
+                  "en": "Agent",
+                  "zh-CN": "Agent"
+                },
+                "to": {
+                  "en": "Repository",
+                  "zh-CN": "仓库"
+                },
+                "label": {
+                  "en": "Read small JSON source",
+                  "zh-CN": "读取小型 JSON 源"
+                }
+              },
+              {
+                "from": {
+                  "en": "Repository",
+                  "zh-CN": "仓库"
+                },
+                "to": {
+                  "en": "Schema",
+                  "zh-CN": "Schema"
+                },
+                "label": {
+                  "en": "Validate shape and allowed blocks",
+                  "zh-CN": "校验结构和允许的 blocks"
+                }
+              },
+              {
+                "from": {
+                  "en": "Agent",
+                  "zh-CN": "Agent"
+                },
+                "to": {
+                  "en": "Renderer",
+                  "zh-CN": "渲染器"
+                },
+                "label": {
+                  "en": "Render after source edits",
+                  "zh-CN": "源文件修改后渲染"
+                }
+              },
+              {
+                "from": {
+                  "en": "Renderer",
+                  "zh-CN": "渲染器"
+                },
+                "to": {
+                  "en": "HTML",
+                  "zh-CN": "HTML"
+                },
+                "label": {
+                  "en": "Emit reader artifact",
+                  "zh-CN": "输出读者产物"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Mechanism",
+              "zh-CN": "机制"
+            },
+            {
+              "en": "Agent benefit",
+              "zh-CN": "Agent 收益"
+            },
+            {
+              "en": "Design rule",
+              "zh-CN": "设计规则"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Typed blocks",
+                "zh-CN": "类型化 blocks"
+              },
+              {
+                "en": "Agents can jump to a known block contract instead of inferring prose intent.",
+                "zh-CN": "agent 可跳到已知 block 契约，而不是从散文里推断意图。"
+              },
+              {
+                "en": "Every block type is registered in config/components.json and validated by schema/runtime checks.",
+                "zh-CN": "每个 block type 都在 config/components.json 注册，并由 schema/runtime 校验。"
+              }
+            ],
+            [
+              {
+                "en": "Manifest section order",
+                "zh-CN": "manifest 章节顺序"
+              },
+              {
+                "en": "Agents can diff declared structure against actual sections before reading details.",
+                "zh-CN": "agent 可先对比声明结构和实际 sections，再进入细节。"
+              },
+              {
+                "en": "manifest.sections must match sections[].id exactly.",
+                "zh-CN": "manifest.sections 必须和 sections[].id 完全一致。"
+              }
+            ],
+            [
+              {
+                "en": "Localized field objects",
+                "zh-CN": "多语言字段对象"
+              },
+              {
+                "en": "Agents can update one semantic field in both languages without duplicating layout.",
+                "zh-CN": "agent 可在同一个语义字段里更新双语内容，不复制布局。"
+              },
+              {
+                "en": "Reader-facing text is string or {en, zh-CN}; renderer handles visibility.",
+                "zh-CN": "读者可见文本为字符串或 {en, zh-CN}；渲染器负责可见性。"
+              }
+            ],
+            [
+              {
+                "en": "Source-first workflow",
+                "zh-CN": "源文件优先工作流"
+              },
+              {
+                "en": "Agents edit compact JSON, then regenerate HTML; large generated files are not the thinking surface.",
+                "zh-CN": "agent 编辑紧凑 JSON，再重新生成 HTML；大型生成文件不是思考界面。"
+              },
+              {
+                "en": "Checked-in HTML exists for Pages and review, but JSON remains the authoring source.",
+                "zh-CN": "HTML 入库用于 Pages 和审阅，但 JSON 仍是写作源。"
+              }
+            ]
+          ]
         }
       ]
     },
@@ -217,6 +466,325 @@
             {
               "en": "Generated HTML is validated and then committed or published when needed.",
               "zh-CN": "生成的 HTML 经过校验后，按需要提交或发布。"
+            }
+          ]
+        },
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Source-To-Pages Flow",
+            "zh-CN": "源文件到 Pages 的流程"
+          },
+          "downloadName": "source-to-pages-flow",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "JSON Source",
+                  "zh-CN": "JSON 源"
+                }
+              },
+              {
+                "id": "validate",
+                "label": {
+                  "en": "Validate",
+                  "zh-CN": "校验"
+                }
+              },
+              {
+                "id": "render",
+                "label": {
+                  "en": "Render HTML",
+                  "zh-CN": "渲染 HTML"
+                }
+              },
+              {
+                "id": "lint",
+                "label": {
+                  "en": "HTML + Visual Checks",
+                  "zh-CN": "HTML + 视觉检查"
+                }
+              },
+              {
+                "id": "pages",
+                "label": {
+                  "en": "GitHub Pages",
+                  "zh-CN": "GitHub Pages"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "validate",
+                "label": {
+                  "en": "schema + manifest",
+                  "zh-CN": "schema + manifest"
+                }
+              },
+              {
+                "from": "validate",
+                "to": "render",
+                "label": {
+                  "en": "typed document",
+                  "zh-CN": "类型化文档"
+                }
+              },
+              {
+                "from": "render",
+                "to": "lint",
+                "label": {
+                  "en": "self-contained HTML",
+                  "zh-CN": "自包含 HTML"
+                }
+              },
+              {
+                "from": "lint",
+                "to": "pages",
+                "label": {
+                  "en": "commit artifact",
+                  "zh-CN": "提交产物"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "efficiency-mechanisms",
+      "title": {
+        "en": "Token, Speed, And Readability Mechanisms",
+        "zh-CN": "Token、速度与可读性机制"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Token discipline",
+                "zh-CN": "Token 约束"
+              },
+              "body": {
+                "en": "Agents read and edit compact source JSON while generated HTML remains a publish artifact.",
+                "zh-CN": "agent 读取和编辑紧凑源 JSON，生成 HTML 只作为发布产物。"
+              }
+            },
+            {
+              "label": {
+                "en": "Fast rendering",
+                "zh-CN": "快速渲染"
+              },
+              "body": {
+                "en": "Rendering is a local deterministic pass with standard-library Python and no network fetches.",
+                "zh-CN": "渲染是本地确定性流程，使用 Python 标准库且不发起网络请求。"
+              }
+            },
+            {
+              "label": {
+                "en": "Stable review",
+                "zh-CN": "稳定审阅"
+              },
+              "body": {
+                "en": "The same JSON source produces the same HTML shell, making visual and textual diffs predictable.",
+                "zh-CN": "相同 JSON 源会生成相同 HTML 外壳，让视觉和文本 diff 可预测。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Goal",
+              "zh-CN": "目标"
+            },
+            {
+              "en": "How cast-a-doc achieves it",
+              "zh-CN": "cast-a-doc 如何实现"
+            },
+            {
+              "en": "Evidence in the system",
+              "zh-CN": "系统中的依据"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Save tokens",
+                "zh-CN": "节省 token"
+              },
+              {
+                "en": "Keep semantic source separate from generated HTML; agents can inspect manifest and relevant sections instead of reading the whole page artifact.",
+                "zh-CN": "把语义源和生成 HTML 分离；agent 可检查 manifest 和相关 sections，而不是读取整页产物。"
+              },
+              {
+                "en": "JSON source files, manifest.sections, typed blocks, source-refs, files blocks.",
+                "zh-CN": "JSON 源文件、manifest.sections、类型化 blocks、source-refs、files blocks。"
+              }
+            ],
+            [
+              {
+                "en": "Standardize output",
+                "zh-CN": "标准化输出"
+              },
+              {
+                "en": "Schema, component registry, html profile, and shared shell templates constrain what a document can contain.",
+                "zh-CN": "schema、组件注册表、HTML profile 和共享 shell 模板约束文档内容。"
+              },
+              {
+                "en": "schemas/doc.schema.json, config/components.json, config/html-profile.json, shell templates.",
+                "zh-CN": "schemas/doc.schema.json、config/components.json、config/html-profile.json、shell 模板。"
+              }
+            ],
+            [
+              {
+                "en": "Render fast",
+                "zh-CN": "快速渲染"
+              },
+              {
+                "en": "Use a single local render pass and inline only the required interaction modules for the active document.",
+                "zh-CN": "使用一次本地渲染流程，并只内联当前文档需要的交互模块。"
+              },
+              {
+                "en": "resolve_active_interactions, render_interaction_assets, self-contained HTML.",
+                "zh-CN": "resolve_active_interactions、render_interaction_assets、自包含 HTML。"
+              }
+            ],
+            [
+              {
+                "en": "Stay agent-readable",
+                "zh-CN": "保持 agent 可读"
+              },
+              {
+                "en": "Use explicit ids, registered block types, localized fields, and source references instead of free-form page markup.",
+                "zh-CN": "使用显式 id、注册 block type、多语言字段和源引用，而不是自由 HTML 页面标记。"
+              },
+              {
+                "en": "SECTION_ID_RE, validate_block, localizedString, source-refs/files blocks.",
+                "zh-CN": "SECTION_ID_RE、validate_block、localizedString、source-refs/files blocks。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "standardization-loop",
+      "title": {
+        "en": "Standardization Loop",
+        "zh-CN": "标准化闭环"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Standardization is enforced at several layers rather than by convention alone. Authors choose from known block types, validators reject unsupported shapes, the renderer emits one shell, visual lint catches rough UI choices, and checked fixtures prevent accidental output drift.",
+            "zh-CN": "标准化不是只靠约定，而是在多个层面执行：作者从已知 block type 中选择，校验器拒绝不支持的结构，渲染器输出统一 shell，visual lint 捕获粗糙 UI 选择，fixture 防止输出意外漂移。"
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Standardization Feedback Loop",
+            "zh-CN": "标准化反馈闭环"
+          },
+          "downloadName": "standardization-loop",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "contract",
+                "label": {
+                  "en": "Schema Contract",
+                  "zh-CN": "Schema 契约"
+                }
+              },
+              {
+                "id": "registry",
+                "label": {
+                  "en": "Component Registry",
+                  "zh-CN": "组件注册表"
+                }
+              },
+              {
+                "id": "renderer",
+                "label": {
+                  "en": "Renderer Shell",
+                  "zh-CN": "渲染器外壳"
+                }
+              },
+              {
+                "id": "lint",
+                "label": {
+                  "en": "Validation + Visual Lint",
+                  "zh-CN": "校验 + 视觉 lint"
+                }
+              },
+              {
+                "id": "fixtures",
+                "label": {
+                  "en": "Checked Fixtures",
+                  "zh-CN": "入库 fixtures"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "contract",
+                "to": "registry",
+                "label": {
+                  "en": "allowed blocks",
+                  "zh-CN": "允许 blocks"
+                }
+              },
+              {
+                "from": "registry",
+                "to": "renderer",
+                "label": {
+                  "en": "render handlers",
+                  "zh-CN": "渲染处理器"
+                }
+              },
+              {
+                "from": "renderer",
+                "to": "lint",
+                "label": {
+                  "en": "generated HTML",
+                  "zh-CN": "生成 HTML"
+                }
+              },
+              {
+                "from": "lint",
+                "to": "fixtures",
+                "label": {
+                  "en": "must pass",
+                  "zh-CN": "必须通过"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "A new block type is not complete until schema, renderer, component registry, example JSON, generated HTML, and fixture validation all agree.",
+              "zh-CN": "新的 block type 只有在 schema、renderer、组件注册表、示例 JSON、生成 HTML 和 fixture 校验都一致后才算完成。"
+            },
+            {
+              "en": "Generated HTML is reviewed as output, but source JSON is the compact and structured place where agents should reason.",
+              "zh-CN": "生成 HTML 作为输出被审阅，但源 JSON 才是 agent 应该推理的紧凑结构化界面。"
+            },
+            {
+              "en": "Project profile defaults standardize repository-specific tone, locale, links, and asset choices without hiding them from the source document.",
+              "zh-CN": "Project profile 默认值统一仓库级语气、语言、链接和资源选择，但不会把它们从源文档中隐藏。"
             }
           ]
         }

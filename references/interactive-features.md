@@ -64,6 +64,12 @@ The `toggle-view` block renders a segmented button group and one panel per view.
 
 Use this for controlled view switching such as overview/source, table/chart, or before/after content. Do not add event-handler attributes or custom scripts to generated content.
 
+## Language Switching
+
+The language switcher applies the selected locale immediately. When the selected locale differs from the stored CAST Docs global default language, it asks the reader whether to save the selected locale as the default.
+
+The global preference is stored in browser `localStorage` under `cast-docs:global-memory`, with `preferences.defaultLocale` and `preferences.defaultLocaleUpdatedAt`. Pages that share the same origin read this preference on load and apply it when the locale is available in the document.
+
 ## Slider Control
 
 The `slider` block renders a renderer-owned range input, output value, and preview target. The control uses `data-slider-target`, `data-slider-output`, and `data-slider-demo`; the shared script updates the output and applies the selected effect to the target. The initial supported effect is `opacity`, useful for examples such as making text brighter or dimmer without content-authored JavaScript.

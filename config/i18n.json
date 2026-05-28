@@ -8,7 +8,9 @@
       "strings": {
         "chrome.contents": "Contents",
         "chrome.documentLinksAria": "Document links",
+        "chrome.defaultLanguagePrompt": "Set {language} as the default language for CAST Docs?",
         "chrome.languageAria": "Language",
+        "chrome.languageName": "English",
         "chrome.tocAria": "Table of contents",
         "diagram.close": "Close",
         "code.copied": "Copied",
@@ -43,7 +45,9 @@
       "strings": {
         "chrome.contents": "目录",
         "chrome.documentLinksAria": "文档链接",
+        "chrome.defaultLanguagePrompt": "是否将{language}设置为 CAST Docs 的默认语言？",
         "chrome.languageAria": "语言",
+        "chrome.languageName": "中文",
         "chrome.tocAria": "目录",
         "diagram.close": "关闭",
         "code.copied": "已复制",

@@ -96,36 +96,6 @@ python3 scripts/apply_template.py --input draft.json --template .cast-docs/templ
 python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate
 ```
 
-## Repository Layout
-
-```text
-assets/                       shared template modules, CSS, interaction scripts, and logo assets
-config/                       component, theme, layout, interaction, scenario, document type, and HTML profile registries
-examples/                     JSON fixtures and rendered HTML examples
-references/                   design laws, generation contract, module architecture, and writing guidance
-references/project-profile.md repository-level .cast-docs profile design
-schemas/doc.schema.json       JSON contract for source documents
-scripts/cast_docs_core.py     shared renderer and validator implementation
-scripts/render_html.py        render JSON to self-contained HTML
-scripts/validate_doc_json.py  validate source JSON
-scripts/validate_html.py      validate rendered HTML against the controlled HTML profile
-scripts/validate_project_profile.py validate repository .cast-docs profile defaults
-scripts/check_fixtures.py      validate fixture JSON, generated HTML, and artifact freshness
-scripts/visual_lint.py        enforce lightweight visual lint gates on generated HTML
-scripts/apply_template.py     apply project or explicit templates to document JSON
-scripts/build_index.py        build document-set index and chapter pages from cast-docs-set.json
-scripts/render_example.sh     render one bundled example with validation
-scripts/install_codex_skill.sh install or update the Codex skill from a local checkout
-scripts/install_claude_skill.sh install or update the Claude Code skill from a local checkout
-install.sh                    GitHub Pages one-line skill installer
-site/landing.json             source for index.html
-site/install.json             source for install.html
-index.html                    rendered project site
-install.html                  rendered installation guide
-INSTALL_AGENT.md              copy-ready install commands for coding agents
-SKILL.md                      agent skill manifest
-```
-
 ## Regenerate Pages
 
 ```bash

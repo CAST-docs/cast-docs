@@ -2356,6 +2356,12 @@ def validate_html_profile(html_text: str, profile: dict[str, Any]) -> Validation
         errors.append("missing <!doctype html>")
     if parser.unresolved:
         errors.append("HTML contains unresolved template placeholders")
+    style_position = html_text.find("<style>")
+    body_position = html_text.find("<body>")
+    if style_position == -1:
+        errors.append("missing inline <style> block")
+    elif body_position != -1 and style_position > body_position:
+        errors.append("inline <style> must appear before <body> to avoid unstyled first paint")
 
     allowed_tags = {tag.lower() for tag in set(profile["allowedTags"]["content"]) | set(profile["allowedTags"]["rendererOwned"])}
     forbidden_tags = {tag.lower() for tag in profile.get("forbiddenTags", [])}

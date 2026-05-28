@@ -9,11 +9,13 @@ from pathlib import Path
 from cast_docs_core import (
     CONFIG_DIR,
     ROOT,
+    discover_project_profile,
     load_config,
     load_json,
     render_html,
     validate_document,
     validate_html_profile,
+    validate_project_profile,
 )
 from visual_lint import StyleParser, lint_css
 
@@ -53,6 +55,13 @@ def main() -> int:
 
     errors: list[str] = []
     profile = load_config("html-profile.json", args.config_dir)
+    project_profile = discover_project_profile(ROOT)
+    if project_profile is None:
+        errors.append(f"{ROOT}: expected .cast-docs project profile")
+    else:
+        profile_result = validate_project_profile(project_profile, args.config_dir)
+        if not profile_result.ok:
+            errors.extend(f"{ROOT}: project profile: {error}" for error in profile_result.errors)
     sources = collect_sources()
 
     with tempfile.TemporaryDirectory(prefix="cast-docs-fixtures.") as tmp_dir_name:
@@ -65,7 +74,8 @@ def main() -> int:
                     errors.extend(f"{source}: {error}" for error in doc_result.errors)
                     continue
 
-                rendered = render_html(doc, config_dir=args.config_dir)
+                fixture_profile = project_profile if source.parent == ROOT / "site" else None
+                rendered = render_html(doc, config_dir=args.config_dir, profile=fixture_profile)
                 html_result = validate_html_profile(rendered, profile)
                 if not html_result.ok:
                     errors.extend(f"{source}: rendered HTML: {error}" for error in html_result.errors)

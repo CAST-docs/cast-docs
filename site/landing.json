@@ -348,8 +348,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, and output directories.",
-            "zh-CN": "目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源和输出目录。"
+            "en": "A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, style profiles, and output directories.",
+            "zh-CN": "目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源、样式配置和输出目录。"
           }
         },
         {
@@ -367,7 +367,7 @@
         {
           "type": "code",
           "language": "text",
-          "code": ".cast-docs/\n  project.json\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/\n    logo.png\n  out/"
+          "code": ".cast-docs/\n  project.json  # metadata, brand, output, styleProfile\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/\n    logo.png\n  out/"
         },
         {
           "type": "source-refs",
@@ -379,8 +379,8 @@
               },
               "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/references/project-profile.md",
               "text": {
-                "en": "Repository-level configuration for templates, i18n, glossary, writing rules, assets, and output path policy.",
-                "zh-CN": "面向仓库级模板、多语言、术语表、写作规则、资源和输出路径策略的配置设计。"
+                "en": "Repository-level configuration for templates, i18n, glossary, writing rules, style profiles, assets, and output path policy.",
+                "zh-CN": "面向仓库级模板、多语言、术语表、写作规则、样式配置、资源和输出路径策略的配置设计。"
               }
             }
           ]
@@ -498,8 +498,8 @@
                 "zh-CN": "配置驱动渲染器"
               },
               "body": {
-                "en": "Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.",
-                "zh-CN": "新增组件、主题、布局或交互时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 中，scripts/ 里的 Python 只负责组装。"
+                "en": "Adding a new component, theme, layout, interaction, or style profile is config plus an asset file, not a Python branch. Visual and structural rules live in config/ and .cast-docs/. The Python in scripts/ only assembles.",
+                "zh-CN": "新增组件、主题、布局、交互或样式配置时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 与 .cast-docs/ 中，scripts/ 里的 Python 只负责组装。"
               }
             }
           ]

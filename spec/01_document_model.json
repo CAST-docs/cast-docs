@@ -258,14 +258,26 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "A repository can keep .cast-docs/ files to make authoring defaults reviewable. The profile can guide output paths, language preference, templates, glossary, style rules, and assets without becoming hidden memory.",
-            "zh-CN": "仓库可以保留 .cast-docs/ 文件，让写作默认值可审查。profile 可指导输出路径、语言偏好、模板、术语表、风格规则和资源，但不成为隐藏记忆。"
+            "en": "A repository can keep .cast-docs/ files to make authoring defaults reviewable. The profile can guide output paths, language preference, templates, glossary, style profile, and assets without becoming hidden memory.",
+            "zh-CN": "仓库可以保留 .cast-docs/ 文件，让写作默认值可审查。profile 可指导输出路径、语言偏好、模板、术语表、样式配置和资源，但不成为隐藏记忆。"
           }
         },
         {
           "type": "code",
           "language": "text",
-          "code": ".cast-docs/\n  project.json\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/"
+          "code": ".cast-docs/\n  project.json      # metadata, brand, output, styleProfile\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Style stays standardized",
+            "zh-CN": "样式保持标准化"
+          },
+          "body": {
+            "en": "styleProfile accepts approved presets and token overrides, then the renderer compiles them into CSS variables. Document JSON stays semantic and never carries arbitrary CSS classes.",
+            "zh-CN": "styleProfile 只接受已批准的预设和 token 覆盖，然后由渲染器编译为 CSS 变量。文档 JSON 保持语义化，不携带任意 CSS class。"
+          }
         }
       ]
     }

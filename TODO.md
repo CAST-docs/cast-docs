@@ -13,7 +13,7 @@ This list was created by a `cast-a-start` guided rewrite pass on 2026-05-28.
 - Add a schema versioning policy for generated CAST Docs JSON documents.
 - Decide whether the renderer should expose a small CLI wrapper in addition to direct Python script usage.
 - Add a visual regression workflow for representative generated pages.
-- Expand project profile examples for real repositories with multiple document sets.
+- Expand project profile examples for real repositories with multiple document sets and style profiles.
 
 ## Documentation Follow-Ups
 

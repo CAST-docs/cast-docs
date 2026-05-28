@@ -220,8 +220,8 @@
               "zh-CN": "示例与生成 HTML 同时承担 fixture 覆盖和公开文档角色。"
             },
             {
-              "en": "The project profile under .cast-docs records repository-level defaults for output paths, writing style, templates, and assets.",
-              "zh-CN": ".cast-docs 下的 project profile 记录输出路径、写作风格、模板和资源等仓库级默认值。"
+              "en": "The project profile under .cast-docs records repository-level defaults for output paths, writing style, templates, assets, and standardized style profiles.",
+              "zh-CN": ".cast-docs 下的 project profile 记录输出路径、写作风格、模板、资源和标准化样式配置等仓库级默认值。"
             }
           ]
         }

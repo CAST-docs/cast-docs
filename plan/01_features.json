@@ -189,12 +189,12 @@
                 "zh-CN": "项目配置"
               },
               {
-                "en": "Stores repository defaults for writing style, locale, templates, assets, and output paths.",
-                "zh-CN": "存储写作风格、多语言、模板、资源和输出路径等仓库默认值。"
+                "en": "Stores repository defaults for writing style, locale, templates, assets, style profile, and output paths.",
+                "zh-CN": "存储写作风格、多语言、模板、资源、样式配置和输出路径等仓库默认值。"
               },
               {
-                "en": "Make profile use visible in generated handoffs.",
-                "zh-CN": "让生成交付中能看出 profile 被使用。"
+                "en": "Make profile use visible in generated handoffs and style tokens.",
+                "zh-CN": "让生成交付和样式 token 中能看出 profile 被使用。"
               }
             ],
             [

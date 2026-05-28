@@ -23,5 +23,12 @@
       "alt": "CAST Docs logo"
     }
   },
-  "displayOwner": "CAST-Docs"
+  "displayOwner": "CAST-Docs",
+  "styleProfile": {
+    "theme": "cast-default",
+    "density": "comfortable",
+    "surface": "bordered",
+    "accent": "default",
+    "tokenOverrides": {}
+  }
 }

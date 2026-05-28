@@ -47,7 +47,7 @@ Recommended repository profile layout:
   out/
 ```
 
-`project.json` declares stable repository metadata and defaults. `preferences.json` declares generation defaults. `i18n.json`, `glossary.json`, and `writing-style.md` constrain language and wording. `templates/` and `examples/` provide reusable structure. `assets/` contains repository-owned visual assets that may be embedded into generated HTML. `out/` is for local generated output and should usually be ignored by Git.
+`project.json` declares stable repository metadata, brand, output defaults, and style profile. `preferences.json` declares generation defaults. `i18n.json`, `glossary.json`, and `writing-style.md` constrain language and wording. `templates/` and `examples/` provide reusable structure. `assets/` contains repository-owned visual assets that may be embedded into generated HTML. `out/` is for local generated output and should usually be ignored by Git.
 
 ## Shared Versus Local State
 
@@ -103,6 +103,16 @@ Example:
       "src": ".cast-docs/assets/logo.png",
       "alt": "Checkout Platform"
     }
+  },
+  "styleProfile": {
+    "theme": "cast-default",
+    "density": "compact",
+    "surface": "bordered",
+    "accent": "blue",
+    "tokenOverrides": {
+      "color.primary": "#315f9f",
+      "radius.lg": "6px"
+    }
   }
 }
 ```
@@ -114,6 +124,33 @@ Rules:
 - `defaultLocale` should match a locale declared in `i18n.json` when that file exists.
 - `brand.logo.src` may point to a repository-local PNG, JPG/JPEG, GIF, WebP, or a `data:image` value.
 - The renderer embeds repository-local logos as data URIs, preserving single-file HTML output.
+- `styleProfile` is the standard project-level styling entry point. It chooses approved renderer presets and token overrides; it does not allow arbitrary CSS or document-level class names.
+
+### styleProfile
+
+`styleProfile` lets a repository brand CAST Docs output while preserving deterministic, validated HTML.
+
+Supported fields:
+
+- `theme`: currently selects a built-in theme such as `cast-default`.
+- `density`: `comfortable` or `compact`.
+- `surface`: `flat`, `bordered`, or `elevated`.
+- `accent`: `default`, `blue`, `teal`, `green`, `amber`, or `rose`.
+- `tokenOverrides`: a small map of approved design-token overrides.
+
+Allowed `tokenOverrides` paths include:
+
+- `color.<token>` for light-mode semantic colors.
+- `dark.color.<token>` for dark-mode semantic colors.
+- `typography.size.<token>`, `typography.lineHeight.<token>`, and `typography.weight.<token>`.
+- `space.<token>`, `radius.<token>`, and `motion.<token>`.
+
+Rules:
+
+- Values are validated before render. Unknown token paths fail profile validation.
+- Color overrides must be hex colors.
+- Size, spacing, and radius overrides must use simple CSS lengths such as `6px`, `1rem`, or `0`.
+- `styleProfile` changes renderer-owned CSS variables. Document JSON should still express semantic blocks such as `summary`, `table`, and `callout`, not visual class names.
 
 ## preferences.json
 

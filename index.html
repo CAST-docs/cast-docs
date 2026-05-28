@@ -27,6 +27,9 @@
   --ok: #55745f;
   --ok-soft: #eef4ef;
   --code: #f1f2f2;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 16px 44px rgba(15, 23, 42, 0.12);
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
   --mono: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
   --font-xs: 11px;
@@ -63,6 +66,7 @@
   --motion-base: 160ms;
   --motion-slow: 220ms;
   --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  --surface-shadow: none;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -85,6 +89,9 @@
     --ok: #9ebaa5;
     --ok-soft: #1a241d;
     --code: #202328;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: 0 0 0 1px rgba(255, 255, 255, 0.04);
   }
 }
 :root { --toc-width: clamp(220px, 16vw, 300px); --topbar-height: 56px; }
@@ -134,13 +141,13 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .doc-header h1 { margin: 0 0 10px; font-size: var(--font-title); line-height: 1.18; letter-spacing: 0; }
 .doc-meta { margin-top: 14px; color: var(--muted); font: 12.5px/1.4 var(--mono); }
 .doc-summary, .callout, table, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-grid, .columns, .toggle-view, .slider-control, .open-questions-block { margin: 18px 0; }
-.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .slider-control, .open-questions-block { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+.doc-summary, .details-block, .diagram, .participant-card, .value-card, .action-card, .media-frame, .toggle-view, .slider-control, .open-questions-block { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--surface-shadow); }
 .doc-summary { padding: 16px 18px; }
 .doc-summary ul { margin: 0; }
 .set-grid { display: grid; gap: 22px; }
 .set-section { margin: 0; }
 .chapter-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.chapter-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); transition: border-color var(--motion-base) var(--motion-ease); }
+.chapter-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--surface-shadow); transition: border-color var(--motion-base) var(--motion-ease); }
 .chapter-card:hover, .chapter-card:focus-within { border-color: var(--primary); }
 .chapter-card a { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 15px 16px; color: var(--text); }
 .chapter-card a:has(.chapter-number), .chapter-card a:has(.chapter-icon) { grid-template-columns: 48px minmax(0, 1fr); }
@@ -153,7 +160,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .chapter-title { overflow-wrap: anywhere; font-weight: 700; }
 .chapter-description { color: var(--muted); font-size: var(--font-sm); line-height: var(--line-normal); overflow-wrap: anywhere; }
 .set-pagination { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 44px 0 0; }
-.set-pagination-link { display: block; min-height: 82px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); color: var(--text); }
+.set-pagination-link { display: block; min-height: 82px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--surface-shadow); color: var(--text); }
 .set-pagination-link:hover { border-color: var(--primary); text-decoration: none; }
 .set-pagination-next { text-align: right; }
 .set-pagination-label { display: block; margin-bottom: 7px; color: var(--faint); font: 700 11px/1 var(--mono); text-transform: uppercase; }
@@ -168,7 +175,7 @@ u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thic
 .callout-warning { border-left-color: var(--warn); background: var(--warn-soft); }
 .callout-danger { border-left-color: var(--danger); background: var(--danger-soft); }
 .callout-success { border-left-color: var(--ok); background: var(--ok-soft); }
-table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); font-size: var(--font-sm); }
+table { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--surface-shadow); font-size: var(--font-sm); }
 th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
 th { background: var(--soft); color: var(--muted); font-size: var(--font-sm); font-weight: 600; }
 tr:last-child td { border-bottom: 0; }
@@ -199,7 +206,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 .code-token-flag { color: var(--accent); }
 .diff-block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
 .diff-block > h3 { grid-column: 1 / -1; }
-.diff-side { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; }
+.diff-side { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--surface-shadow); overflow: hidden; }
 .diff-side + .diff-side { margin-left: -1px; }
 .diff-side h3 { margin: 0; padding: 10px 12px; background: var(--soft); font-size: var(--font-sm); }
 .diff-code { overflow: auto; background: var(--code); font: 12.5px/1.6 var(--mono); }
@@ -638,8 +645,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "paragraph",
           "text": {
-            "en": "A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, and output directories.",
-            "zh-CN": "目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源和输出目录。"
+            "en": "A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, style profiles, and output directories.",
+            "zh-CN": "目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源、样式配置和输出目录。"
           }
         },
         {
@@ -657,7 +664,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "code",
           "language": "text",
-          "code": ".cast-docs/\n  project.json\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/\n    logo.png\n  out/"
+          "code": ".cast-docs/\n  project.json  # metadata, brand, output, styleProfile\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/\n    logo.png\n  out/"
         },
         {
           "type": "source-refs",
@@ -669,8 +676,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
               },
               "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/references/project-profile.md",
               "text": {
-                "en": "Repository-level configuration for templates, i18n, glossary, writing rules, assets, and output path policy.",
-                "zh-CN": "面向仓库级模板、多语言、术语表、写作规则、资源和输出路径策略的配置设计。"
+                "en": "Repository-level configuration for templates, i18n, glossary, writing rules, style profiles, assets, and output path policy.",
+                "zh-CN": "面向仓库级模板、多语言、术语表、写作规则、样式配置、资源和输出路径策略的配置设计。"
               }
             }
           ]
@@ -788,8 +795,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
                 "zh-CN": "配置驱动渲染器"
               },
               "body": {
-                "en": "Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.",
-                "zh-CN": "新增组件、主题、布局或交互时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 中，scripts/ 里的 Python 只负责组装。"
+                "en": "Adding a new component, theme, layout, interaction, or style profile is config plus an asset file, not a Python branch. Visual and structural rules live in config/ and .cast-docs/. The Python in scripts/ only assembles.",
+                "zh-CN": "新增组件、主题、布局、交互或样式配置时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 与 .cast-docs/ 中，scripts/ 里的 Python 只负责组装。"
               }
             }
           ]
@@ -830,10 +837,10 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="project-profile">
 <h2><span data-locale="en" data-locale-active="true">Project profiles</span><span data-locale="zh-CN" data-locale-active="false">项目级配置</span></h2>
-<p><span data-locale="en" data-locale-active="true">A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, and output directories.</span><span data-locale="zh-CN" data-locale-active="false">目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源和输出目录。</span></p>
+<p><span data-locale="en" data-locale-active="true">A target repository can add a reviewable .cast-docs/ profile so cast-a-doc remembers team templates, locale defaults, terminology, writing rules, logos, reusable assets, style profiles, and output directories.</span><span data-locale="zh-CN" data-locale-active="false">目标仓库可以添加可审查的 .cast-docs/ profile，让 cast-a-doc 记住团队模板、多语言默认值、术语、写作规则、logo、可复用资源、样式配置和输出目录。</span></p>
 <aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">Explicit memory</span><span data-locale="zh-CN" data-locale-active="false">显式记忆</span></strong><p><span data-locale="en" data-locale-active="true">Project profiles are files in the repository, not hidden agent memory. The current user request always overrides profile defaults.</span><span data-locale="zh-CN" data-locale-active="false">Project profile 是仓库里的文件，不是隐藏的 agent 记忆。当前用户诉求始终优先于 profile 默认值。</span></p></aside>
-<section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">Text</span><button class="code-copy" type="button" data-copy-target="code-3" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="text"><code id="code-3" data-language="text"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">.cast-docs/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">  project.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">  preferences.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">  i18n.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">  glossary.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">6</span><span class="code-line-content">  writing-style.md</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">7</span><span class="code-line-content">  templates/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">8</span><span class="code-line-content">  examples/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">9</span><span class="code-line-content">  assets/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">10</span><span class="code-line-content">    logo.png</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">11</span><span class="code-line-content">  out/</span></span></code></pre></section>
-<ul class="source-refs"><li><a href="https://github.com/CAST-docs/cast-a-doc/blob/main/references/project-profile.md" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Project profile design</span><span data-locale="zh-CN" data-locale-active="false">项目级配置设计</span></a> - <span data-locale="en" data-locale-active="true">Repository-level configuration for templates, i18n, glossary, writing rules, assets, and output path policy.</span><span data-locale="zh-CN" data-locale-active="false">面向仓库级模板、多语言、术语表、写作规则、资源和输出路径策略的配置设计。</span></li></ul>
+<section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">Text</span><button class="code-copy" type="button" data-copy-target="code-3" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="text"><code id="code-3" data-language="text"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">.cast-docs/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">  project.json  # metadata, brand, output, styleProfile</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">  preferences.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">  i18n.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">  glossary.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">6</span><span class="code-line-content">  writing-style.md</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">7</span><span class="code-line-content">  templates/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">8</span><span class="code-line-content">  examples/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">9</span><span class="code-line-content">  assets/</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">10</span><span class="code-line-content">    logo.png</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">11</span><span class="code-line-content">  out/</span></span></code></pre></section>
+<ul class="source-refs"><li><a href="https://github.com/CAST-docs/cast-a-doc/blob/main/references/project-profile.md" target="_blank" rel="noopener noreferrer"><span data-locale="en" data-locale-active="true">Project profile design</span><span data-locale="zh-CN" data-locale-active="false">项目级配置设计</span></a> - <span data-locale="en" data-locale-active="true">Repository-level configuration for templates, i18n, glossary, writing rules, style profiles, assets, and output path policy.</span><span data-locale="zh-CN" data-locale-active="false">面向仓库级模板、多语言、术语表、写作规则、样式配置、资源和输出路径策略的配置设计。</span></li></ul>
 </section>
 
 <section class="doc-section" id="planning-workspace">
@@ -844,7 +851,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="design-principles">
 <h2><span data-locale="en" data-locale-active="true">Why this shape</span><span data-locale="zh-CN" data-locale-active="false">为什么采用这种形态</span></h2>
-<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">HTML, not Markdown</span><span data-locale="zh-CN" data-locale-active="false">使用 HTML，而不是 Markdown</span></h3><p><span data-locale="en" data-locale-active="true">Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer.</span><span data-locale="zh-CN" data-locale-active="false">如果不依赖各渲染器扩展，Markdown 无法稳定承载 callout、决策矩阵、diff block、图表查看器和受控表格。由我们掌控 HTML，才能在所有查看器中得到一致输出。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">JSON intermediate</span><span data-locale="zh-CN" data-locale-active="false">JSON 中间表示</span></h3><p><span data-locale="en" data-locale-active="true">Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output.</span><span data-locale="zh-CN" data-locale-active="false">模型直接从 prose 生成 HTML 是非确定性的。prose 到 JSON 再到 HTML 可以分离内容和渲染，让 JSON 可校验、可 diff，并让渲染器产出字节稳定的结果。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Self-contained output</span><span data-locale="zh-CN" data-locale-active="false">自包含输出</span></h3><p><span data-locale="en" data-locale-active="true">Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages.</span><span data-locale="zh-CN" data-locale-active="false">内联 CSS，无外部资源。HTML 可以在任意浏览器打开，作为邮件附件发送，复制到 S3，或通过 GitHub Pages 提供服务。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Config-driven renderer</span><span data-locale="zh-CN" data-locale-active="false">配置驱动渲染器</span></h3><p><span data-locale="en" data-locale-active="true">Adding a new component, theme, layout, or interaction is config plus an asset file, not a Python branch. Visual and structural rules live in config/. The Python in scripts/ only assembles.</span><span data-locale="zh-CN" data-locale-active="false">新增组件、主题、布局或交互时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 中，scripts/ 里的 Python 只负责组装。</span></p></div></section>
+<section class="values-grid"><div class="value-card"><h3><span data-locale="en" data-locale-active="true">HTML, not Markdown</span><span data-locale="zh-CN" data-locale-active="false">使用 HTML，而不是 Markdown</span></h3><p><span data-locale="en" data-locale-active="true">Markdown cannot carry callouts, decision matrices, diff blocks, diagram viewers, and controlled tables without per-renderer extensions. Owning the HTML produces consistent output across every viewer.</span><span data-locale="zh-CN" data-locale-active="false">如果不依赖各渲染器扩展，Markdown 无法稳定承载 callout、决策矩阵、diff block、图表查看器和受控表格。由我们掌控 HTML，才能在所有查看器中得到一致输出。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">JSON intermediate</span><span data-locale="zh-CN" data-locale-active="false">JSON 中间表示</span></h3><p><span data-locale="en" data-locale-active="true">Prose to HTML by a model is non-deterministic. Prose to JSON to HTML separates content from rendering, keeps the JSON validatable and diffable, and lets the renderer produce byte-stable output.</span><span data-locale="zh-CN" data-locale-active="false">模型直接从 prose 生成 HTML 是非确定性的。prose 到 JSON 再到 HTML 可以分离内容和渲染，让 JSON 可校验、可 diff，并让渲染器产出字节稳定的结果。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Self-contained output</span><span data-locale="zh-CN" data-locale-active="false">自包含输出</span></h3><p><span data-locale="en" data-locale-active="true">Inline CSS, no external assets. The HTML survives being opened in any browser, attached to email, copied to S3, or served from GitHub Pages.</span><span data-locale="zh-CN" data-locale-active="false">内联 CSS，无外部资源。HTML 可以在任意浏览器打开，作为邮件附件发送，复制到 S3，或通过 GitHub Pages 提供服务。</span></p></div><div class="value-card"><h3><span data-locale="en" data-locale-active="true">Config-driven renderer</span><span data-locale="zh-CN" data-locale-active="false">配置驱动渲染器</span></h3><p><span data-locale="en" data-locale-active="true">Adding a new component, theme, layout, interaction, or style profile is config plus an asset file, not a Python branch. Visual and structural rules live in config/ and .cast-docs/. The Python in scripts/ only assembles.</span><span data-locale="zh-CN" data-locale-active="false">新增组件、主题、布局、交互或样式配置时，改配置和资源文件即可，而不是增加 Python 分支。视觉和结构规则放在 config/ 与 .cast-docs/ 中，scripts/ 里的 Python 只负责组装。</span></p></div></section>
 </section>
 </main>
 <footer class="doc-footer"><a href="https://github.com/CAST-docs/cast-a-doc" target="_blank" rel="noopener noreferrer">CAST Docs</a></footer>

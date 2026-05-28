@@ -8,6 +8,7 @@ CAST Docs should be implemented as a config-driven static document renderer. The
 - Implement the full reusable component set.
 - Render components only when the assembly manifest selects them.
 - Keep the shared template, CSS, schema, and validators outside model context.
+- Support a repository-level `.cast-docs/` project profile as an explicit override layer for templates, i18n, writing rules, assets, and output defaults.
 - Keep validation lightweight: profile checks, contract checks, and unresolved-placeholder checks, not browser-grade HTML sanitization.
 - Keep interactive features centralized in the shared template.
 
@@ -38,17 +39,32 @@ Expected responsibilities:
 
 Renderer code should consume these registries. Adding a new scenario should usually mean adding config and examples, not changing renderer control flow.
 
+Repository-specific defaults are not added to the built-in `config/` directory. They live in `.cast-docs/` inside the target repository and are merged after the built-in registries.
+
+Expected profile files:
+
+- `.cast-docs/project.json`: repository name, owner, default locale, default output directories, and optional brand logo.
+- `.cast-docs/preferences.json`: preferred scenario defaults, component hints, and writing behavior.
+- `.cast-docs/i18n.json`: repository locale defaults and fallback policy.
+- `.cast-docs/glossary.json`: product names, acronyms, and terms that should not be mistranslated.
+- `.cast-docs/writing-style.md`: repository-specific writing rules.
+- `.cast-docs/templates/`: reusable document JSON templates.
+- `.cast-docs/examples/`: known-good repository examples.
+- `.cast-docs/assets/`: logos, icons, screenshots, and reusable media.
+
 ## Runtime Pipeline
 
 1. Load registries.
-2. Read document JSON.
-3. Validate manifest against document type, scenario, and component registries.
-4. Validate section order and required sections.
-5. Render with the shared base template.
-6. Render selected components from structured JSON.
-7. Embed approved metadata logos as data URIs when `metadata.logo` references a repository-local image.
-8. Validate the final HTML profile.
-9. Write the output file.
+2. Discover and load `.cast-docs/` project profile when a target repository is provided.
+3. Merge built-in defaults, project profile defaults, and current request decisions.
+4. Read document JSON.
+5. Validate manifest against document type, scenario, component registries, and profile-selected templates.
+6. Validate section order and required sections.
+7. Render with the shared base template.
+8. Render selected components from structured JSON.
+9. Embed approved metadata logos as data URIs when `metadata.logo` references a repository-local image, including `.cast-docs/assets/` paths.
+10. Validate the final HTML profile.
+11. Write the output file selected by the caller or project profile output policy.
 
 Scenario validation should enforce required sections and required components, but it should not reject additional configured components. Extra components are valid when they appear in the manifest and their block payload matches the component schema.
 
@@ -106,6 +122,16 @@ Implemented options:
 --config-dir config
 --validate
 ```
+
+Planned profile-aware options:
+
+```text
+--repo-root <path>
+--profile-dir <path>
+--output-policy explicit|shareable|local
+```
+
+Until these exist, agents should read `.cast-docs/` themselves, choose an explicit output path, and call the renderer with `--output`.
 
 Separate validation commands:
 
@@ -172,6 +198,7 @@ Implemented P0 scripts:
 Still planned:
 
 - `scripts/build_index.py` for document-set index generation.
+- Project profile discovery, validation, and output policy support.
 - Visual lint gates for saturation, fixed badge dimensions, and large color areas.
 
 The fixtures are the practical guardrail for "cover all scenarios": every scenario in config should have at least one example JSON.

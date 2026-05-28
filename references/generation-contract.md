@@ -64,6 +64,8 @@ The document JSON should include a compact manifest, either as a top-level field
 
 The manifest should be built from configuration registries for document types, scenario skeletons, and components. Scenario coverage should grow by editing configuration first, not by adding renderer conditionals.
 
+When the target repository contains `.cast-docs/`, the generator should merge its project profile before declaring the final manifest. Profile templates and preferences may suggest a document type, scenario, section order, component preference, language, writing rules, logo, shell links, or output directory. They do not bypass the normal manifest or schema validation.
+
 Minimum shape:
 
 ```json
@@ -80,6 +82,29 @@ Minimum shape:
 ```
 
 The manifest is a generation and validation aid. It should not force the final HTML to expose internal planning details.
+
+## Project Profile Boundary
+
+Repository-specific memory belongs in `.cast-docs/`. This profile is explicit project configuration, not hidden agent memory.
+
+Supported profile responsibilities:
+
+- Repository metadata and output defaults in `.cast-docs/project.json`.
+- Generation preferences in `.cast-docs/preferences.json`.
+- Locale defaults in `.cast-docs/i18n.json`.
+- Product and technical terms in `.cast-docs/glossary.json`.
+- Team writing rules in `.cast-docs/writing-style.md`.
+- Reusable document templates in `.cast-docs/templates/`.
+- Known-good repository examples in `.cast-docs/examples/`.
+- Logos, icons, screenshots, and reusable media in `.cast-docs/assets/`.
+
+Merge order:
+
+1. Built-in CAST Docs defaults.
+2. Repository `.cast-docs/` profile.
+3. Current user request.
+
+The current user request always wins. If a repository profile and current request conflict in a way that changes the document's purpose, ask the user to choose.
 
 ## Template Boundary
 
@@ -132,7 +157,7 @@ Home navigation is an optional capability (`shell-links`, default off). When the
 
 Document chrome may expose a renderer-owned logo when the caller provides `metadata.logo`.
 
-Use it for CAST Docs site pages, example pages, and document sets that have a stable brand mark:
+Use it for CAST Docs site pages, example pages, document sets that have a stable brand mark, or user repositories whose `.cast-docs/project.json` declares a project logo:
 
 ```json
 {
@@ -153,6 +178,7 @@ Rules:
 - `alt` is required and may be localized.
 - `href` is optional and follows the same safe scheme rules as shell links.
 - Do not add a logo to standalone user documents unless the caller asks for branded chrome.
+- Prefer `.cast-docs/assets/` for repository-level logos and reusable visual assets.
 
 ## CLI Boundary
 
@@ -173,6 +199,16 @@ python3 scripts/render_html.py --input doc.json --output doc.html --validate
 ```
 
 The CLI should not require the model to copy templates, CSS, or renderer internals into context.
+
+## Output Path Policy
+
+The renderer CLI requires an explicit `--output` path. Skill-driven generation should add a higher-level path choice policy before calling the renderer:
+
+1. If the user provides an output path, use that path.
+2. Otherwise, if `.cast-docs/project.json` defines `output.defaultDir`, propose that directory for team-shareable documents.
+3. Otherwise, ask the user to choose between `docs/cast-docs/<slug>.html` for committed/shareable docs and `.cast-docs/out/<slug>.html` for local drafts.
+
+Example and smoke-test scripts may keep simple defaults such as `out.html`, but final user documents should not be silently written to the repository root.
 
 ## Bilingual Documents
 

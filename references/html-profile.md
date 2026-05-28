@@ -10,6 +10,8 @@ Content blocks must not emit `<script>`. Renderer-owned inline scripts are allow
 
 Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
 
+Repository project profiles may provide logos and reusable images under `.cast-docs/assets/`. Those assets are still subject to the same controlled HTML profile: allowed image formats, safe paths, required alt text, no event handlers, and no unapproved remote dependencies.
+
 ## Required Structure
 
 - Complete `<!doctype html>` document.
@@ -62,6 +64,8 @@ Planned allowed tags:
 - Inline `style`.
 - Remote resource attributes by default, except approved media `src` values (`data:image`, relative paths, or http(s) sources) validated by the media block contract.
 - `href` values starting with `javascript:`.
+
+Repository-local paths under `.cast-docs/assets/` are allowed only through approved fields such as `metadata.logo.src` and media block `src`. They should be embedded as data URIs when the output must remain self-contained.
 
 ## Class Naming
 

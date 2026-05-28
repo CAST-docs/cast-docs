@@ -12,13 +12,15 @@ Use this skill to produce stable, readable, self-contained HTML documents from n
 ## Workflow
 
 1. Determine the document type.
-2. Extract or infer metadata.
-3. Declare the scenario skeleton and component selection plan.
-4. Convert the input into a structured document JSON representation.
-5. Validate the JSON representation.
-6. Render a complete single-file HTML document.
-7. Validate the generated HTML against the controlled profile.
-8. Return the `.html` file or HTML content, depending on the environment.
+2. Check whether the target repository has a `.cast-docs/` project profile.
+3. Extract or infer metadata, applying project profile defaults when present.
+4. Declare the scenario skeleton and component selection plan.
+5. Convert the input into a structured document JSON representation.
+6. Validate the JSON representation.
+7. Choose an output path according to the user request or project profile.
+8. Render a complete single-file HTML document.
+9. Validate the generated HTML against the controlled profile.
+10. Return the `.html` file or HTML content, depending on the environment.
 
 Prefer the JSON intermediate representation before HTML rendering. This keeps document structure deterministic and prevents formatting drift.
 
@@ -30,6 +32,7 @@ Read `references/design-laws.md` before implementation or generation decisions. 
 - Load only the components and rendering behavior needed by the selected document type and scenario.
 - Apply a scenario-specific default skeleton when the user intent implies one.
 - Prefer reuse of existing schema fragments, components, templates, and examples before adding new structures.
+- Apply repository-level `.cast-docs/` project profile defaults only when they are explicit and reviewable.
 
 ## Initial Document Types
 
@@ -53,6 +56,8 @@ Read `references/document-types.md` before choosing required sections.
 - Escape user-provided text.
 - Do not invent critical facts; mark unknowns explicitly.
 - When a document belongs to the CAST Docs site or example set, add `metadata.logo` with `src: "assets/cast-docs-logo.png"` so the renderer can embed the logo in the document chrome.
+- For user documents, do not silently write final HTML to an arbitrary repository root path. If the user does not provide a path and the repository profile does not define an output default, ask whether to use `docs/cast-docs/<slug>.html` for shareable docs or `.cast-docs/out/<slug>.html` for local drafts.
+- Read `.cast-docs/project.json` before generation when it exists. Treat `.cast-docs/assets/` as the preferred place for repository-level logos and reusable visual assets.
 
 ## Design Influences
 
@@ -72,6 +77,7 @@ Borrow principles, not product scope:
 - `references/generation-contract.md`: type declaration, assembly manifest, template boundary, component trigger rules, and verification gates.
 - `references/implementation-architecture.md`: config-driven implementation model, CLI contract, and lightweight validator scope.
 - `references/module-architecture.md`: BlockSpec, renderer hub, theme/layout shell, document-set, and interaction module architecture.
+- `references/project-profile.md`: repository-level `.cast-docs/` profile design for i18n, templates, writing rules, assets, and output paths.
 - `references/interactive-features.md`: controlled progressive enhancements for diagrams.
 - `references/document-types.md`: document types and required sections.
 - `references/html-profile.md`: allowed HTML profile and safety rules.
@@ -90,3 +96,5 @@ P0 generation is implemented:
 - `scripts/validate_html.py` validates rendered HTML against `config/html-profile.json`.
 
 `scripts/build_index.py` is still planned for document-set index generation.
+
+Project Profile support is designed in `references/project-profile.md` but not yet implemented as automatic CLI discovery or validation.

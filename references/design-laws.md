@@ -81,3 +81,24 @@ Reuse priority:
 This keeps generated output stable and reduces token usage during generation and review.
 
 Implementation implication: keep fixed templates, shared CSS, validators, and examples out of the generation prompt whenever a renderer can load them directly. The model should emit compact structured content and an assembly manifest, not a full copied template.
+
+## 5. Explicit Project Memory
+
+Repository-specific defaults must be stored as reviewable project profile files under `.cast-docs/`, not as hidden assumptions in the skill prompt.
+
+Do:
+
+- Read `.cast-docs/project.json`, `.cast-docs/preferences.json`, `.cast-docs/i18n.json`, `.cast-docs/glossary.json`, `.cast-docs/writing-style.md`, `.cast-docs/templates/`, `.cast-docs/examples/`, and `.cast-docs/assets/` when they exist.
+- Treat project profile values as repository defaults, not as irreversible truth.
+- Let the current user request override project defaults.
+- Ask before initializing or changing `.cast-docs/` files unless the user explicitly requested that update.
+- Keep private drafts and temporary output in `.cast-docs/out/`, `.cast-docs/local/`, or `.cast-docs/cache/`.
+
+Do not:
+
+- Infer long-term repository preferences from a single generation without user confirmation.
+- Hide learned preferences outside the repository when they should be team-reviewable.
+- Commit generated private output by default.
+- Use project assets without alt text or without validating that the source is allowed by the HTML profile.
+
+See `references/project-profile.md` for the full profile contract.

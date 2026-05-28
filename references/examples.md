@@ -38,3 +38,15 @@ python3 scripts/render_html.py --input examples/problem-investigation.json --out
 ```
 
 All HTML examples are renderer-generated and serve as both visual references and validation targets.
+
+## Project Profile Examples
+
+Repository-specific examples should live under `.cast-docs/examples/` in the target repository. Use them for known-good local conventions, such as a team incident report, a product requirement shape, or a bilingual decision record.
+
+Rules:
+
+- Keep repository examples sanitized.
+- Keep them small enough to review.
+- Use only supported document types, scenarios, and components.
+- Put reusable logos, screenshots, and icons under `.cast-docs/assets/` and reference them through approved fields.
+- Do not treat `.cast-docs/examples/` as generated output; local drafts belong in `.cast-docs/out/`.

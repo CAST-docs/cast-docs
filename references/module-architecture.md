@@ -5,6 +5,8 @@ CAST Docs is a small static document rendering system. It should feel like a res
 ## Architecture Shape
 
 ```text
+Built-in Registries + optional .cast-docs Project Profile
+  -> Profile Resolver
 Document JSON
   -> Manifest Resolver
   -> Block Registry
@@ -35,6 +37,23 @@ Source files:
 - `schemas/doc.schema.json`
 - `config/document-types.json`
 - `config/scenario-skeletons.json`
+
+### Project Profile
+
+Owns repository-specific defaults stored in `.cast-docs/`.
+
+Source files:
+
+- `.cast-docs/project.json`
+- `.cast-docs/preferences.json`
+- `.cast-docs/i18n.json`
+- `.cast-docs/glossary.json`
+- `.cast-docs/writing-style.md`
+- `.cast-docs/templates/`
+- `.cast-docs/examples/`
+- `.cast-docs/assets/`
+
+The profile resolver merges built-in defaults, repository profile values, and current request choices. It should not mutate `.cast-docs/` while generating a document. Profile changes require explicit user intent.
 
 ### BlockSpec
 
@@ -128,6 +147,7 @@ The shell composer combines:
 
 - Layout shell.
 - Optional shell links from `metadata.shellLinks`.
+- Optional logo and reusable media from `.cast-docs/assets/`.
 - Theme CSS variables.
 - Component CSS.
 - Rendered sections.
@@ -142,9 +162,10 @@ Validation should remain layered:
 
 1. `schema`: JSON shape is valid.
 2. `manifest`: selected document type, scenario, sections, and components are valid.
-3. `render`: every block type has a renderer and every required section is present.
-4. `html-profile`: allowed tags, attributes, classes, URL schemes, and renderer-owned scripts.
-5. `output`: no unresolved placeholders, TOC links resolve, interaction hooks match injected modules.
+3. `profile`: repository profile files are valid, declared paths stay inside the repository, and referenced assets exist.
+4. `render`: every block type has a renderer and every required section is present.
+5. `html-profile`: allowed tags, attributes, classes, URL schemes, and renderer-owned scripts.
+6. `output`: no unresolved placeholders, TOC links resolve, interaction hooks match injected modules.
 
 ## Document Set Model
 
@@ -220,6 +241,16 @@ scripts/
   validate_doc_json.py
   validate_html.py
   build_index.py
+.cast-docs/
+  project.json
+  preferences.json
+  i18n.json
+  glossary.json
+  writing-style.md
+  templates/
+  examples/
+  assets/
+  out/
 ```
 
 The renderer loads `shell.<layout>.html` and substitutes named slots. Interaction hook HTML and scripts are loaded by file-naming convention (`hooks.<id>.html`, `interactions.<id>.js`) so adding a new interaction is config plus assets, not Python branches. The final generated artifact remains a complete HTML file.
@@ -238,3 +269,4 @@ Planned:
 5. Add `shell.document-set.html`, `document-set` generation, and index building.
 6. Extract typography / spacing / radius / motion tokens into CSS variables consumed by `styles.base.css`.
 7. Replace hand-authored example HTML with renderer-generated example HTML.
+8. Add project profile discovery, validation, and output policy support.

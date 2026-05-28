@@ -73,6 +73,8 @@ Diagram components should support renderer-owned controls for zoom/lightbox view
 
 Use for visual evidence or format support examples. Media items may use self-contained `data:image` sources for PNG, JPG/JPEG, GIF, and WebP, or safe relative/http(s) sources when the document is allowed to reference external files. Each item requires alt text and may include a caption.
 
+Repository-level reusable media should live under `.cast-docs/assets/`. The generator may reference those assets in media blocks when the current document needs them, and the renderer should preserve portability by embedding repository-local assets when the selected output mode requires a self-contained HTML artifact.
+
 ## Columns
 
 Use for Lark-style side-by-side content where several peer items should be read as one row. A column may be pure inline content for visual distribution, or it may contain regular child blocks such as paragraphs, lists, tables, or code.
@@ -103,4 +105,6 @@ Optional topbar/footer navigation via `metadata.shellLinks` (component `shell-li
 
 ## Logo Chrome
 
-Optional topbar brand mark via `metadata.logo` (component `logo-chrome`, default off). Use it for the CAST Docs landing and example set, or when the caller explicitly requests branded document chrome. The renderer embeds repository-local image files as data URIs, so generated HTML remains self-contained.
+Optional topbar brand mark via `metadata.logo` (component `logo-chrome`, default off). Use it for the CAST Docs landing and example set, when the caller explicitly requests branded document chrome, or when `.cast-docs/project.json` declares a repository logo. The renderer embeds repository-local image files as data URIs, so generated HTML remains self-contained.
+
+Prefer `.cast-docs/assets/logo.png` or another path under `.cast-docs/assets/` for repository-level logos. `alt` text is required.

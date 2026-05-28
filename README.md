@@ -2,51 +2,35 @@
 
 <img src="assets/cast-docs-logo.png" alt="CAST Docs logo" width="128">
 
-**C**omponent **A**ssembly **S**tyled **T**emplates — render engineering documents from JSON to self-contained HTML.
+**C**omponent **A**ssembly **S**tyled **T**emplates - a controlled renderer for engineering documents.
 
-```bash
-python3 scripts/render_html.py \
-  --input examples/problem-investigation.json \
-  --output out.html \
-  --validate
-```
-
-Treat the rendered HTML as the artifact. Treat the JSON as the source.
-
-## Quick start
-
-Requires Python 3.9+. Standard library only — no `pip install` step.
-
-```bash
-scripts/render_example.sh examples/problem-investigation.json out.html
-```
-
-The `--validate` flag runs the JSON schema check before rendering and the HTML profile check after. The validators can also run on their own:
-
-```bash
-python3 scripts/validate_doc_json.py --input examples/option-decision.json
-python3 scripts/validate_html.py     --input out.html
-```
+CAST Docs turns structured JSON into a self-contained HTML artifact. The JSON is the source, the HTML is what you share, publish, archive, or hand to another team.
 
 ## Install
 
-### As a Claude Code skill
+Install or update the Codex skill:
 
 ```bash
-scripts/install_claude_skill.sh
+curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash
 ```
 
-The skill registers as `cast-docs` and activates when you ask Claude for a self-contained HTML document, an engineering spec, a decision record, and similar requests. The skill manifest is `SKILL.md`; the references in `references/` are loaded on demand.
-
-### As a Codex skill
+Install for Claude Code:
 
 ```bash
-scripts/install_codex_skill.sh
+curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude
 ```
 
-This installs or updates the skill at `~/.codex/skills/cast-docs`, so Codex can load the same `SKILL.md` and references.
+Install both agent skills:
 
-### As a local renderer
+```bash
+curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both
+```
+
+For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-docs/install.html).
+
+## Quick Start
+
+Requires Python 3.9 or newer. CAST Docs uses only the Python standard library.
 
 ```bash
 git clone https://github.com/CAST-docs/cast-docs.git
@@ -54,51 +38,77 @@ cd cast-docs
 scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 
-No third-party dependencies. If `python3 --version` reports 3.9 or newer, it runs.
+Validate JSON and generated HTML explicitly:
 
-For coding agents, hand them [INSTALL_AGENT.md](INSTALL_AGENT.md). It contains copy-ready install and smoke-test commands.
-
-## Repository layout
-
-```text
-config/                       configuration registries (themes, layouts, components, interactions, scenarios, document types, HTML profile)
-schemas/                      doc.schema.json — the JSON contract
-assets/template-modules/      shell HTML, base CSS, interaction scripts, interaction hook HTML
-assets/cast-docs-logo.png     project logo used by README and rendered document chrome
-examples/                     JSON fixtures and rendered HTML samples
-site/                         landing-page source (rendered to index.html)
-scripts/                      render_html.py, validate_doc_json.py, validate_html.py, cast_docs_core.py
-scripts/install_codex_skill.sh install/update CAST Docs for Codex
-scripts/install_claude_skill.sh install/update CAST Docs for Claude Code
-scripts/render_example.sh      render one source JSON with validation
-references/                   design laws, generation contract, module architecture, etc.
-SKILL.md                      Claude skill manifest
-INSTALL_AGENT.md              copy-ready installation instructions for coding agents
+```bash
+python3 scripts/validate_doc_json.py --input examples/option-decision.json
+python3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate
+python3 scripts/validate_html.py --input out.html
 ```
 
-To re-render the landing after editing `site/landing.json`:
+## What It Provides
+
+- A JSON document contract in `schemas/doc.schema.json`.
+- A deterministic renderer in `scripts/render_html.py`.
+- Validation for source JSON and generated HTML.
+- Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.
+- Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
+- Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
+- A designed repository-level `.cast-docs/` project profile for team templates, i18n, writing rules, reusable assets, and output defaults.
+- Agent skill installation for Codex and Claude Code.
+
+## Important Documents
+
+- [index.html](index.html) / [Pages](https://cast-docs.github.io/cast-docs/) - project overview, examples, and design rationale.
+- [install.html](install.html) / [Pages](https://cast-docs.github.io/cast-docs/install.html) - one-line install commands, environment overrides, and troubleshooting.
+- [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-docs/examples/component-gallery.html) - visual reference for common blocks and inline marks.
+- [INSTALL_AGENT.md](INSTALL_AGENT.md) - compact copy-ready install handoff for coding agents.
+- [SKILL.md](SKILL.md) - agent skill manifest and loading instructions.
+- [references/project-profile.md](references/project-profile.md) - `.cast-docs/` project profile design for repository-specific defaults.
+
+## Authoring Model
+
+1. Choose a document type and scenario skeleton.
+2. Read `.cast-docs/` project profile defaults when the target repository provides them.
+3. Produce JSON that matches the schema and manifest contract.
+4. Run `render_html.py --validate`.
+5. Share the generated HTML as the artifact.
+
+The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.
+
+When a user does not provide an output path, skill-driven generation should use the repository profile default if one exists. Otherwise it should ask whether the output is a shareable document under `docs/cast-docs/` or a local draft under `.cast-docs/out/`.
+
+## Repository Layout
+
+```text
+assets/                       shared template modules, CSS, interaction scripts, and logo assets
+config/                       component, theme, layout, interaction, scenario, document type, and HTML profile registries
+examples/                     JSON fixtures and rendered HTML examples
+references/                   design laws, generation contract, module architecture, and writing guidance
+references/project-profile.md repository-level .cast-docs profile design
+schemas/doc.schema.json       JSON contract for source documents
+scripts/cast_docs_core.py     shared renderer and validator implementation
+scripts/render_html.py        render JSON to self-contained HTML
+scripts/validate_doc_json.py  validate source JSON
+scripts/validate_html.py      validate rendered HTML against the controlled HTML profile
+scripts/render_example.sh     render one bundled example with validation
+scripts/install_codex_skill.sh install or update the Codex skill from a local checkout
+scripts/install_claude_skill.sh install or update the Claude Code skill from a local checkout
+install.sh                    GitHub Pages one-line skill installer
+site/landing.json             source for index.html
+site/install.json             source for install.html
+index.html                    rendered project site
+install.html                  rendered installation guide
+INSTALL_AGENT.md              copy-ready install commands for coding agents
+SKILL.md                      agent skill manifest
+```
+
+## Regenerate Pages
 
 ```bash
 python3 scripts/render_html.py --input site/landing.json --output index.html --validate
+python3 scripts/render_html.py --input site/install.json --output install.html --validate
 ```
-
-Documents can opt into logo chrome through `metadata.logo`. Local image paths are resolved from the repository root and embedded as data URIs during render, so the output HTML remains self-contained:
-
-```json
-{
-  "metadata": {
-    "logo": {
-      "src": "assets/cast-docs-logo.png",
-      "alt": "CAST Docs logo",
-      "href": "index.html"
-    }
-  }
-}
-```
-
----
-
-**Scenario previews, design rationale, and project status → [cast-docs.github.io/cast-docs](https://cast-docs.github.io/cast-docs/)**
 
 ## License
 

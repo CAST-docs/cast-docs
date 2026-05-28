@@ -1,0 +1,673 @@
+{
+  "metadata": {
+    "title": {
+      "en": "CAST Docs install guide",
+      "zh-CN": "CAST Docs 安装指南"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "CAST-docs",
+    "audience": [
+      "engineering",
+      "coding agents"
+    ],
+    "updatedAt": "2026-05-28",
+    "description": {
+      "en": "One-line CAST Docs skill installation for Codex and Claude Code, plus local renderer setup.",
+      "zh-CN": "CAST Docs 在 Codex 和 Claude Code 中的一键 skill 安装，以及本地渲染器设置。"
+    },
+    "shellLinks": [
+      {
+        "label": {
+          "en": "Home",
+          "zh-CN": "首页"
+        },
+        "href": "index.html",
+        "placement": "topbar"
+      },
+      {
+        "label": {
+          "en": "Repository",
+          "zh-CN": "仓库"
+        },
+        "href": "https://github.com/CAST-docs/cast-docs",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "engineering-spec",
+    "scenario": "none",
+    "sections": [
+      "choose-an-install",
+      "codex-skill",
+      "claude-code-skill",
+      "both-agent-skills",
+      "local-renderer",
+      "project-profile",
+      "customization",
+      "troubleshooting",
+      "references"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "action-card",
+        "code-block",
+        "callout",
+        "list",
+        "source-refs"
+      ],
+      "optional": [
+        "values-grid"
+      ],
+      "omitted": [
+        "table",
+        "details-block",
+        "diagram",
+        "diff-block",
+        "media-grid",
+        "columns",
+        "toggle-view",
+        "slider-control",
+        "participants",
+        "files",
+        "acceptance-criteria",
+        "open-questions",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "choose-an-install",
+      "title": {
+        "en": "Choose an install",
+        "zh-CN": "选择安装方式"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Default",
+                "zh-CN": "默认"
+              },
+              "body": {
+                "en": "Install the Codex skill with one command.",
+                "zh-CN": "用一条命令安装 Codex skill。"
+              }
+            },
+            {
+              "label": {
+                "en": "Also supported",
+                "zh-CN": "同时支持"
+              },
+              "body": {
+                "en": "Claude Code, both-agent setup, custom target directories, and local renderer smoke tests.",
+                "zh-CN": "Claude Code、双 agent 安装、自定义目标目录和本地渲染器冒烟测试。"
+              }
+            },
+            {
+              "label": {
+                "en": "Requirements",
+                "zh-CN": "环境要求"
+              },
+              "body": {
+                "en": "git for skill installation; Python 3.9 or newer for rendering documents.",
+                "zh-CN": "安装 skill 需要 git；渲染文档需要 Python 3.9 或更新版本。"
+              }
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "What the installer does",
+            "zh-CN": "安装脚本会做什么"
+          },
+          "body": {
+            "en": "The installer clones or fast-forwards the CAST Docs repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.",
+            "zh-CN": "安装脚本会把 CAST Docs 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "codex-skill",
+      "title": {
+        "en": "Codex skill",
+        "zh-CN": "Codex skill"
+      },
+      "blocks": [
+        {
+          "type": "action",
+          "title": {
+            "en": "Install or update for Codex",
+            "zh-CN": "安装或更新到 Codex"
+          },
+          "description": {
+            "en": "Installs CAST Docs at ~/.codex/skills/cast-docs. Re-running the command updates an existing git checkout with git pull --ff-only.",
+            "zh-CN": "安装到 ~/.codex/skills/cast-docs。重复执行时，会对已有 git checkout 执行 git pull --ff-only。"
+          },
+          "prompt": {
+            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Restart Codex if it was already running so the skill list can refresh.",
+            "zh-CN": "如果 Codex 已经在运行，安装后重启一次，让 skill 列表刷新。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "claude-code-skill",
+      "title": {
+        "en": "Claude Code skill",
+        "zh-CN": "Claude Code skill"
+      },
+      "blocks": [
+        {
+          "type": "action",
+          "title": {
+            "en": "Install or update for Claude Code",
+            "zh-CN": "安装或更新到 Claude Code"
+          },
+          "description": {
+            "en": "Installs CAST Docs at ~/.claude/skills/cast-docs using the same repository and SKILL.md.",
+            "zh-CN": "使用同一个仓库和 SKILL.md，把 CAST Docs 安装到 ~/.claude/skills/cast-docs。"
+          },
+          "prompt": {
+            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Restart Claude Code after installation if it was already open.",
+            "zh-CN": "如果 Claude Code 已经打开，安装后重启一次。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "both-agent-skills",
+      "title": {
+        "en": "Both agent skills",
+        "zh-CN": "双 agent 安装"
+      },
+      "blocks": [
+        {
+          "type": "action",
+          "title": {
+            "en": "Install for Codex and Claude Code",
+            "zh-CN": "同时安装到 Codex 和 Claude Code"
+          },
+          "description": {
+            "en": "Creates or updates both standard skill checkouts. Use this when you switch between agents and want one shared document workflow.",
+            "zh-CN": "创建或更新两个标准 skill checkout。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
+          },
+          "prompt": {
+            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both"
+          }
+        }
+      ]
+    },
+    {
+      "id": "local-renderer",
+      "title": {
+        "en": "Local renderer",
+        "zh-CN": "本地渲染器"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Use the local renderer when you want to develop CAST Docs itself, render examples, or validate generated document JSON outside an agent.",
+            "zh-CN": "当你要开发 CAST Docs 本身、渲染示例，或在 agent 之外校验生成的文档 JSON 时，使用本地渲染器。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "git clone https://github.com/CAST-docs/cast-docs.git /tmp/cast-docs\ncd /tmp/cast-docs\nscripts/render_example.sh examples/problem-investigation.json out.html"
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The smoke test validates the source JSON, renders HTML, and validates the rendered HTML profile.",
+            "zh-CN": "冒烟测试会校验源 JSON、渲染 HTML，并校验渲染后的 HTML profile。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-profile",
+      "title": {
+        "en": "Project profile",
+        "zh-CN": "项目级配置"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "After installation, a target repository can add .cast-docs/ when it wants CAST Docs to remember team-specific defaults.",
+            "zh-CN": "安装后，如果目标仓库希望 CAST Docs 记住团队级默认设置，可以添加 .cast-docs/。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "code": ".cast-docs/\n  project.json\n  preferences.json\n  i18n.json\n  glossary.json\n  writing-style.md\n  templates/\n  examples/\n  assets/\n  out/"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Use project.json for repository metadata, default locale, brand logo, and output directories.",
+              "zh-CN": "用 project.json 保存仓库元信息、默认语言、品牌 logo 和输出目录。"
+            },
+            {
+              "en": "Use templates/ and examples/ for reusable team document shapes.",
+              "zh-CN": "用 templates/ 和 examples/ 保存可复用的团队文档结构。"
+            },
+            {
+              "en": "Use assets/ for repository logos, icons, screenshots, and reusable media.",
+              "zh-CN": "用 assets/ 保存仓库 logo、图标、截图和可复用媒体。"
+            },
+            {
+              "en": "Use docs/cast-docs/ for shareable output and .cast-docs/out/ for local drafts.",
+              "zh-CN": "共享产物放到 docs/cast-docs/，本地草稿放到 .cast-docs/out/。"
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Do not create hidden memory",
+            "zh-CN": "不要创建隐藏记忆"
+          },
+          "body": {
+            "en": "Only create or update .cast-docs/ when the user asks the agent to remember repository-specific settings. The current user request still overrides profile defaults.",
+            "zh-CN": "只有在用户要求 agent 记住仓库级设置时，才创建或更新 .cast-docs/。当前用户诉求仍然优先于 profile 默认值。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "customization",
+      "title": {
+        "en": "Customization",
+        "zh-CN": "自定义安装"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The installer accepts flags and environment variables for local development, mirrors, and non-standard agent homes.",
+            "zh-CN": "安装脚本支持参数和环境变量，便于本地开发、使用镜像仓库，或安装到非标准 agent home。"
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": [
+                {
+                  "text": "--codex",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": ", "
+                },
+                {
+                  "text": "--claude",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": ", or "
+                },
+                {
+                  "text": "--both",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " chooses the target agent."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "--codex",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": "、"
+                },
+                {
+                  "text": "--claude",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 或 "
+                },
+                {
+                  "text": "--both",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 用于选择目标 agent。"
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "CAST_DOCS_AGENT=codex|claude|both",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " sets the same choice through the environment."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "CAST_DOCS_AGENT=codex|claude|both",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 可以通过环境变量设置同样的选择。"
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "CAST_DOCS_REPO_URL",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " points the installer at a fork, mirror, or local git repository."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "CAST_DOCS_REPO_URL",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 可以把安装源指向 fork、镜像或本地 git 仓库。"
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "CAST_DOCS_SKILL_DIR",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " overrides the target directory for a single-agent install."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "CAST_DOCS_SKILL_DIR",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 可在单 agent 安装时覆盖目标目录。"
+                }
+              ]
+            },
+            {
+              "en": [
+                {
+                  "text": "CODEX_HOME",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " and "
+                },
+                {
+                  "text": "CLAUDE_HOME",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " override the default agent home directories."
+                }
+              ],
+              "zh-CN": [
+                {
+                  "text": "CODEX_HOME",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 和 "
+                },
+                {
+                  "text": "CLAUDE_HOME",
+                  "marks": [
+                    "code"
+                  ]
+                },
+                {
+                  "text": " 可覆盖默认 agent home 目录。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "CAST_DOCS_REPO_URL=https://github.com/CAST-docs/cast-docs.git \\\nCAST_DOCS_SKILL_DIR=/tmp/cast-docs-skill \\\ncurl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash"
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": {
+        "en": "Troubleshooting",
+        "zh-CN": "排查问题"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "If git is missing, install git first; the installer cannot fetch or update the skill without it.",
+              "zh-CN": "如果缺少 git，请先安装 git；安装脚本依赖 git 拉取或更新 skill。"
+            },
+            {
+              "en": "If the target path exists but is not a git checkout, move it aside or choose another target with CAST_DOCS_SKILL_DIR.",
+              "zh-CN": "如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_DOCS_SKILL_DIR 选择其他目标目录。"
+            },
+            {
+              "en": "If an existing checkout has local changes, update it manually or clean up the checkout before re-running the installer.",
+              "zh-CN": "如果已有 checkout 带本地修改，请手动更新或清理后再重新执行安装脚本。"
+            },
+            {
+              "en": "If an agent does not detect the skill after installation, restart the agent application.",
+              "zh-CN": "如果安装后 agent 没有识别 skill，请重启对应 agent 应用。"
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": {
+            "en": "Review before piping shell scripts",
+            "zh-CN": "管道执行前先审阅脚本"
+          },
+          "body": {
+            "en": [
+              {
+                "text": "For stricter environments, download "
+              },
+              {
+                "text": "install.sh",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "install.sh"
+                  }
+                ]
+              },
+              {
+                "text": " first, inspect it, then run it locally with bash "
+              },
+              {
+                "text": "install.sh",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "install.sh"
+                  }
+                ]
+              },
+              {
+                "text": "."
+              }
+            ],
+            "zh-CN": [
+              {
+                "text": "在更严格的环境中，可以先下载 "
+              },
+              {
+                "text": "install.sh",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "install.sh"
+                  }
+                ]
+              },
+              {
+                "text": " 并审阅，再用 bash "
+              },
+              {
+                "text": "install.sh",
+                "marks": [
+                  {
+                    "type": "link",
+                    "href": "install.sh"
+                  }
+                ]
+              },
+              {
+                "text": " 在本地执行。"
+              }
+            ]
+          }
+        },
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "curl -fsSLO https://cast-docs.github.io/cast-docs/install.sh\nless install.sh\nbash install.sh --help"
+        }
+      ]
+    },
+    {
+      "id": "references",
+      "title": {
+        "en": "References",
+        "zh-CN": "参考链接"
+      },
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Installer script",
+                "zh-CN": "安装脚本"
+              },
+              "url": "install.sh",
+              "text": {
+                "en": "Public GitHub Pages installer used by the one-line commands.",
+                "zh-CN": "一键安装命令使用的 GitHub Pages 公开安装脚本。"
+              }
+            },
+            {
+              "label": {
+                "en": "Agent Markdown handoff",
+                "zh-CN": "Agent Markdown 交接"
+              },
+              "url": "https://github.com/CAST-docs/cast-docs/blob/main/INSTALL_AGENT.md",
+              "text": {
+                "en": "Short copy-ready install commands for coding agents.",
+                "zh-CN": "面向 coding agent 的简短可复制安装命令。"
+              }
+            },
+            {
+              "label": {
+                "en": "Project README",
+                "zh-CN": "项目 README"
+              },
+              "url": "https://github.com/CAST-docs/cast-docs#readme",
+              "text": {
+                "en": "Repository overview, renderer workflow, and page regeneration commands.",
+                "zh-CN": "仓库概览、渲染器工作流和页面重新生成命令。"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

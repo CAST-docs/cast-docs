@@ -1143,6 +1143,8 @@ def validate_document(doc: Any, config_dir: Path = CONFIG_DIR) -> ValidationResu
             errors.append("metadata.title must be a non-empty string")
         else:
             validate_localized_string(metadata.get("title"), "metadata.title", errors, non_empty=True)
+    if metadata.get("breadcrumbTitle") is not None:
+        validate_localized_string(metadata.get("breadcrumbTitle"), "metadata.breadcrumbTitle", errors, non_empty=True)
     if metadata.get("language") not in {"zh-CN", "en"}:
         errors.append("metadata.language must be zh-CN or en")
     locales = metadata.get("locales")
@@ -2055,14 +2057,15 @@ def same_localized_text(left: Any, right: Any, ctx: RenderContext) -> bool:
 
 def render_topbar_title(metadata: dict[str, Any], title_value: Any, ctx: RenderContext, profile: ProjectProfile | None) -> str:
     parts: list[str] = []
+    breadcrumb_title = metadata.get("breadcrumbTitle") or title_value
     owner_name = project_owner_display_name(metadata, profile)
     if owner_name:
         parts.append(f"<span class=\"topbar-org\">{esc(owner_name)}</span>")
     project_name = project_display_name(profile)
     if project_name:
         parts.append(f"<span class=\"topbar-project\">{esc(project_name)}</span>")
-    if not project_name or not same_localized_text(title_value, project_name, ctx):
-        parts.append(f"<span class=\"topbar-doc\">{render_text(title_value, ctx)}</span>")
+    if not project_name or not same_localized_text(breadcrumb_title, project_name, ctx):
+        parts.append(f"<span class=\"topbar-doc\">{render_text(breadcrumb_title, ctx)}</span>")
     if not parts:
         return render_text(title_value, ctx)
     return "<span class=\"topbar-breadcrumb\">" + "<span class=\"topbar-separator\" aria-hidden=\"true\">/</span>".join(parts) + "</span>"

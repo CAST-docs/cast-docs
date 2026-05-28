@@ -136,4 +136,6 @@ python3 scripts/check_fixtures.py --update
 
 ## License
 
-Not yet declared. Treat the repository as source-available for personal evaluation until a `LICENSE` file is added.
+CAST Docs is licensed under the [Apache License 2.0](LICENSE), except as noted in [NOTICE](NOTICE).
+
+The CAST Docs name, logo, and other project branding assets are not licensed for use in modified versions, derived products, or services without prior written permission. Truthful references to CAST Docs for origin or compatibility are allowed.

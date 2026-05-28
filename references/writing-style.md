@@ -1,6 +1,6 @@
 # Writing Style
 
-CAST Docs output should be concise, stable, and easy to review in Git.
+`cast-a-doc` output should be concise, stable, and easy to review in Git.
 
 ## Rules
 

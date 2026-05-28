@@ -1,6 +1,6 @@
 # Document Types
 
-CAST Docs initially supports five static technical document types.
+`cast-a-doc` initially supports five static technical document types.
 
 Document type selection must follow `references/design-laws.md`: pick the smallest sufficient base type, then apply a scenario skeleton only when the user intent calls for one.
 

@@ -1,9 +1,11 @@
 ---
-name: cast-docs
+name: cast-a-doc
 description: Generate standardized, self-contained HTML documents for engineering specs, plans, product requirements, decision records, and research notes. Use when the user wants portable Chrome-viewable documentation, GitHub Pages friendly static docs, or a controlled replacement for Markdown-based technical documents.
 ---
 
-# CAST Docs
+# cast-a-doc
+
+`cast-a-doc` is the CAST Docs skill for casting notes, outlines, drafts, and instructions into stable, readable, self-contained HTML documents.
 
 CAST Docs means Component Assembly Styled Templates.
 

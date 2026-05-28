@@ -1,40 +1,40 @@
-# CAST Docs
+# cast-a-doc
 
 <img src="assets/cast-docs-logo.png" alt="CAST Docs logo" width="128">
 
-**C**omponent **A**ssembly **S**tyled **T**emplates - a controlled renderer for engineering documents.
+`cast-a-doc` is a CAST Docs skill for turning notes, outlines, drafts, and instructions into structured engineering documents.
 
-CAST Docs turns structured JSON into a self-contained HTML artifact. The JSON is the source, the HTML is what you share, publish, archive, or hand to another team.
+CAST Docs means **C**omponent **A**ssembly **S**tyled **T**emplates. In this repository, the skill casts source material into structured JSON and renders it as a self-contained HTML artifact. The JSON is the source; the HTML is what you share, publish, archive, or hand to another team.
 
 ## Install
 
-Install or update the Codex skill:
+Install or update the `cast-a-doc` Codex skill:
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash
+curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
 ```
 
-Install for Claude Code:
+Install `cast-a-doc` for Claude Code:
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude
+curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
 ```
 
-Install both agent skills:
+Install `cast-a-doc` for both agents:
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both
+curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 ```
 
-For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-docs/install.html).
+For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-a-doc/install.html).
 
 ## Quick Start
 
-Requires Python 3.9 or newer. CAST Docs uses only the Python standard library.
+Requires Python 3.9 or newer. `cast-a-doc` uses only the Python standard library.
 
 ```bash
-git clone https://github.com/CAST-docs/cast-docs.git
-cd cast-docs
+git clone https://github.com/CAST-docs/cast-a-doc.git
+cd cast-a-doc
 scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 
@@ -66,13 +66,13 @@ python3 scripts/check_fixtures.py
 - Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
 - Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
 - A designed repository-level `.cast-docs/` project profile for team templates, i18n, writing rules, reusable assets, and output defaults.
-- Agent skill installation for Codex and Claude Code.
+- `cast-a-doc` skill installation for Codex and Claude Code.
 
 ## Important Documents
 
-- [index.html](index.html) / [Pages](https://cast-docs.github.io/cast-docs/) - project overview, examples, and design rationale.
-- [install.html](install.html) / [Pages](https://cast-docs.github.io/cast-docs/install.html) - one-line install commands, environment overrides, and troubleshooting.
-- [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-docs/examples/component-gallery.html) - visual reference for common blocks and inline marks.
+- [index.html](index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/) - skill overview, examples, and design rationale.
+- [install.html](install.html) / [Pages](https://cast-docs.github.io/cast-a-doc/install.html) - one-line install commands, environment overrides, and troubleshooting.
+- [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-a-doc/examples/component-gallery.html) - visual reference for common blocks and inline marks.
 - [INSTALL_AGENT.md](INSTALL_AGENT.md) - compact copy-ready install handoff for coding agents.
 - [SKILL.md](SKILL.md) - agent skill manifest and loading instructions.
 - [references/project-profile.md](references/project-profile.md) - `.cast-docs/` project profile design for repository-specific defaults.
@@ -106,6 +106,6 @@ python3 scripts/check_fixtures.py --update
 
 ## License
 
-CAST Docs is licensed under the [Apache License 2.0](LICENSE), except as noted in [NOTICE](NOTICE).
+`cast-a-doc` is licensed under the [Apache License 2.0](LICENSE), except as noted in [NOTICE](NOTICE).
 
 The CAST Docs name, logo, and other project branding assets are not licensed for use in modified versions, derived products, or services without prior written permission. Truthful references to CAST Docs for origin or compatibility are allowed.

@@ -1,25 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="${CAST_DOCS_REPO_URL:-https://github.com/CAST-docs/cast-docs.git}"
-AGENT="${CAST_DOCS_AGENT:-codex}"
+REPO_URL="${CAST_A_DOC_REPO_URL:-${CAST_DOCS_REPO_URL:-https://github.com/CAST-docs/cast-a-doc.git}}"
+AGENT="${CAST_A_DOC_AGENT:-${CAST_DOCS_AGENT:-codex}}"
+SKILL_DIR="${CAST_A_DOC_SKILL_DIR:-${CAST_DOCS_SKILL_DIR:-}}"
 
 usage() {
   cat <<'EOF'
-CAST Docs skill installer
+cast-a-doc skill installer
 
 Usage:
   install.sh [--codex|--claude|--both]
 
 Examples:
-  curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash
-  curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude
-  curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both
+  curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
+  curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
+  curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 
 Environment:
-  CAST_DOCS_REPO_URL    Git repository to clone or update.
-  CAST_DOCS_AGENT       codex, claude, or both. Defaults to codex.
-  CAST_DOCS_SKILL_DIR   Override target directory for a single-agent install.
+  CAST_A_DOC_REPO_URL   Git repository to clone or update.
+  CAST_A_DOC_AGENT      codex, claude, or both. Defaults to codex.
+  CAST_A_DOC_SKILL_DIR  Override target directory for a single-agent install.
+  CAST_DOCS_*           Deprecated aliases for the CAST_A_DOC_* variables.
   CODEX_HOME            Codex home directory. Defaults to ~/.codex.
   CLAUDE_HOME           Claude Code home directory. Defaults to ~/.claude.
 EOF
@@ -32,7 +34,7 @@ die() {
 
 require_git() {
   if ! command -v git >/dev/null 2>&1; then
-    die "git is required to install CAST Docs."
+    die "git is required to install cast-a-doc."
   fi
 }
 
@@ -78,17 +80,17 @@ AGENT="$(normalize_agent "$AGENT")"
 target_for_agent() {
   case "$1" in
     codex)
-      if [ -n "${CAST_DOCS_SKILL_DIR:-}" ]; then
-        printf '%s\n' "$CAST_DOCS_SKILL_DIR"
+      if [ -n "$SKILL_DIR" ]; then
+        printf '%s\n' "$SKILL_DIR"
       else
-        printf '%s\n' "${CODEX_HOME:-$HOME/.codex}/skills/cast-docs"
+        printf '%s\n' "${CODEX_HOME:-$HOME/.codex}/skills/cast-a-doc"
       fi
       ;;
     claude)
-      if [ -n "${CAST_DOCS_SKILL_DIR:-}" ]; then
-        printf '%s\n' "$CAST_DOCS_SKILL_DIR"
+      if [ -n "$SKILL_DIR" ]; then
+        printf '%s\n' "$SKILL_DIR"
       else
-        printf '%s\n' "${CLAUDE_HOME:-$HOME/.claude}/skills/cast-docs"
+        printf '%s\n' "${CLAUDE_HOME:-$HOME/.claude}/skills/cast-a-doc"
       fi
       ;;
     *)
@@ -104,12 +106,12 @@ install_agent() {
   mkdir -p "$(dirname "$target")"
 
   if [ -d "$target/.git" ]; then
-    printf 'Updating CAST Docs %s skill at: %s\n' "$agent" "$target"
+    printf 'Updating cast-a-doc %s skill at: %s\n' "$agent" "$target"
     git -C "$target" pull --ff-only
   elif [ -e "$target" ]; then
     die "target exists but is not a git checkout: $target"
   else
-    printf 'Installing CAST Docs %s skill at: %s\n' "$agent" "$target"
+    printf 'Installing cast-a-doc %s skill at: %s\n' "$agent" "$target"
     git clone "$REPO_URL" "$target"
   fi
 
@@ -117,14 +119,14 @@ install_agent() {
     die "installed checkout is missing SKILL.md: $target"
   fi
 
-  printf 'CAST Docs %s skill ready at: %s\n' "$agent" "$target"
+  printf 'cast-a-doc %s skill ready at: %s\n' "$agent" "$target"
 }
 
 require_git
 
 if [ "$AGENT" = "both" ]; then
-  if [ -n "${CAST_DOCS_SKILL_DIR:-}" ]; then
-    die "CAST_DOCS_SKILL_DIR can only be used with a single-agent install"
+  if [ -n "$SKILL_DIR" ]; then
+    die "CAST_A_DOC_SKILL_DIR can only be used with a single-agent install"
   fi
   install_agent codex
   install_agent claude

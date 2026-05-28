@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="${CAST_DOCS_REPO_URL:-https://github.com/CAST-docs/cast-docs.git}"
+REPO_URL="${CAST_A_DOC_REPO_URL:-${CAST_DOCS_REPO_URL:-https://github.com/CAST-docs/cast-a-doc.git}}"
 CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
-TARGET="${CAST_DOCS_SKILL_DIR:-$CLAUDE_HOME/skills/cast-docs}"
+TARGET="${CAST_A_DOC_SKILL_DIR:-${CAST_DOCS_SKILL_DIR:-$CLAUDE_HOME/skills/cast-a-doc}}"
 
 if ! command -v git >/dev/null 2>&1; then
-  echo "git is required to install the CAST Docs Claude Code skill." >&2
+  echo "git is required to install the cast-a-doc Claude Code skill." >&2
   exit 1
 fi
 
@@ -26,4 +26,4 @@ if [ ! -f "$TARGET/SKILL.md" ]; then
   exit 1
 fi
 
-echo "CAST Docs Claude Code skill installed at: $TARGET"
+echo "cast-a-doc Claude Code skill installed at: $TARGET"

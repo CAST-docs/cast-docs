@@ -1,20 +1,20 @@
 {
   "metadata": {
     "title": {
-      "en": "CAST Docs install guide",
-      "zh-CN": "CAST Docs 安装指南"
+      "en": "cast-a-doc install guide",
+      "zh-CN": "cast-a-doc 安装指南"
     },
     "language": "en",
     "status": "draft",
-    "owner": "CAST-docs",
+    "owner": "cast-a-doc",
     "audience": [
       "engineering",
       "coding agents"
     ],
     "updatedAt": "2026-05-28",
     "description": {
-      "en": "One-line CAST Docs skill installation for Codex and Claude Code, plus local renderer setup.",
-      "zh-CN": "CAST Docs 在 Codex 和 Claude Code 中的一键 skill 安装，以及本地渲染器设置。"
+      "en": "One-line cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.",
+      "zh-CN": "cast-a-doc 在 Codex 和 Claude Code 中的一键 skill 安装，以及本地渲染器设置。"
     },
     "shellLinks": [
       {
@@ -30,7 +30,7 @@
           "en": "Repository",
           "zh-CN": "仓库"
         },
-        "href": "https://github.com/CAST-docs/cast-docs",
+        "href": "https://github.com/CAST-docs/cast-a-doc",
         "placement": "topbar"
       }
     ],
@@ -145,8 +145,8 @@
             "zh-CN": "安装脚本会做什么"
           },
           "body": {
-            "en": "The installer clones or fast-forwards the CAST Docs repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.",
-            "zh-CN": "安装脚本会把 CAST Docs 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。"
+            "en": "The installer clones or fast-forwards the cast-a-doc repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.",
+            "zh-CN": "安装脚本会把 cast-a-doc 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。"
           }
         }
       ]
@@ -165,12 +165,12 @@
             "zh-CN": "安装或更新到 Codex"
           },
           "description": {
-            "en": "Installs CAST Docs at ~/.codex/skills/cast-docs. Re-running the command updates an existing git checkout with git pull --ff-only.",
-            "zh-CN": "安装到 ~/.codex/skills/cast-docs。重复执行时，会对已有 git checkout 执行 git pull --ff-only。"
+            "en": "Installs cast-a-doc at ~/.codex/skills/cast-a-doc. Re-running the command updates an existing git checkout with git pull --ff-only.",
+            "zh-CN": "安装 cast-a-doc 到 ~/.codex/skills/cast-a-doc。重复执行时，会对已有 git checkout 执行 git pull --ff-only。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash"
+            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
           }
         },
         {
@@ -196,12 +196,12 @@
             "zh-CN": "安装或更新到 Claude Code"
           },
           "description": {
-            "en": "Installs CAST Docs at ~/.claude/skills/cast-docs using the same repository and SKILL.md.",
-            "zh-CN": "使用同一个仓库和 SKILL.md，把 CAST Docs 安装到 ~/.claude/skills/cast-docs。"
+            "en": "Installs cast-a-doc at ~/.claude/skills/cast-a-doc using the same repository and SKILL.md.",
+            "zh-CN": "使用同一个仓库和 SKILL.md，把 cast-a-doc 安装到 ~/.claude/skills/cast-a-doc。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --claude"
+            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude"
           }
         },
         {
@@ -231,8 +231,8 @@
             "zh-CN": "创建或更新两个标准 skill checkout。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash -s -- --both"
+            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both",
+            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both"
           }
         }
       ]
@@ -247,14 +247,14 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "Use the local renderer when you want to develop CAST Docs itself, render examples, or validate generated document JSON outside an agent.",
-            "zh-CN": "当你要开发 CAST Docs 本身、渲染示例，或在 agent 之外校验生成的文档 JSON 时，使用本地渲染器。"
+            "en": "Use the local renderer when you want to develop cast-a-doc itself, render examples, or validate generated document JSON outside an agent.",
+            "zh-CN": "当你要开发 cast-a-doc 本身、渲染示例，或在 agent 之外校验生成的文档 JSON 时，使用本地渲染器。"
           }
         },
         {
           "type": "code",
           "language": "sh",
-          "code": "git clone https://github.com/CAST-docs/cast-docs.git /tmp/cast-docs\ncd /tmp/cast-docs\nscripts/render_example.sh examples/problem-investigation.json out.html"
+          "code": "git clone https://github.com/CAST-docs/cast-a-doc.git /tmp/cast-a-doc\ncd /tmp/cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
         },
         {
           "type": "paragraph",
@@ -275,8 +275,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "After installation, a target repository can add .cast-docs/ when it wants CAST Docs to remember team-specific defaults.",
-            "zh-CN": "安装后，如果目标仓库希望 CAST Docs 记住团队级默认设置，可以添加 .cast-docs/。"
+            "en": "After installation, a target repository can add .cast-docs/ when it wants cast-a-doc to remember team-specific defaults.",
+            "zh-CN": "安装后，如果目标仓库希望 cast-a-doc 记住团队级默认设置，可以添加 .cast-docs/。"
           }
         },
         {
@@ -399,7 +399,7 @@
             {
               "en": [
                 {
-                  "text": "CAST_DOCS_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
                   "marks": [
                     "code"
                   ]
@@ -410,7 +410,7 @@
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_DOCS_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
                   "marks": [
                     "code"
                   ]
@@ -423,7 +423,7 @@
             {
               "en": [
                 {
-                  "text": "CAST_DOCS_REPO_URL",
+                  "text": "CAST_A_DOC_REPO_URL",
                   "marks": [
                     "code"
                   ]
@@ -434,7 +434,7 @@
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_DOCS_REPO_URL",
+                  "text": "CAST_A_DOC_REPO_URL",
                   "marks": [
                     "code"
                   ]
@@ -447,7 +447,7 @@
             {
               "en": [
                 {
-                  "text": "CAST_DOCS_SKILL_DIR",
+                  "text": "CAST_A_DOC_SKILL_DIR",
                   "marks": [
                     "code"
                   ]
@@ -458,7 +458,7 @@
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_DOCS_SKILL_DIR",
+                  "text": "CAST_A_DOC_SKILL_DIR",
                   "marks": [
                     "code"
                   ]
@@ -515,7 +515,7 @@
         {
           "type": "code",
           "language": "sh",
-          "code": "CAST_DOCS_REPO_URL=https://github.com/CAST-docs/cast-docs.git \\\nCAST_DOCS_SKILL_DIR=/tmp/cast-docs-skill \\\ncurl -fsSL https://cast-docs.github.io/cast-docs/install.sh | bash"
+          "code": "CAST_A_DOC_REPO_URL=https://github.com/CAST-docs/cast-a-doc.git \\\nCAST_A_DOC_SKILL_DIR=/tmp/cast-a-doc-skill \\\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
         }
       ]
     },
@@ -534,8 +534,8 @@
               "zh-CN": "如果缺少 git，请先安装 git；安装脚本依赖 git 拉取或更新 skill。"
             },
             {
-              "en": "If the target path exists but is not a git checkout, move it aside or choose another target with CAST_DOCS_SKILL_DIR.",
-              "zh-CN": "如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_DOCS_SKILL_DIR 选择其他目标目录。"
+              "en": "If the target path exists but is not a git checkout, move it aside or choose another target with CAST_A_DOC_SKILL_DIR.",
+              "zh-CN": "如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_A_DOC_SKILL_DIR 选择其他目标目录。"
             },
             {
               "en": "If an existing checkout has local changes, update it manually or clean up the checkout before re-running the installer.",
@@ -618,7 +618,7 @@
         {
           "type": "code",
           "language": "sh",
-          "code": "curl -fsSLO https://cast-docs.github.io/cast-docs/install.sh\nless install.sh\nbash install.sh --help"
+          "code": "curl -fsSLO https://cast-docs.github.io/cast-a-doc/install.sh\nless install.sh\nbash install.sh --help"
         }
       ]
     },
@@ -648,7 +648,7 @@
                 "en": "Agent Markdown handoff",
                 "zh-CN": "Agent Markdown 交接"
               },
-              "url": "https://github.com/CAST-docs/cast-docs/blob/main/INSTALL_AGENT.md",
+              "url": "https://github.com/CAST-docs/cast-a-doc/blob/main/INSTALL_AGENT.md",
               "text": {
                 "en": "Short copy-ready install commands for coding agents.",
                 "zh-CN": "面向 coding agent 的简短可复制安装命令。"
@@ -659,7 +659,7 @@
                 "en": "Project README",
                 "zh-CN": "项目 README"
               },
-              "url": "https://github.com/CAST-docs/cast-docs#readme",
+              "url": "https://github.com/CAST-docs/cast-a-doc#readme",
               "text": {
                 "en": "Repository overview, renderer workflow, and page regeneration commands.",
                 "zh-CN": "仓库概览、渲染器工作流和页面重新生成命令。"

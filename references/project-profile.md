@@ -1,6 +1,6 @@
 # Project Profile
 
-CAST Docs can be used in any repository without repository-local setup. When a team wants CAST Docs to remember repository-specific documentation choices, use a repository-level `.cast-docs/` directory.
+`cast-a-doc` can be used in any repository without repository-local setup. When a team wants the skill to remember repository-specific documentation choices, use a repository-level `.cast-docs/` directory.
 
 The project profile is not hidden model memory. It is a reviewable, versioned configuration layer that describes how this repository writes CAST Docs documents.
 
@@ -14,7 +14,7 @@ The project profile is not hidden model memory. It is a reviewable, versioned co
 
 ## Configuration Layers
 
-CAST Docs merges configuration in this order:
+`cast-a-doc` merges configuration in this order:
 
 1. Built-in CAST Docs defaults from `config/`, `references/`, and `examples/`.
 2. Repository project profile from `.cast-docs/`.
@@ -237,7 +237,7 @@ Do not silently write final user documents to an arbitrary repository root path.
 
 ## Initialization Policy
 
-Do not create `.cast-docs/` without user intent. When a user asks CAST Docs to remember repository-specific settings, initialize the smallest useful profile:
+Do not create `.cast-docs/` without user intent. When a user asks `cast-a-doc` to remember repository-specific settings, initialize the smallest useful profile:
 
 ```text
 .cast-docs/

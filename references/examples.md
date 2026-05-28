@@ -1,6 +1,6 @@
 # Examples
 
-CAST Docs keeps compact JSON fixtures under `examples/`. Each configured scenario skeleton should have at least one fixture.
+`cast-a-doc` keeps compact JSON fixtures under `examples/`. Each configured scenario skeleton should have at least one fixture.
 
 Current fixtures:
 

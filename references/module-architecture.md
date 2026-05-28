@@ -1,6 +1,6 @@
 # Module Architecture
 
-CAST Docs is a small static document rendering system. It should feel like a restrained document product, while keeping the final artifact self-contained and easy to validate.
+`cast-a-doc` is a small static document rendering skill in the CAST Docs system. It should feel like a restrained document product, while keeping the final artifact self-contained and easy to validate.
 
 ## Architecture Shape
 

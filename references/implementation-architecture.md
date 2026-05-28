@@ -1,6 +1,6 @@
 # Implementation Architecture
 
-CAST Docs should be implemented as a config-driven static document renderer. The goal is broad scenario coverage without hard-coding every scenario into Python branches.
+`cast-a-doc` should be implemented as a config-driven CAST Docs static document renderer. The goal is broad scenario coverage without hard-coding every scenario into Python branches.
 
 ## Core Decisions
 

@@ -1,6 +1,6 @@
 # Design Laws
 
-CAST Docs follows these laws when generating documents, designing schema, implementing renderers, or adding new components.
+`cast-a-doc` follows these CAST Docs laws when generating documents, designing schema, implementing renderers, or adding new components.
 
 ## 1. Consistent Output
 

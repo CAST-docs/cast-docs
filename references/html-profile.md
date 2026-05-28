@@ -1,6 +1,6 @@
 # HTML Profile
 
-CAST Docs uses a controlled HTML subset. The goal is deterministic document output, not arbitrary web page generation.
+`cast-a-doc` uses a controlled CAST Docs HTML subset. The goal is deterministic document output, not arbitrary web page generation.
 
 All generated documents must share the same base structure, class vocabulary, style system, and approved interaction model. Document-specific styling should be represented through approved semantic classes, not one-off CSS.
 

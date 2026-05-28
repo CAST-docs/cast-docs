@@ -1,6 +1,6 @@
 # Interactive Features
 
-CAST Docs is primarily a static, self-contained HTML document system. Interactions are allowed only as renderer-owned progressive enhancements with stable hooks and validation rules.
+`cast-a-doc` primarily generates static, self-contained CAST Docs HTML documents. Interactions are allowed only as renderer-owned progressive enhancements with stable hooks and validation rules.
 
 The built-in interactions are diagram viewer, code copy, language switching, toggle view, and slider control. They are renderer-owned scripts selected from `config/interactions.json` based on layout and block types.
 

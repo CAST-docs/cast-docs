@@ -2167,7 +2167,7 @@ def render_html(
     meta_html = f"<div class=\"doc-meta\">{meta}</div>" if meta else ""
     topbar_links = render_shell_links(metadata, "topbar", ctx)
     footer_links = render_footer_links(metadata, ctx)
-    footer = footer_links or f"<a href=\"https://github.com/CAST-docs/cast-docs\" target=\"_blank\" rel=\"noopener noreferrer\">CAST Docs</a>"
+    footer = footer_links or f"<a href=\"https://github.com/CAST-docs/cast-a-doc\" target=\"_blank\" rel=\"noopener noreferrer\">CAST Docs</a>"
     layout = load_layout(layout_id, config_dir)
     active_interactions = resolve_active_interactions(doc, layout, config_dir)
     lightbox, script = render_interaction_assets(active_interactions, ctx, template_dir)

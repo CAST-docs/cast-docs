@@ -62,6 +62,7 @@
       "runtime-shape",
       "agent-readable-contract",
       "data-flow",
+      "artifact-evolution",
       "efficiency-mechanisms",
       "standardization-loop",
       "repository-boundaries",
@@ -551,6 +552,246 @@
               }
             ]
           }
+        }
+      ]
+    },
+    {
+      "id": "artifact-evolution",
+      "title": {
+        "en": "Artifact Evolution",
+        "zh-CN": "文件产物演变"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The important transformation is not from one large HTML file to another large HTML file. It is from a compact semantic source into a validated, styled, self-contained reader artifact. Agents work against the source shape; browsers receive the generated shape.",
+            "zh-CN": "关键变化不是从一个巨大的 HTML 文件变成另一个巨大的 HTML 文件，而是从紧凑的语义源变成经过校验、带样式、可独立阅读的 HTML 产物。Agent 面向源结构工作；浏览器接收生成后的页面结构。"
+          }
+        },
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "File Evolution Path",
+            "zh-CN": "文件演变路径"
+          },
+          "downloadName": "artifact-evolution-path",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "json",
+                "label": {
+                  "en": "source JSON",
+                  "zh-CN": "源 JSON"
+                }
+              },
+              {
+                "id": "profile",
+                "label": {
+                  "en": "profile defaults",
+                  "zh-CN": "项目默认值"
+                }
+              },
+              {
+                "id": "validator",
+                "label": {
+                  "en": "schema validation",
+                  "zh-CN": "schema 校验"
+                }
+              },
+              {
+                "id": "renderer",
+                "label": {
+                  "en": "block renderer",
+                  "zh-CN": "block 渲染器"
+                }
+              },
+              {
+                "id": "html",
+                "label": {
+                  "en": "self-contained HTML",
+                  "zh-CN": "自包含 HTML"
+                }
+              },
+              {
+                "id": "pages",
+                "label": {
+                  "en": "GitHub Pages",
+                  "zh-CN": "GitHub Pages"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "json",
+                "to": "validator",
+                "label": {
+                  "en": "manifest + sections",
+                  "zh-CN": "manifest + sections"
+                }
+              },
+              {
+                "from": "profile",
+                "to": "renderer",
+                "label": {
+                  "en": "defaults",
+                  "zh-CN": "默认值"
+                }
+              },
+              {
+                "from": "validator",
+                "to": "renderer",
+                "label": {
+                  "en": "valid source",
+                  "zh-CN": "有效源"
+                }
+              },
+              {
+                "from": "renderer",
+                "to": "html",
+                "label": {
+                  "en": "shell + blocks + assets",
+                  "zh-CN": "外壳 + blocks + 资源"
+                }
+              },
+              {
+                "from": "html",
+                "to": "pages",
+                "label": {
+                  "en": "checked in",
+                  "zh-CN": "提交发布"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "A source file only needs enough structure to identify the document, allowed components, and semantic blocks. This is the part agents should read or edit during planning and review.",
+            "zh-CN": "源文件只需要表达文档身份、允许组件和语义 blocks。这一层才是 agent 在规划和评审时应该读取或编辑的对象。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "json",
+          "code": "{\n  \"metadata\": {\n    \"title\": { \"en\": \"Architecture\", \"zh-CN\": \"架构\" },\n    \"locales\": [\"en\", \"zh-CN\"],\n    \"updatedAt\": \"2026-05-28\"\n  },\n  \"manifest\": {\n    \"documentType\": \"engineering-spec\",\n    \"sections\": [\"runtime-shape\", \"data-flow\"],\n    \"components\": { \"optional\": [\"diagram\", \"code-block\"] }\n  },\n  \"sections\": [\n    {\n      \"id\": \"data-flow\",\n      \"blocks\": [\n        { \"type\": \"paragraph\", \"text\": { \"en\": \"Source first.\" } },\n        { \"type\": \"diagram\", \"source\": { \"format\": \"structured-flow\" } }\n      ]\n    }\n  ]\n}"
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Rendering is an explicit build step. The command names the repository root, source JSON, target HTML, and validation mode, so the generated artifact is reproducible instead of manually edited.",
+            "zh-CN": "渲染是显式构建步骤。命令会指定仓库根目录、源 JSON、目标 HTML 和校验模式，因此生成产物是可复现的，而不是手工编辑出来的。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/render_html.py \\\n  --repo-root \"$PWD\" \\\n  --input spec/00_architecture.json \\\n  --output spec/00_architecture.html \\\n  --validate"
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Inside the renderer, each block type maps to a small rendering branch. The renderer owns layout, copy buttons, locale switching, and HTML escaping; the source file only chooses semantic block types and values.",
+            "zh-CN": "在 renderer 内部，每种 block type 对应一个小的渲染分支。布局、复制按钮、语言切换和 HTML 转义由 renderer 负责；源文件只选择语义 block 类型和值。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "python",
+          "code": "RENDERER_REGISTRY = {\n    \"paragraph\": render_paragraph,\n    \"code\": render_code,\n    \"diagram\": render_diagram,\n}\n\ndef render_block(block, ctx):\n    renderers = build_block_type_renderer_map(ctx.config_dir)\n    renderer = renderers.get(block.get(\"type\"))\n    if not renderer:\n        return unsupported_block(block)\n    return renderer(block, ctx)\n\n# components.json decides which block types are allowed;\n# the registry decides how each type becomes HTML."
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The generated HTML is intentionally larger because it includes the document shell, CSS, interaction scripts, localized strings, and rendered block markup. This is the browser artifact, not the agent authoring surface.",
+            "zh-CN": "生成后的 HTML 会明显更大，因为它包含文档外壳、CSS、交互脚本、多语言字符串和渲染后的 block markup。它是浏览器产物，不是 agent 的主要写作界面。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "text",
+          "code": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <style data-renderer-owned=\"true\">/* shell CSS */</style>\n  </head>\n  <body>\n    <header class=\"topbar\">...</header>\n    <main class=\"doc-shell\">\n      <section id=\"data-flow\">...</section>\n      <section class=\"code-shell code-scheme-json\">...</section>\n    </main>\n    <script data-renderer-owned=\"true\">/* i18n + copy */</script>\n  </body>\n</html>"
+        },
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Layer",
+              "zh-CN": "层级"
+            },
+            {
+              "en": "Typical size",
+              "zh-CN": "典型大小"
+            },
+            {
+              "en": "Primary reader",
+              "zh-CN": "主要读者"
+            },
+            {
+              "en": "Why it exists",
+              "zh-CN": "存在原因"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Source JSON",
+                "zh-CN": "源 JSON"
+              },
+              {
+                "en": "Compact semantic content",
+                "zh-CN": "紧凑语义内容"
+              },
+              {
+                "en": "Coding agents and maintainers",
+                "zh-CN": "Coding agent 与维护者"
+              },
+              {
+                "en": "Stable structure, low token overhead, easy targeted edits.",
+                "zh-CN": "结构稳定、token 负担低、便于精确修改。"
+              }
+            ],
+            [
+              {
+                "en": "Renderer",
+                "zh-CN": "渲染器"
+              },
+              {
+                "en": "Shared Python code",
+                "zh-CN": "共享 Python 代码"
+              },
+              {
+                "en": "Maintainers",
+                "zh-CN": "维护者"
+              },
+              {
+                "en": "Centralizes layout, escaping, locale behavior, and validation hooks.",
+                "zh-CN": "集中处理布局、转义、语言行为和校验钩子。"
+              }
+            ],
+            [
+              {
+                "en": "Generated HTML",
+                "zh-CN": "生成 HTML"
+              },
+              {
+                "en": "Large self-contained artifact",
+                "zh-CN": "较大的自包含产物"
+              },
+              {
+                "en": "Browser users",
+                "zh-CN": "浏览器用户"
+              },
+              {
+                "en": "Fast static hosting with no runtime service dependency.",
+                "zh-CN": "静态托管速度快，不依赖运行时服务。"
+              }
+            ]
+          ]
         }
       ]
     },

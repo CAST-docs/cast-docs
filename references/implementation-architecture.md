@@ -70,12 +70,23 @@ Scenario validation should enforce required sections and required components, bu
 
 ## Python Module Boundary
 
-The implementation is being split in small behavior-preserving steps:
+The implementation has been split into reviewable modules while keeping existing script entrypoints compatible:
 
-- `scripts/cast_docs_common.py` owns shared constants, project paths, dataclasses, JSON/config loading, localization helpers, escaping helpers, dotted-value helpers, and repository path safety helpers.
-- `scripts/cast_docs_core.py` remains the compatibility facade for existing scripts and still owns document validation, profile validation, rendering, HTML profile checks, SVG sanitization, theme resolution, and output assembly.
+- `scripts/cast_docs_core.py`: compatibility facade for existing imports.
+- `scripts/cast_docs_common.py`: shared constants, paths, dataclasses, JSON/config loading, escaping, dotted-value helpers, and repository path safety helpers.
+- `scripts/cast_docs_context.py`: render context, locale discovery, i18n labels, and safe URL/media scheme classification.
+- `scripts/cast_docs_inline.py`: inline marks, localized spans, chapter icons, and SVG text variants.
+- `scripts/cast_docs_svg.py`: strict raw SVG sanitizer based on XML parsing plus tag and attribute allowlists.
+- `scripts/cast_docs_validation.py`: document JSON semantic validation and block-type discovery.
+- `scripts/cast_docs_profile.py`: `.cast-docs/` discovery, profile validation, metadata merging, and profile-selected output paths.
+- `scripts/cast_docs_theme.py`: theme loading, style profile validation, CSS variable compilation, and base CSS loading.
+- `scripts/cast_docs_renderer_blocks.py`: block renderer registry, code shell rendering, and reusable block renderers.
+- `scripts/cast_docs_renderer_diagrams.py`: structured sequence, flow, ER, and sanitized SVG diagram rendering.
+- `scripts/cast_docs_renderer_shell.py`: layout, interaction injection, logo embedding, navigation, shell composition, and final HTML rendering.
+- `scripts/cast_docs_html_profile.py`: generated HTML profile validation.
+- `scripts/cast_docs_cli.py`: shared CLI result printing and common arguments.
 
-Existing entrypoints may continue importing from `cast_docs_core` while modules are separated. Future splits should move one responsibility at a time and keep fixture freshness checks green after each move.
+Existing entrypoints may continue importing from `cast_docs_core`. Future splits should keep these facades small and fixture freshness checks green after each move.
 
 ## Document JSON Shape
 

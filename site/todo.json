@@ -20,7 +20,7 @@
       "coding agents",
       "documentation maintainers"
     ],
-    "updatedAt": "2026-05-29",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Project-level uncertainty, deferred work, and readiness criteria for cast-a-doc.",
       "zh-CN": "cast-a-doc 的项目级不确定事项、延后工作和就绪标准。"
@@ -113,8 +113,8 @@
               "zh-CN": "等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。"
             },
             {
-              "en": "Continue splitting `scripts/cast_docs_core.py` into validation, renderer, diagram, theme, and HTML profile modules after each move has fixture coverage.",
-              "zh-CN": "在每次迁移都有 fixture 覆盖后，继续把 `scripts/cast_docs_core.py` 拆成 validation、renderer、diagram、theme 和 HTML profile 模块。"
+              "en": "Keep new `scripts/cast_docs_*` modules within reviewable size limits and add focused tests when a module boundary changes.",
+              "zh-CN": "让新的 `scripts/cast_docs_*` 模块保持在可审查的文件规模内；模块边界变化时补充聚焦测试。"
             }
           ]
         }

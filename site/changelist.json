@@ -20,7 +20,7 @@
       "coding agents",
       "documentation maintainers"
     ],
-    "updatedAt": "2026-05-29",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Public change history for cast-a-doc product scope, planning documents, and release surface.",
       "zh-CN": "cast-a-doc 产品范围、规划文档和发布界面的公开变更历史。"
@@ -98,6 +98,16 @@
         {
           "type": "values-grid",
           "items": [
+            {
+              "title": {
+                "en": "Core renderer modules split",
+                "zh-CN": "拆分核心渲染模块"
+              },
+              "body": {
+                "en": "Replaced the 2700-line `scripts/cast_docs_core.py` with a compatibility facade and moved behavior into focused modules for context, inline rendering, SVG sanitization, document validation, project profiles, theme handling, block rendering, diagram rendering, shell composition, HTML profile validation, and CLI helpers.",
+                "zh-CN": "将 2700 多行的 `scripts/cast_docs_core.py` 改成兼容 facade，并把行为迁移到 context、inline rendering、SVG sanitizer、document validation、project profile、theme、block rendering、diagram rendering、shell composition、HTML profile validation 和 CLI helper 等聚焦模块。"
+              }
+            },
             {
               "title": {
                 "en": "Core common helpers split out",

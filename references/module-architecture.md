@@ -55,7 +55,7 @@ Source files:
 
 The profile resolver merges built-in defaults, repository profile values, and current request choices. It should not mutate `.cast-docs/` while generating a document. Profile changes require explicit user intent.
 
-Implementation note: shared path, JSON loading, localization, escaping, and dataclass helpers live in `scripts/cast_docs_common.py`; compatibility imports remain available through `scripts/cast_docs_core.py` while deeper renderer and validator modules are split out.
+Implementation note: `scripts/cast_docs_core.py` is now a compatibility facade. Shared path, JSON loading, escaping, and dataclass helpers live in `scripts/cast_docs_common.py`; renderer state and i18n helpers live in `scripts/cast_docs_context.py`; inline text handling lives in `scripts/cast_docs_inline.py`; SVG sanitization lives in `scripts/cast_docs_svg.py`; document validation lives in `scripts/cast_docs_validation.py`; project profile handling lives in `scripts/cast_docs_profile.py`; theme handling lives in `scripts/cast_docs_theme.py`; block, diagram, and shell rendering live in `scripts/cast_docs_renderer_blocks.py`, `scripts/cast_docs_renderer_diagrams.py`, and `scripts/cast_docs_renderer_shell.py`; HTML profile validation lives in `scripts/cast_docs_html_profile.py`; CLI helpers live in `scripts/cast_docs_cli.py`.
 
 ### BlockSpec
 

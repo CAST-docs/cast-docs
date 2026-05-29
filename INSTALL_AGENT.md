@@ -9,13 +9,13 @@ https://cast-docs.github.io/cast-a-doc/install.html
 ## Codex Skill
 
 ```bash
-gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
 ```
 
 ## Claude Code Skill
 
 ```bash
-gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent claude-code --scope user
 ```
 
 ## Both Agent Skills
@@ -29,8 +29,9 @@ The compatibility installer delegates to `gh skill install` and does not clone i
 ## Local Renderer Smoke Test
 
 ```bash
-git clone https://github.com/CAST-docs/cast-a-doc.git /tmp/cast-a-doc
-cd /tmp/cast-a-doc
+rm -rf /tmp/cast-a-doc-skill
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --dir /tmp/cast-a-doc-skill --force
+cd /tmp/cast-a-doc-skill/cast-a-doc
 scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 

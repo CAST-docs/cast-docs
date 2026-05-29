@@ -201,7 +201,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "git clone https://github.com/CAST-docs/cast-a-doc.git\ncd cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
+          "code": "rm -rf /tmp/cast-a-doc-skill\ngh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --dir /tmp/cast-a-doc-skill --force\ncd /tmp/cast-a-doc-skill/cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
         },
         {
           "type": "code",

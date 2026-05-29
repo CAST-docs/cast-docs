@@ -5,7 +5,7 @@ REPOSITORY="${CAST_A_DOC_REPOSITORY:-CAST-docs/cast-a-doc}"
 SKILL_NAME="${CAST_A_DOC_SKILL:-cast-a-doc}"
 AGENT="${CAST_A_DOC_AGENT:-codex}"
 SCOPE="${CAST_A_DOC_SCOPE:-user}"
-PIN="${CAST_A_DOC_VERSION:-}"
+PIN="${CAST_A_DOC_VERSION:-v0.1.0}"
 FORCE="${CAST_A_DOC_FORCE:-1}"
 
 usage() {
@@ -20,12 +20,12 @@ Examples:
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
-  gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user
+  gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
 
 Environment:
   CAST_A_DOC_REPOSITORY  GitHub repository in OWNER/REPO format.
   CAST_A_DOC_SKILL       Skill name or repository path. Defaults to cast-a-doc.
-  CAST_A_DOC_VERSION     Optional tag or commit SHA to pin.
+  CAST_A_DOC_VERSION     Tag or commit SHA to pin. Defaults to v0.1.0.
   CAST_A_DOC_AGENT       codex, claude-code, or both. Defaults to codex.
   CAST_A_DOC_SCOPE       user or project. Defaults to user.
   CAST_A_DOC_FORCE       Set to 0 to skip gh skill install --force.

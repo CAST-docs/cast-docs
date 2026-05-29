@@ -11,13 +11,13 @@ CAST Docs means **C**omponent **A**ssembly **S**tyled **T**emplates. In this rep
 Install or update the `cast-a-doc` Codex skill with GitHub CLI:
 
 ```bash
-gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
 ```
 
 Install `cast-a-doc` for Claude Code:
 
 ```bash
-gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent claude-code --scope user
 ```
 
 Install `cast-a-doc` for both agents:
@@ -33,8 +33,9 @@ The compatibility installer delegates to `gh skill install`; it no longer clones
 Requires Python 3.9 or newer. `cast-a-doc` uses only the Python standard library.
 
 ```bash
-git clone https://github.com/CAST-docs/cast-a-doc.git
-cd cast-a-doc
+rm -rf /tmp/cast-a-doc-skill
+gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --dir /tmp/cast-a-doc-skill --force
+cd /tmp/cast-a-doc-skill/cast-a-doc
 scripts/render_example.sh examples/problem-investigation.json out.html
 ```
 

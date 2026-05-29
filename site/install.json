@@ -169,8 +169,8 @@
             "zh-CN": "通过 GitHub CLI 以 user scope 为 Codex 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user",
-            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user"
           }
         },
         {
@@ -200,8 +200,8 @@
             "zh-CN": "通过 GitHub CLI 以 user scope 为 Claude Code 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user",
-            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent claude-code --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent claude-code --scope user"
           }
         },
         {
@@ -254,7 +254,7 @@
         {
           "type": "code",
           "language": "sh",
-          "code": "git clone https://github.com/CAST-docs/cast-a-doc.git /tmp/cast-a-doc\ncd /tmp/cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
+          "code": "rm -rf /tmp/cast-a-doc-skill\ngh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --dir /tmp/cast-a-doc-skill --force\ncd /tmp/cast-a-doc-skill/cast-a-doc\nscripts/render_example.sh examples/problem-investigation.json out.html"
         },
         {
           "type": "paragraph",

@@ -20,7 +20,7 @@
       "coding agents",
       "documentation maintainers"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Repository overview, install commands, authoring model, and regeneration commands for cast-a-doc.",
       "zh-CN": "cast-a-doc 的仓库概览、安装命令、创作模型和重新生成命令。"
@@ -70,6 +70,7 @@
       "packaging-and-releases",
       "provides",
       "important-documents",
+      "tool-entrypoints",
       "authoring-model",
       "regenerate-pages",
       "license"
@@ -336,6 +337,28 @@
             },
             {
               "label": {
+                "en": "Tool entrypoints",
+                "zh-CN": "工具入口"
+              },
+              "url": "./references/tool-entrypoints.md",
+              "text": {
+                "en": "Supported script entrypoints, command order, CI tools, and internal module boundaries.",
+                "zh-CN": "受支持的脚本入口、命令顺序、CI 工具和内部模块边界。"
+              }
+            },
+            {
+              "label": {
+                "en": "JSON contract",
+                "zh-CN": "JSON 契约"
+              },
+              "url": "./references/json-contract.md",
+              "text": {
+                "en": "Schema, Python validator, drift guard, and compatibility boundaries.",
+                "zh-CN": "Schema、Python validator、漂移防护和兼容性边界。"
+              }
+            },
+            {
+              "label": {
                 "en": "Product plan",
                 "zh-CN": "产品规划"
               },
@@ -383,6 +406,112 @@
       ]
     },
     {
+      "id": "tool-entrypoints",
+      "title": {
+        "en": "Tool Entrypoints",
+        "zh-CN": "工具入口"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Stage",
+              "zh-CN": "阶段"
+            },
+            {
+              "en": "Tool",
+              "zh-CN": "工具"
+            },
+            {
+              "en": "Use",
+              "zh-CN": "用途"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "JSON contract",
+                "zh-CN": "JSON 契约"
+              },
+              {
+                "en": "validate_doc_json.py",
+                "zh-CN": "validate_doc_json.py"
+              },
+              {
+                "en": "Validate every created, edited, migrated, or received CAST Docs JSON source.",
+                "zh-CN": "校验每个创建、编辑、迁移或接收的 CAST Docs JSON 源文件。"
+              }
+            ],
+            [
+              {
+                "en": "Render",
+                "zh-CN": "渲染"
+              },
+              {
+                "en": "render_html.py",
+                "zh-CN": "render_html.py"
+              },
+              {
+                "en": "Render validated JSON to self-contained HTML.",
+                "zh-CN": "把通过校验的 JSON 渲染为自包含 HTML。"
+              }
+            ],
+            [
+              {
+                "en": "HTML profile",
+                "zh-CN": "HTML Profile"
+              },
+              {
+                "en": "validate_html.py",
+                "zh-CN": "validate_html.py"
+              },
+              {
+                "en": "Validate generated HTML against the controlled profile.",
+                "zh-CN": "按受控 profile 校验生成 HTML。"
+              }
+            ],
+            [
+              {
+                "en": "Project defaults",
+                "zh-CN": "项目默认值"
+              },
+              {
+                "en": "validate_project_profile.py",
+                "zh-CN": "validate_project_profile.py"
+              },
+              {
+                "en": "Validate `.cast-docs/` defaults before applying them.",
+                "zh-CN": "在应用 `.cast-docs/` 默认值前先校验它们。"
+              }
+            ],
+            [
+              {
+                "en": "Maintenance",
+                "zh-CN": "维护"
+              },
+              {
+                "en": "check_fixtures.py and visual_lint.py",
+                "zh-CN": "check_fixtures.py 和 visual_lint.py"
+              },
+              {
+                "en": "Keep checked-in generated artifacts fresh and visually bounded.",
+                "zh-CN": "保持已提交生成产物新鲜，并让视觉边界受控。"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "For command details and maintainer-only gates, use `references/tool-entrypoints.md`.",
+            "zh-CN": "命令细节和维护者专用门禁见 `references/tool-entrypoints.md`。"
+          }
+        }
+      ]
+    },
+    {
       "id": "authoring-model",
       "title": {
         "en": "Authoring Model",
@@ -405,8 +534,16 @@
               "zh-CN": "产出符合 schema 和 manifest contract 的 JSON。"
             },
             {
+              "en": "Run `validate_doc_json.py` as the first contract gate.",
+              "zh-CN": "先运行 `validate_doc_json.py` 作为第一道契约门禁。"
+            },
+            {
               "en": "Run `render_html.py --validate`.",
               "zh-CN": "运行 `render_html.py --validate`。"
+            },
+            {
+              "en": "Run `validate_html.py` when reviewing or handing off a generated artifact.",
+              "zh-CN": "审查或交接生成产物时运行 `validate_html.py`。"
             },
             {
               "en": "Share the generated HTML as the artifact.",
@@ -429,6 +566,13 @@
           }
         },
         {
+          "type": "paragraph",
+          "text": {
+            "en": "The public tool surface is the script entrypoints under `scripts/`. Internal `scripts/cast_docs_*.py` modules are implementation boundaries and should not be treated as stable agent-facing tools.",
+            "zh-CN": "公开工具表面是 `scripts/` 下的脚本入口。内部 `scripts/cast_docs_*.py` 模块是实现边界，不应被当作稳定的 agent-facing tool。"
+          }
+        },
+        {
           "type": "code",
           "language": "bash",
           "code": "python3 scripts/apply_template.py --input draft.json --template .cast-docs/templates/plan.json --output doc.json --validate\npython3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate"
@@ -445,7 +589,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/render_html.py --input site/landing.json --output index.html --validate\npython3 scripts/render_html.py --input site/install.json --output install.html --validate\npython3 scripts/render_html.py --input site/readme.json --output readme.html --validate\npython3 scripts/render_html.py --input site/todo.json --output todo.html --validate\npython3 scripts/render_html.py --input site/changelist.json --output changelist.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/index.json --output plan/index.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/00_overview.json --output plan/00_overview.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/01_features.json --output plan/01_features.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/02_interaction.json --output plan/02_interaction.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/index.json --output spec/index.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/00_architecture.json --output spec/00_architecture.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/01_document_model.json --output spec/01_document_model.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/02_verification.json --output spec/02_verification.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/decisions.json --output spec/decisions.html --validate\npython3 scripts/check_fixtures.py --update"
+          "code": "python3 scripts/render_html.py --repo-root . --input site/landing.json --output index.html --validate\npython3 scripts/render_html.py --repo-root . --input site/install.json --output install.html --validate\npython3 scripts/render_html.py --repo-root . --input site/readme.json --output readme.html --validate\npython3 scripts/render_html.py --repo-root . --input site/todo.json --output todo.html --validate\npython3 scripts/render_html.py --repo-root . --input site/changelist.json --output changelist.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/index.json --output plan/index.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/00_overview.json --output plan/00_overview.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/01_features.json --output plan/01_features.html --validate\npython3 scripts/render_html.py --repo-root . --input plan/02_interaction.json --output plan/02_interaction.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/index.json --output spec/index.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/00_architecture.json --output spec/00_architecture.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/01_document_model.json --output spec/01_document_model.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/02_verification.json --output spec/02_verification.html --validate\npython3 scripts/render_html.py --repo-root . --input spec/decisions.json --output spec/decisions.html --validate\npython3 scripts/check_fixtures.py --update"
         }
       ]
     },

@@ -11,7 +11,7 @@
       "engineering",
       "coding agents"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Product boundary, audience, and current state for cast-a-doc.",
       "zh-CN": "cast-a-doc 的产品边界、用户和当前状态。"
@@ -214,6 +214,10 @@
             {
               "en": "The schema controls metadata, manifest, sections, localized text, and reusable blocks.",
               "zh-CN": "schema 控制 metadata、manifest、sections、多语言文本和可复用 block。"
+            },
+            {
+              "en": "The public agent-facing tool surface is documented as script entrypoints; internal `cast_docs_*` modules remain implementation boundaries.",
+              "zh-CN": "面向 agent 的公开工具表面已经按脚本入口文档化；内部 `cast_docs_*` 模块仍是实现边界。"
             },
             {
               "en": "Examples and generated HTML pages double as fixture coverage and public documentation.",

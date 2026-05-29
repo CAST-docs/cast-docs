@@ -316,7 +316,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
       "engineering",
       "maintainers"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Validation, fixture, and publishing checks for cast-a-doc documentation changes.",
       "zh-CN": "cast-a-doc 文档变更的校验、fixture 和发布检查。"
@@ -399,8 +399,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
                 "zh-CN": "JSON"
               },
               "body": {
-                "en": "Every source document must parse as JSON and pass the Python document validator. The JSON Schema remains the structural contract; semantic and safety checks live in Python.",
-                "zh-CN": "每个源文档都必须能解析为 JSON 并通过 Python 文档校验器。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。"
+                "en": "Every source document must parse as JSON and pass `validate_doc_json.py` before render. The JSON Schema remains the structural contract; semantic and safety checks live in Python.",
+                "zh-CN": "每个源文档都必须能解析为 JSON，并在渲染前通过 `validate_doc_json.py`。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。"
               }
             },
             {
@@ -428,7 +428,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 -m unittest discover -s tests\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html"
+          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 scripts/validate_doc_json.py --input plan/index.json\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html\npython3 scripts/validate_skill_bundle.py\npython3 -m unittest discover -s tests"
         }
       ]
     },
@@ -518,6 +518,13 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
           }
         },
         {
+          "type": "paragraph",
+          "text": {
+            "en": "Public agent-facing tools are the script entrypoints documented in `references/tool-entrypoints.md`. Internal `cast_docs_*` modules are implementation boundaries; fixture checks should stay green when those internals move.",
+            "zh-CN": "面向 agent 的公开工具是 `references/tool-entrypoints.md` 中记录的脚本入口。内部 `cast_docs_*` 模块是实现边界；这些内部模块移动时 fixture 检查应保持通过。"
+          }
+        },
+        {
           "type": "callout",
           "variant": "warning",
           "title": {
@@ -571,8 +578,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 <main>
 <section class="doc-section" id="local-validation">
 <h2><span data-locale="en" data-locale-active="true">Local Validation</span><span data-locale="zh-CN" data-locale-active="false">本地校验</span></h2>
-<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">JSON</span><span data-locale="zh-CN" data-locale-active="false">JSON</span>:</strong> <span data-locale="en" data-locale-active="true">Every source document must parse as JSON and pass the Python document validator. The JSON Schema remains the structural contract; semantic and safety checks live in Python.</span><span data-locale="zh-CN" data-locale-active="false">每个源文档都必须能解析为 JSON 并通过 Python 文档校验器。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。</span></li><li><strong><span data-locale="en" data-locale-active="true">HTML</span><span data-locale="zh-CN" data-locale-active="false">HTML</span>:</strong> <span data-locale="en" data-locale-active="true">Generated pages must pass the local HTML validator.</span><span data-locale="zh-CN" data-locale-active="false">生成页面必须通过本地 HTML 校验器。</span></li><li><strong><span data-locale="en" data-locale-active="true">Profile</span><span data-locale="zh-CN" data-locale-active="false">Profile</span>:</strong> <span data-locale="en" data-locale-active="true">Repository profile defaults must validate before they are used in generation.</span><span data-locale="zh-CN" data-locale-active="false">仓库 profile 默认值必须在用于生成前通过校验。</span></li></ul></section>
-<section class="code-shell code-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="bash"><code id="code-1" data-language="bash"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/validate_project_profile.py <span class="code-token-flag">--repo-root</span> .</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">python3 scripts/validate_schema_contract.py</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">python3 -m unittest discover -s tests</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">python3 scripts/render_html.py <span class="code-token-flag">--input</span> plan/index.json <span class="code-token-flag">--output</span> plan/index.html <span class="code-token-flag">--validate</span></span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">python3 scripts/validate_html.py <span class="code-token-flag">--input</span> plan/index.html</span></span></code></pre></section>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">JSON</span><span data-locale="zh-CN" data-locale-active="false">JSON</span>:</strong> <span data-locale="en" data-locale-active="true">Every source document must parse as JSON and pass <code>validate_doc_json.py</code> before render. The JSON Schema remains the structural contract; semantic and safety checks live in Python.</span><span data-locale="zh-CN" data-locale-active="false">每个源文档都必须能解析为 JSON，并在渲染前通过 <code>validate_doc_json.py</code>。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。</span></li><li><strong><span data-locale="en" data-locale-active="true">HTML</span><span data-locale="zh-CN" data-locale-active="false">HTML</span>:</strong> <span data-locale="en" data-locale-active="true">Generated pages must pass the local HTML validator.</span><span data-locale="zh-CN" data-locale-active="false">生成页面必须通过本地 HTML 校验器。</span></li><li><strong><span data-locale="en" data-locale-active="true">Profile</span><span data-locale="zh-CN" data-locale-active="false">Profile</span>:</strong> <span data-locale="en" data-locale-active="true">Repository profile defaults must validate before they are used in generation.</span><span data-locale="zh-CN" data-locale-active="false">仓库 profile 默认值必须在用于生成前通过校验。</span></li></ul></section>
+<section class="code-shell code-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="bash"><code id="code-1" data-language="bash"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">python3 scripts/validate_project_profile.py <span class="code-token-flag">--repo-root</span> .</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">python3 scripts/validate_schema_contract.py</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">python3 scripts/validate_doc_json.py <span class="code-token-flag">--input</span> plan/index.json</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">4</span><span class="code-line-content">python3 scripts/render_html.py <span class="code-token-flag">--input</span> plan/index.json <span class="code-token-flag">--output</span> plan/index.html <span class="code-token-flag">--validate</span></span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">5</span><span class="code-line-content">python3 scripts/validate_html.py <span class="code-token-flag">--input</span> plan/index.html</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">6</span><span class="code-line-content">python3 scripts/validate_skill_bundle.py</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">7</span><span class="code-line-content">python3 -m unittest discover -s tests</span></span></code></pre></section>
 </section>
 
 <section class="doc-section" id="generated-artifacts">
@@ -588,6 +595,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 <section class="doc-section" id="fixture-policy">
 <h2><span data-locale="en" data-locale-active="true">Fixture Policy</span><span data-locale="zh-CN" data-locale-active="false">Fixture 策略</span></h2>
 <p><span data-locale="en" data-locale-active="true">Generated HTML changes should be intentional. When renderer behavior changes, update fixtures with a clear changelist entry. When only source content changes, render the affected pages and avoid unrelated fixture churn.</span><span data-locale="zh-CN" data-locale-active="false">生成 HTML 的变化应是有意的。渲染器行为变化时，用明确的 changelist 更新 fixture。仅源内容变化时，只渲染受影响页面，避免无关 fixture 抖动。</span></p>
+<p><span data-locale="en" data-locale-active="true">Public agent-facing tools are the script entrypoints documented in <code>references/tool-entrypoints.md</code>. Internal <code>cast_docs_*</code> modules are implementation boundaries; fixture checks should stay green when those internals move.</span><span data-locale="zh-CN" data-locale-active="false">面向 agent 的公开工具是 <code>references/tool-entrypoints.md</code> 中记录的脚本入口。内部 <code>cast_docs_*</code> 模块是实现边界；这些内部模块移动时 fixture 检查应保持通过。</span></p>
 <aside class="callout callout-warning"><strong><span data-locale="en" data-locale-active="true">Avoid broad rewrites</span><span data-locale="zh-CN" data-locale-active="false">避免大范围重写</span></strong><p><span data-locale="en" data-locale-active="true">For existing repositories, cast-a-start should make overwrite scope explicit before replacing documentation. This run used an additive guided migration.</span><span data-locale="zh-CN" data-locale-active="false">对已有仓库，cast-a-start 应在替换文档前明确覆盖范围。本次使用的是增量式 guided migration。</span></p></aside>
 </section>
 

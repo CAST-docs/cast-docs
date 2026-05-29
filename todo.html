@@ -465,8 +465,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
               "zh-CN": "为生成的 CAST Docs JSON 文档增加 schema 版本策略。"
             },
             {
-              "en": "Decide whether the renderer should expose a small CLI wrapper in addition to direct Python script usage.",
-              "zh-CN": "决定渲染器是否除了直接使用 Python 脚本外，还应暴露一个小型 CLI 包装器。"
+              "en": "Decide whether the documented script tool surface should later be wrapped by a small console CLI without breaking direct Python script usage.",
+              "zh-CN": "决定已文档化的脚本工具表面后续是否需要再包一层小型 console CLI，同时不破坏直接 Python 脚本用法。"
             },
             {
               "en": "Add a visual regression workflow for representative generated pages.",
@@ -493,6 +493,10 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             {
               "en": "Keep `plan/` and `spec/` in sync with renderer changes that affect authoring behavior.",
               "zh-CN": "当渲染器变化影响创作行为时，同步更新 `plan/` 和 `spec/`。"
+            },
+            {
+              "en": "Keep `skills/cast-a-doc/SKILL.md`, `references/tool-entrypoints.md`, and `references/json-contract.md` aligned whenever public script entrypoints or JSON validation rules change.",
+              "zh-CN": "每当公开脚本入口或 JSON 校验规则变化时，同步维护 `skills/cast-a-doc/SKILL.md`、`references/tool-entrypoints.md` 和 `references/json-contract.md`。"
             },
             {
               "en": "Add a short comparison of when to use cast-a-doc versus cast-a-start once both skills stabilize.",
@@ -557,12 +561,12 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="product-follow-ups">
 <h2><span data-locale="en" data-locale-active="true">Product Follow-Ups</span><span data-locale="zh-CN" data-locale-active="false">产品后续事项</span></h2>
-<ul><li><span data-locale="en" data-locale-active="true">Add a schema versioning policy for generated CAST Docs JSON documents.</span><span data-locale="zh-CN" data-locale-active="false">为生成的 CAST Docs JSON 文档增加 schema 版本策略。</span></li><li><span data-locale="en" data-locale-active="true">Decide whether the renderer should expose a small CLI wrapper in addition to direct Python script usage.</span><span data-locale="zh-CN" data-locale-active="false">决定渲染器是否除了直接使用 Python 脚本外，还应暴露一个小型 CLI 包装器。</span></li><li><span data-locale="en" data-locale-active="true">Add a visual regression workflow for representative generated pages.</span><span data-locale="zh-CN" data-locale-active="false">为代表性生成页面增加视觉回归流程。</span></li><li><span data-locale="en" data-locale-active="true">Expand project profile examples for real repositories with multiple document sets and style profiles.</span><span data-locale="zh-CN" data-locale-active="false">为包含多个文档集和样式 profile 的真实仓库扩展 project profile 示例。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">Add a schema versioning policy for generated CAST Docs JSON documents.</span><span data-locale="zh-CN" data-locale-active="false">为生成的 CAST Docs JSON 文档增加 schema 版本策略。</span></li><li><span data-locale="en" data-locale-active="true">Decide whether the documented script tool surface should later be wrapped by a small console CLI without breaking direct Python script usage.</span><span data-locale="zh-CN" data-locale-active="false">决定已文档化的脚本工具表面后续是否需要再包一层小型 console CLI，同时不破坏直接 Python 脚本用法。</span></li><li><span data-locale="en" data-locale-active="true">Add a visual regression workflow for representative generated pages.</span><span data-locale="zh-CN" data-locale-active="false">为代表性生成页面增加视觉回归流程。</span></li><li><span data-locale="en" data-locale-active="true">Expand project profile examples for real repositories with multiple document sets and style profiles.</span><span data-locale="zh-CN" data-locale-active="false">为包含多个文档集和样式 profile 的真实仓库扩展 project profile 示例。</span></li></ul>
 </section>
 
 <section class="doc-section" id="documentation-follow-ups">
 <h2><span data-locale="en" data-locale-active="true">Documentation Follow-Ups</span><span data-locale="zh-CN" data-locale-active="false">文档后续事项</span></h2>
-<ul><li><span data-locale="en" data-locale-active="true">Keep <code>plan/</code> and <code>spec/</code> in sync with renderer changes that affect authoring behavior.</span><span data-locale="zh-CN" data-locale-active="false">当渲染器变化影响创作行为时，同步更新 <code>plan/</code> 和 <code>spec/</code>。</span></li><li><span data-locale="en" data-locale-active="true">Add a short comparison of when to use cast-a-doc versus cast-a-start once both skills stabilize.</span><span data-locale="zh-CN" data-locale-active="false">当两个 skill 稳定后，增加一段何时使用 cast-a-doc、何时使用 cast-a-start 的简短对比。</span></li><li><span data-locale="en" data-locale-active="true">Capture compatibility notes for Codex, Claude Code, local browser viewing, and GitHub Pages publishing.</span><span data-locale="zh-CN" data-locale-active="false">记录 Codex、Claude Code、本地浏览器查看和 GitHub Pages 发布的兼容性说明。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">Keep <code>plan/</code> and <code>spec/</code> in sync with renderer changes that affect authoring behavior.</span><span data-locale="zh-CN" data-locale-active="false">当渲染器变化影响创作行为时，同步更新 <code>plan/</code> 和 <code>spec/</code>。</span></li><li><span data-locale="en" data-locale-active="true">Keep <code>skills/cast-a-doc/SKILL.md</code>, <code>references/tool-entrypoints.md</code>, and <code>references/json-contract.md</code> aligned whenever public script entrypoints or JSON validation rules change.</span><span data-locale="zh-CN" data-locale-active="false">每当公开脚本入口或 JSON 校验规则变化时，同步维护 <code>skills/cast-a-doc/SKILL.md</code>、<code>references/tool-entrypoints.md</code> 和 <code>references/json-contract.md</code>。</span></li><li><span data-locale="en" data-locale-active="true">Add a short comparison of when to use cast-a-doc versus cast-a-start once both skills stabilize.</span><span data-locale="zh-CN" data-locale-active="false">当两个 skill 稳定后，增加一段何时使用 cast-a-doc、何时使用 cast-a-start 的简短对比。</span></li><li><span data-locale="en" data-locale-active="true">Capture compatibility notes for Codex, Claude Code, local browser viewing, and GitHub Pages publishing.</span><span data-locale="zh-CN" data-locale-active="false">记录 Codex、Claude Code、本地浏览器查看和 GitHub Pages 发布的兼容性说明。</span></li></ul>
 </section>
 
 <section class="doc-section" id="ready-criteria">

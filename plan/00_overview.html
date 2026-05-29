@@ -316,7 +316,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
       "engineering",
       "coding agents"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Product boundary, audience, and current state for cast-a-doc.",
       "zh-CN": "cast-a-doc 的产品边界、用户和当前状态。"
@@ -513,6 +513,10 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
               "zh-CN": "schema 控制 metadata、manifest、sections、多语言文本和可复用 block。"
             },
             {
+              "en": "The public agent-facing tool surface is documented as script entrypoints; internal `cast_docs_*` modules remain implementation boundaries.",
+              "zh-CN": "面向 agent 的公开工具表面已经按脚本入口文档化；内部 `cast_docs_*` 模块仍是实现边界。"
+            },
+            {
               "en": "Examples and generated HTML pages double as fixture coverage and public documentation.",
               "zh-CN": "示例与生成 HTML 同时承担 fixture 覆盖和公开文档角色。"
             },
@@ -587,7 +591,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="current-state">
 <h2><span data-locale="en" data-locale-active="true">Current State</span><span data-locale="zh-CN" data-locale-active="false">当前状态</span></h2>
-<ul><li><span data-locale="en" data-locale-active="true">The renderer is implemented in Python and uses only the standard library.</span><span data-locale="zh-CN" data-locale-active="false">渲染器由 Python 实现，并且只使用标准库。</span></li><li><span data-locale="en" data-locale-active="true">The schema controls metadata, manifest, sections, localized text, and reusable blocks.</span><span data-locale="zh-CN" data-locale-active="false">schema 控制 metadata、manifest、sections、多语言文本和可复用 block。</span></li><li><span data-locale="en" data-locale-active="true">Examples and generated HTML pages double as fixture coverage and public documentation.</span><span data-locale="zh-CN" data-locale-active="false">示例与生成 HTML 同时承担 fixture 覆盖和公开文档角色。</span></li><li><span data-locale="en" data-locale-active="true">The project profile under .cast-docs records repository-level defaults for output paths, writing style, templates, assets, and standardized style profiles.</span><span data-locale="zh-CN" data-locale-active="false">.cast-docs 下的 project profile 记录输出路径、写作风格、模板、资源和标准化样式配置等仓库级默认值。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">The renderer is implemented in Python and uses only the standard library.</span><span data-locale="zh-CN" data-locale-active="false">渲染器由 Python 实现，并且只使用标准库。</span></li><li><span data-locale="en" data-locale-active="true">The schema controls metadata, manifest, sections, localized text, and reusable blocks.</span><span data-locale="zh-CN" data-locale-active="false">schema 控制 metadata、manifest、sections、多语言文本和可复用 block。</span></li><li><span data-locale="en" data-locale-active="true">The public agent-facing tool surface is documented as script entrypoints; internal <code>cast_docs_*</code> modules remain implementation boundaries.</span><span data-locale="zh-CN" data-locale-active="false">面向 agent 的公开工具表面已经按脚本入口文档化；内部 <code>cast_docs_*</code> 模块仍是实现边界。</span></li><li><span data-locale="en" data-locale-active="true">Examples and generated HTML pages double as fixture coverage and public documentation.</span><span data-locale="zh-CN" data-locale-active="false">示例与生成 HTML 同时承担 fixture 覆盖和公开文档角色。</span></li><li><span data-locale="en" data-locale-active="true">The project profile under .cast-docs records repository-level defaults for output paths, writing style, templates, assets, and standardized style profiles.</span><span data-locale="zh-CN" data-locale-active="false">.cast-docs 下的 project profile 记录输出路径、写作风格、模板、资源和标准化样式配置等仓库级默认值。</span></li></ul>
 </section>
 
 <section class="doc-section" id="non-goals">

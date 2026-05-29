@@ -11,7 +11,7 @@
       "engineering",
       "maintainers"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "Validation, fixture, and publishing checks for cast-a-doc documentation changes.",
       "zh-CN": "cast-a-doc 文档变更的校验、fixture 和发布检查。"
@@ -102,8 +102,8 @@
                 "zh-CN": "JSON"
               },
               "body": {
-                "en": "Every source document must parse as JSON and pass the Python document validator. The JSON Schema remains the structural contract; semantic and safety checks live in Python.",
-                "zh-CN": "每个源文档都必须能解析为 JSON 并通过 Python 文档校验器。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。"
+                "en": "Every source document must parse as JSON and pass `validate_doc_json.py` before render. The JSON Schema remains the structural contract; semantic and safety checks live in Python.",
+                "zh-CN": "每个源文档都必须能解析为 JSON，并在渲染前通过 `validate_doc_json.py`。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。"
               }
             },
             {
@@ -131,7 +131,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 -m unittest discover -s tests\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html"
+          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 scripts/validate_doc_json.py --input plan/index.json\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html\npython3 scripts/validate_skill_bundle.py\npython3 -m unittest discover -s tests"
         }
       ]
     },
@@ -218,6 +218,13 @@
           "text": {
             "en": "Generated HTML changes should be intentional. When renderer behavior changes, update fixtures with a clear changelist entry. When only source content changes, render the affected pages and avoid unrelated fixture churn.",
             "zh-CN": "生成 HTML 的变化应是有意的。渲染器行为变化时，用明确的 changelist 更新 fixture。仅源内容变化时，只渲染受影响页面，避免无关 fixture 抖动。"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Public agent-facing tools are the script entrypoints documented in `references/tool-entrypoints.md`. Internal `cast_docs_*` modules are implementation boundaries; fixture checks should stay green when those internals move.",
+            "zh-CN": "面向 agent 的公开工具是 `references/tool-entrypoints.md` 中记录的脚本入口。内部 `cast_docs_*` 模块是实现边界；这些内部模块移动时 fixture 检查应保持通过。"
           }
         },
         {

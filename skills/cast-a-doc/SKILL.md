@@ -1,6 +1,6 @@
 ---
 name: cast-a-doc
-description: Generate standardized, self-contained HTML documents for engineering specs, plans, product requirements, decision records, and research notes. Use when the user wants portable Chrome-viewable documentation, GitHub Pages friendly static docs, or a controlled replacement for Markdown-based technical documents.
+description: Generate, validate, and render CAST Docs JSON into standardized self-contained HTML documents for engineering specs, plans, product requirements, decision records, and research notes. Use when the user wants a portable browser-viewable document, GitHub Pages friendly static docs, a controlled JSON-to-HTML documentation workflow, or validation of CAST Docs JSON/HTML/project-profile artifacts.
 license: Apache-2.0
 ---
 
@@ -10,7 +10,19 @@ license: Apache-2.0
 
 CAST Docs means Component Assembly Styled Templates.
 
-Use this skill to produce stable, readable, self-contained HTML documents from notes, outlines, drafts, or instructions. The intended output is a static document, not a wiki product, CMS, web app, or collaborative editor.
+Use this skill to produce, validate, and render stable self-contained HTML documents from CAST Docs JSON, notes, outlines, drafts, or instructions. The intended output is a static document, not a wiki product, CMS, web app, or collaborative editor.
+
+## Invocation Rules
+
+Invoke `cast-a-doc` when the user asks to:
+
+- create, edit, validate, migrate, or review CAST Docs JSON
+- render CAST Docs JSON into a single self-contained HTML document
+- publish or refresh static documentation for GitHub Pages or a browser-viewable handoff
+- validate generated CAST Docs HTML, project profiles, examples, fixtures, or skill bundle consistency
+- apply CAST Docs templates or build a static CAST Docs document-set index
+
+Do not invoke it for ordinary code implementation, broad project onboarding, planning-gate work, live wiki/CMS/web app development, general Markdown-only editing, or repository rewrite strategy. Use `cast-a-start` for project planning, TODO/CHANGELIST orchestration, readiness gates, and repository memory setup; use `cast-a-doc` once the task needs CAST Docs JSON, HTML rendering, or validation.
 
 ## Workflow
 
@@ -25,7 +37,33 @@ Use this skill to produce stable, readable, self-contained HTML documents from n
 9. Validate the generated HTML against the controlled profile.
 10. Return the `.html` file or HTML content, depending on the environment.
 
-Prefer the JSON intermediate representation before HTML rendering. This keeps document structure deterministic and prevents formatting drift.
+Prefer the JSON intermediate representation before HTML rendering. This keeps document structure deterministic and prevents formatting drift. Treat JSON validation as the first tool gate, not as a renderer side effect.
+
+## Tool Routing
+
+Use the stable script entrypoints as tools. Do not call internal `scripts/cast_docs_*.py` modules directly unless you are maintaining their implementation.
+
+- JSON contract: `python3 scripts/validate_doc_json.py --input doc.json`
+- Render: `python3 scripts/render_html.py --input doc.json --output doc.html --validate`
+- HTML profile: `python3 scripts/validate_html.py --input doc.html`
+- Project profile: `python3 scripts/validate_project_profile.py --repo-root .`
+- Templates: `python3 scripts/apply_template.py --input draft.json --template .cast-docs/templates/plan.json --output doc.json --validate`
+- Document sets: `python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --output docs/cast-docs/index.html --validate`
+- Installed-skill maintainer gates: `scripts/visual_lint.py` and `scripts/check_fixtures.py`
+- Repository checkout gates: `scripts/validate_schema_contract.py`, `scripts/validate_package_metadata.py`, and `scripts/validate_skill_bundle.py`
+
+Read `references/tool-entrypoints.md` before choosing a command sequence beyond the basic JSON -> render -> HTML validation flow.
+
+## JSON Contract
+
+CAST Docs JSON is the source of truth. HTML is a generated artifact.
+
+- `schemas/doc.schema.json` owns structural shape, required fields, primitive types, localized strings, and block payload object shapes.
+- Python validators own semantic, safety, repository, and rendered-output rules.
+- `scripts/validate_doc_json.py` is the daily JSON contract tool.
+- `scripts/validate_schema_contract.py` is the repository checkout CI and maintainer drift guard.
+
+Read `references/json-contract.md` before changing schema behavior, accepting generated JSON from another agent, or tightening validation rules.
 
 ## Design Laws
 
@@ -76,6 +114,8 @@ Borrow principles, not product scope:
 - `config/`: configuration registries for document types, scenario skeletons, components, HTML profile, layouts, theme tokens, and approved interactions.
 - `schemas/doc.schema.json`: structured document JSON contract.
 - `examples/`: compact fixtures covering configured scenario skeletons.
+- `references/tool-entrypoints.md`: public script entrypoints, command order, CI tools, and internal module boundaries.
+- `references/json-contract.md`: schema, Python validator, drift guard, and compatibility boundaries for CAST Docs JSON.
 - `references/design-laws.md`: binding architecture laws for consistency, on-demand composition, scenario skeletons, and reuse.
 - `references/generation-contract.md`: type declaration, assembly manifest, template boundary, component trigger rules, and verification gates.
 - `references/implementation-architecture.md`: config-driven implementation model, CLI contract, and lightweight validator scope.
@@ -89,20 +129,3 @@ Borrow principles, not product scope:
 - `references/examples.md`: JSON fixtures and generated HTML examples.
 - `assets/template-modules/`: shell template, base layout CSS, interaction scripts, and interaction hook HTML loaded by the renderer.
 - `scripts/`: renderer, validators, template application, visual lint gates, document-set builder, and shared core helpers.
-
-## Implementation Status
-
-P0 generation is implemented:
-
-- `scripts/validate_doc_json.py` validates document JSON against the configured document types, scenario skeletons, components, shell links, and typed block payloads.
-- `scripts/render_html.py` renders document JSON to a self-contained HTML file with inline CSS and only the interaction modules needed by the document. It supports `--repo-root`, `--profile-dir`, and `--output-policy explicit|shareable|local` for profile-aware rendering.
-- `scripts/validate_html.py` validates rendered HTML against `config/html-profile.json`.
-- `scripts/validate_project_profile.py` validates `.cast-docs/` profile JSON, locales, paths, templates, and assets.
-- `scripts/check_fixtures.py` validates fixture JSON, regenerated HTML, checked-in artifact freshness, and visual lint gates.
-- `scripts/visual_lint.py` enforces lightweight visual gates for saturation, large-area colors, and fixed badge dimensions.
-- `scripts/apply_template.py` applies explicit templates or profile-declared scenario templates to document JSON.
-- `scripts/build_index.py` builds a document-set index and chapter pages from `cast-docs-set.json` or an explicit manifest path.
-
-Document-set generation is implemented for static index pages and chapter pages with shared navigation and previous/next pagination.
-
-Project Profile support is implemented for automatic CLI discovery, validation, default metadata/logo merging, profile-selected output paths, and template application.

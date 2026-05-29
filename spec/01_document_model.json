@@ -11,7 +11,7 @@
       "engineering",
       "coding agents"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-30",
     "description": {
       "en": "The source JSON structure that agents write and the renderer validates.",
       "zh-CN": "agent 编写、渲染器校验的源 JSON 结构。"
@@ -60,6 +60,7 @@
     "scenario": "none",
     "sections": [
       "top-level-contract",
+      "contract-gates",
       "localized-content",
       "blocks",
       "project-profile"
@@ -132,6 +133,27 @@
           "type": "code",
           "language": "json",
           "code": "{\n  \"metadata\": { \"title\": \"...\", \"language\": \"en\" },\n  \"manifest\": { \"documentType\": \"...\", \"scenario\": \"...\" },\n  \"sections\": []\n}"
+        }
+      ]
+    },
+    {
+      "id": "contract-gates",
+      "title": {
+        "en": "Contract Gates",
+        "zh-CN": "契约门禁"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "CAST Docs JSON is validated before rendering. `schemas/doc.schema.json` defines structure; `validate_doc_json.py` enforces config-aware semantics; `validate_schema_contract.py` guards schema and validator assumptions in CI.",
+            "zh-CN": "CAST Docs JSON 在渲染前先校验。`schemas/doc.schema.json` 定义结构；`validate_doc_json.py` 执行配置感知的语义校验；`validate_schema_contract.py` 在 CI 中保护 schema 与 validator 假设。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "python3 scripts/validate_doc_json.py --input doc.json\npython3 scripts/render_html.py --input doc.json --output doc.html --validate\npython3 scripts/validate_html.py --input doc.html"
         }
       ]
     },

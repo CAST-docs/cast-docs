@@ -100,6 +100,26 @@
           "items": [
             {
               "title": {
+                "en": "Skill tool contracts documented",
+                "zh-CN": "明确 skill 工具契约"
+              },
+              "body": {
+                "en": "Added `references/tool-entrypoints.md` and rewrote the installable `SKILL.md` around invocation rules, public script tools, maintainer gates, and the boundary between script entrypoints and internal `cast_docs_*` modules.",
+                "zh-CN": "新增 `references/tool-entrypoints.md`，并围绕调用规则、公开脚本工具、维护门禁，以及脚本入口和内部 `cast_docs_*` 模块的边界重写可安装 `SKILL.md`。"
+              }
+            },
+            {
+              "title": {
+                "en": "JSON contract promoted to first tool gate",
+                "zh-CN": "JSON 契约升级为第一道工具门禁"
+              },
+              "body": {
+                "en": "Added `references/json-contract.md` and updated README, site source, TODO, and verification notes so `validate_doc_json.py` is treated as the first required gate before render and HTML validation.",
+                "zh-CN": "新增 `references/json-contract.md`，并更新 README、站点源、TODO 和验证说明，让 `validate_doc_json.py` 成为渲染和 HTML 校验前的第一道必要门禁。"
+              }
+            },
+            {
+              "title": {
                 "en": "Core renderer modules split",
                 "zh-CN": "拆分核心渲染模块"
               },

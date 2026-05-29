@@ -168,8 +168,8 @@
               "zh-CN": "为生成的 CAST Docs JSON 文档增加 schema 版本策略。"
             },
             {
-              "en": "Decide whether the renderer should expose a small CLI wrapper in addition to direct Python script usage.",
-              "zh-CN": "决定渲染器是否除了直接使用 Python 脚本外，还应暴露一个小型 CLI 包装器。"
+              "en": "Decide whether the documented script tool surface should later be wrapped by a small console CLI without breaking direct Python script usage.",
+              "zh-CN": "决定已文档化的脚本工具表面后续是否需要再包一层小型 console CLI，同时不破坏直接 Python 脚本用法。"
             },
             {
               "en": "Add a visual regression workflow for representative generated pages.",
@@ -196,6 +196,10 @@
             {
               "en": "Keep `plan/` and `spec/` in sync with renderer changes that affect authoring behavior.",
               "zh-CN": "当渲染器变化影响创作行为时，同步更新 `plan/` 和 `spec/`。"
+            },
+            {
+              "en": "Keep `skills/cast-a-doc/SKILL.md`, `references/tool-entrypoints.md`, and `references/json-contract.md` aligned whenever public script entrypoints or JSON validation rules change.",
+              "zh-CN": "每当公开脚本入口或 JSON 校验规则变化时，同步维护 `skills/cast-a-doc/SKILL.md`、`references/tool-entrypoints.md` 和 `references/json-contract.md`。"
             },
             {
               "en": "Add a short comparison of when to use cast-a-doc versus cast-a-start once both skills stabilize.",

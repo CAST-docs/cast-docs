@@ -92,6 +92,8 @@ Release versions are recorded in `VERSION`; Git tags use the matching `v<version
 - [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-a-doc/examples/component-gallery.html) - visual reference for common blocks and inline marks.
 - [INSTALL_AGENT.md](INSTALL_AGENT.md) - compact copy-ready install handoff for coding agents.
 - [skills/cast-a-doc/SKILL.md](skills/cast-a-doc/SKILL.md) - agent skill manifest and loading instructions.
+- [references/tool-entrypoints.md](references/tool-entrypoints.md) - supported script entrypoints, command order, CI tools, and internal module boundaries.
+- [references/json-contract.md](references/json-contract.md) - JSON Schema, Python validator, drift guard, and compatibility boundaries.
 - [plan/index.html](plan/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/plan/) - product plan produced through `cast-a-start` guided migration.
 - [spec/index.html](spec/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/spec/) - technical spec produced through `cast-a-start` guided migration.
 - [todo.html](todo.html) / [site/todo.json](site/todo.json) - project-level uncertainty and deferred work.
@@ -103,12 +105,16 @@ Release versions are recorded in `VERSION`; Git tags use the matching `v<version
 1. Choose a document type and scenario skeleton.
 2. Read `.cast-docs/` project profile defaults when the target repository provides them.
 3. Produce JSON that matches the schema and manifest contract.
-4. Run `render_html.py --validate`.
-5. Share the generated HTML as the artifact.
+4. Run `validate_doc_json.py` as the first contract gate.
+5. Run `render_html.py --validate`.
+6. Run `validate_html.py` when reviewing or handing off a generated artifact.
+7. Share the generated HTML as the artifact.
 
 The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.
 
 `schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, HTML profile compliance, visual lint, and rendered fixture freshness.
+
+The public tool surface is the script entrypoints under `scripts/`. Internal `scripts/cast_docs_*.py` modules are implementation boundaries and should not be treated as stable agent-facing tools.
 
 When a user does not provide an output path, skill-driven generation should use the repository profile default if one exists. Otherwise it should ask whether the output is a shareable document under `docs/cast-docs/` or a local draft under `.cast-docs/out/`.
 
@@ -122,11 +128,11 @@ python3 scripts/build_index.py --manifest docs/cast-docs/cast-docs-set.json --ou
 ## Regenerate Pages
 
 ```bash
-python3 scripts/render_html.py --input site/landing.json --output index.html --validate
-python3 scripts/render_html.py --input site/install.json --output install.html --validate
-python3 scripts/render_html.py --input site/readme.json --output readme.html --validate
-python3 scripts/render_html.py --input site/todo.json --output todo.html --validate
-python3 scripts/render_html.py --input site/changelist.json --output changelist.html --validate
+python3 scripts/render_html.py --repo-root . --input site/landing.json --output index.html --validate
+python3 scripts/render_html.py --repo-root . --input site/install.json --output install.html --validate
+python3 scripts/render_html.py --repo-root . --input site/readme.json --output readme.html --validate
+python3 scripts/render_html.py --repo-root . --input site/todo.json --output todo.html --validate
+python3 scripts/render_html.py --repo-root . --input site/changelist.json --output changelist.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/index.json --output plan/index.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/00_overview.json --output plan/00_overview.html --validate
 python3 scripts/render_html.py --repo-root . --input plan/01_features.json --output plan/01_features.html --validate

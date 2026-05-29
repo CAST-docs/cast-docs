@@ -15,6 +15,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
+from xml.etree import ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,7 +24,6 @@ TEMPLATE_DIR = ROOT / "assets" / "template-modules"
 
 SECTION_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SAFE_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-RAW_SVG_RISK_RE = re.compile(r"<\s*(script|iframe|object|embed)\b|on[a-z]+\s*=", re.IGNORECASE)
 UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
 DATA_IMAGE_RE = re.compile(r"^data:image/(?:png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=\s]+$", re.IGNORECASE)
 HEX_COLOR_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
@@ -32,8 +32,66 @@ CSS_LINE_HEIGHT_RE = re.compile(r"^[0-9]+(?:\.[0-9]+)?$")
 CSS_MOTION_RE = re.compile(r"^[0-9]+(?:\.[0-9]+)?m?s$")
 CSS_CUBIC_BEZIER_RE = re.compile(r"^cubic-bezier\([0-9.,\s-]+\)$")
 CSS_SAFE_STRING_RE = re.compile(r"^[^;{}<>]+$")
+SVG_PATH_RE = re.compile(r"^[MmZzLlHhVvCcSsQqTtAa0-9,.\s+-]+$")
+SVG_POINTS_RE = re.compile(r"^[0-9,.\s+-]+$")
+SVG_NUMBER_RE = re.compile(r"^[+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)$")
+SVG_LENGTH_VALUE_RE = re.compile(r"^[+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:px|rem|em|%)?$")
+SVG_DASHARRAY_RE = re.compile(r"^(?:none|[0-9,.\s+-]+)$")
 SUPPORTED_LOCALES = ("en", "zh-CN")
 SUPPORTED_IMAGE_MIME_TYPES = {"image/png", "image/jpeg", "image/gif", "image/webp"}
+SVG_NAMESPACE = "http://www.w3.org/2000/svg"
+SVG_ALLOWED_TAGS = {
+    "svg",
+    "g",
+    "path",
+    "rect",
+    "circle",
+    "ellipse",
+    "line",
+    "polyline",
+    "polygon",
+    "text",
+    "tspan",
+    "title",
+    "desc",
+}
+SVG_TEXT_TAGS = {"text", "tspan", "title", "desc"}
+SVG_ALLOWED_ATTRS = {
+    "svg": {"viewBox", "width", "height", "role", "aria-label", "fill", "stroke", "xmlns"},
+    "g": {"fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "stroke-dasharray", "opacity", "transform"},
+    "path": {"d", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "stroke-dasharray", "opacity", "fill-opacity", "stroke-opacity", "transform"},
+    "rect": {"x", "y", "width", "height", "rx", "ry", "fill", "stroke", "stroke-width", "opacity", "fill-opacity", "stroke-opacity", "transform"},
+    "circle": {"cx", "cy", "r", "fill", "stroke", "stroke-width", "opacity", "fill-opacity", "stroke-opacity", "transform"},
+    "ellipse": {"cx", "cy", "rx", "ry", "fill", "stroke", "stroke-width", "opacity", "fill-opacity", "stroke-opacity", "transform"},
+    "line": {"x1", "y1", "x2", "y2", "stroke", "stroke-width", "stroke-linecap", "stroke-dasharray", "opacity", "transform"},
+    "polyline": {"points", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin", "stroke-dasharray", "opacity", "transform"},
+    "polygon": {"points", "fill", "stroke", "stroke-width", "stroke-linejoin", "stroke-dasharray", "opacity", "fill-opacity", "stroke-opacity", "transform"},
+    "text": {"x", "y", "dx", "dy", "fill", "font-size", "text-anchor", "dominant-baseline", "opacity", "transform"},
+    "tspan": {"x", "y", "dx", "dy", "fill", "font-size", "text-anchor", "dominant-baseline", "opacity"},
+    "title": set(),
+    "desc": set(),
+}
+SVG_TOKEN_ATTRS = {"fill", "stroke"}
+SVG_LENGTH_ATTRS = {
+    "x",
+    "y",
+    "x1",
+    "y1",
+    "x2",
+    "y2",
+    "cx",
+    "cy",
+    "r",
+    "rx",
+    "ry",
+    "width",
+    "height",
+    "dx",
+    "dy",
+    "stroke-width",
+    "font-size",
+}
+SVG_NUMBER_ATTRS = {"opacity", "fill-opacity", "stroke-opacity"}
 
 
 class CastDocsError(Exception):
@@ -771,6 +829,131 @@ def render_svg_text_variants(
     return f"<text {attrs}{anchor or ''}>{svg_text_for_locale(value, default_locale_for_context(ctx))}</text>"
 
 
+def svg_local_name(name: str) -> str:
+    if name.startswith("{"):
+        return name.rsplit("}", 1)[-1]
+    return name
+
+
+def svg_tag_name(name: str) -> str | None:
+    if name.startswith("{"):
+        namespace, local = name[1:].split("}", 1)
+        return local if namespace == SVG_NAMESPACE else None
+    return name
+
+
+def svg_attr_name(name: str) -> str | None:
+    if name.startswith("{"):
+        namespace, local = name[1:].split("}", 1)
+        if namespace == "http://www.w3.org/XML/1998/namespace" and local in {"lang", "space"}:
+            return f"xml:{local}"
+        return None
+    return name
+
+
+def validate_svg_attr_value(name: str, value: str) -> bool:
+    stripped = value.strip()
+    if not stripped:
+        return False
+    if name in SVG_TOKEN_ATTRS:
+        return stripped == "none" or stripped == "currentColor" or HEX_COLOR_RE.match(stripped) is not None
+    if name in SVG_LENGTH_ATTRS:
+        return SVG_LENGTH_VALUE_RE.match(stripped) is not None
+    if name in SVG_NUMBER_ATTRS:
+        return SVG_NUMBER_RE.match(stripped) is not None
+    if name == "viewBox":
+        parts = stripped.replace(",", " ").split()
+        return len(parts) == 4 and all(SVG_NUMBER_RE.match(part) for part in parts)
+    if name == "d":
+        return SVG_PATH_RE.match(stripped) is not None
+    if name == "points":
+        return SVG_POINTS_RE.match(stripped) is not None
+    if name == "stroke-dasharray":
+        return SVG_DASHARRAY_RE.match(stripped) is not None
+    if name in {"stroke-linecap", "stroke-linejoin"}:
+        return stripped in {"butt", "round", "square", "miter", "bevel"}
+    if name == "text-anchor":
+        return stripped in {"start", "middle", "end"}
+    if name == "dominant-baseline":
+        return stripped in {"auto", "middle", "central", "hanging", "text-before-edge", "text-after-edge"}
+    if name == "role":
+        return stripped == "img"
+    if name == "aria-label":
+        return "<" not in stripped and ">" not in stripped
+    if name == "xmlns":
+        return stripped == SVG_NAMESPACE
+    if name == "transform":
+        if any(token in stripped.lower() for token in ("url", "matrix3d")):
+            return False
+        return re.match(r"^[a-zA-Z0-9(),.\s+-]+$", stripped) is not None
+    return False
+
+
+def sanitize_svg_element(element: ET.Element, errors: list[str], path: str) -> str:
+    tag = svg_tag_name(element.tag)
+    if tag is None:
+        errors.append(f"{path}: SVG element namespace is not allowed")
+        return ""
+    if tag not in SVG_ALLOWED_TAGS:
+        errors.append(f"{path}: SVG tag <{tag}> is not allowed")
+        return ""
+
+    attrs: list[str] = []
+    allowed_attrs = SVG_ALLOWED_ATTRS[tag]
+    if tag == "svg":
+        attrs.append(f'xmlns="{SVG_NAMESPACE}"')
+    for raw_name, value in sorted(element.attrib.items()):
+        name = svg_attr_name(raw_name)
+        if name is None:
+            errors.append(f"{path}: SVG namespaced attribute {raw_name} is not allowed")
+            continue
+        lower_name = name.lower()
+        if lower_name.startswith("on") or lower_name in {"href", "xlink:href", "style", "class", "id"}:
+            errors.append(f"{path}: SVG attribute {name} is not allowed")
+            continue
+        if name not in allowed_attrs:
+            errors.append(f"{path}: SVG attribute {name} is not allowed on <{tag}>")
+            continue
+        if name == "xmlns" and tag == "svg":
+            continue
+        if not validate_svg_attr_value(name, value):
+            errors.append(f"{path}: SVG attribute {name} has an unsupported value")
+            continue
+        attrs.append(f'{name}="{attr(value.strip())}"')
+
+    children: list[str] = []
+    if element.text and element.text.strip():
+        if tag not in SVG_TEXT_TAGS:
+            errors.append(f"{path}: SVG text is not allowed inside <{tag}>")
+        else:
+            children.append(html.escape(element.text.strip(), quote=False))
+    for child in list(element):
+        children.append(sanitize_svg_element(child, errors, f"{path}.{svg_local_name(child.tag)}"))
+        if child.tail and child.tail.strip():
+            if tag not in SVG_TEXT_TAGS:
+                errors.append(f"{path}: SVG text tail is not allowed inside <{tag}>")
+            else:
+                children.append(html.escape(child.tail.strip(), quote=False))
+
+    attr_text = f" {' '.join(attrs)}" if attrs else ""
+    return f"<{tag}{attr_text}>{''.join(children)}</{tag}>"
+
+
+def sanitize_svg(svg_text: str, path: str = "svg") -> tuple[str | None, list[str]]:
+    errors: list[str] = []
+    lowered = svg_text.lower()
+    if any(token in lowered for token in ("<!doctype", "<!entity", "<?xml-stylesheet", "<?")):
+        return None, [f"{path}: SVG declarations and processing instructions are not allowed"]
+    try:
+        root = ET.fromstring(svg_text)
+    except ET.ParseError as exc:
+        return None, [f"{path}: SVG is not well-formed XML: {exc}"]
+    if svg_tag_name(root.tag) != "svg":
+        return None, [f"{path}: SVG root must be <svg>"]
+    sanitized = sanitize_svg_element(root, errors, path)
+    return (None if errors else sanitized), errors
+
+
 def validate_inline_mark(mark: Any, path: str, errors: list[str]) -> None:
     if isinstance(mark, str):
         category = INLINE_MARK_CATEGORIES.get(mark)
@@ -941,8 +1124,9 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
                 content = source.get("content")
                 if not isinstance(content, str) or not content.strip():
                     errors.append(f"{path}.source.content must be a non-empty SVG string")
-                elif RAW_SVG_RISK_RE.search(content):
-                    errors.append(f"{path}.source.content contains forbidden SVG content")
+                else:
+                    _, svg_errors = sanitize_svg(content, f"{path}.source.content")
+                    errors.extend(svg_errors)
             else:
                 errors.append(f"{path}.source.format is unsupported")
         download_name = block.get("downloadName")
@@ -1551,7 +1735,9 @@ def render_diagram(block: dict[str, Any], ctx: RenderContext | None = None) -> s
     elif fmt == "structured-er":
         svg = render_er_svg(block, ctx)
     elif fmt == "svg":
-        svg = text(source.get("content"))
+        svg, svg_errors = sanitize_svg(text(source.get("content")), "diagram.source.content")
+        if svg_errors or svg is None:
+            svg = f"<svg viewBox=\"0 0 320 100\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"20\" y=\"50\">{esc(tr(ctx, 'diagram.unsupported', 'Unsupported diagram'))}</text></svg>"
     else:
         svg = f"<svg viewBox=\"0 0 320 100\" xmlns=\"http://www.w3.org/2000/svg\"><text x=\"20\" y=\"50\">{esc(tr(ctx, 'diagram.unsupported', 'Unsupported diagram'))}</text></svg>"
     name = attr(block.get("downloadName") or "diagram")

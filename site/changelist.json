@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Raw SVG passthrough removed",
+                "zh-CN": "移除 raw SVG 直接透传"
+              },
+              "body": {
+                "en": "Replaced raw SVG diagram passthrough with a standard-library XML parser and strict SVG tag and attribute allowlist, with unit tests for rejected script, event handler, and external-reference payloads.",
+                "zh-CN": "将 raw SVG 图表直接透传替换为基于标准库 XML 解析和严格 SVG 标签/属性白名单的 sanitizer，并补充拒绝 script、事件处理器和外部引用载荷的单元测试。"
+              }
+            },
+            {
+              "title": {
                 "en": "CI gate added for generated artifacts",
                 "zh-CN": "新增生成产物 CI 门禁"
               },

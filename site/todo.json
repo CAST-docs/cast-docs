@@ -109,10 +109,6 @@
           "type": "list",
           "items": [
             {
-              "en": "Close the raw SVG rendering risk by disabling default passthrough or replacing it with a strict allowlist sanitizer.",
-              "zh-CN": "关闭 raw SVG 渲染风险：默认禁用直接透传，或改为严格 allowlist sanitizer。"
-            },
-            {
               "en": "Document the boundary between `schemas/doc.schema.json` structural checks and Python semantic or security validation.",
               "zh-CN": "记录 `schemas/doc.schema.json` 结构校验与 Python 语义/安全校验之间的职责边界。"
             },

@@ -8,16 +8,16 @@ CAST Docs means **C**omponent **A**ssembly **S**tyled **T**emplates. In this rep
 
 ## Install
 
-Install or update the `cast-a-doc` Codex skill:
+Install or update the `cast-a-doc` Codex skill with GitHub CLI:
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
+gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user
 ```
 
 Install `cast-a-doc` for Claude Code:
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
+gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user
 ```
 
 Install `cast-a-doc` for both agents:
@@ -26,7 +26,7 @@ Install `cast-a-doc` for both agents:
 curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 ```
 
-For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-a-doc/install.html).
+The compatibility installer delegates to `gh skill install`; it no longer clones the repository into an agent directory. For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-a-doc/install.html).
 
 ## Quick Start
 
@@ -76,7 +76,7 @@ python3 scripts/check_fixtures.py
 - [readme.html](readme.html) / [Pages](https://cast-docs.github.io/cast-a-doc/readme.html) - CAST Docs HTML view of this repository overview.
 - [examples/component-gallery.html](examples/component-gallery.html) / [Pages](https://cast-docs.github.io/cast-a-doc/examples/component-gallery.html) - visual reference for common blocks and inline marks.
 - [INSTALL_AGENT.md](INSTALL_AGENT.md) - compact copy-ready install handoff for coding agents.
-- [SKILL.md](SKILL.md) - agent skill manifest and loading instructions.
+- [skills/cast-a-doc/SKILL.md](skills/cast-a-doc/SKILL.md) - agent skill manifest and loading instructions.
 - [plan/index.html](plan/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/plan/) - product plan produced through `cast-a-start` guided migration.
 - [spec/index.html](spec/index.html) / [Pages](https://cast-docs.github.io/cast-a-doc/spec/) - technical spec produced through `cast-a-start` guided migration.
 - [todo.html](todo.html) / [site/todo.json](site/todo.json) - project-level uncertainty and deferred work.

@@ -1,0 +1,370 @@
+{
+  "metadata": {
+    "title": {
+      "en": "API design notes digest",
+      "zh-CN": "API 设计笔记摘要"
+    },
+    "language": "en",
+    "status": "draft",
+    "owner": "unknown",
+    "audience": [
+      "engineering"
+    ],
+    "updatedAt": "2026-05-13",
+    "shellLinks": [
+      {
+        "label": {
+          "en": "CAST Docs",
+          "zh-CN": "CAST Docs"
+        },
+        "href": "../index.html",
+        "placement": "topbar"
+      }
+    ],
+    "locales": [
+      "en",
+      "zh-CN"
+    ],
+    "logo": {
+      "src": "assets/cast-docs-logo.png",
+      "alt": {
+        "en": "CAST Docs logo",
+        "zh-CN": "CAST Docs 标志"
+      },
+      "href": "../index.html"
+    }
+  },
+  "manifest": {
+    "documentType": "research-note",
+    "scenario": "document-digest",
+    "sections": [
+      "summary",
+      "source-documents",
+      "key-findings",
+      "cross-document-relationships",
+      "limitations",
+      "next-steps"
+    ],
+    "components": {
+      "required": [
+        "summary-block",
+        "metadata-block",
+        "toc",
+        "section",
+        "paragraph",
+        "source-refs"
+      ],
+      "optional": [
+        "table",
+        "diagram",
+        "details-block"
+      ],
+      "omitted": [
+        "diff-block",
+        "action-card",
+        "inline-svg-figure"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "summary",
+      "title": {
+        "en": "Summary",
+        "zh-CN": "摘要"
+      },
+      "blocks": [
+        {
+          "type": "summary",
+          "items": [
+            {
+              "label": {
+                "en": "Digest",
+                "zh-CN": "摘要"
+              },
+              "body": {
+                "en": [
+                  {
+                    "text": "Across "
+                  },
+                  {
+                    "text": "2 source documents",
+                    "marks": [
+                      "metric"
+                    ]
+                  },
+                  {
+                    "text": ", the notes converge on a typed "
+                  },
+                  {
+                    "text": "API contract",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " approach."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "在 "
+                  },
+                  {
+                    "text": "2 份源文档",
+                    "marks": [
+                      "metric"
+                    ]
+                  },
+                  {
+                    "text": " 中，这些笔记都指向类型化 "
+                  },
+                  {
+                    "text": "API 契约",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " 方案。"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-documents",
+      "title": {
+        "en": "Source Documents",
+        "zh-CN": "源文档"
+      },
+      "blocks": [
+        {
+          "type": "source-refs",
+          "items": [
+            {
+              "label": {
+                "en": "Design note",
+                "zh-CN": "设计笔记"
+              },
+              "url": "https://example.com/design-note"
+            },
+            {
+              "label": {
+                "en": "Review notes",
+                "zh-CN": "评审笔记"
+              },
+              "url": "https://example.com/review-notes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key-findings",
+      "title": {
+        "en": "Key Findings",
+        "zh-CN": "关键发现"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            {
+              "en": "Finding",
+              "zh-CN": "发现"
+            },
+            {
+              "en": "Evidence",
+              "zh-CN": "证据"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Typed contracts reduce ambiguity",
+                "zh-CN": "类型化契约可以减少歧义"
+              },
+              {
+                "en": "Both documents mention schema drift",
+                "zh-CN": "两份文档都提到了 schema 漂移"
+              }
+            ],
+            [
+              {
+                "en": "Examples are required",
+                "zh-CN": "示例是必需的"
+              },
+              {
+                "en": [
+                  {
+                    "text": "Review notes ask for "
+                  },
+                  {
+                    "text": "fixtures",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": " — see the "
+                  },
+                  {
+                    "text": "review notes",
+                    "marks": [
+                      {
+                        "type": "link",
+                        "href": "https://example.com/review-notes"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "."
+                  }
+                ],
+                "zh-CN": [
+                  {
+                    "text": "评审笔记要求提供 "
+                  },
+                  {
+                    "text": "fixtures",
+                    "marks": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "text": "，参见 "
+                  },
+                  {
+                    "text": "评审笔记",
+                    "marks": [
+                      {
+                        "type": "link",
+                        "href": "https://example.com/review-notes"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "."
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cross-document-relationships",
+      "title": {
+        "en": "Cross-document Relationships",
+        "zh-CN": "跨文档关系"
+      },
+      "blocks": [
+        {
+          "type": "diagram",
+          "kind": "flow",
+          "title": {
+            "en": "Document relationship",
+            "zh-CN": "文档关系"
+          },
+          "downloadName": "document-relationship",
+          "source": {
+            "format": "structured-flow",
+            "nodes": [
+              {
+                "id": "design",
+                "label": {
+                  "en": "Design note",
+                  "zh-CN": "设计笔记"
+                }
+              },
+              {
+                "id": "review",
+                "label": {
+                  "en": "Review notes",
+                  "zh-CN": "评审笔记"
+                }
+              },
+              {
+                "id": "schema",
+                "label": {
+                  "en": "Schema contract",
+                  "zh-CN": "Schema 契约"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "from": "design",
+                "to": "schema",
+                "label": {
+                  "en": "defines",
+                  "zh-CN": "定义"
+                }
+              },
+              {
+                "from": "review",
+                "to": "schema",
+                "label": {
+                  "en": "validates",
+                  "zh-CN": "校验"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "limitations",
+      "title": {
+        "en": "Limitations",
+        "zh-CN": "限制"
+      },
+      "blocks": [
+        {
+          "type": "details",
+          "summary": {
+            "en": "Known gaps",
+            "zh-CN": "已知缺口"
+          },
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": {
+                "en": "The digest does not evaluate implementation complexity.",
+                "zh-CN": "该摘要不评估实现复杂度。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "title": {
+        "en": "Next Steps",
+        "zh-CN": "下一步"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Convert the findings into schema tests.",
+              "zh-CN": "将发现转化为 schema 测试。"
+            },
+            {
+              "en": "Review fixture coverage after renderer implementation.",
+              "zh-CN": "在渲染器实现后复查 fixture 覆盖率。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

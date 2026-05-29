@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "defaultLayout": "single-doc",
+  "layouts": [
+    {
+      "id": "single-doc",
+      "label": "Single Document",
+      "purpose": "One self-contained HTML document with header, summary, inline table of contents, sections, footer, and optional local-open control.",
+      "shell": "single",
+      "slots": [
+        "head",
+        "document-header",
+        "summary",
+        "toc",
+        "sections",
+        "footer",
+        "interaction-root"
+      ],
+      "navigation": {
+        "kind": "inline-toc",
+        "requiresDocumentSet": false,
+        "pagination": false
+      },
+      "defaultInteractions": ["finder-open"],
+      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view", "slider-control", "toc-scrollspy"]
+    },
+    {
+      "id": "document-set",
+      "label": "Document Set",
+      "purpose": "A small static documentation site with index page, sidebar, topbar breadcrumbs, current chapter, and previous/next pagination.",
+      "shell": "document-set",
+      "slots": [
+        "head",
+        "set-sidebar",
+        "topbar",
+        "topbar-links",
+        "document-header",
+        "summary",
+        "sections",
+        "pagination",
+        "footer",
+        "interaction-root"
+      ],
+      "navigation": {
+        "kind": "sidebar-topbar-pagination",
+        "requiresDocumentSet": true,
+        "pagination": true,
+        "sidebarWidth": "280px",
+        "topbarHeight": "52px",
+        "articleMaxWidth": "880px",
+        "optionalLinkSlot": {
+          "slot": "topbar-links",
+          "renderWhenEmpty": false,
+          "maxItems": 3,
+          "allowedHrefSchemes": ["anchor", "relative", "http", "https"],
+          "examples": [
+            {
+              "label": "文档首页",
+              "href": "index.html"
+            },
+            {
+              "label": "仓库主页",
+              "href": "https://github.com/CAST-docs/cast-a-doc"
+            }
+          ]
+        }
+      },
+      "defaultInteractions": ["finder-open", "toc-scrollspy"],
+      "optionalInteractions": ["diagram-viewer", "copy-code", "toggle-view", "slider-control"]
+    }
+  ],
+  "documentSetManifest": {
+    "requiredFields": ["id", "title", "sections"],
+    "sectionFields": ["id", "label", "chapters"],
+    "chapterFields": ["id", "number", "title", "href", "source"]
+  }
+}

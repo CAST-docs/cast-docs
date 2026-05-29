@@ -10,7 +10,7 @@
     "audience": [
       "everyone"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-29",
     "description": {
       "en": "Render engineering documents from JSON to self-contained HTML. Component Assembly Styled Templates.",
       "zh-CN": "将工程文档从 JSON 渲染为自包含 HTML。Component Assembly Styled Templates。"
@@ -309,12 +309,12 @@
             "zh-CN": "安装为 Codex skill"
           },
           "description": {
-            "en": "Installs or updates cast-a-doc at ~/.codex/skills/cast-a-doc. Codex can then load the same SKILL.md and references/ material.",
-            "zh-CN": "安装或更新 cast-a-doc 到 ~/.codex/skills/cast-a-doc。Codex 随后可以加载同一份 SKILL.md 和 references/ 资料。"
+            "en": "Installs or updates cast-a-doc for Codex with GitHub CLI. Codex can then load the same SKILL.md and references/ material.",
+            "zh-CN": "使用 GitHub CLI 为 Codex 安装或更新 cast-a-doc。Codex 随后可以加载同一份 SKILL.md 和 references/ 资料。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user"
           }
         },
         {
@@ -324,12 +324,12 @@
             "zh-CN": "安装为 Claude Code skill"
           },
           "description": {
-            "en": "Installs or updates cast-a-doc at ~/.claude/skills/cast-a-doc. The skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document.",
-            "zh-CN": "安装或更新 cast-a-doc 到 ~/.claude/skills/cast-a-doc。当你要求 Claude 生成工程规格、决策记录或自包含 HTML 文档时，该 skill 会自动启用。"
+            "en": "Installs or updates cast-a-doc for Claude Code with GitHub CLI. The skill activates when you ask Claude for an engineering spec, decision record, or self-contained HTML document.",
+            "zh-CN": "使用 GitHub CLI 为 Claude Code 安装或更新 cast-a-doc。当你要求 Claude 生成工程规格、决策记录或自包含 HTML 文档时，该 skill 会自动启用。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user"
           }
         }
       ]

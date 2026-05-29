@@ -1,0 +1,779 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cast-docs.local/schemas/doc.schema.json",
+  "title": "CAST Docs Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "manifest", "sections"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "language"],
+      "properties": {
+        "title": {"$ref": "#/$defs/localizedString"},
+        "language": {"type": "string", "enum": ["zh-CN", "en"]},
+        "locales": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "enum": ["zh-CN", "en"]}
+        },
+        "status": {"type": "string", "enum": ["draft", "review", "final", "unknown"]},
+        "owner": {"type": "string"},
+        "showMeta": {"type": "boolean", "default": false},
+        "audience": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "updatedAt": {"type": "string", "format": "date"},
+        "description": {"$ref": "#/$defs/localizedString"},
+        "logo": {"$ref": "#/$defs/logo"},
+        "documentSet": {"$ref": "#/$defs/documentSet"},
+        "pagination": {"$ref": "#/$defs/pagination"},
+        "shellLinks": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/shellLink"}
+        }
+      }
+    },
+    "manifest": {"$ref": "#/$defs/manifest"},
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/section"}
+    }
+  },
+  "$defs": {
+    "localizedString": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "en": {"type": "string"},
+            "zh-CN": {"type": "string"}
+          }
+        }
+      ]
+    },
+    "inlineText": {
+      "oneOf": [
+        {"type": "string"},
+        {"type": "array", "items": {"$ref": "#/$defs/run"}},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "en": {
+              "oneOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"$ref": "#/$defs/run"}}
+              ]
+            },
+            "zh-CN": {
+              "oneOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"$ref": "#/$defs/run"}}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string"},
+        "marks": {"type": "array", "items": {"$ref": "#/$defs/inlineMark"}}
+      }
+    },
+    "inlineMark": {
+      "oneOf": [
+        {"type": "string", "enum": ["strong", "em", "code", "del", "u", "mark", "deprecated", "term", "metric"]},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {"type": {"enum": ["strong", "em", "code", "del", "u", "mark", "deprecated"]}}
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {"const": "term"},
+            "definition": {"type": "string"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {"const": "metric"},
+            "unit": {"type": "string"},
+            "value": {"type": ["string", "number"]}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "href"],
+          "properties": {
+            "type": {"const": "link"},
+            "href": {"type": "string"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "path"],
+          "properties": {
+            "type": {"const": "ref"},
+            "path": {"type": "string"},
+            "line": {"type": "integer", "minimum": 1},
+            "url": {"type": "string"}
+          }
+        }
+      ]
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["documentType", "scenario", "sections", "components"],
+      "properties": {
+        "documentType": {"type": "string"},
+        "scenario": {"type": "string"},
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "optional", "omitted"],
+          "properties": {
+            "required": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "optional": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "omitted": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "shellLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "href"],
+      "properties": {
+        "label": {"$ref": "#/$defs/localizedString"},
+        "href": {
+          "type": "string",
+          "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
+        },
+        "placement": {"type": "string", "enum": ["topbar", "footer"], "default": "topbar"}
+      }
+    },
+    "logo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["src", "alt"],
+      "properties": {
+        "src": {
+          "type": "string",
+          "pattern": "^(data:image/(png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=\\s]+|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*\\.(png|jpe?g|gif|webp))$"
+        },
+        "alt": {"$ref": "#/$defs/localizedString"},
+        "href": {
+          "type": "string",
+          "pattern": "^(#|/|\\./|\\.\\./|https?://|[A-Za-z0-9._~%+-]+(?:/[A-Za-z0-9._~%+-]+)*)(?:#[A-Za-z0-9_-]+)?$"
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "blocks"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "blocks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/block"}
+        }
+      }
+    },
+    "block": {
+      "oneOf": [
+        {"$ref": "#/$defs/summaryBlock"},
+        {"$ref": "#/$defs/paragraphBlock"},
+        {"$ref": "#/$defs/listBlock"},
+        {"$ref": "#/$defs/calloutBlock"},
+        {"$ref": "#/$defs/tableBlock"},
+        {"$ref": "#/$defs/detailsBlock"},
+        {"$ref": "#/$defs/codeBlock"},
+        {"$ref": "#/$defs/diagramBlock"},
+        {"$ref": "#/$defs/diffBlock"},
+        {"$ref": "#/$defs/mediaBlock"},
+        {"$ref": "#/$defs/columnsBlock"},
+        {"$ref": "#/$defs/toggleViewBlock"},
+        {"$ref": "#/$defs/sliderBlock"},
+        {"$ref": "#/$defs/participantsBlock"},
+        {"$ref": "#/$defs/sourceRefsBlock"},
+        {"$ref": "#/$defs/filesBlock"},
+        {"$ref": "#/$defs/actionBlock"},
+        {"$ref": "#/$defs/valuesGridBlock"},
+        {"$ref": "#/$defs/acceptanceCriteriaBlock"},
+        {"$ref": "#/$defs/openQuestionsBlock"},
+        {"$ref": "#/$defs/chapterListBlock"}
+      ]
+    },
+    "documentSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "sections"],
+      "properties": {
+        "title": {"$ref": "#/$defs/localizedString"},
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "chapters"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"},
+              "href": {"type": "string"},
+              "chapters": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/chapterLink"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prev": {"$ref": "#/$defs/chapterLink"},
+        "next": {"$ref": "#/$defs/chapterLink"}
+      }
+    },
+    "chapterLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "href"],
+      "properties": {
+        "id": {"type": "string"},
+        "number": {"$ref": "#/$defs/localizedString"},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "description": {"$ref": "#/$defs/inlineText"},
+        "href": {"type": "string"}
+      }
+    },
+    "summaryBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "summary"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "body"],
+            "properties": {
+              "label": {"$ref": "#/$defs/localizedString"},
+              "body": {"$ref": "#/$defs/inlineText"}
+            }
+          }
+        }
+      }
+    },
+    "paragraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": {"const": "paragraph"},
+        "text": {"$ref": "#/$defs/inlineText"}
+      }
+    },
+    "listBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "list"},
+        "ordered": {"type": "boolean", "default": false},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inlineText"}
+        }
+      }
+    },
+    "calloutBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "variant", "body"],
+      "properties": {
+        "type": {"const": "callout"},
+        "variant": {"type": "string", "enum": ["info", "warning", "danger", "success"]},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "body": {"$ref": "#/$defs/inlineText"}
+      }
+    },
+    "tableBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "headers", "rows"],
+      "properties": {
+        "type": {"const": "table"},
+        "caption": {"$ref": "#/$defs/localizedString"},
+        "tableType": {"type": "string", "enum": ["data", "risk", "decision"]},
+        "headers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/localizedString"}
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/inlineText"}
+          }
+        }
+      }
+    },
+    "detailsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "summary", "blocks"],
+      "properties": {
+        "type": {"const": "details"},
+        "summary": {"$ref": "#/$defs/localizedString"},
+        "open": {"type": "boolean", "default": false},
+        "blocks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/block"}
+        }
+      }
+    },
+    "codeBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "code"],
+      "properties": {
+        "type": {"const": "code"},
+        "language": {"type": "string"},
+        "code": {"type": "string"}
+      }
+    },
+    "diagramBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "kind", "source"],
+      "properties": {
+        "type": {"const": "diagram"},
+        "kind": {"type": "string", "enum": ["sequence", "flow", "architecture", "er", "svg"]},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "downloadName": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "source": {
+          "oneOf": [
+            {"$ref": "#/$defs/sequenceDiagramSource"},
+            {"$ref": "#/$defs/flowDiagramSource"},
+            {"$ref": "#/$defs/erDiagramSource"},
+            {"$ref": "#/$defs/svgDiagramSource"}
+          ]
+        }
+      }
+    },
+    "sequenceDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "steps"],
+      "properties": {
+        "format": {"const": "structured-sequence"},
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to", "label"],
+            "properties": {
+              "from": {"$ref": "#/$defs/localizedString"},
+              "to": {"$ref": "#/$defs/localizedString"},
+              "label": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        }
+      }
+    },
+    "flowDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "nodes", "edges"],
+      "properties": {
+        "format": {"const": "structured-flow"},
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to"],
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        }
+      }
+    },
+    "svgDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "content"],
+      "properties": {
+        "format": {"const": "svg"},
+        "content": {"type": "string", "minLength": 1}
+      }
+    },
+    "erDiagramSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "entities", "relationships"],
+      "properties": {
+        "format": {"const": "structured-er"},
+        "entities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "fields"],
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"$ref": "#/$defs/localizedString"},
+              "fields": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/localizedString"}
+              }
+            }
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to"],
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "label": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        }
+      }
+    },
+    "diffBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "left", "right"],
+      "properties": {
+        "type": {"const": "diff"},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "left": {"$ref": "#/$defs/diffSide"},
+        "right": {"$ref": "#/$defs/diffSide"}
+      }
+    },
+    "diffSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "lines"],
+      "properties": {
+        "label": {"$ref": "#/$defs/localizedString"},
+        "language": {"type": "string"},
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "text"],
+            "properties": {
+              "kind": {"type": "string", "enum": ["add", "remove", "warning", "context"]},
+              "text": {"$ref": "#/$defs/localizedString"},
+              "highlight": {"type": "boolean", "default": false}
+            }
+          }
+        }
+      }
+    },
+    "mediaBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "media"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["src", "alt"],
+            "properties": {
+              "src": {"type": "string", "minLength": 1},
+              "alt": {"$ref": "#/$defs/localizedString"},
+              "caption": {"$ref": "#/$defs/inlineText"},
+              "kind": {"type": "string", "enum": ["png", "jpg", "jpeg", "gif", "webp"]}
+            }
+          }
+        }
+      }
+    },
+    "columnsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "columns"],
+      "properties": {
+        "type": {"const": "columns"},
+        "columns": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {"$ref": "#/$defs/localizedString"},
+              "content": {"$ref": "#/$defs/inlineText"},
+              "blocks": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/block"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "toggleViewBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "views"],
+      "properties": {
+        "type": {"const": "toggle-view"},
+        "defaultView": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "views": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "blocks"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+              "label": {"$ref": "#/$defs/localizedString"},
+              "blocks": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/block"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "sliderBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label", "min", "max", "value", "target"],
+      "properties": {
+        "type": {"const": "slider"},
+        "label": {"$ref": "#/$defs/localizedString"},
+        "description": {"$ref": "#/$defs/inlineText"},
+        "min": {"type": "number"},
+        "max": {"type": "number"},
+        "step": {"type": "number", "exclusiveMinimum": 0},
+        "value": {"type": "number"},
+        "unit": {"type": "string"},
+        "target": {"$ref": "#/$defs/inlineText"},
+        "effect": {"type": "string", "enum": ["opacity"], "default": "opacity"}
+      }
+    },
+    "participantsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "participants"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "responsibility"],
+            "properties": {
+              "name": {"$ref": "#/$defs/localizedString"},
+              "role": {"$ref": "#/$defs/localizedString"},
+              "responsibility": {"$ref": "#/$defs/inlineText"}
+            }
+          }
+        }
+      }
+    },
+    "sourceRefsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "source-refs"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "url"],
+            "properties": {
+              "label": {"$ref": "#/$defs/localizedString"},
+              "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
+              "text": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        }
+      }
+    },
+    "filesBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "files"},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path"],
+            "properties": {
+              "path": {"type": "string"},
+              "lineStart": {"type": "integer", "minimum": 1},
+              "lineEnd": {"type": "integer", "minimum": 1},
+              "url": {"type": "string", "pattern": "^(#|/|\\./|\\.\\./|https?://)"},
+              "note": {"$ref": "#/$defs/localizedString"}
+            }
+          }
+        }
+      }
+    },
+    "actionBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "title", "description"],
+      "properties": {
+        "type": {"const": "action"},
+        "priority": {"type": "string", "enum": ["p0", "p1", "p2", "none"]},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "description": {"$ref": "#/$defs/inlineText"},
+        "prompt": {"$ref": "#/$defs/localizedString"}
+      }
+    },
+    "valuesGridBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "values-grid"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title", "body"],
+            "properties": {
+              "title": {"$ref": "#/$defs/localizedString"},
+              "body": {"$ref": "#/$defs/inlineText"}
+            }
+          }
+        }
+      }
+    },
+    "acceptanceCriteriaBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "acceptance-criteria"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inlineText"}
+        }
+      }
+    },
+    "openQuestionsBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "questions"],
+      "properties": {
+        "type": {"const": "open-questions"},
+        "title": {"$ref": "#/$defs/localizedString"},
+        "questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inlineText"}
+        }
+      }
+    },
+    "chapterListBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "items"],
+      "properties": {
+        "type": {"const": "chapter-list"},
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/chapterLink"}
+        }
+      }
+    }
+  }
+}

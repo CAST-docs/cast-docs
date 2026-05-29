@@ -11,10 +11,10 @@
       "engineering",
       "coding agents"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-29",
     "description": {
-      "en": "One-line cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.",
-      "zh-CN": "cast-a-doc 在 Codex 和 Claude Code 中的一键 skill 安装，以及本地渲染器设置。"
+      "en": "GitHub CLI based cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.",
+      "zh-CN": "基于 GitHub CLI 的 cast-a-doc 在 Codex 和 Claude Code 中的安装方式，以及本地渲染器设置。"
     },
     "shellLinks": [
       {
@@ -111,8 +111,8 @@
                 "zh-CN": "默认"
               },
               "body": {
-                "en": "Install the Codex skill with one command.",
-                "zh-CN": "用一条命令安装 Codex skill。"
+                "en": "Install the Codex skill with `gh skill install`.",
+                "zh-CN": "使用 `gh skill install` 安装 Codex skill。"
               }
             },
             {
@@ -121,8 +121,8 @@
                 "zh-CN": "同时支持"
               },
               "body": {
-                "en": "Claude Code, both-agent setup, custom target directories, and local renderer smoke tests.",
-                "zh-CN": "Claude Code、双 agent 安装、自定义目标目录和本地渲染器冒烟测试。"
+                "en": "Claude Code, both-agent setup, user/project scope, version pinning, and local renderer smoke tests.",
+                "zh-CN": "Claude Code、双 agent 安装、user/project scope、版本 pinning 和本地渲染器冒烟测试。"
               }
             },
             {
@@ -131,8 +131,8 @@
                 "zh-CN": "环境要求"
               },
               "body": {
-                "en": "git for skill installation; Python 3.9 or newer for rendering documents.",
-                "zh-CN": "安装 skill 需要 git；渲染文档需要 Python 3.9 或更新版本。"
+                "en": "GitHub CLI with `gh skill install` support for skill installation; Python 3.9 or newer for rendering documents.",
+                "zh-CN": "安装 skill 需要支持 `gh skill install` 的 GitHub CLI；渲染文档需要 Python 3.9 或更新版本。"
               }
             }
           ]
@@ -145,8 +145,8 @@
             "zh-CN": "安装脚本会做什么"
           },
           "body": {
-            "en": "The installer clones or fast-forwards the cast-a-doc repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.",
-            "zh-CN": "安装脚本会把 cast-a-doc 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。"
+            "en": "The compatibility installer delegates to `gh skill install` for the selected agent. It no longer clones or pulls repositories into agent skill directories and does not install Python packages.",
+            "zh-CN": "兼容安装脚本会为选定 agent 委托执行 `gh skill install`。它不再把仓库 clone 或 pull 到 agent skill 目录，也不会安装 Python 包。"
           }
         }
       ]
@@ -165,12 +165,12 @@
             "zh-CN": "安装或更新到 Codex"
           },
           "description": {
-            "en": "Installs cast-a-doc at ~/.codex/skills/cast-a-doc. Re-running the command updates an existing git checkout with git pull --ff-only.",
-            "zh-CN": "安装 cast-a-doc 到 ~/.codex/skills/cast-a-doc。重复执行时，会对已有 git checkout 执行 git pull --ff-only。"
+            "en": "Installs or updates cast-a-doc for Codex at user scope through GitHub CLI.",
+            "zh-CN": "通过 GitHub CLI 以 user scope 为 Codex 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user"
           }
         },
         {
@@ -196,12 +196,12 @@
             "zh-CN": "安装或更新到 Claude Code"
           },
           "description": {
-            "en": "Installs cast-a-doc at ~/.claude/skills/cast-a-doc using the same repository and SKILL.md.",
-            "zh-CN": "使用同一个仓库和 SKILL.md，把 cast-a-doc 安装到 ~/.claude/skills/cast-a-doc。"
+            "en": "Installs or updates cast-a-doc for Claude Code at user scope through GitHub CLI.",
+            "zh-CN": "通过 GitHub CLI 以 user scope 为 Claude Code 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user"
           }
         },
         {
@@ -227,8 +227,8 @@
             "zh-CN": "同时安装到 Codex 和 Claude Code"
           },
           "description": {
-            "en": "Creates or updates both standard skill checkouts. Use this when you switch between agents and want one shared document workflow.",
-            "zh-CN": "创建或更新两个标准 skill checkout。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
+            "en": "Runs `gh skill install` for both Codex and Claude Code. Use this when you switch between agents and want one shared document workflow.",
+            "zh-CN": "为 Codex 和 Claude Code 分别执行 `gh skill install`。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
           },
           "prompt": {
             "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both",
@@ -329,8 +329,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "The installer accepts flags and environment variables for local development, mirrors, and non-standard agent homes.",
-            "zh-CN": "安装脚本支持参数和环境变量，便于本地开发、使用镜像仓库，或安装到非标准 agent home。"
+            "en": "The compatibility installer accepts flags and environment variables for agent selection, user/project scope, version pinning, and GitHub repository overrides.",
+            "zh-CN": "兼容安装脚本支持参数和环境变量，用于选择 agent、user/project scope、版本 pinning 和 GitHub 仓库覆盖。"
           }
         },
         {
@@ -399,7 +399,7 @@
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude-code|both",
                   "marks": [
                     "code"
                   ]
@@ -410,7 +410,7 @@
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude-code|both",
                   "marks": [
                     "code"
                   ]
@@ -423,90 +423,90 @@
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_REPO_URL",
+                  "text": "CAST_A_DOC_SCOPE=user|project",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " points the installer at a fork, mirror, or local git repository."
+                  "text": " chooses the install scope."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_REPO_URL",
+                  "text": "CAST_A_DOC_SCOPE=user|project",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可以把安装源指向 fork、镜像或本地 git 仓库。"
+                  "text": " 用于选择安装 scope。"
                 }
               ]
             },
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_SKILL_DIR",
+                  "text": "CAST_A_DOC_VERSION",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " overrides the target directory for a single-agent install."
+                  "text": " pins cast-a-doc to a tag or commit SHA."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_SKILL_DIR",
+                  "text": "CAST_A_DOC_VERSION",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可在单 agent 安装时覆盖目标目录。"
+                  "text": " 可把 cast-a-doc 固定到 tag 或 commit SHA。"
                 }
               ]
             },
             {
               "en": [
                 {
-                  "text": "CODEX_HOME",
+                  "text": "CAST_A_DOC_REPOSITORY",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " and "
+                  "text": " points the installer at a GitHub fork or mirror in "
                 },
                 {
-                  "text": "CLAUDE_HOME",
+                  "text": "OWNER/REPO",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " override the default agent home directories."
+                  "text": " format."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CODEX_HOME",
+                  "text": "CAST_A_DOC_REPOSITORY",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 和 "
+                  "text": " 可把安装源指向 "
                 },
                 {
-                  "text": "CLAUDE_HOME",
+                  "text": "OWNER/REPO",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可覆盖默认 agent home 目录。"
+                  "text": " 格式的 GitHub fork 或镜像。"
                 }
               ]
             }
@@ -515,7 +515,7 @@
         {
           "type": "code",
           "language": "sh",
-          "code": "CAST_A_DOC_REPO_URL=https://github.com/CAST-docs/cast-a-doc.git \\\nCAST_A_DOC_SKILL_DIR=/tmp/cast-a-doc-skill \\\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
+          "code": "CAST_A_DOC_VERSION=v0.1.0 \\\nCAST_A_DOC_SCOPE=user \\\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
         }
       ]
     },
@@ -530,16 +530,16 @@
           "type": "list",
           "items": [
             {
-              "en": "If git is missing, install git first; the installer cannot fetch or update the skill without it.",
-              "zh-CN": "如果缺少 git，请先安装 git；安装脚本依赖 git 拉取或更新 skill。"
+              "en": "If `gh skill install` is unavailable, upgrade GitHub CLI before running the installer.",
+              "zh-CN": "如果缺少 `gh skill install`，请先升级 GitHub CLI 再运行安装脚本。"
             },
             {
-              "en": "If the target path exists but is not a git checkout, move it aside or choose another target with CAST_A_DOC_SKILL_DIR.",
-              "zh-CN": "如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_A_DOC_SKILL_DIR 选择其他目标目录。"
+              "en": "Use `gh skill preview CAST-docs/cast-a-doc cast-a-doc` to inspect the skill before installing.",
+              "zh-CN": "安装前可用 `gh skill preview CAST-docs/cast-a-doc cast-a-doc` 审阅 skill 内容。"
             },
             {
-              "en": "If an existing checkout has local changes, update it manually or clean up the checkout before re-running the installer.",
-              "zh-CN": "如果已有 checkout 带本地修改，请手动更新或清理后再重新执行安装脚本。"
+              "en": "Use `gh skill install ... --pin <version>` when you need a known tag or commit.",
+              "zh-CN": "需要固定到已知 tag 或 commit 时，使用 `gh skill install ... --pin <version>`。"
             },
             {
               "en": "If an agent does not detect the skill after installation, restart the agent application.",

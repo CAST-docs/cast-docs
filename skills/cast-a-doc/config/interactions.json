@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "interactions": [
+    {
+      "id": "diagram-viewer",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["diagram", "diagram-toolbar", "lightbox"],
+      "capabilities": ["open-lightbox", "zoom", "pan", "download-svg", "download-png"],
+      "supportedBlockTypes": ["diagram"]
+    },
+    {
+      "id": "finder-open",
+      "enabledByDefault": false,
+      "rendererOwned": true,
+      "requiresScript": false,
+      "templateHooks": ["data-interaction=\"finder-open\""],
+      "capabilities": ["open-local-folder"],
+      "supportedBlockTypes": []
+    },
+    {
+      "id": "copy-code",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["code-copy", "data-copy-target"],
+      "capabilities": ["copy-code"],
+      "supportedBlockTypes": ["code", "action"]
+    },
+    {
+      "id": "toggle-view",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["toggle-view", "data-view-target", "data-view-panel"],
+      "capabilities": ["toggle-view"],
+      "supportedBlockTypes": ["toggle-view"]
+    },
+    {
+      "id": "slider-control",
+      "enabledByDefault": true,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["slider-control", "data-slider-target", "data-slider-output", "data-slider-demo"],
+      "capabilities": ["adjust-slider"],
+      "supportedBlockTypes": ["slider"]
+    },
+    {
+      "id": "i18n",
+      "enabledByDefault": false,
+      "rendererOwned": true,
+      "requiresScript": true,
+      "templateHooks": ["locale-switcher", "data-locale", "data-i18n-key"],
+      "capabilities": ["switch-locale"],
+      "supportedBlockTypes": []
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="One-line cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.">
+<meta name="description" content="GitHub CLI based cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.">
 <title>cast-a-doc install guide</title>
 <style>
 :root {
@@ -316,10 +316,10 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
       "engineering",
       "coding agents"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-29",
     "description": {
-      "en": "One-line cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.",
-      "zh-CN": "cast-a-doc 在 Codex 和 Claude Code 中的一键 skill 安装，以及本地渲染器设置。"
+      "en": "GitHub CLI based cast-a-doc skill installation for Codex and Claude Code, plus local renderer setup.",
+      "zh-CN": "基于 GitHub CLI 的 cast-a-doc 在 Codex 和 Claude Code 中的安装方式，以及本地渲染器设置。"
     },
     "shellLinks": [
       {
@@ -408,8 +408,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
                 "zh-CN": "默认"
               },
               "body": {
-                "en": "Install the Codex skill with one command.",
-                "zh-CN": "用一条命令安装 Codex skill。"
+                "en": "Install the Codex skill with `gh skill install`.",
+                "zh-CN": "使用 `gh skill install` 安装 Codex skill。"
               }
             },
             {
@@ -418,8 +418,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
                 "zh-CN": "同时支持"
               },
               "body": {
-                "en": "Claude Code, both-agent setup, custom target directories, and local renderer smoke tests.",
-                "zh-CN": "Claude Code、双 agent 安装、自定义目标目录和本地渲染器冒烟测试。"
+                "en": "Claude Code, both-agent setup, user/project scope, version pinning, and local renderer smoke tests.",
+                "zh-CN": "Claude Code、双 agent 安装、user/project scope、版本 pinning 和本地渲染器冒烟测试。"
               }
             },
             {
@@ -428,8 +428,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
                 "zh-CN": "环境要求"
               },
               "body": {
-                "en": "git for skill installation; Python 3.9 or newer for rendering documents.",
-                "zh-CN": "安装 skill 需要 git；渲染文档需要 Python 3.9 或更新版本。"
+                "en": "GitHub CLI with `gh skill install` support for skill installation; Python 3.9 or newer for rendering documents.",
+                "zh-CN": "安装 skill 需要支持 `gh skill install` 的 GitHub CLI；渲染文档需要 Python 3.9 或更新版本。"
               }
             }
           ]
@@ -442,8 +442,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             "zh-CN": "安装脚本会做什么"
           },
           "body": {
-            "en": "The installer clones or fast-forwards the cast-a-doc repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.",
-            "zh-CN": "安装脚本会把 cast-a-doc 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。"
+            "en": "The compatibility installer delegates to `gh skill install` for the selected agent. It no longer clones or pulls repositories into agent skill directories and does not install Python packages.",
+            "zh-CN": "兼容安装脚本会为选定 agent 委托执行 `gh skill install`。它不再把仓库 clone 或 pull 到 agent skill 目录，也不会安装 Python 包。"
           }
         }
       ]
@@ -462,12 +462,12 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             "zh-CN": "安装或更新到 Codex"
           },
           "description": {
-            "en": "Installs cast-a-doc at ~/.codex/skills/cast-a-doc. Re-running the command updates an existing git checkout with git pull --ff-only.",
-            "zh-CN": "安装 cast-a-doc 到 ~/.codex/skills/cast-a-doc。重复执行时，会对已有 git checkout 执行 git pull --ff-only。"
+            "en": "Installs or updates cast-a-doc for Codex at user scope through GitHub CLI.",
+            "zh-CN": "通过 GitHub CLI 以 user scope 为 Codex 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user"
           }
         },
         {
@@ -493,12 +493,12 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             "zh-CN": "安装或更新到 Claude Code"
           },
           "description": {
-            "en": "Installs cast-a-doc at ~/.claude/skills/cast-a-doc using the same repository and SKILL.md.",
-            "zh-CN": "使用同一个仓库和 SKILL.md，把 cast-a-doc 安装到 ~/.claude/skills/cast-a-doc。"
+            "en": "Installs or updates cast-a-doc for Claude Code at user scope through GitHub CLI.",
+            "zh-CN": "通过 GitHub CLI 以 user scope 为 Claude Code 安装或更新 cast-a-doc。"
           },
           "prompt": {
-            "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude",
-            "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude"
+            "en": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user",
+            "zh-CN": "gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user"
           }
         },
         {
@@ -524,8 +524,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             "zh-CN": "同时安装到 Codex 和 Claude Code"
           },
           "description": {
-            "en": "Creates or updates both standard skill checkouts. Use this when you switch between agents and want one shared document workflow.",
-            "zh-CN": "创建或更新两个标准 skill checkout。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
+            "en": "Runs `gh skill install` for both Codex and Claude Code. Use this when you switch between agents and want one shared document workflow.",
+            "zh-CN": "为 Codex 和 Claude Code 分别执行 `gh skill install`。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。"
           },
           "prompt": {
             "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both",
@@ -626,8 +626,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "paragraph",
           "text": {
-            "en": "The installer accepts flags and environment variables for local development, mirrors, and non-standard agent homes.",
-            "zh-CN": "安装脚本支持参数和环境变量，便于本地开发、使用镜像仓库，或安装到非标准 agent home。"
+            "en": "The compatibility installer accepts flags and environment variables for agent selection, user/project scope, version pinning, and GitHub repository overrides.",
+            "zh-CN": "兼容安装脚本支持参数和环境变量，用于选择 agent、user/project scope、版本 pinning 和 GitHub 仓库覆盖。"
           }
         },
         {
@@ -696,7 +696,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude-code|both",
                   "marks": [
                     "code"
                   ]
@@ -707,7 +707,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_AGENT=codex|claude|both",
+                  "text": "CAST_A_DOC_AGENT=codex|claude-code|both",
                   "marks": [
                     "code"
                   ]
@@ -720,90 +720,90 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_REPO_URL",
+                  "text": "CAST_A_DOC_SCOPE=user|project",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " points the installer at a fork, mirror, or local git repository."
+                  "text": " chooses the install scope."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_REPO_URL",
+                  "text": "CAST_A_DOC_SCOPE=user|project",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可以把安装源指向 fork、镜像或本地 git 仓库。"
+                  "text": " 用于选择安装 scope。"
                 }
               ]
             },
             {
               "en": [
                 {
-                  "text": "CAST_A_DOC_SKILL_DIR",
+                  "text": "CAST_A_DOC_VERSION",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " overrides the target directory for a single-agent install."
+                  "text": " pins cast-a-doc to a tag or commit SHA."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CAST_A_DOC_SKILL_DIR",
+                  "text": "CAST_A_DOC_VERSION",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可在单 agent 安装时覆盖目标目录。"
+                  "text": " 可把 cast-a-doc 固定到 tag 或 commit SHA。"
                 }
               ]
             },
             {
               "en": [
                 {
-                  "text": "CODEX_HOME",
+                  "text": "CAST_A_DOC_REPOSITORY",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " and "
+                  "text": " points the installer at a GitHub fork or mirror in "
                 },
                 {
-                  "text": "CLAUDE_HOME",
+                  "text": "OWNER/REPO",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " override the default agent home directories."
+                  "text": " format."
                 }
               ],
               "zh-CN": [
                 {
-                  "text": "CODEX_HOME",
+                  "text": "CAST_A_DOC_REPOSITORY",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 和 "
+                  "text": " 可把安装源指向 "
                 },
                 {
-                  "text": "CLAUDE_HOME",
+                  "text": "OWNER/REPO",
                   "marks": [
                     "code"
                   ]
                 },
                 {
-                  "text": " 可覆盖默认 agent home 目录。"
+                  "text": " 格式的 GitHub fork 或镜像。"
                 }
               ]
             }
@@ -812,7 +812,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "code",
           "language": "sh",
-          "code": "CAST_A_DOC_REPO_URL=https://github.com/CAST-docs/cast-a-doc.git \\\nCAST_A_DOC_SKILL_DIR=/tmp/cast-a-doc-skill \\\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
+          "code": "CAST_A_DOC_VERSION=v0.1.0 \\\nCAST_A_DOC_SCOPE=user \\\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash"
         }
       ]
     },
@@ -827,16 +827,16 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
           "type": "list",
           "items": [
             {
-              "en": "If git is missing, install git first; the installer cannot fetch or update the skill without it.",
-              "zh-CN": "如果缺少 git，请先安装 git；安装脚本依赖 git 拉取或更新 skill。"
+              "en": "If `gh skill install` is unavailable, upgrade GitHub CLI before running the installer.",
+              "zh-CN": "如果缺少 `gh skill install`，请先升级 GitHub CLI 再运行安装脚本。"
             },
             {
-              "en": "If the target path exists but is not a git checkout, move it aside or choose another target with CAST_A_DOC_SKILL_DIR.",
-              "zh-CN": "如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_A_DOC_SKILL_DIR 选择其他目标目录。"
+              "en": "Use `gh skill preview CAST-docs/cast-a-doc cast-a-doc` to inspect the skill before installing.",
+              "zh-CN": "安装前可用 `gh skill preview CAST-docs/cast-a-doc cast-a-doc` 审阅 skill 内容。"
             },
             {
-              "en": "If an existing checkout has local changes, update it manually or clean up the checkout before re-running the installer.",
-              "zh-CN": "如果已有 checkout 带本地修改，请手动更新或清理后再重新执行安装脚本。"
+              "en": "Use `gh skill install ... --pin <version>` when you need a known tag or commit.",
+              "zh-CN": "需要固定到已知 tag 或 commit 时，使用 `gh skill install ... --pin <version>`。"
             },
             {
               "en": "If an agent does not detect the skill after installation, restart the agent application.",
@@ -975,25 +975,25 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 <main>
 <section class="doc-section" id="choose-an-install">
 <h2><span data-locale="en" data-locale-active="true">Choose an install</span><span data-locale="zh-CN" data-locale-active="false">选择安装方式</span></h2>
-<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Default</span><span data-locale="zh-CN" data-locale-active="false">默认</span>:</strong> <span data-locale="en" data-locale-active="true">Install the Codex skill with one command.</span><span data-locale="zh-CN" data-locale-active="false">用一条命令安装 Codex skill。</span></li><li><strong><span data-locale="en" data-locale-active="true">Also supported</span><span data-locale="zh-CN" data-locale-active="false">同时支持</span>:</strong> <span data-locale="en" data-locale-active="true">Claude Code, both-agent setup, custom target directories, and local renderer smoke tests.</span><span data-locale="zh-CN" data-locale-active="false">Claude Code、双 agent 安装、自定义目标目录和本地渲染器冒烟测试。</span></li><li><strong><span data-locale="en" data-locale-active="true">Requirements</span><span data-locale="zh-CN" data-locale-active="false">环境要求</span>:</strong> <span data-locale="en" data-locale-active="true">git for skill installation; Python 3.9 or newer for rendering documents.</span><span data-locale="zh-CN" data-locale-active="false">安装 skill 需要 git；渲染文档需要 Python 3.9 或更新版本。</span></li></ul></section>
-<aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">What the installer does</span><span data-locale="zh-CN" data-locale-active="false">安装脚本会做什么</span></strong><p><span data-locale="en" data-locale-active="true">The installer clones or fast-forwards the cast-a-doc repository into the selected agent skill directory, then verifies that SKILL.md exists. It does not install Python packages.</span><span data-locale="zh-CN" data-locale-active="false">安装脚本会把 cast-a-doc 仓库 clone 或 fast-forward 到对应 agent skill 目录，并校验 SKILL.md 是否存在。它不会安装 Python 包。</span></p></aside>
+<section class="doc-summary"><ul><li><strong><span data-locale="en" data-locale-active="true">Default</span><span data-locale="zh-CN" data-locale-active="false">默认</span>:</strong> <span data-locale="en" data-locale-active="true">Install the Codex skill with <code>gh skill install</code>.</span><span data-locale="zh-CN" data-locale-active="false">使用 <code>gh skill install</code> 安装 Codex skill。</span></li><li><strong><span data-locale="en" data-locale-active="true">Also supported</span><span data-locale="zh-CN" data-locale-active="false">同时支持</span>:</strong> <span data-locale="en" data-locale-active="true">Claude Code, both-agent setup, user/project scope, version pinning, and local renderer smoke tests.</span><span data-locale="zh-CN" data-locale-active="false">Claude Code、双 agent 安装、user/project scope、版本 pinning 和本地渲染器冒烟测试。</span></li><li><strong><span data-locale="en" data-locale-active="true">Requirements</span><span data-locale="zh-CN" data-locale-active="false">环境要求</span>:</strong> <span data-locale="en" data-locale-active="true">GitHub CLI with <code>gh skill install</code> support for skill installation; Python 3.9 or newer for rendering documents.</span><span data-locale="zh-CN" data-locale-active="false">安装 skill 需要支持 <code>gh skill install</code> 的 GitHub CLI；渲染文档需要 Python 3.9 或更新版本。</span></li></ul></section>
+<aside class="callout callout-info"><strong><span data-locale="en" data-locale-active="true">What the installer does</span><span data-locale="zh-CN" data-locale-active="false">安装脚本会做什么</span></strong><p><span data-locale="en" data-locale-active="true">The compatibility installer delegates to <code>gh skill install</code> for the selected agent. It no longer clones or pulls repositories into agent skill directories and does not install Python packages.</span><span data-locale="zh-CN" data-locale-active="false">兼容安装脚本会为选定 agent 委托执行 <code>gh skill install</code>。它不再把仓库 clone 或 pull 到 agent skill 目录，也不会安装 Python 包。</span></p></aside>
 </section>
 
 <section class="doc-section" id="codex-skill">
 <h2><span data-locale="en" data-locale-active="true">Codex skill</span><span data-locale="zh-CN" data-locale-active="false">Codex skill</span></h2>
-<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install or update for Codex</span><span data-locale="zh-CN" data-locale-active="false">安装或更新到 Codex</span></h3><p><span data-locale="en" data-locale-active="true">Installs cast-a-doc at ~/.codex/skills/cast-a-doc. Re-running the command updates an existing git checkout with git pull --ff-only.</span><span data-locale="zh-CN" data-locale-active="false">安装 cast-a-doc 到 ~/.codex/skills/cast-a-doc。重复执行时，会对已有 git checkout 执行 git pull --ff-only。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-1" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash</span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash</span></span></span></code></pre></section></section>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install or update for Codex</span><span data-locale="zh-CN" data-locale-active="false">安装或更新到 Codex</span></h3><p><span data-locale="en" data-locale-active="true">Installs or updates cast-a-doc for Codex at user scope through GitHub CLI.</span><span data-locale="zh-CN" data-locale-active="false">通过 GitHub CLI 以 user scope 为 Codex 安装或更新 cast-a-doc。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-1" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">gh skill install CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--agent</span> codex <span class="code-token-flag">--scope</span> user</span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">gh skill install CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--agent</span> codex <span class="code-token-flag">--scope</span> user</span></span></span></code></pre></section></section>
 <p><span data-locale="en" data-locale-active="true">Restart Codex if it was already running so the skill list can refresh.</span><span data-locale="zh-CN" data-locale-active="false">如果 Codex 已经在运行，安装后重启一次，让 skill 列表刷新。</span></p>
 </section>
 
 <section class="doc-section" id="claude-code-skill">
 <h2><span data-locale="en" data-locale-active="true">Claude Code skill</span><span data-locale="zh-CN" data-locale-active="false">Claude Code skill</span></h2>
-<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install or update for Claude Code</span><span data-locale="zh-CN" data-locale-active="false">安装或更新到 Claude Code</span></h3><p><span data-locale="en" data-locale-active="true">Installs cast-a-doc at ~/.claude/skills/cast-a-doc using the same repository and SKILL.md.</span><span data-locale="zh-CN" data-locale-active="false">使用同一个仓库和 SKILL.md，把 cast-a-doc 安装到 ~/.claude/skills/cast-a-doc。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-2" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-2" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--claude</span></span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--claude</span></span></span></span></code></pre></section></section>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install or update for Claude Code</span><span data-locale="zh-CN" data-locale-active="false">安装或更新到 Claude Code</span></h3><p><span data-locale="en" data-locale-active="true">Installs or updates cast-a-doc for Claude Code at user scope through GitHub CLI.</span><span data-locale="zh-CN" data-locale-active="false">通过 GitHub CLI 以 user scope 为 Claude Code 安装或更新 cast-a-doc。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-2" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-2" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">gh skill install CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--agent</span> claude-code <span class="code-token-flag">--scope</span> user</span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">gh skill install CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--agent</span> claude-code <span class="code-token-flag">--scope</span> user</span></span></span></code></pre></section></section>
 <p><span data-locale="en" data-locale-active="true">Restart Claude Code after installation if it was already open.</span><span data-locale="zh-CN" data-locale-active="false">如果 Claude Code 已经打开，安装后重启一次。</span></p>
 </section>
 
 <section class="doc-section" id="both-agent-skills">
 <h2><span data-locale="en" data-locale-active="true">Both agent skills</span><span data-locale="zh-CN" data-locale-active="false">双 agent 安装</span></h2>
-<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install for Codex and Claude Code</span><span data-locale="zh-CN" data-locale-active="false">同时安装到 Codex 和 Claude Code</span></h3><p><span data-locale="en" data-locale-active="true">Creates or updates both standard skill checkouts. Use this when you switch between agents and want one shared document workflow.</span><span data-locale="zh-CN" data-locale-active="false">创建或更新两个标准 skill checkout。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-3" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-3" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></span></code></pre></section></section>
+<section class="action-card"><h3><span data-locale="en" data-locale-active="true">Install for Codex and Claude Code</span><span data-locale="zh-CN" data-locale-active="false">同时安装到 Codex 和 Claude Code</span></h3><p><span data-locale="en" data-locale-active="true">Runs <code>gh skill install</code> for both Codex and Claude Code. Use this when you switch between agents and want one shared document workflow.</span><span data-locale="zh-CN" data-locale-active="false">为 Codex 和 Claude Code 分别执行 <code>gh skill install</code>。适合在不同 agent 间切换、但希望使用同一套文档工作流的场景。</span></p><section class="code-shell prompt-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-3" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="shell"><code id="code-3" data-language="shell"><span data-locale="en" data-locale-active="true"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></span><span data-locale="zh-CN" data-locale-active="false"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></span></code></pre></section></section>
 </section>
 
 <section class="doc-section" id="local-renderer">
@@ -1013,14 +1013,14 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="customization">
 <h2><span data-locale="en" data-locale-active="true">Customization</span><span data-locale="zh-CN" data-locale-active="false">自定义安装</span></h2>
-<p><span data-locale="en" data-locale-active="true">The installer accepts flags and environment variables for local development, mirrors, and non-standard agent homes.</span><span data-locale="zh-CN" data-locale-active="false">安装脚本支持参数和环境变量，便于本地开发、使用镜像仓库，或安装到非标准 agent home。</span></p>
-<ul><li><span data-locale="en" data-locale-active="true"><code>--codex</code>, <code>--claude</code>, or <code>--both</code> chooses the target agent.</span><span data-locale="zh-CN" data-locale-active="false"><code>--codex</code>、<code>--claude</code> 或 <code>--both</code> 用于选择目标 agent。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_AGENT=codex|claude|both</code> sets the same choice through the environment.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_AGENT=codex|claude|both</code> 可以通过环境变量设置同样的选择。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_REPO_URL</code> points the installer at a fork, mirror, or local git repository.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_REPO_URL</code> 可以把安装源指向 fork、镜像或本地 git 仓库。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_SKILL_DIR</code> overrides the target directory for a single-agent install.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_SKILL_DIR</code> 可在单 agent 安装时覆盖目标目录。</span></li><li><span data-locale="en" data-locale-active="true"><code>CODEX_HOME</code> and <code>CLAUDE_HOME</code> override the default agent home directories.</span><span data-locale="zh-CN" data-locale-active="false"><code>CODEX_HOME</code> 和 <code>CLAUDE_HOME</code> 可覆盖默认 agent home 目录。</span></li></ul>
-<section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">SH</span><button class="code-copy" type="button" data-copy-target="code-6" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="sh"><code id="code-6" data-language="sh"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">CAST_A_DOC_REPO_URL=https://github.com/CAST-docs/cast-a-doc.git \</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">CAST_A_DOC_SKILL_DIR=/tmp/cast-a-doc-skill \</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash</span></span></code></pre></section>
+<p><span data-locale="en" data-locale-active="true">The compatibility installer accepts flags and environment variables for agent selection, user/project scope, version pinning, and GitHub repository overrides.</span><span data-locale="zh-CN" data-locale-active="false">兼容安装脚本支持参数和环境变量，用于选择 agent、user/project scope、版本 pinning 和 GitHub 仓库覆盖。</span></p>
+<ul><li><span data-locale="en" data-locale-active="true"><code>--codex</code>, <code>--claude</code>, or <code>--both</code> chooses the target agent.</span><span data-locale="zh-CN" data-locale-active="false"><code>--codex</code>、<code>--claude</code> 或 <code>--both</code> 用于选择目标 agent。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_AGENT=codex|claude-code|both</code> sets the same choice through the environment.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_AGENT=codex|claude-code|both</code> 可以通过环境变量设置同样的选择。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_SCOPE=user|project</code> chooses the install scope.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_SCOPE=user|project</code> 用于选择安装 scope。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_VERSION</code> pins cast-a-doc to a tag or commit SHA.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_VERSION</code> 可把 cast-a-doc 固定到 tag 或 commit SHA。</span></li><li><span data-locale="en" data-locale-active="true"><code>CAST_A_DOC_REPOSITORY</code> points the installer at a GitHub fork or mirror in <code>OWNER/REPO</code> format.</span><span data-locale="zh-CN" data-locale-active="false"><code>CAST_A_DOC_REPOSITORY</code> 可把安装源指向 <code>OWNER/REPO</code> 格式的 GitHub fork 或镜像。</span></li></ul>
+<section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">SH</span><button class="code-copy" type="button" data-copy-target="code-6" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="sh"><code id="code-6" data-language="sh"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">CAST_A_DOC_VERSION=v0.1.0 \</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">CAST_A_DOC_SCOPE=user \</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash</span></span></code></pre></section>
 </section>
 
 <section class="doc-section" id="troubleshooting">
 <h2><span data-locale="en" data-locale-active="true">Troubleshooting</span><span data-locale="zh-CN" data-locale-active="false">排查问题</span></h2>
-<ul><li><span data-locale="en" data-locale-active="true">If git is missing, install git first; the installer cannot fetch or update the skill without it.</span><span data-locale="zh-CN" data-locale-active="false">如果缺少 git，请先安装 git；安装脚本依赖 git 拉取或更新 skill。</span></li><li><span data-locale="en" data-locale-active="true">If the target path exists but is not a git checkout, move it aside or choose another target with CAST_A_DOC_SKILL_DIR.</span><span data-locale="zh-CN" data-locale-active="false">如果目标路径已存在但不是 git checkout，请先移走，或通过 CAST_A_DOC_SKILL_DIR 选择其他目标目录。</span></li><li><span data-locale="en" data-locale-active="true">If an existing checkout has local changes, update it manually or clean up the checkout before re-running the installer.</span><span data-locale="zh-CN" data-locale-active="false">如果已有 checkout 带本地修改，请手动更新或清理后再重新执行安装脚本。</span></li><li><span data-locale="en" data-locale-active="true">If an agent does not detect the skill after installation, restart the agent application.</span><span data-locale="zh-CN" data-locale-active="false">如果安装后 agent 没有识别 skill，请重启对应 agent 应用。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">If <code>gh skill install</code> is unavailable, upgrade GitHub CLI before running the installer.</span><span data-locale="zh-CN" data-locale-active="false">如果缺少 <code>gh skill install</code>，请先升级 GitHub CLI 再运行安装脚本。</span></li><li><span data-locale="en" data-locale-active="true">Use <code>gh skill preview CAST-docs/cast-a-doc cast-a-doc</code> to inspect the skill before installing.</span><span data-locale="zh-CN" data-locale-active="false">安装前可用 <code>gh skill preview CAST-docs/cast-a-doc cast-a-doc</code> 审阅 skill 内容。</span></li><li><span data-locale="en" data-locale-active="true">Use <code>gh skill install ... --pin &lt;version&gt;</code> when you need a known tag or commit.</span><span data-locale="zh-CN" data-locale-active="false">需要固定到已知 tag 或 commit 时，使用 <code>gh skill install ... --pin &lt;version&gt;</code>。</span></li><li><span data-locale="en" data-locale-active="true">If an agent does not detect the skill after installation, restart the agent application.</span><span data-locale="zh-CN" data-locale-active="false">如果安装后 agent 没有识别 skill，请重启对应 agent 应用。</span></li></ul>
 <aside class="callout callout-warning"><strong><span data-locale="en" data-locale-active="true">Review before piping shell scripts</span><span data-locale="zh-CN" data-locale-active="false">管道执行前先审阅脚本</span></strong><p><span data-locale="en" data-locale-active="true">For stricter environments, download <a href="install.sh">install.sh</a> first, inspect it, then run it locally with bash <a href="install.sh">install.sh</a>.</span><span data-locale="zh-CN" data-locale-active="false">在更严格的环境中，可以先下载 <a href="install.sh">install.sh</a> 并审阅，再用 bash <a href="install.sh">install.sh</a> 在本地执行。</span></p></aside>
 <section class="code-shell code-block code-scheme-text"><div class="code-header"><span class="code-language">SH</span><button class="code-copy" type="button" data-copy-target="code-7" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="sh"><code id="code-7" data-language="sh"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSLO https://cast-docs.github.io/cast-a-doc/install.sh</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">less install.sh</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">bash install.sh --help</span></span></code></pre></section>
 </section>

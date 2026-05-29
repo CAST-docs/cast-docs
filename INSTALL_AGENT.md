@@ -9,24 +9,22 @@ https://cast-docs.github.io/cast-a-doc/install.html
 ## Codex Skill
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
+gh skill install CAST-docs/cast-a-doc cast-a-doc --agent codex --scope user
 ```
-
-This installs or updates the skill at `~/.codex/skills/cast-a-doc`.
 
 ## Claude Code Skill
 
 ```bash
-curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
+gh skill install CAST-docs/cast-a-doc cast-a-doc --agent claude-code --scope user
 ```
-
-This installs or updates the skill at `~/.claude/skills/cast-a-doc`.
 
 ## Both Agent Skills
 
 ```bash
 curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 ```
+
+The compatibility installer delegates to `gh skill install` and does not clone into the current directory.
 
 ## Local Renderer Smoke Test
 

@@ -1,6 +1,7 @@
 ---
 name: cast-a-doc
 description: Generate standardized, self-contained HTML documents for engineering specs, plans, product requirements, decision records, and research notes. Use when the user wants portable Chrome-viewable documentation, GitHub Pages friendly static docs, or a controlled replacement for Markdown-based technical documents.
+license: Apache-2.0
 ---
 
 # cast-a-doc

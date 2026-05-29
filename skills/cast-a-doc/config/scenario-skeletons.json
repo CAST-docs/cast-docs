@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "policy": {
+    "scenarioDefinesMinimumStructure": true,
+    "allowAdditionalConfiguredComponents": true,
+    "selectionSource": "manifest"
+  },
+  "scenarios": [
+    {
+      "id": "problem-investigation",
+      "label": "Problem Investigation",
+      "matchingHints": ["incident", "debugging", "root cause", "log", "symptom", "post-mortem"],
+      "recommendedDocumentTypes": ["engineering-plan", "research-note"],
+      "requiredSections": [
+        "background",
+        "problem-symptoms",
+        "impact-scope",
+        "investigation-path",
+        "core-logs-and-evidence",
+        "root-cause",
+        "mitigation-and-fix",
+        "validation",
+        "prevention-measures",
+        "open-questions"
+      ],
+      "requiredComponents": ["summary-block", "metadata-block", "toc", "callout", "open-questions"],
+      "strongComponentTriggers": ["details-block", "code-block", "table", "diagram", "diff-block", "files"]
+    },
+    {
+      "id": "cross-team-alignment",
+      "label": "Cross-team Alignment",
+      "matchingHints": ["alignment", "ownership", "source of truth", "gap", "cross-team"],
+      "recommendedDocumentTypes": ["engineering-plan", "decision-record"],
+      "requiredSections": [
+        "background",
+        "participants-and-responsibilities",
+        "source-of-truth",
+        "differences-or-gaps",
+        "impact",
+        "decisions",
+        "action-items",
+        "open-questions"
+      ],
+      "requiredComponents": ["summary-block", "metadata-block", "toc", "participants", "source-refs", "open-questions"],
+      "strongComponentTriggers": ["diff-block", "table", "action-card", "files", "diagram"]
+    },
+    {
+      "id": "option-decision",
+      "label": "Option Decision",
+      "matchingHints": ["option", "decision", "tradeoff", "compare", "choose"],
+      "recommendedDocumentTypes": ["decision-record"],
+      "requiredSections": [
+        "context",
+        "decision-criteria",
+        "options-considered",
+        "comparison",
+        "decision",
+        "tradeoffs",
+        "follow-ups"
+      ],
+      "requiredComponents": ["summary-block", "metadata-block", "toc", "table", "callout"],
+      "strongComponentTriggers": ["diff-block", "action-card", "diagram"]
+    },
+    {
+      "id": "document-digest",
+      "label": "Document Digest",
+      "matchingHints": ["digest", "summary", "readout", "source documents"],
+      "recommendedDocumentTypes": ["research-note"],
+      "requiredSections": [
+        "summary",
+        "source-documents",
+        "key-findings",
+        "cross-document-relationships",
+        "limitations",
+        "next-steps"
+      ],
+      "requiredComponents": ["summary-block", "metadata-block", "toc", "source-refs"],
+      "strongComponentTriggers": ["table", "diagram", "details-block"]
+    },
+    {
+      "id": "principle-showcase",
+      "label": "Principle Showcase",
+      "matchingHints": ["principle", "standard", "rule", "feature set", "showcase"],
+      "recommendedDocumentTypes": ["engineering-spec", "research-note"],
+      "requiredSections": [
+        "summary",
+        "context",
+        "principles-or-features",
+        "examples",
+        "application-guidance",
+        "open-questions"
+      ],
+      "requiredComponents": ["summary-block", "metadata-block", "toc", "values-grid", "open-questions"],
+      "strongComponentTriggers": ["inline-svg-figure", "table", "code-block"]
+    }
+  ]
+}

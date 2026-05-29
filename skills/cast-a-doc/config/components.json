@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "components": [
+    {
+      "id": "summary-block",
+      "renderer": "summary",
+      "triggerLevel": "required",
+      "blockTypes": ["summary"],
+      "classes": ["doc-summary"]
+    },
+    {
+      "id": "metadata-block",
+      "renderer": "metadata",
+      "triggerLevel": "required",
+      "blockTypes": [],
+      "classes": ["doc-meta", "status-pill"]
+    },
+    {
+      "id": "toc",
+      "renderer": "toc",
+      "triggerLevel": "required",
+      "blockTypes": [],
+      "classes": ["toc"]
+    },
+    {
+      "id": "section",
+      "renderer": "section",
+      "triggerLevel": "required",
+      "blockTypes": [],
+      "classes": ["doc-section", "section-empty"]
+    },
+    {
+      "id": "paragraph",
+      "renderer": "paragraph",
+      "triggerLevel": "required",
+      "blockTypes": ["paragraph"],
+      "classes": []
+    },
+    {
+      "id": "list",
+      "renderer": "list",
+      "triggerLevel": "optional",
+      "blockTypes": ["list"],
+      "classes": []
+    },
+    {
+      "id": "callout",
+      "renderer": "callout",
+      "triggerLevel": "strong",
+      "blockTypes": ["callout"],
+      "classes": ["callout", "callout-info", "callout-warning", "callout-danger", "callout-success"]
+    },
+    {
+      "id": "table",
+      "renderer": "table",
+      "triggerLevel": "strong",
+      "blockTypes": ["table"],
+      "classes": ["data-table", "risk-table", "decision-table"]
+    },
+    {
+      "id": "details-block",
+      "renderer": "details",
+      "triggerLevel": "strong",
+      "blockTypes": ["details"],
+      "classes": ["details-block"]
+    },
+    {
+      "id": "code-block",
+      "renderer": "code",
+      "triggerLevel": "strong",
+      "blockTypes": ["code"],
+      "classes": ["code-shell", "code-block", "code-header", "code-language", "code-status", "code-status-neutral", "code-status-ok", "code-status-error", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content", "code-scheme-json", "code-scheme-js", "code-scheme-ts", "code-scheme-shell", "code-scheme-python", "code-scheme-text", "code-token-key", "code-token-bool", "code-token-number", "code-token-flag"]
+    },
+    {
+      "id": "diagram",
+      "renderer": "diagram",
+      "triggerLevel": "strong",
+      "blockTypes": ["diagram"],
+      "classes": ["diagram", "diagram-toolbar", "lightbox"]
+    },
+    {
+      "id": "inline-svg-figure",
+      "renderer": "svgFigure",
+      "triggerLevel": "strong",
+      "blockTypes": [],
+      "dispatch": "diagramSourceFormatSvg",
+      "classes": ["diagram", "svg-figure"]
+    },
+    {
+      "id": "diff-block",
+      "renderer": "diff",
+      "triggerLevel": "strong",
+      "blockTypes": ["diff"],
+      "classes": ["diff-block", "diff-side", "diff-code", "diff-line", "diff-line-number", "diff-line-marker", "diff-line-content", "line-add", "line-remove", "line-warning", "line-context", "line-highlight"]
+    },
+    {
+      "id": "media-grid",
+      "renderer": "media",
+      "triggerLevel": "strong",
+      "blockTypes": ["media"],
+      "classes": ["media-grid", "media-frame", "media-kind"]
+    },
+    {
+      "id": "columns",
+      "renderer": "columns",
+      "triggerLevel": "strong",
+      "blockTypes": ["columns"],
+      "classes": ["columns", "column"]
+    },
+    {
+      "id": "toggle-view",
+      "renderer": "toggleView",
+      "triggerLevel": "strong",
+      "blockTypes": ["toggle-view"],
+      "classes": ["toggle-view", "toggle-toolbar", "toggle-button", "toggle-panel"]
+    },
+    {
+      "id": "slider-control",
+      "renderer": "slider",
+      "triggerLevel": "strong",
+      "blockTypes": ["slider"],
+      "classes": ["slider-control", "slider-header", "slider-value", "slider-range", "slider-demo", "slider-target"]
+    },
+    {
+      "id": "participants",
+      "renderer": "participants",
+      "triggerLevel": "strong",
+      "blockTypes": ["participants"],
+      "classes": ["participants", "participant-card"]
+    },
+    {
+      "id": "source-refs",
+      "renderer": "sourceRefs",
+      "triggerLevel": "strong",
+      "blockTypes": ["source-refs"],
+      "classes": ["source-refs"]
+    },
+    {
+      "id": "files",
+      "renderer": "files",
+      "triggerLevel": "strong",
+      "blockTypes": ["files"],
+      "classes": ["files"]
+    },
+    {
+      "id": "action-card",
+      "renderer": "actionCard",
+      "triggerLevel": "strong",
+      "blockTypes": ["action"],
+      "classes": ["action-card", "prompt-block", "code-shell", "code-header", "code-language", "code-status", "code-status-neutral", "code-status-ok", "code-status-error", "code-copy", "code-pre", "code-line", "code-line-number", "code-line-content", "code-scheme-shell", "code-token-flag"]
+    },
+    {
+      "id": "values-grid",
+      "renderer": "valuesGrid",
+      "triggerLevel": "strong",
+      "blockTypes": ["values-grid"],
+      "classes": ["values-grid", "value-card"]
+    },
+    {
+      "id": "acceptance-criteria",
+      "renderer": "acceptanceCriteria",
+      "triggerLevel": "strong",
+      "blockTypes": ["acceptance-criteria"],
+      "classes": ["acceptance-criteria"]
+    },
+    {
+      "id": "open-questions",
+      "renderer": "openQuestions",
+      "triggerLevel": "required",
+      "blockTypes": ["open-questions"],
+      "classes": ["open-questions"]
+    },
+    {
+      "id": "chapter-list",
+      "renderer": "chapterList",
+      "triggerLevel": "required",
+      "blockTypes": ["chapter-list"],
+      "classes": ["chapter-list", "chapter-card", "chapter-icon", "chapter-icon-svg", "chapter-number", "chapter-content", "chapter-title", "chapter-description"]
+    },
+    {
+      "id": "shell-links",
+      "renderer": "shellLinks",
+      "triggerLevel": "optional",
+      "blockTypes": [],
+      "classes": ["topbar-links", "topbar-link"]
+    }
+  ]
+}

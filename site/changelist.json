@@ -20,7 +20,7 @@
       "coding agents",
       "documentation maintainers"
     ],
-    "updatedAt": "2026-05-28",
+    "updatedAt": "2026-05-29",
     "description": {
       "en": "Public change history for cast-a-doc product scope, planning documents, and release surface.",
       "zh-CN": "cast-a-doc 产品范围、规划文档和发布界面的公开变更历史。"
@@ -98,6 +98,26 @@
         {
           "type": "values-grid",
           "items": [
+            {
+              "title": {
+                "en": "CI gate added for generated artifacts",
+                "zh-CN": "新增生成产物 CI 门禁"
+              },
+              "body": {
+                "en": "Added GitHub Actions validation for project profile, JSON sources, checked-in HTML, visual lint, and rendered fixture freshness across examples, site, plan, and spec.",
+                "zh-CN": "新增 GitHub Actions 校验 project profile、JSON 源、已提交 HTML、视觉 lint，以及 examples、site、plan、spec 的渲染产物新鲜度。"
+              }
+            },
+            {
+              "title": {
+                "en": "Fixture freshness widened",
+                "zh-CN": "扩大 fixture 新鲜度检查"
+              },
+              "body": {
+                "en": "`scripts/check_fixtures.py` now maps site JSON sources to their public root HTML pages and includes the planning and specification workspaces in freshness checks.",
+                "zh-CN": "`scripts/check_fixtures.py` 现在会把 site JSON 源映射到根目录公开 HTML 页面，并把规划和技术方案工作区纳入新鲜度检查。"
+              }
+            },
             {
               "title": {
                 "en": "Public navigation added",

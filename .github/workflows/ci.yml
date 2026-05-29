@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate fixtures and site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate project profile
+        run: python3 scripts/validate_project_profile.py --repo-root .
+
+      - name: Validate JSON fixtures
+        run: |
+          set -euo pipefail
+          find examples site plan spec -maxdepth 1 -name '*.json' -print | sort | while read -r source; do
+            python3 scripts/validate_doc_json.py --input "$source"
+          done
+
+      - name: Validate checked-in HTML
+        run: |
+          set -euo pipefail
+          find examples plan spec -maxdepth 1 -name '*.html' -print | sort > /tmp/cast-a-doc-html.txt
+          printf '%s\n' index.html install.html readme.html todo.html changelist.html >> /tmp/cast-a-doc-html.txt
+          while read -r html; do
+            python3 scripts/validate_html.py --input "$html"
+          done < /tmp/cast-a-doc-html.txt
+
+      - name: Run visual lint
+        run: |
+          python3 scripts/visual_lint.py \
+            --input-dir examples \
+            --input-dir plan \
+            --input-dir spec \
+            --input index.html \
+            --input install.html \
+            --input readme.html \
+            --input todo.html \
+            --input changelist.html
+
+      - name: Check rendered fixture freshness
+        run: python3 scripts/check_fixtures.py

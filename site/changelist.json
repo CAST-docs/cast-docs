@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Lightweight package metadata added",
+                "zh-CN": "新增轻量包元数据"
+              },
+              "body": {
+                "en": "Added `pyproject.toml`, `VERSION`, and `RELEASE.md` so releases have package metadata, a version source, and a checklist while existing script entrypoints remain supported.",
+                "zh-CN": "新增 `pyproject.toml`、`VERSION` 和 `RELEASE.md`，让发布拥有包元数据、版本源和清单，同时继续支持现有脚本入口。"
+              }
+            },
+            {
+              "title": {
                 "en": "Auditable install path clarified",
                 "zh-CN": "明确可审计安装路径"
               },

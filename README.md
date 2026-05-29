@@ -56,10 +56,17 @@ Validate project profile defaults and checked-in fixtures:
 ```bash
 python3 scripts/validate_project_profile.py --repo-root .
 python3 scripts/validate_schema_contract.py
+python3 scripts/validate_package_metadata.py
 python3 -m unittest discover -s tests
 python3 scripts/visual_lint.py --input-dir examples --input-dir plan --input-dir spec --input index.html --input install.html --input readme.html --input todo.html --input changelist.html
 python3 scripts/check_fixtures.py
 ```
+
+## Packaging And Releases
+
+The repository remains script-first: existing commands under `scripts/` are the supported local entry points and do not require installation. `pyproject.toml` adds lightweight package metadata without changing the CLI surface.
+
+Release versions are recorded in `VERSION`; Git tags use the matching `v<version>` form. Use [RELEASE.md](RELEASE.md) before tagging to run validation, refresh generated pages, and verify pinned install commands.
 
 ## What It Provides
 

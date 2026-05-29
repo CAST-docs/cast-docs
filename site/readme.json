@@ -67,6 +67,7 @@
       "overview",
       "install",
       "quick-start",
+      "packaging-and-releases",
       "provides",
       "important-documents",
       "authoring-model",
@@ -213,7 +214,30 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/validate_doc_json.py --input examples/option-decision.json\npython3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate\npython3 scripts/validate_html.py --input out.html\npython3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 -m unittest discover -s tests\npython3 scripts/visual_lint.py --input-dir examples --input-dir plan --input-dir spec --input index.html --input install.html --input readme.html --input todo.html --input changelist.html\npython3 scripts/check_fixtures.py"
+          "code": "python3 scripts/validate_doc_json.py --input examples/option-decision.json\npython3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate\npython3 scripts/validate_html.py --input out.html\npython3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 scripts/validate_package_metadata.py\npython3 -m unittest discover -s tests\npython3 scripts/visual_lint.py --input-dir examples --input-dir plan --input-dir spec --input index.html --input install.html --input readme.html --input todo.html --input changelist.html\npython3 scripts/check_fixtures.py"
+        }
+      ]
+    },
+    {
+      "id": "packaging-and-releases",
+      "title": {
+        "en": "Packaging And Releases",
+        "zh-CN": "包装与发布"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The repository remains script-first: existing commands under `scripts/` are the supported local entry points and do not require installation. `pyproject.toml` adds lightweight package metadata without changing the CLI surface.",
+            "zh-CN": "仓库仍然以脚本为主：`scripts/` 下的现有命令是受支持的本地入口，并不要求安装包。`pyproject.toml` 只补充轻量包元数据，不改变 CLI 表面。"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Release versions are recorded in `VERSION`; Git tags use the matching `v<version>` form. Use `RELEASE.md` before tagging to run validation, refresh generated pages, and verify pinned install commands.",
+            "zh-CN": "发布版本记录在 `VERSION`；Git tag 使用对应的 `v<version>` 形式。打 tag 前使用 `RELEASE.md` 跑验证、刷新生成页面，并确认 pinned install 命令。"
+          }
         }
       ]
     },

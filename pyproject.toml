@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cast-a-doc"
+version = "0.1.0"
+description = "Render CAST Docs JSON documents to self-contained HTML artifacts."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+  { name = "CAST Docs contributors" }
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://cast-docs.github.io/cast-a-doc/"
+Repository = "https://github.com/CAST-docs/cast-a-doc"
+
+[tool.setuptools.packages.find]
+include = ["scripts"]

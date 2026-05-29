@@ -406,8 +406,8 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
           "type": "list",
           "items": [
             {
-              "en": "Add lightweight project packaging, version policy, minimum tests, and release checklist without changing existing script entrypoints.",
-              "zh-CN": "补充轻量项目包装、版本策略、最小测试和发布清单，同时不改变现有脚本入口。"
+              "en": "Decide whether to add installed console scripts after the Python modules use package-relative imports.",
+              "zh-CN": "等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。"
             },
             {
               "en": "Split `scripts/cast_docs_core.py` only after CI and fixture gates cover the existing behavior.",
@@ -546,7 +546,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 <section class="doc-section" id="engineering-hardening">
 <h2><span data-locale="en" data-locale-active="true">Engineering Hardening</span><span data-locale="zh-CN" data-locale-active="false">工程可信度加固</span></h2>
 <p><span data-locale="en" data-locale-active="true">The current hardening track favors verification, safety, and maintainability over new document components.</span><span data-locale="zh-CN" data-locale-active="false">当前加固路线优先补验证、安全和可维护性，而不是继续增加新文档组件。</span></p>
-<ul><li><span data-locale="en" data-locale-active="true">Add lightweight project packaging, version policy, minimum tests, and release checklist without changing existing script entrypoints.</span><span data-locale="zh-CN" data-locale-active="false">补充轻量项目包装、版本策略、最小测试和发布清单，同时不改变现有脚本入口。</span></li><li><span data-locale="en" data-locale-active="true">Split <code>scripts/cast_docs_core.py</code> only after CI and fixture gates cover the existing behavior.</span><span data-locale="zh-CN" data-locale-active="false">只有在 CI 和 fixture gate 覆盖现有行为之后，再拆分 <code>scripts/cast_docs_core.py</code>。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">Decide whether to add installed console scripts after the Python modules use package-relative imports.</span><span data-locale="zh-CN" data-locale-active="false">等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。</span></li><li><span data-locale="en" data-locale-active="true">Split <code>scripts/cast_docs_core.py</code> only after CI and fixture gates cover the existing behavior.</span><span data-locale="zh-CN" data-locale-active="false">只有在 CI 和 fixture gate 覆盖现有行为之后，再拆分 <code>scripts/cast_docs_core.py</code>。</span></li></ul>
 </section>
 
 <section class="doc-section" id="rewrite-follow-ups">

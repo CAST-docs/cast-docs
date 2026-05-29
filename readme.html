@@ -454,14 +454,21 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
         {
           "type": "paragraph",
           "text": {
-            "en": "Install or update the cast-a-doc skill for Codex, Claude Code, or both agents.",
-            "zh-CN": "为 Codex、Claude Code 或双 agent 安装或更新 cast-a-doc skill。"
+            "en": "Preview the skill, then install or update cast-a-doc for Codex, Claude Code, or both agents with a pinned release tag or commit SHA.",
+            "zh-CN": "先预览 skill，再用固定的 release tag 或 commit SHA 为 Codex、Claude Code 或双 agent 安装/更新 cast-a-doc。"
           }
         },
         {
           "type": "code",
           "language": "bash",
-          "code": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both"
+          "code": "gh skill preview CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0\ngh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user\ncurl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both"
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "The one-line installer is a compatibility shortcut that delegates to `gh skill install`; stricter environments should download and review `install.sh` before running it with an explicit `--pin` value.",
+            "zh-CN": "一键安装脚本是兼容快捷方式，会委托 `gh skill install`；更严格的环境应先下载并审阅 `install.sh`，再带明确的 `--pin` 值执行。"
+          }
         },
         {
           "type": "source-refs",
@@ -746,8 +753,9 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 
 <section class="doc-section" id="install">
 <h2><span data-locale="en" data-locale-active="true">Install</span><span data-locale="zh-CN" data-locale-active="false">安装</span></h2>
-<p><span data-locale="en" data-locale-active="true">Install or update the cast-a-doc skill for Codex, Claude Code, or both agents.</span><span data-locale="zh-CN" data-locale-active="false">为 Codex、Claude Code 或双 agent 安装或更新 cast-a-doc skill。</span></p>
-<section class="code-shell code-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="bash"><code id="code-1" data-language="bash"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--claude</span></span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></code></pre></section>
+<p><span data-locale="en" data-locale-active="true">Preview the skill, then install or update cast-a-doc for Codex, Claude Code, or both agents with a pinned release tag or commit SHA.</span><span data-locale="zh-CN" data-locale-active="false">先预览 skill，再用固定的 release tag 或 commit SHA 为 Codex、Claude Code 或双 agent 安装/更新 cast-a-doc。</span></p>
+<section class="code-shell code-block code-scheme-shell"><div class="code-header"><span class="code-language">Shell</span><button class="code-copy" type="button" data-copy-target="code-1" data-i18n-key="code.copy">Copy</button></div><pre class="code-pre" data-language="bash"><code id="code-1" data-language="bash"><span class="code-line"><span class="code-line-number" aria-hidden="true">1</span><span class="code-line-content">gh skill preview CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--pin</span> v0.1.0</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">2</span><span class="code-line-content">gh skill install CAST-docs/cast-a-doc cast-a-doc <span class="code-token-flag">--pin</span> v0.1.0 <span class="code-token-flag">--agent</span> codex <span class="code-token-flag">--scope</span> user</span></span><span class="code-line"><span class="code-line-number" aria-hidden="true">3</span><span class="code-line-content">curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- <span class="code-token-flag">--both</span></span></span></code></pre></section>
+<p><span data-locale="en" data-locale-active="true">The one-line installer is a compatibility shortcut that delegates to <code>gh skill install</code>; stricter environments should download and review <code>install.sh</code> before running it with an explicit <code>--pin</code> value.</span><span data-locale="zh-CN" data-locale-active="false">一键安装脚本是兼容快捷方式，会委托 <code>gh skill install</code>；更严格的环境应先下载并审阅 <code>install.sh</code>，再带明确的 <code>--pin</code> 值执行。</span></p>
 <ul class="source-refs"><li><a href="./install.html"><span data-locale="en" data-locale-active="true">Install guide</span><span data-locale="zh-CN" data-locale-active="false">安装指南</span></a> - <span data-locale="en" data-locale-active="true">Options, safety checks, local renderer setup, and troubleshooting.</span><span data-locale="zh-CN" data-locale-active="false">安装选项、安全检查、本地渲染器设置和故障排查。</span></li></ul>
 </section>
 

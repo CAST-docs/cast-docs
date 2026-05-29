@@ -17,10 +17,12 @@ Usage:
   install.sh [--agent codex|claude-code|both] [--scope user|project]
 
 Examples:
+  gh skill preview CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0
+  gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
+  curl -fsSLO https://cast-docs.github.io/cast-a-doc/install.sh && less install.sh && bash install.sh --pin v0.1.0
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --claude
   curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
-  gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
 
 Environment:
   CAST_A_DOC_REPOSITORY  GitHub repository in OWNER/REPO format.

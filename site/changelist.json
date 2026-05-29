@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Auditable install path clarified",
+                "zh-CN": "明确可审计安装路径"
+              },
+              "body": {
+                "en": "Moved preview-and-pin guidance ahead of one-line installer shortcuts, documented release tag or commit SHA pinning, and added review-before-execute instructions for `install.sh` without changing installer behavior.",
+                "zh-CN": "将 preview 加 pin 的说明放到一键安装快捷方式之前，记录 release tag 或 commit SHA pinning，并补充 `install.sh` 先审阅再执行的说明，同时不改变安装器行为。"
+              }
+            },
+            {
+              "title": {
                 "en": "Schema and validator boundary documented",
                 "zh-CN": "明确 Schema 与 validator 边界"
               },

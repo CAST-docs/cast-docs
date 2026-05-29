@@ -52,6 +52,7 @@
     "scenario": "none",
     "sections": [
       "choose-an-install",
+      "auditable-install",
       "codex-skill",
       "claude-code-skill",
       "both-agent-skills",
@@ -111,8 +112,8 @@
                 "zh-CN": "默认"
               },
               "body": {
-                "en": "Install the Codex skill with `gh skill install`.",
-                "zh-CN": "使用 `gh skill install` 安装 Codex skill。"
+                "en": "Preview the skill, then install with `gh skill install --pin <tag-or-sha>`.",
+                "zh-CN": "先 preview skill，再使用 `gh skill install --pin <tag-or-sha>` 安装。"
               }
             },
             {
@@ -145,8 +146,41 @@
             "zh-CN": "安装脚本会做什么"
           },
           "body": {
-            "en": "The compatibility installer delegates to `gh skill install` for the selected agent. It no longer clones or pulls repositories into agent skill directories and does not install Python packages.",
-            "zh-CN": "兼容安装脚本会为选定 agent 委托执行 `gh skill install`。它不再把仓库 clone 或 pull 到 agent skill 目录，也不会安装 Python 包。"
+            "en": "The compatibility installer delegates to `gh skill install` for the selected agent. It no longer clones or pulls repositories into agent skill directories and does not install Python packages. Use the direct `gh` commands first when auditability matters.",
+            "zh-CN": "兼容安装脚本会为选定 agent 委托执行 `gh skill install`。它不再把仓库 clone 或 pull 到 agent skill 目录，也不会安装 Python 包。重视可审计性时优先使用直接的 `gh` 命令。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "auditable-install",
+      "title": {
+        "en": "Auditable install",
+        "zh-CN": "可审计安装"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Use the GitHub CLI path when you need a reviewable install. Preview the skill content, pin a release tag or commit SHA, then install for the target agent.",
+            "zh-CN": "需要可审计安装时使用 GitHub CLI 路径。先预览 skill 内容，固定 release tag 或 commit SHA，再安装到目标 agent。"
+          }
+        },
+        {
+          "type": "code",
+          "language": "sh",
+          "code": "gh skill preview CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0\ngh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": {
+            "en": "Pin policy",
+            "zh-CN": "Pin 策略"
+          },
+          "body": {
+            "en": "Use a release tag for normal installs and a full commit SHA when testing an unreleased fix. Avoid unpinned installs in shared or regulated environments.",
+            "zh-CN": "常规安装使用 release tag；测试未发布修复时使用完整 commit SHA。在共享或受监管环境中避免未 pin 的安装。"
           }
         }
       ]
@@ -233,6 +267,13 @@
           "prompt": {
             "en": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both",
             "zh-CN": "curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "This is a compatibility shortcut. For reviewable installation, download `install.sh`, inspect it, and run it locally with an explicit `--pin` value.",
+            "zh-CN": "这是兼容快捷方式。需要可审查安装时，先下载并审阅 `install.sh`，再带明确的 `--pin` 值本地执行。"
           }
         }
       ]

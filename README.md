@@ -8,7 +8,11 @@ CAST Docs means **C**omponent **A**ssembly **S**tyled **T**emplates. In this rep
 
 ## Install
 
-Install or update the `cast-a-doc` Codex skill with GitHub CLI:
+Inspect the skill, then install or update the `cast-a-doc` Codex skill with GitHub CLI pinned to a release tag:
+
+```bash
+gh skill preview CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0
+```
 
 ```bash
 gh skill install CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0 --agent codex --scope user
@@ -26,7 +30,7 @@ Install `cast-a-doc` for both agents:
 curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 ```
 
-The compatibility installer delegates to `gh skill install`; it no longer clones the repository into an agent directory. For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-a-doc/install.html).
+The compatibility installer delegates to `gh skill install`; it no longer clones the repository into an agent directory. For stricter environments, download `install.sh`, review it locally, then run `bash install.sh --pin v0.1.0 --both`. For options, safety checks, and local renderer setup, see the [install guide](https://cast-docs.github.io/cast-a-doc/install.html).
 
 ## Quick Start
 

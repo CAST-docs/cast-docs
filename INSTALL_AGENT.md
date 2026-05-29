@@ -6,6 +6,12 @@ For the rendered guide with options and troubleshooting, open:
 
 https://cast-docs.github.io/cast-a-doc/install.html
 
+Prefer auditable installs: preview the skill and pin a release tag or commit SHA before installing.
+
+```bash
+gh skill preview CAST-docs/cast-a-doc cast-a-doc --pin v0.1.0
+```
+
 ## Codex Skill
 
 ```bash
@@ -25,6 +31,14 @@ curl -fsSL https://cast-docs.github.io/cast-a-doc/install.sh | bash -s -- --both
 ```
 
 The compatibility installer delegates to `gh skill install` and does not clone into the current directory.
+
+For stricter environments, download and inspect the installer first:
+
+```bash
+curl -fsSLO https://cast-docs.github.io/cast-a-doc/install.sh
+less install.sh
+bash install.sh --pin v0.1.0 --both
+```
 
 ## Local Renderer Smoke Test
 

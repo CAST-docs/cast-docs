@@ -110,6 +110,16 @@
             },
             {
               "title": {
+                "en": "Skill bundle sync gate added",
+                "zh-CN": "新增 skill bundle 同步门禁"
+              },
+              "body": {
+                "en": "Synchronized `skills/cast-a-doc/` with the root renderer modules and added `scripts/validate_skill_bundle.py` to CI so the installable Codex skill cannot drift from the repository implementation.",
+                "zh-CN": "同步 `skills/cast-a-doc/` 与根目录渲染模块，并将 `scripts/validate_skill_bundle.py` 接入 CI，避免可安装的 Codex skill 与仓库实现漂移。"
+              }
+            },
+            {
+              "title": {
                 "en": "Core common helpers split out",
                 "zh-CN": "拆出核心公共 helper"
               },

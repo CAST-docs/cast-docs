@@ -3,12 +3,12 @@ from __future__ import annotations
 
 import argparse
 import sys
-import tempfile
 from pathlib import Path
 
 from cast_docs_core import (
     CONFIG_DIR,
     ROOT,
+    apply_project_profile,
     discover_project_profile,
     load_config,
     load_json,
@@ -22,16 +22,27 @@ from visual_lint import StyleParser, lint_css
 
 def expected_html_path(source: Path) -> Path:
     if source.parent.name == "site":
-        if source.name == "landing.json":
-            return ROOT / "index.html"
-        if source.name == "install.json":
-            return ROOT / "install.html"
+        site_outputs = {
+            "landing": "index.html",
+            "install": "install.html",
+            "readme": "readme.html",
+            "todo": "todo.html",
+            "changelist": "changelist.html",
+        }
+        return ROOT / site_outputs.get(source.stem, f"{source.stem}.html")
     return source.with_suffix(".html")
 
 
+def uses_project_profile(source: Path) -> bool:
+    return source.parent.name in {"site", "plan", "spec"}
+
+
 def collect_sources() -> list[Path]:
-    sources = sorted((ROOT / "examples").glob("*.json"))
-    sources.extend(sorted((ROOT / "site").glob("*.json")))
+    sources: list[Path] = []
+    for name in ("examples", "site", "plan", "spec"):
+        directory = ROOT / name
+        if directory.exists():
+            sources.extend(sorted(directory.glob("*.json")))
     return sources
 
 
@@ -64,40 +75,40 @@ def main() -> int:
             errors.extend(f"{ROOT}: project profile: {error}" for error in profile_result.errors)
     sources = collect_sources()
 
-    with tempfile.TemporaryDirectory(prefix="cast-docs-fixtures.") as tmp_dir_name:
-        tmp_dir = Path(tmp_dir_name)
-        for source in sources:
-            try:
-                doc = load_json(source)
-                doc_result = validate_document(doc, args.config_dir)
-                if not doc_result.ok:
-                    errors.extend(f"{source}: {error}" for error in doc_result.errors)
-                    continue
+    for source in sources:
+        try:
+            doc = load_json(source)
+            fixture_profile = project_profile if uses_project_profile(source) else None
+            doc_for_validation = doc
+            if fixture_profile is not None:
+                doc_for_validation = apply_project_profile(doc, fixture_profile)
+            doc_result = validate_document(doc_for_validation, args.config_dir)
+            if not doc_result.ok:
+                errors.extend(f"{source}: {error}" for error in doc_result.errors)
+                continue
 
-                fixture_profile = project_profile if source.parent == ROOT / "site" else None
-                rendered = render_html(doc, config_dir=args.config_dir, profile=fixture_profile)
-                html_result = validate_html_profile(rendered, profile)
-                if not html_result.ok:
-                    errors.extend(f"{source}: rendered HTML: {error}" for error in html_result.errors)
-                    continue
-                target = expected_html_path(source)
-                visual_errors = lint_rendered_html(rendered, target)
-                if visual_errors:
-                    errors.extend(visual_errors)
-                    continue
+            rendered = render_html(doc, config_dir=args.config_dir, profile=fixture_profile)
+            html_result = validate_html_profile(rendered, profile)
+            if not html_result.ok:
+                errors.extend(f"{source}: rendered HTML: {error}" for error in html_result.errors)
+                continue
+            target = expected_html_path(source)
+            visual_errors = lint_rendered_html(rendered, target)
+            if visual_errors:
+                errors.extend(visual_errors)
+                continue
 
-                if args.update:
-                    target.write_text(rendered, encoding="utf-8")
-                    continue
+            if args.update:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(rendered, encoding="utf-8")
+                continue
 
-                scratch = tmp_dir / target.name
-                scratch.write_text(rendered, encoding="utf-8")
-                if not target.exists():
-                    errors.append(f"{source}: expected rendered artifact missing: {target}")
-                elif target.read_text(encoding="utf-8") != rendered:
-                    errors.append(f"{source}: rendered artifact is stale: {target}")
-            except Exception as exc:
-                errors.append(f"{source}: {exc}")
+            if not target.exists():
+                errors.append(f"{source}: expected rendered artifact missing: {target}")
+            elif target.read_text(encoding="utf-8") != rendered:
+                errors.append(f"{source}: rendered artifact is stale: {target}")
+        except Exception as exc:
+            errors.append(f"{source}: {exc}")
 
     if errors:
         for error in errors:

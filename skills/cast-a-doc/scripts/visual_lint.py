@@ -103,14 +103,15 @@ def lint_html(path: Path) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run lightweight visual lint gates for CAST Docs HTML.")
     parser.add_argument("--input", action="append", type=Path, help="HTML file to lint. Repeatable.")
-    parser.add_argument("--input-dir", type=Path, help="Directory of HTML files to lint.")
+    parser.add_argument("--input-dir", action="append", type=Path, help="Directory of HTML files to lint. Repeatable.")
     args = parser.parse_args()
 
     paths: list[Path] = []
     if args.input:
         paths.extend(args.input)
     if args.input_dir:
-        paths.extend(sorted(args.input_dir.glob("*.html")))
+        for directory in args.input_dir:
+            paths.extend(sorted(directory.glob("*.html")))
     if not paths:
         print("ERROR: provide --input or --input-dir", file=sys.stderr)
         return 1

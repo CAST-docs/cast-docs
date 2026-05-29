@@ -83,6 +83,20 @@ Minimum shape:
 
 The manifest is a generation and validation aid. It should not force the final HTML to expose internal planning details.
 
+## Schema And Validator Boundary
+
+`schemas/doc.schema.json` is the structural contract. It defines the document shape, required fields, enum values, block variants, and localized text forms that generators may emit.
+
+The Python validators are the semantic and safety gate. They enforce rules that depend on configuration, repository state, or rendered output:
+
+- Document type, scenario, component, theme, layout, and interaction ids must exist in `config/`.
+- Project profile files under `.cast-docs/` must resolve paths inside the repository and must use supported defaults.
+- URLs, media paths, shell links, and logos must use supported schemes and local file rules.
+- Raw SVG diagram content must parse as SVG XML and pass the renderer's strict tag and attribute allowlist before it can be rendered.
+- Rendered HTML must pass `config/html-profile.json`, visual lint, and fixture freshness checks.
+
+Do not duplicate every semantic rule inside the JSON Schema. When a rule affects authoring shape, add it to the schema. When a rule needs repository files, generated HTML, sanitizer behavior, or config registries, keep it in Python and cover it with CI.
+
 ## Project Profile Boundary
 
 Repository-specific memory belongs in `.cast-docs/`. This profile is explicit project configuration, not hidden agent memory.

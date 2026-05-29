@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Core common helpers split out",
+                "zh-CN": "拆出核心公共 helper"
+              },
+              "body": {
+                "en": "Extracted shared constants, dataclasses, JSON/config loading, localization, escaping, dotted-value, and repository path helpers into `scripts/cast_docs_common.py` while keeping `cast_docs_core.py` as the compatibility facade.",
+                "zh-CN": "将共享常量、dataclass、JSON/config 加载、本地化、转义、dotted-value 和仓库路径 helper 抽到 `scripts/cast_docs_common.py`，同时保留 `cast_docs_core.py` 作为兼容 facade。"
+              }
+            },
+            {
+              "title": {
                 "en": "Lightweight package metadata added",
                 "zh-CN": "新增轻量包元数据"
               },

@@ -68,6 +68,15 @@ Expected profile files:
 
 Scenario validation should enforce required sections and required components, but it should not reject additional configured components. Extra components are valid when they appear in the manifest and their block payload matches the component schema.
 
+## Python Module Boundary
+
+The implementation is being split in small behavior-preserving steps:
+
+- `scripts/cast_docs_common.py` owns shared constants, project paths, dataclasses, JSON/config loading, localization helpers, escaping helpers, dotted-value helpers, and repository path safety helpers.
+- `scripts/cast_docs_core.py` remains the compatibility facade for existing scripts and still owns document validation, profile validation, rendering, HTML profile checks, SVG sanitization, theme resolution, and output assembly.
+
+Existing entrypoints may continue importing from `cast_docs_core` while modules are separated. Future splits should move one responsibility at a time and keep fixture freshness checks green after each move.
+
 ## Document JSON Shape
 
 The document JSON should be compact and renderer-friendly:
@@ -185,6 +194,7 @@ Implemented contract files:
 
 Implemented P0 scripts:
 
+- `scripts/cast_docs_common.py`
 - `scripts/cast_docs_core.py`
 - `scripts/validate_doc_json.py`
 - `scripts/render_html.py`

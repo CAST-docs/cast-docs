@@ -55,6 +55,8 @@ Source files:
 
 The profile resolver merges built-in defaults, repository profile values, and current request choices. It should not mutate `.cast-docs/` while generating a document. Profile changes require explicit user intent.
 
+Implementation note: shared path, JSON loading, localization, escaping, and dataclass helpers live in `scripts/cast_docs_common.py`; compatibility imports remain available through `scripts/cast_docs_core.py` while deeper renderer and validator modules are split out.
+
 ### BlockSpec
 
 Each block should eventually be described as a BlockSpec.

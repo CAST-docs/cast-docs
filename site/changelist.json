@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Schema and validator boundary documented",
+                "zh-CN": "明确 Schema 与 validator 边界"
+              },
+              "body": {
+                "en": "Clarified that `schemas/doc.schema.json` owns structural shape while Python validators own semantic, safety, project-profile, rendered-HTML, visual-lint, and fixture-freshness checks; added a lightweight schema contract gate to CI.",
+                "zh-CN": "明确 `schemas/doc.schema.json` 负责结构形状，Python validator 负责语义、安全、project profile、渲染 HTML、视觉 lint 和 fixture 新鲜度检查；并在 CI 中加入轻量 schema contract gate。"
+              }
+            },
+            {
+              "title": {
                 "en": "Raw SVG passthrough removed",
                 "zh-CN": "移除 raw SVG 直接透传"
               },

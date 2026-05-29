@@ -51,7 +51,9 @@ Validate project profile defaults and checked-in fixtures:
 
 ```bash
 python3 scripts/validate_project_profile.py --repo-root .
-python3 scripts/visual_lint.py --input-dir examples --input index.html --input install.html
+python3 scripts/validate_schema_contract.py
+python3 -m unittest discover -s tests
+python3 scripts/visual_lint.py --input-dir examples --input-dir plan --input-dir spec --input index.html --input install.html --input readme.html --input todo.html --input changelist.html
 python3 scripts/check_fixtures.py
 ```
 
@@ -93,6 +95,8 @@ python3 scripts/check_fixtures.py
 5. Share the generated HTML as the artifact.
 
 The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.
+
+`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, HTML profile compliance, visual lint, and rendered fixture freshness.
 
 When a user does not provide an output path, skill-driven generation should use the repository profile default if one exists. Otherwise it should ask whether the output is a shareable document under `docs/cast-docs/` or a local draft under `.cast-docs/out/`.
 

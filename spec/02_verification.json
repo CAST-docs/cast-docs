@@ -102,8 +102,8 @@
                 "zh-CN": "JSON"
               },
               "body": {
-                "en": "Every source document must parse as JSON and pass schema validation.",
-                "zh-CN": "每个源文档都必须能解析为 JSON 并通过 schema 校验。"
+                "en": "Every source document must parse as JSON and pass the Python document validator. The JSON Schema remains the structural contract; semantic and safety checks live in Python.",
+                "zh-CN": "每个源文档都必须能解析为 JSON 并通过 Python 文档校验器。JSON Schema 作为结构契约；语义和安全检查保留在 Python 中。"
               }
             },
             {
@@ -131,7 +131,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html"
+          "code": "python3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 -m unittest discover -s tests\npython3 scripts/render_html.py --input plan/index.json --output plan/index.html --validate\npython3 scripts/validate_html.py --input plan/index.html"
         }
       ]
     },

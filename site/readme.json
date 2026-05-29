@@ -206,7 +206,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "python3 scripts/validate_doc_json.py --input examples/option-decision.json\npython3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate\npython3 scripts/validate_html.py --input out.html\npython3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/visual_lint.py --input-dir examples --input index.html --input install.html\npython3 scripts/check_fixtures.py"
+          "code": "python3 scripts/validate_doc_json.py --input examples/option-decision.json\npython3 scripts/render_html.py --input examples/option-decision.json --output out.html --validate\npython3 scripts/validate_html.py --input out.html\npython3 scripts/validate_project_profile.py --repo-root .\npython3 scripts/validate_schema_contract.py\npython3 -m unittest discover -s tests\npython3 scripts/visual_lint.py --input-dir examples --input-dir plan --input-dir spec --input index.html --input install.html --input readme.html --input todo.html --input changelist.html\npython3 scripts/check_fixtures.py"
         }
       ]
     },
@@ -388,6 +388,13 @@
           "text": {
             "en": "The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.",
             "zh-CN": "渲染器刻意避免外部脚本、CDN 和依赖特定 viewer 的 Markdown 扩展。输出应能在浏览器、邮件附件、S3 bucket 或 GitHub Pages 中工作。"
+          }
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, HTML profile compliance, visual lint, and rendered fixture freshness.",
+            "zh-CN": "`schemas/doc.schema.json` 是结构化 JSON 契约：字段、必填属性、枚举和值对象形状。Python validator 负责这里不适合完全放进 JSON Schema 的语义和安全规则，包括 project profile 一致性、安全 URL 与媒体路径、raw SVG sanitizer、HTML profile、视觉 lint 和渲染 fixture 新鲜度。"
           }
         },
         {

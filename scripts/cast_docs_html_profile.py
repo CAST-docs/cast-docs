@@ -5,6 +5,7 @@ from html.parser import HTMLParser
 from typing import Any
 
 from cast_docs_common import ValidationResult, is_object
+from cast_docs_common import RAW_DIAGRAM_LANGUAGES, looks_like_raw_diagram_source, normalized_code_language
 from cast_docs_context import href_kind, media_src_kind
 
 
@@ -18,6 +19,8 @@ class ProfileParser(HTMLParser):
         self.ids: set[str] = set()
         self.hrefs: list[str] = []
         self.srcs: list[str] = []
+        self.raw_diagram_blocks: list[str] = []
+        self._text_stack: list[dict[str, Any]] = []
         self.doctype_seen = False
         self.unresolved = False
 
@@ -27,6 +30,7 @@ class ProfileParser(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         self.tags.append((tag, attrs))
+        attrs_map = {key.lower(): value for key, value in attrs}
         for key, value in attrs:
             if key == "id" and value:
                 self.ids.add(value)
@@ -36,10 +40,35 @@ class ProfileParser(HTMLParser):
                 self.srcs.append(value)
             if value and UNRESOLVED_RE.search(value):
                 self.unresolved = True
+        normalized_tag = tag.lower()
+        if normalized_tag in {"pre", "code", "figcaption"}:
+            self._text_stack.append({"tag": normalized_tag, "attrs": attrs_map, "text": []})
 
     def handle_data(self, data: str) -> None:
         if UNRESOLVED_RE.search(data):
             self.unresolved = True
+        for frame in self._text_stack:
+            frame["text"].append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        normalized_tag = tag.lower()
+        if normalized_tag not in {"pre", "code", "figcaption"}:
+            return
+        for index in range(len(self._text_stack) - 1, -1, -1):
+            frame = self._text_stack[index]
+            if frame["tag"] != normalized_tag:
+                continue
+            content = "".join(frame["text"])
+            attrs = frame["attrs"]
+            language = normalized_code_language(attrs.get("data-language"))
+            if (
+                language in RAW_DIAGRAM_LANGUAGES
+                or looks_like_raw_diagram_source(content)
+                or (normalized_tag == "figcaption" and content.strip().lower() in {"mermaid source", "flowchart source", "diagram source"})
+            ):
+                self.raw_diagram_blocks.append(normalized_tag)
+            del self._text_stack[index:]
+            return
 
 
 def validate_html_profile(html_text: str, profile: dict[str, Any]) -> ValidationResult:
@@ -53,6 +82,8 @@ def validate_html_profile(html_text: str, profile: dict[str, Any]) -> Validation
         errors.append("missing <!doctype html>")
     if parser.unresolved:
         errors.append("HTML contains unresolved template placeholders")
+    if parser.raw_diagram_blocks:
+        errors.append("HTML contains raw diagram source; diagrams must render as SVG figures")
     style_position = html_text.find("<style>")
     body_position = html_text.find("<body>")
     if style_position == -1:

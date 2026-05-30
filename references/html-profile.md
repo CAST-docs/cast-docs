@@ -8,6 +8,8 @@ The renderer owns the shared template, style system, and approved progressive-en
 
 Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download, code copy, language switching, toggle views, and slider controls.
 
+Rendered HTML must not contain raw diagram source as visible code. Mermaid, PlantUML, Graphviz, or `flowchart` source blocks are authoring inputs, not final document content. Convert diagram intent into a CAST Docs `diagram` block and publish an inline SVG figure; `validate_html.py` rejects Mermaid-like `pre`/`code` blocks and legacy captions such as "Mermaid source".
+
 Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
 
 Repository project profiles may provide logos and reusable images under `.cast-docs/assets/`. Those assets are still subject to the same controlled HTML profile: allowed image formats, safe paths, required alt text, no event handlers, and no unapproved remote dependencies.
@@ -42,6 +44,8 @@ Planned allowed tags:
 - `dl`, `dt`, `dd`
 - `aside`, `details`, `summary`, `figure`, `figcaption`, `img`
 - `svg`, `g`, `path`, `rect`, `circle`, `line`, `polyline`, `polygon`, `text`, `defs`, `marker`
+
+`pre` and `code` remain available for real code examples. They must not be used as a fallback renderer for diagrams.
 
 ## Disallowed Tags
 

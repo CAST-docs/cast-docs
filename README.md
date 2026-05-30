@@ -79,6 +79,7 @@ Release versions are recorded in `VERSION`; Git tags use the matching `v<version
 - Document-set index and chapter page generation with shared navigation and pagination.
 - Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.
 - Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
+- Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as SVG in final HTML.
 - Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
 - Language switching can prompt readers to save a CAST Docs global default language preference in browser storage.
 - A designed repository-level `.cast-docs/` project profile for team templates, i18n, writing rules, reusable assets, style profiles, and output defaults.
@@ -112,7 +113,7 @@ Release versions are recorded in `VERSION`; Git tags use the matching `v<version
 
 The renderer intentionally avoids external scripts, CDNs, and viewer-specific Markdown extensions. Output should work from a browser, email attachment, S3 bucket, or GitHub Pages.
 
-`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, HTML profile compliance, visual lint, and rendered fixture freshness.
+`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, rejection of raw diagram source in code blocks, HTML profile compliance, visual lint, and rendered fixture freshness.
 
 The public tool surface is the script entrypoints under `scripts/`. Internal `scripts/cast_docs_*.py` modules are implementation boundaries and should not be treated as stable agent-facing tools.
 

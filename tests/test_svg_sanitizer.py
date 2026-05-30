@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from cast_docs_core import render_html, sanitize_svg, validate_document  # noqa: E402
+from cast_docs_core import load_config, render_html, sanitize_svg, validate_document, validate_html_profile  # noqa: E402
 
 
 def base_doc(svg_content: str) -> dict[str, object]:
@@ -92,6 +92,49 @@ class SvgSanitizerTest(unittest.TestCase):
 
         self.assertNotIn("<script>alert(1)</script>", html)
         self.assertIn("Unsupported diagram", html)
+
+    def test_document_validation_rejects_mermaid_code_blocks(self) -> None:
+        doc = {
+            "metadata": {
+                "title": "Raw diagram source test",
+                "language": "en",
+                "status": "draft",
+                "owner": "tests",
+            },
+            "manifest": {
+                "documentType": "engineering-spec",
+                "scenario": "none",
+                "sections": ["main"],
+                "components": {
+                    "required": ["metadata-block", "toc", "section", "code-block"],
+                    "optional": [],
+                    "omitted": [],
+                },
+            },
+            "sections": [
+                {
+                    "id": "main",
+                    "title": "Main",
+                    "blocks": [{"type": "code", "language": "mermaid", "code": "flowchart TD\nA --> B"}],
+                }
+            ],
+        }
+
+        result = validate_document(doc)
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("raw diagram source" in error for error in result.errors))
+
+    def test_html_profile_rejects_raw_mermaid_blocks(self) -> None:
+        html = """<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><style>.doc{}</style><title>Test</title></head>
+<body><article class="doc"><pre data-language="mermaid"><code data-language="mermaid">flowchart TD
+A --> B</code></pre></article></body></html>"""
+
+        result = validate_html_profile(html, load_config("html-profile.json"))
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("raw diagram source" in error for error in result.errors))
 
 
 if __name__ == "__main__":

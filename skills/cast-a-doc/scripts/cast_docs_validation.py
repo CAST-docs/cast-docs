@@ -6,12 +6,15 @@ from typing import Any
 
 from cast_docs_common import (
     CONFIG_DIR,
+    RAW_DIAGRAM_LANGUAGES,
     SUPPORTED_LOCALES,
     ValidationResult,
     as_list,
     is_localized_object,
     is_object,
     load_config,
+    looks_like_raw_diagram_source,
+    normalized_code_language,
 )
 from cast_docs_context import href_kind, media_src_kind
 from cast_docs_inline import INLINE_LINK_SCHEMES, INLINE_MARK_CATEGORIES
@@ -210,6 +213,11 @@ def validate_block(block: Any, path: str, errors: list[str]) -> None:
     elif block_type == "code":
         if not isinstance(block.get("code"), str):
             errors.append(f"{path}.code must be a string")
+        elif (
+            normalized_code_language(block.get("language")) in RAW_DIAGRAM_LANGUAGES
+            or looks_like_raw_diagram_source(block.get("code"))
+        ):
+            errors.append(f"{path} contains raw diagram source; use a diagram block that renders to SVG")
     elif block_type == "diagram":
         require_string("kind")
         source = block.get("source")

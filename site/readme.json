@@ -281,6 +281,10 @@
               "zh-CN": "可复用的 summary、callout、table、diagram、diff、action card、source refs 和 code block。"
             },
             {
+              "en": "Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as SVG in final HTML.",
+              "zh-CN": "图表校验会拒绝把 Mermaid、PlantUML、Graphviz 或 flowchart 源码作为 code block 发布；图表意图必须使用 `diagram` block，并在最终 HTML 中渲染为 SVG。"
+            },
+            {
               "en": "Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.",
               "zh-CN": "带内联 CSS 的自包含 HTML，以及渲染器托管的复制代码、语言切换和图表控制。"
             },
@@ -561,8 +565,8 @@
         {
           "type": "paragraph",
           "text": {
-            "en": "`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, HTML profile compliance, visual lint, and rendered fixture freshness.",
-            "zh-CN": "`schemas/doc.schema.json` 是结构化 JSON 契约：字段、必填属性、枚举和值对象形状。Python validator 负责这里不适合完全放进 JSON Schema 的语义和安全规则，包括 project profile 一致性、安全 URL 与媒体路径、raw SVG sanitizer、HTML profile、视觉 lint 和渲染 fixture 新鲜度。"
+            "en": "`schemas/doc.schema.json` is the structural JSON contract: fields, required properties, enum values, and object shapes. The Python validators enforce semantic and safety rules that JSON Schema cannot express cleanly here, including project profile consistency, safe URLs and media paths, raw SVG sanitization, rejection of raw diagram source in code blocks, HTML profile compliance, visual lint, and rendered fixture freshness.",
+            "zh-CN": "`schemas/doc.schema.json` 是结构化 JSON 契约：字段、必填属性、枚举和值对象形状。Python validator 负责这里不适合完全放进 JSON Schema 的语义和安全规则，包括 project profile 一致性、安全 URL 与媒体路径、raw SVG sanitizer、拒绝 code block 中的原始图表源码、HTML profile、视觉 lint 和渲染 fixture 新鲜度。"
           }
         },
         {

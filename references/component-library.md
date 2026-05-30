@@ -61,6 +61,8 @@ Use for optional background, alternatives, or supporting notes that should not d
 
 Use for configuration, schema, API, or command examples when necessary. Rendered code blocks include line numbers, horizontal scrolling for long lines, and a renderer-owned copy button. The copy behavior must preserve the active locale when the code string is localized.
 
+Do not use code blocks as a diagram fallback. Mermaid, PlantUML, Graphviz, and `flowchart` source are rejected by validation when published as code; use the diagram component instead.
+
 Diff blocks use the same controlled monospace language, with line numbers, add/remove/warning/context states, and an optional line-level `highlight` flag for the exact line under discussion.
 
 ## Inline SVG Figure
@@ -68,6 +70,8 @@ Diff blocks use the same controlled monospace language, with line numbers, add/r
 Use only for simple self-contained diagrams. SVG must follow the controlled HTML profile.
 
 Diagram components should support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction. Supported structured diagram sources include flow, sequence, and ER-style entity relationship diagrams.
+
+Final HTML must expose the rendered figure, not the source language. A diagram created from Mermaid-like input should be translated into a structured diagram source or sanitized inline SVG before publication.
 
 ## Media Grid
 

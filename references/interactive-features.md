@@ -26,11 +26,14 @@ Supported diagram sources:
 - Inline SVG generated from structured diagram blocks.
 - Future renderer-produced diagrams that compile to inline SVG.
 
+Mermaid, PlantUML, Graphviz, and similar text diagram languages are not acceptable as final visible code blocks. If a generator starts from those languages, it must compile or translate them into an approved `diagram` block that renders as SVG, then pass both `validate_doc_json.py` and `validate_html.py`.
+
 Out of scope by default:
 
 - Remote images.
 - CDN Mermaid runtime.
 - User-authored JavaScript.
+- Text-only Mermaid or flowchart blocks in the final HTML.
 - Browser layout verification for every diagram.
 
 The document JSON should describe diagram content and intent. The renderer should emit the approved diagram wrapper and controls.

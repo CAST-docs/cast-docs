@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import html
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -12,6 +13,27 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG_DIR = ROOT / "config"
 TEMPLATE_DIR = ROOT / "assets" / "template-modules"
 SUPPORTED_LOCALES = ("en", "zh-CN")
+RAW_DIAGRAM_LANGUAGES = {"mermaid", "mmd", "plantuml", "puml", "graphviz", "dot"}
+RAW_DIAGRAM_SOURCE_RE = re.compile(
+    r"^\s*(?:"
+    r"flowchart\s+(?:TB|TD|BT|LR|RL)\b|"
+    r"graph\s+(?:TB|TD|BT|LR|RL)\b|"
+    r"sequenceDiagram\b|"
+    r"classDiagram\b|"
+    r"stateDiagram(?:-v2)?\b|"
+    r"erDiagram\b|"
+    r"journey\b|"
+    r"gantt\b|"
+    r"pie\b|"
+    r"mindmap\b|"
+    r"timeline\b|"
+    r"gitGraph\b|"
+    r"C4Context\b|"
+    r"@startuml\b|"
+    r"(?:strict\s+)?digraph\b"
+    r")",
+    re.IGNORECASE,
+)
 
 
 class CastDocsError(Exception):
@@ -99,6 +121,14 @@ def is_object(value: Any) -> bool:
 
 def text(value: Any) -> str:
     return "" if value is None else str(value)
+
+
+def normalized_code_language(value: Any) -> str:
+    return text(value).strip().lower()
+
+
+def looks_like_raw_diagram_source(value: Any) -> bool:
+    return bool(RAW_DIAGRAM_SOURCE_RE.search(text(value)))
 
 
 def esc(value: Any) -> str:

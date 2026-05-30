@@ -93,6 +93,7 @@ Read `references/document-types.md` before choosing required sections.
 - Inline CSS only.
 - Do not depend on external CSS, JavaScript, fonts, CDNs, images, or runtime services.
 - Default to zero JavaScript for document content. Renderer-owned inline JavaScript is allowed only for approved progressive enhancements such as diagram zoom/download.
+- Do not publish Mermaid, PlantUML, Graphviz, or flowchart source as a `code` block or visible `<pre>` fallback. Use a CAST Docs `diagram` block that renders to inline SVG, then run both JSON and HTML validation.
 - Use conservative user-content links only: anchors, relative paths, `http:`, and `https:`.
 - Escape user-provided text.
 - Do not invent critical facts; mark unknowns explicitly.

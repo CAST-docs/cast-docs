@@ -406,6 +406,10 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
           "type": "list",
           "items": [
             {
+              "en": "Decide whether a future renderer should compile Mermaid-like source directly into sanitized SVG, or keep the current contract that generators must translate source diagrams into structured diagram blocks before validation.",
+              "zh-CN": "决定未来 renderer 是否应直接把 Mermaid 类源码编译为 sanitized SVG，还是保持当前契约：generator 必须先把源码图表翻译成结构化 diagram block，再进入校验。"
+            },
+            {
               "en": "Decide whether to add installed console scripts after the Python modules use package-relative imports.",
               "zh-CN": "等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。"
             },
@@ -550,7 +554,7 @@ button { border: 1px solid var(--border); border-radius: var(--radius-sm); backg
 <section class="doc-section" id="engineering-hardening">
 <h2><span data-locale="en" data-locale-active="true">Engineering Hardening</span><span data-locale="zh-CN" data-locale-active="false">工程可信度加固</span></h2>
 <p><span data-locale="en" data-locale-active="true">The current hardening track favors verification, safety, and maintainability over new document components.</span><span data-locale="zh-CN" data-locale-active="false">当前加固路线优先补验证、安全和可维护性，而不是继续增加新文档组件。</span></p>
-<ul><li><span data-locale="en" data-locale-active="true">Decide whether to add installed console scripts after the Python modules use package-relative imports.</span><span data-locale="zh-CN" data-locale-active="false">等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。</span></li><li><span data-locale="en" data-locale-active="true">Keep new <code>scripts/cast_docs_*</code> modules within reviewable size limits and add focused tests when a module boundary changes.</span><span data-locale="zh-CN" data-locale-active="false">让新的 <code>scripts/cast_docs_*</code> 模块保持在可审查的文件规模内；模块边界变化时补充聚焦测试。</span></li></ul>
+<ul><li><span data-locale="en" data-locale-active="true">Decide whether a future renderer should compile Mermaid-like source directly into sanitized SVG, or keep the current contract that generators must translate source diagrams into structured diagram blocks before validation.</span><span data-locale="zh-CN" data-locale-active="false">决定未来 renderer 是否应直接把 Mermaid 类源码编译为 sanitized SVG，还是保持当前契约：generator 必须先把源码图表翻译成结构化 diagram block，再进入校验。</span></li><li><span data-locale="en" data-locale-active="true">Decide whether to add installed console scripts after the Python modules use package-relative imports.</span><span data-locale="zh-CN" data-locale-active="false">等 Python 模块改为包相对导入后，再决定是否增加安装后的 console scripts。</span></li><li><span data-locale="en" data-locale-active="true">Keep new <code>scripts/cast_docs_*</code> modules within reviewable size limits and add focused tests when a module boundary changes.</span><span data-locale="zh-CN" data-locale-active="false">让新的 <code>scripts/cast_docs_*</code> 模块保持在可审查的文件规模内；模块边界变化时补充聚焦测试。</span></li></ul>
 </section>
 
 <section class="doc-section" id="rewrite-follow-ups">

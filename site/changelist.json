@@ -100,6 +100,16 @@
           "items": [
             {
               "title": {
+                "en": "Raw diagram-source gate added",
+                "zh-CN": "新增原始图表源码门禁"
+              },
+              "body": {
+                "en": "Added JSON and HTML validation that rejects Mermaid, PlantUML, Graphviz, and flowchart source when it is published as a code block or visible preformatted fallback. Diagram content must render through the diagram component as SVG.",
+                "zh-CN": "新增 JSON 与 HTML 校验：拒绝将 Mermaid、PlantUML、Graphviz 和 flowchart 源码作为 code block 或可见 preformatted fallback 发布。图表内容必须通过 diagram 组件渲染为 SVG。"
+              }
+            },
+            {
+              "title": {
                 "en": "Skill tool contracts documented",
                 "zh-CN": "明确 skill 工具契约"
               },

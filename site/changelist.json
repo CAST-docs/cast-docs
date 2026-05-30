@@ -22,8 +22,8 @@
     ],
     "updatedAt": "2026-05-30",
     "description": {
-      "en": "Public change history for cast-a-doc product scope, planning documents, and release surface.",
-      "zh-CN": "cast-a-doc 产品范围、规划文档和发布界面的公开变更历史。"
+      "en": "Auditable change history for cast-a-doc product scope, implementation behavior, planning documents, release surface, validation, and compatibility impact.",
+      "zh-CN": "cast-a-doc 的可审计变更历史，覆盖产品范围、实现行为、规划文档、发布界面、验证和兼容性影响。"
     },
     "shellLinks": [
       {
@@ -64,8 +64,10 @@
     "documentType": "engineering-spec",
     "scenario": "none",
     "sections": [
-      "latest",
-      "rewrite-policy"
+      "entry-contract",
+      "current-iteration",
+      "recent-hardening",
+      "earlier-history"
     ],
     "components": {
       "required": [
@@ -74,237 +76,281 @@
         "section",
         "paragraph",
         "list",
-        "values-grid"
+        "table"
       ],
       "optional": [
-        "summary-block"
+        "summary-block",
+        "callout"
       ],
       "omitted": [
         "diagram",
         "diff-block",
-        "table",
+        "values-grid",
         "open-questions"
       ]
     }
   },
   "sections": [
     {
-      "id": "latest",
+      "id": "entry-contract",
       "title": {
-        "en": "Latest Changes",
-        "zh-CN": "最近变化"
+        "en": "Entry Contract",
+        "zh-CN": "记录规范"
       },
       "blocks": [
         {
-          "type": "values-grid",
+          "type": "summary",
           "items": [
             {
-              "title": {
-                "en": "Raw diagram-source gate added",
-                "zh-CN": "新增原始图表源码门禁"
+              "label": {
+                "en": "Purpose",
+                "zh-CN": "目的"
               },
               "body": {
-                "en": "Added JSON and HTML validation that rejects Mermaid, PlantUML, Graphviz, and flowchart source when it is published as a code block or visible preformatted fallback. Diagram content must render through the diagram component as SVG.",
-                "zh-CN": "新增 JSON 与 HTML 校验：拒绝将 Mermaid、PlantUML、Graphviz 和 flowchart 源码作为 code block 或可见 preformatted fallback 发布。图表内容必须通过 diagram 组件渲染为 SVG。"
+                "en": "This page is an audit log, not a marketing card list.",
+                "zh-CN": "本页是审计日志，不是营销式卡片列表。"
               }
             },
             {
-              "title": {
-                "en": "Skill tool contracts documented",
-                "zh-CN": "明确 skill 工具契约"
+              "label": {
+                "en": "Source",
+                "zh-CN": "源文件"
               },
               "body": {
-                "en": "Added `references/tool-entrypoints.md` and rewrote the installable `SKILL.md` around invocation rules, public script tools, maintainer gates, and the boundary between script entrypoints and internal `cast_docs_*` modules.",
-                "zh-CN": "新增 `references/tool-entrypoints.md`，并围绕调用规则、公开脚本工具、维护门禁，以及脚本入口和内部 `cast_docs_*` 模块的边界重写可安装 `SKILL.md`。"
+                "en": "`site/changelist.json` is the durable source; `changelist.html` is the generated artifact.",
+                "zh-CN": "`site/changelist.json` 是长期源文件；`changelist.html` 是生成产物。"
               }
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": {
+            "en": "Every meaningful change must record what changed, why it mattered, affected files or surfaces, validation evidence, compatibility impact, and rollback or recovery notes. Cosmetic-only updates may be grouped, but implementation behavior, JSON contracts, validation gates, installers, Pages output, or skill invocation rules need their own row.",
+            "zh-CN": "每个有意义的变化都必须记录变更内容、为什么重要、影响文件或界面、验证证据、兼容性影响，以及回滚或恢复说明。纯展示调整可以合并；但实现行为、JSON 契约、验证门禁、安装器、Pages 输出或 skill 调用规则变化需要单独成行。"
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Use the current-iteration table for active release and review work.",
+              "zh-CN": "当前发布和审查工作写入当前迭代表。"
             },
             {
-              "title": {
-                "en": "JSON contract promoted to first tool gate",
-                "zh-CN": "JSON 契约升级为第一道工具门禁"
-              },
-              "body": {
-                "en": "Added `references/json-contract.md` and updated README, site source, TODO, and verification notes so `validate_doc_json.py` is treated as the first required gate before render and HTML validation.",
-                "zh-CN": "新增 `references/json-contract.md`，并更新 README、站点源、TODO 和验证说明，让 `validate_doc_json.py` 成为渲染和 HTML 校验前的第一道必要门禁。"
-              }
+              "en": "Keep older entries grouped only after their validation and compatibility impact have been captured.",
+              "zh-CN": "只有已记录验证和兼容性影响的旧条目，才可以合并进历史分组。"
             },
             {
-              "title": {
-                "en": "Core renderer modules split",
-                "zh-CN": "拆分核心渲染模块"
-              },
-              "body": {
-                "en": "Replaced the 2700-line `scripts/cast_docs_core.py` with a compatibility facade and moved behavior into focused modules for context, inline rendering, SVG sanitization, document validation, project profiles, theme handling, block rendering, diagram rendering, shell composition, HTML profile validation, and CLI helpers.",
-                "zh-CN": "将 2700 多行的 `scripts/cast_docs_core.py` 改成兼容 facade，并把行为迁移到 context、inline rendering、SVG sanitizer、document validation、project profile、theme、block rendering、diagram rendering、shell composition、HTML profile validation 和 CLI helper 等聚焦模块。"
-              }
-            },
-            {
-              "title": {
-                "en": "Skill bundle sync gate added",
-                "zh-CN": "新增 skill bundle 同步门禁"
-              },
-              "body": {
-                "en": "Synchronized `skills/cast-a-doc/` with the root renderer modules and added `scripts/validate_skill_bundle.py` to CI so the installable Codex skill cannot drift from the repository implementation.",
-                "zh-CN": "同步 `skills/cast-a-doc/` 与根目录渲染模块，并将 `scripts/validate_skill_bundle.py` 接入 CI，避免可安装的 Codex skill 与仓库实现漂移。"
-              }
-            },
-            {
-              "title": {
-                "en": "Core common helpers split out",
-                "zh-CN": "拆出核心公共 helper"
-              },
-              "body": {
-                "en": "Extracted shared constants, dataclasses, JSON/config loading, localization, escaping, dotted-value, and repository path helpers into `scripts/cast_docs_common.py` while keeping `cast_docs_core.py` as the compatibility facade.",
-                "zh-CN": "将共享常量、dataclass、JSON/config 加载、本地化、转义、dotted-value 和仓库路径 helper 抽到 `scripts/cast_docs_common.py`，同时保留 `cast_docs_core.py` 作为兼容 facade。"
-              }
-            },
-            {
-              "title": {
-                "en": "Lightweight package metadata added",
-                "zh-CN": "新增轻量包元数据"
-              },
-              "body": {
-                "en": "Added `pyproject.toml`, `VERSION`, and `RELEASE.md` so releases have package metadata, a version source, and a checklist while existing script entrypoints remain supported.",
-                "zh-CN": "新增 `pyproject.toml`、`VERSION` 和 `RELEASE.md`，让发布拥有包元数据、版本源和清单，同时继续支持现有脚本入口。"
-              }
-            },
-            {
-              "title": {
-                "en": "Auditable install path clarified",
-                "zh-CN": "明确可审计安装路径"
-              },
-              "body": {
-                "en": "Moved preview-and-pin guidance ahead of one-line installer shortcuts, documented release tag or commit SHA pinning, and added review-before-execute instructions for `install.sh` without changing installer behavior.",
-                "zh-CN": "将 preview 加 pin 的说明放到一键安装快捷方式之前，记录 release tag 或 commit SHA pinning，并补充 `install.sh` 先审阅再执行的说明，同时不改变安装器行为。"
-              }
-            },
-            {
-              "title": {
-                "en": "Schema and validator boundary documented",
-                "zh-CN": "明确 Schema 与 validator 边界"
-              },
-              "body": {
-                "en": "Clarified that `schemas/doc.schema.json` owns structural shape while Python validators own semantic, safety, project-profile, rendered-HTML, visual-lint, and fixture-freshness checks; added a lightweight schema contract gate to CI.",
-                "zh-CN": "明确 `schemas/doc.schema.json` 负责结构形状，Python validator 负责语义、安全、project profile、渲染 HTML、视觉 lint 和 fixture 新鲜度检查；并在 CI 中加入轻量 schema contract gate。"
-              }
-            },
-            {
-              "title": {
-                "en": "Raw SVG passthrough removed",
-                "zh-CN": "移除 raw SVG 直接透传"
-              },
-              "body": {
-                "en": "Replaced raw SVG diagram passthrough with a standard-library XML parser and strict SVG tag and attribute allowlist, with unit tests for rejected script, event handler, and external-reference payloads.",
-                "zh-CN": "将 raw SVG 图表直接透传替换为基于标准库 XML 解析和严格 SVG 标签/属性白名单的 sanitizer，并补充拒绝 script、事件处理器和外部引用载荷的单元测试。"
-              }
-            },
-            {
-              "title": {
-                "en": "CI gate added for generated artifacts",
-                "zh-CN": "新增生成产物 CI 门禁"
-              },
-              "body": {
-                "en": "Added GitHub Actions validation for project profile, JSON sources, checked-in HTML, visual lint, and rendered fixture freshness across examples, site, plan, and spec.",
-                "zh-CN": "新增 GitHub Actions 校验 project profile、JSON 源、已提交 HTML、视觉 lint，以及 examples、site、plan、spec 的渲染产物新鲜度。"
-              }
-            },
-            {
-              "title": {
-                "en": "Fixture freshness widened",
-                "zh-CN": "扩大 fixture 新鲜度检查"
-              },
-              "body": {
-                "en": "`scripts/check_fixtures.py` now maps site JSON sources to their public root HTML pages and includes the planning and specification workspaces in freshness checks.",
-                "zh-CN": "`scripts/check_fixtures.py` 现在会把 site JSON 源映射到根目录公开 HTML 页面，并把规划和技术方案工作区纳入新鲜度检查。"
-              }
-            },
-            {
-              "title": {
-                "en": "Public navigation added",
-                "zh-CN": "补充公开导览"
-              },
-              "body": {
-                "en": "Added a homepage navigation section that points to install, README, product plan, technical spec, TODO, CHANGELIST, and examples.",
-                "zh-CN": "为首页增加导览区，指向安装、README、产品规划、技术方案、TODO、CHANGELIST 和示例。"
-              }
-            },
-            {
-              "title": {
-                "en": "README, TODO, and CHANGELIST published as HTML",
-                "zh-CN": "README、TODO 与 CHANGELIST 发布为 HTML"
-              },
-              "body": {
-                "en": "Added `site/readme.json`, `site/todo.json`, and `site/changelist.json` as agent-readable sources, then generated `readme.html`, `todo.html`, and `changelist.html` for GitHub Pages.",
-                "zh-CN": "新增 `site/readme.json`、`site/todo.json` 和 `site/changelist.json` 作为 agent 可读源，并生成 `readme.html`、`todo.html` 和 `changelist.html` 发布到 GitHub Pages。"
-              }
-            },
-            {
-              "title": {
-                "en": "Markdown TODO and CHANGELIST retired",
-                "zh-CN": "停用 Markdown TODO 与 CHANGELIST"
-              },
-              "body": {
-                "en": "Removed obsolete root Markdown backlog/history files so the public status source is JSON plus generated HTML.",
-                "zh-CN": "移除根目录中过时的 Markdown 待办与变更历史文件，让公开状态源统一为 JSON 加生成 HTML。"
-              }
-            },
-            {
-              "title": {
-                "en": "Landing breadcrumb clarified",
-                "zh-CN": "首页面包屑澄清"
-              },
-              "body": {
-                "en": "Kept the landing H1 as `cast-a-doc` while the topbar breadcrumb reads `CAST-Docs / cast-a-doc / Home` or `CAST-Docs / cast-a-doc / 首页`.",
-                "zh-CN": "首页 H1 保持为 `cast-a-doc`，同时顶栏面包屑显示为 `CAST-Docs / cast-a-doc / Home` 或 `CAST-Docs / cast-a-doc / 首页`。"
-              }
-            },
-            {
-              "title": {
-                "en": "Architecture explanation expanded",
-                "zh-CN": "扩展架构说明"
-              },
-              "body": {
-                "en": "Expanded the architecture spec with artifact evolution, token-saving mechanics, standardization, speed, coding-agent readability, diagrams, and small code examples.",
-                "zh-CN": "扩展技术方案，补充文件产物演变、省 token 机制、标准化、速度、coding agent 可读性、图表和小型代码示例。"
-              }
-            },
-            {
-              "title": {
-                "en": "Project style profiles adopted",
-                "zh-CN": "接入项目样式配置"
-              },
-              "body": {
-                "en": "Added `.cast-docs/project.json` styleProfile guidance so project startup can preserve standardized theme, density, surface, accent, and token override choices without arbitrary CSS.",
-                "zh-CN": "补充 `.cast-docs/project.json` styleProfile 指引，让项目启动流程能保留标准化主题、密度、表面、强调色和 token 覆盖选择，而不引入任意 CSS。"
-              }
-            },
-            {
-              "title": {
-                "en": "Planning workspace added",
-                "zh-CN": "新增规划工作区"
-              },
-              "body": {
-                "en": "Added `plan/` as product planning, `spec/` as technical design, and linked the new workspace from README and the landing page.",
-                "zh-CN": "新增 `plan/` 作为产品规划、`spec/` 作为技术方案，并从 README 和首页链接到新的工作区。"
-              }
+              "en": "Do not replace changelist entries with session progress notes; progress belongs in handoff notes or TODO when unresolved.",
+              "zh-CN": "不要用会话进度笔记替代 changelist；可恢复进度应进入交接记录，未决事项应进入 TODO。"
             }
           ]
         }
       ]
     },
     {
-      "id": "rewrite-policy",
+      "id": "current-iteration",
       "title": {
-        "en": "Rewrite Policy Used",
-        "zh-CN": "本次使用的重写策略"
+        "en": "Current Iteration",
+        "zh-CN": "当前迭代"
       },
       "blocks": [
         {
-          "type": "paragraph",
-          "text": {
-            "en": "The rewrite used guided migration mode: keep working implementation artifacts intact, add explicit planning and specification documents beside them, and modify entry points only to expose the new documentation.",
-            "zh-CN": "本次重写使用 guided migration 模式：保留可工作的实现产物，在旁边补充显式规划与技术方案文档，并只修改入口以暴露新的文档结构。"
-          }
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Date",
+              "zh-CN": "日期"
+            },
+            {
+              "en": "Change",
+              "zh-CN": "变化"
+            },
+            {
+              "en": "Scope",
+              "zh-CN": "范围"
+            },
+            {
+              "en": "Validation",
+              "zh-CN": "验证"
+            },
+            {
+              "en": "Compatibility / rollback",
+              "zh-CN": "兼容性 / 回滚"
+            }
+          ],
+          "rows": [
+            [
+              "2026-05-30",
+              {
+                "en": "This changelist-audit pass replaces the unstructured values-grid history with an auditable table and explicit entry contract.",
+                "zh-CN": "本次 changelist 审计将无结构 values-grid 历史改为可审计表格，并补充明确记录规范。"
+              },
+              {
+                "en": "`site/changelist.json`, generated `changelist.html`, and public Pages changelist readability.",
+                "zh-CN": "`site/changelist.json`、生成的 `changelist.html`，以及公开 Pages changelist 可读性。"
+              },
+              {
+                "en": "Run JSON validation, render freshness, HTML validation, visual lint, and fixture checks before commit.",
+                "zh-CN": "提交前运行 JSON 校验、渲染新鲜度、HTML 校验、视觉 lint 和 fixture 检查。"
+              },
+              {
+                "en": "No JSON contract or renderer behavior change; rollback is restoring the previous `site/changelist.json` plus regenerated HTML.",
+                "zh-CN": "不改变 JSON 契约或渲染器行为；回滚方式是恢复上一版 `site/changelist.json` 并重新生成 HTML。"
+              }
+            ],
+            [
+              "2026-05-30",
+              {
+                "en": "`217231a` added gates that reject raw Mermaid, PlantUML, Graphviz, and flowchart source when published as visible code or preformatted fallback.",
+                "zh-CN": "`217231a` 新增门禁，拒绝把 Mermaid、PlantUML、Graphviz 和 flowchart 源码作为可见 code 或 preformatted fallback 发布。"
+              },
+              {
+                "en": "JSON validator, HTML profile validator, component references, public README/TODO/CHANGELIST, installable skill bundle, and SVG sanitizer tests.",
+                "zh-CN": "JSON validator、HTML profile validator、组件参考、公开 README/TODO/CHANGELIST、可安装 skill bundle 和 SVG sanitizer 测试。"
+              },
+              {
+                "en": "CI passed for document validation, rendered fixture freshness, visual lint, package metadata, skill bundle sync, and unit tests.",
+                "zh-CN": "CI 已通过文档校验、渲染产物新鲜度、视觉 lint、包元数据、skill bundle 同步和单元测试。"
+              },
+              {
+                "en": "Intentionally stricter validation: raw diagram source must migrate to a `diagram` block rendered as SVG.",
+                "zh-CN": "有意收紧校验：原始图表源码必须迁移到渲染为 SVG 的 `diagram` block。"
+              }
+            ],
+            [
+              "2026-05-30",
+              {
+                "en": "`10c5106` documented single-skill multi-tool routing and promoted JSON validation to the first required gate.",
+                "zh-CN": "`10c5106` 记录单 skill 多工具路由，并把 JSON 校验提升为第一道必要门禁。"
+              },
+              {
+                "en": "`SKILL.md`, `references/tool-entrypoints.md`, `references/json-contract.md`, README, TODO, verification spec, generated Pages artifacts, and installed skill bundle.",
+                "zh-CN": "`SKILL.md`、`references/tool-entrypoints.md`、`references/json-contract.md`、README、TODO、验证方案、生成 Pages 产物和安装版 skill bundle。"
+              },
+              {
+                "en": "Local gates passed and Pages deploy was verified against cache-busted public URLs.",
+                "zh-CN": "本地门禁通过，并通过带缓存参数的公开 URL 验证 Pages 部署。"
+              },
+              {
+                "en": "No CLI command was renamed; direct Python script usage remains supported.",
+                "zh-CN": "没有重命名 CLI 命令；继续支持直接使用 Python 脚本。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recent-hardening",
+      "title": {
+        "en": "Recent Hardening History",
+        "zh-CN": "近期加固历史"
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "tableType": "data",
+          "headers": [
+            {
+              "en": "Area",
+              "zh-CN": "领域"
+            },
+            {
+              "en": "Changes",
+              "zh-CN": "变化"
+            },
+            {
+              "en": "Validation / risk note",
+              "zh-CN": "验证 / 风险说明"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "en": "Core module split",
+                "zh-CN": "核心模块拆分"
+              },
+              {
+                "en": "`e737a72`, `49a6236`, and `dd54883` moved shared helpers, rendering, validation, profile, theme, diagram, shell, and CLI behavior out of the former oversized `cast_docs_core.py`, then synchronized the installable skill bundle.",
+                "zh-CN": "`e737a72`、`49a6236` 和 `dd54883` 将共享 helper、渲染、校验、profile、theme、diagram、shell 和 CLI 行为从原来的超大 `cast_docs_core.py` 中拆出，并同步可安装 skill bundle。"
+              },
+              {
+                "en": "Compatibility facade remains in `cast_docs_core.py`; fixture freshness and skill bundle sync checks guard drift.",
+                "zh-CN": "`cast_docs_core.py` 保持兼容 facade；fixture 新鲜度和 skill bundle 同步检查防止漂移。"
+              }
+            ],
+            [
+              {
+                "en": "Release and install trust",
+                "zh-CN": "发布与安装可信度"
+              },
+              {
+                "en": "`5f9441d` and `4d7f4b7` added release metadata, `VERSION`, `RELEASE.md`, and auditable pinned install guidance before one-line installer shortcuts.",
+                "zh-CN": "`5f9441d` 和 `4d7f4b7` 新增发布元数据、`VERSION`、`RELEASE.md`，并把可审计 pinned 安装方式放到一键安装快捷方式前。"
+              },
+              {
+                "en": "Existing script entrypoints remain supported; installer behavior delegates to GitHub CLI skill install paths.",
+                "zh-CN": "继续支持现有脚本入口；安装器行为委托给 GitHub CLI skill 安装路径。"
+              }
+            ],
+            [
+              {
+                "en": "Schema, SVG, and CI hardening",
+                "zh-CN": "Schema、SVG 与 CI 加固"
+              },
+              {
+                "en": "`3471d8d`, `4de3858`, and `6bc88a4` clarified schema/Python validator boundaries, replaced raw SVG passthrough with allowlist sanitization, and added GitHub Actions fixture validation gates.",
+                "zh-CN": "`3471d8d`、`4de3858` 和 `6bc88a4` 明确 schema/Python validator 边界，将 raw SVG 透传替换为白名单 sanitizer，并新增 GitHub Actions fixture validation gates。"
+              },
+              {
+                "en": "Behavior is intentionally safer; SVG or schema changes require focused tests and refreshed fixtures.",
+                "zh-CN": "行为有意更安全；SVG 或 schema 变化需要聚焦测试和刷新 fixture。"
+              }
+            ],
+            [
+              {
+                "en": "Planning and public site",
+                "zh-CN": "规划与公开站点"
+              },
+              {
+                "en": "Earlier planning updates added `plan/`, `spec/`, public navigation, README/TODO/CHANGELIST HTML views, and project style profile guidance.",
+                "zh-CN": "早期规划更新新增 `plan/`、`spec/`、公开导览、README/TODO/CHANGELIST HTML 阅读页，以及项目样式 profile 指引。"
+              },
+              {
+                "en": "These are documentation-surface changes; source JSON plus generated HTML must remain synchronized.",
+                "zh-CN": "这些属于文档界面变化；源 JSON 与生成 HTML 必须保持同步。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "earlier-history",
+      "title": {
+        "en": "Earlier History",
+        "zh-CN": "早期历史"
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            {
+              "en": "Released the initial skill via GitHub CLI install paths and tagged `v0.1.0`.",
+              "zh-CN": "通过 GitHub CLI 安装路径发布初始 skill，并打 `v0.1.0` tag。"
+            },
+            {
+              "en": "Added install page, homepage cross-links, chapter icons, topbar identity, inline-code rendering fixes, and the initial public GitHub Pages site.",
+              "zh-CN": "新增安装页、首页交叉链接、章节图标、顶栏身份、inline-code 渲染修复，以及初始公开 GitHub Pages 站点。"
+            },
+            {
+              "en": "Created the initial planning workspace from the project prompt and adopted JSON plus generated HTML as the public status source.",
+              "zh-CN": "根据项目 prompt 创建初始规划工作区，并采用 JSON 加生成 HTML 作为公开状态源。"
+            }
+          ]
         }
       ]
     }

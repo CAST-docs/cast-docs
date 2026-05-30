@@ -69,9 +69,9 @@ Diff blocks use the same controlled monospace language, with line numbers, add/r
 
 Use only for simple self-contained diagrams. SVG must follow the controlled HTML profile.
 
-Diagram components should support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction. Supported structured diagram sources include flow, sequence, and ER-style entity relationship diagrams.
+Diagram components must support renderer-owned controls for zoom/lightbox viewing and one-click SVG or PNG download. Documents provide structured diagram content; the shared template provides the interaction. Supported structured diagram sources include flow, sequence, and ER-style entity relationship diagrams.
 
-Final HTML must expose the rendered figure, not the source language. A diagram created from Mermaid-like input should be translated into a structured diagram source or sanitized inline SVG before publication.
+Final HTML must expose an inline SVG figure, not the source language and not a static SVG image data URI. A diagram created from Mermaid-like input should be translated into a structured diagram source or sanitized inline SVG before publication, then validated with the shared diagram viewer hook present.
 
 ## Media Grid
 

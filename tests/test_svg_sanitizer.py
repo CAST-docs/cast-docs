@@ -136,6 +136,27 @@ A --> B</code></pre></article></body></html>"""
         self.assertFalse(result.ok)
         self.assertTrue(any("raw diagram source" in error for error in result.errors))
 
+    def test_rendered_diagram_includes_viewer_hook(self) -> None:
+        source = '<svg viewBox="0 0 20 20"><title>Safe</title><circle cx="10" cy="10" r="4" fill="#111111"/></svg>'
+        html = render_html(base_doc(source))
+        result = validate_html_profile(html, load_config("html-profile.json"))
+
+        self.assertTrue(result.ok, result.errors)
+        self.assertIn('class="diagram"', html)
+        self.assertIn("<svg", html)
+        self.assertIn('class="lightbox"', html)
+        self.assertIn('data-interaction="diagram-viewer"', html)
+
+    def test_html_profile_rejects_static_svg_image_diagram(self) -> None:
+        html = """<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><style>.doc{}</style><title>Test</title></head>
+<body><article class="doc"><figure class="diagram"><figcaption>Flow</figcaption><img src="data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=" alt="Flow"></figure></article></body></html>"""
+
+        result = validate_html_profile(html, load_config("html-profile.json"))
+
+        self.assertFalse(result.ok)
+        self.assertTrue(any("inline SVG" in error for error in result.errors))
+
 
 if __name__ == "__main__":
     unittest.main()

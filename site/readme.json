@@ -281,8 +281,8 @@
               "zh-CN": "可复用的 summary、callout、table、diagram、diff、action card、source refs 和 code block。"
             },
             {
-              "en": "Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as SVG in final HTML.",
-              "zh-CN": "图表校验会拒绝把 Mermaid、PlantUML、Graphviz 或 flowchart 源码作为 code block 发布；图表意图必须使用 `diagram` block，并在最终 HTML 中渲染为 SVG。"
+              "en": "Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as inline SVG with the renderer-owned zoom/download viewer in final HTML.",
+              "zh-CN": "图表校验会拒绝把 Mermaid、PlantUML、Graphviz 或 flowchart 源码作为 code block 发布；图表意图必须使用 `diagram` block，并在最终 HTML 中渲染为带 renderer-owned 缩放/下载 viewer 的内联 SVG。"
             },
             {
               "en": "Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.",

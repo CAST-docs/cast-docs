@@ -79,7 +79,7 @@ Release versions are recorded in `VERSION`; Git tags use the matching `v<version
 - Document-set index and chapter page generation with shared navigation and pagination.
 - Built-in scenario skeletons for investigations, decisions, digests, cross-team alignment, and principle showcases.
 - Reusable document components such as summaries, callouts, tables, diagrams, diff blocks, action cards, source references, and code blocks.
-- Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as SVG in final HTML.
+- Diagram validation rejects Mermaid, PlantUML, Graphviz, or flowchart source published as code blocks; diagram intent must use a `diagram` block and render as inline SVG with the renderer-owned zoom/download viewer in final HTML.
 - Self-contained HTML with inline CSS and renderer-owned interactions such as code copy, language switching, and diagram controls.
 - Language switching can prompt readers to save a CAST Docs global default language preference in browser storage.
 - A designed repository-level `.cast-docs/` project profile for team templates, i18n, writing rules, reusable assets, style profiles, and output defaults.

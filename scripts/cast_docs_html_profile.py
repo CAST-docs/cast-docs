@@ -10,6 +10,12 @@ from cast_docs_context import href_kind, media_src_kind
 
 
 UNRESOLVED_RE = re.compile(r"\{\{\s*[A-Z_]+\s*\}\}")
+DIAGRAM_FIGURE_RE = re.compile(
+    r"<figure\b(?=[^>]*\bclass=[\"'][^\"']*\bdiagram\b[^\"']*[\"'])[^>]*>(.*?)</figure>",
+    re.IGNORECASE | re.DOTALL,
+)
+STATIC_SVG_IMAGE_RE = re.compile(r"<img\b[^>]*\bsrc=[\"']data:image/svg\+xml", re.IGNORECASE)
+INLINE_SVG_RE = re.compile(r"<svg\b", re.IGNORECASE)
 
 
 class ProfileParser(HTMLParser):
@@ -84,6 +90,15 @@ def validate_html_profile(html_text: str, profile: dict[str, Any]) -> Validation
         errors.append("HTML contains unresolved template placeholders")
     if parser.raw_diagram_blocks:
         errors.append("HTML contains raw diagram source; diagrams must render as SVG figures")
+    diagram_figures = [match.group(1) for match in DIAGRAM_FIGURE_RE.finditer(html_text)]
+    if diagram_figures:
+        for figure in diagram_figures:
+            if STATIC_SVG_IMAGE_RE.search(figure):
+                errors.append("HTML diagram figures must use inline SVG, not static data:image/svg+xml images")
+            if not INLINE_SVG_RE.search(figure):
+                errors.append("HTML diagram figures must contain inline SVG")
+        if 'class="lightbox"' not in html_text or 'data-interaction="diagram-viewer"' not in html_text:
+            errors.append("HTML diagram figures must include the renderer-owned diagram viewer hook")
     style_position = html_text.find("<style>")
     body_position = html_text.find("<body>")
     if style_position == -1:

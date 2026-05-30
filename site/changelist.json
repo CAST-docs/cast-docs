@@ -185,6 +185,25 @@
             [
               "2026-05-30",
               {
+                "en": "HTML profile validation now rejects static `data:image/svg+xml` diagram image fallbacks and requires inline SVG figures with the renderer-owned diagram viewer hook.",
+                "zh-CN": "HTML profile 校验现在拒绝静态 `data:image/svg+xml` 图表图片回退，并要求图表是带 renderer-owned viewer hook 的内联 SVG figure。"
+              },
+              {
+                "en": "`scripts/cast_docs_html_profile.py`, SVG sanitizer tests, component/profile/interaction references, README, generated Pages artifacts, and installable skill bundle.",
+                "zh-CN": "`scripts/cast_docs_html_profile.py`、SVG sanitizer 测试、组件/profile/interaction 参考、README、生成的 Pages 产物和可安装 skill bundle。"
+              },
+              {
+                "en": "Run unit tests plus project profile, schema contract, package metadata, skill bundle, visual lint, fixture, and HTML validation gates before commit.",
+                "zh-CN": "提交前运行单元测试，以及 project profile、schema contract、package metadata、skill bundle、visual lint、fixture 和 HTML validation 门禁。"
+              },
+              {
+                "en": "Intentionally stricter validation; affected documents must render live inline SVG diagrams instead of image-encoded SVG.",
+                "zh-CN": "有意收紧校验；受影响文档必须渲染可交互内联 SVG 图表，而不是 image-encoded SVG。"
+              }
+            ],
+            [
+              "2026-05-30",
+              {
                 "en": "This changelist-audit pass replaces the unstructured values-grid history with an auditable table and explicit entry contract.",
                 "zh-CN": "本次 changelist 审计将无结构 values-grid 历史改为可审计表格，并补充明确记录规范。"
               },

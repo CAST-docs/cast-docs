@@ -8,7 +8,7 @@ The renderer owns the shared template, style system, and approved progressive-en
 
 Content blocks must not emit `<script>`. Renderer-owned inline scripts are allowed only when they implement approved template features such as diagram zoom/download, code copy, language switching, toggle views, and slider controls.
 
-Rendered HTML must not contain raw diagram source as visible code. Mermaid, PlantUML, Graphviz, or `flowchart` source blocks are authoring inputs, not final document content. Convert diagram intent into a CAST Docs `diagram` block and publish an inline SVG figure; `validate_html.py` rejects Mermaid-like `pre`/`code` blocks and legacy captions such as "Mermaid source".
+Rendered HTML must not contain raw diagram source as visible code. Mermaid, PlantUML, Graphviz, or `flowchart` source blocks are authoring inputs, not final document content. Convert diagram intent into a CAST Docs `diagram` block and publish an inline SVG figure with the renderer-owned diagram viewer hook; `validate_html.py` rejects Mermaid-like `pre`/`code` blocks, legacy captions such as "Mermaid source", static `data:image/svg+xml` diagram image fallbacks, and diagram figures that cannot be opened in the shared viewer.
 
 Theme tokens and layout shells are configuration-driven. Generated content should not introduce new CSS variables, layout containers, or navigation chrome outside the selected layout.
 
@@ -66,7 +66,7 @@ Planned allowed tags:
 
 - Event handlers such as `onclick`, `onload`, `onerror`, and `onmouseover`.
 - Inline `style`.
-- Remote resource attributes by default, except approved media `src` values (`data:image`, relative paths, or http(s) sources) validated by the media block contract.
+- Remote resource attributes by default, except approved media `src` values (`data:image`, relative paths, or http(s) sources) validated by the media block contract. SVG `data:image` values are not valid for diagram figures because they cannot bind to the shared inline-SVG viewer.
 - `href` values starting with `javascript:`.
 
 Repository-local paths under `.cast-docs/assets/` are allowed only through approved fields such as `metadata.logo.src` and media block `src`. They should be embedded as data URIs when the output must remain self-contained.
